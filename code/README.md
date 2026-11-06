@@ -65,7 +65,7 @@ None imports another.
 | -------------------------------------------- | ------------------------ | --------------------------------------------------------------------------------------------- |
 | [`circuits`](circuits/README.md)             | Combinational circuits   | Gate DAGs, topological simulation, size/depth, half/full adder, ripple-carry adder            |
 | [`bdd`](bdd/README.md)                       | Binary decision diagrams | ROBDDs with complement edges, the `ite` operation                                             |
-| [`model-checking`](model-checking/README.md) | CTL model checking       | Kripke structures, state labeling, EX/AX single-step modalities                               |
+| [`model-checking`](model-checking/README.md) | CTL model checking       | Kripke structures, state labeling, EX/AX single-step modalities, bisimulation                 |
 | [`analysis`](analysis/README.md)             | Abstract interpretation  | Constant propagation domain: a lattice, a monotone transfer, and Kleene fixed-point iteration |
 
 ## Quick start

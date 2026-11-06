@@ -1,4 +1,4 @@
-//! A model-checking toolkit: CTL state labeling over Kripke structures.
+//! A model-checking toolkit: CTL state labeling and bisimulation over Kripke structures.
 //!
 //! A Kripke structure is a directed graph of states, each labeled with the
 //! atoms true in it. `check` computes, bottom-up over subformulas, the set
@@ -24,8 +24,10 @@
 //! assert_eq!(check(&m, &next_red), vec![false, true, false]);
 //! ```
 
+pub mod bisimulation;
 pub mod ctl;
 pub mod kripke;
 
+pub use bisimulation::greatest_bisimulation;
 pub use ctl::{check, Formula};
 pub use kripke::Kripke;

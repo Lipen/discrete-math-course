@@ -1,6 +1,6 @@
 # model-checking
 
-CTL state labeling over Kripke structures.
+CTL state labeling and bisimulation over Kripke structures.
 
 A Kripke structure `(S, R, L)` is a directed graph of states with atom labels.
 The checker computes, bottom-up over subformulas, the set of states in which each subformula holds — atoms, boolean connectives, and the single-step modalities `EX` / `AX`.
@@ -60,6 +60,17 @@ let next_green = Formula::Ax(Box::new(Formula::Atom(0)));
 assert_eq!(check(&m, &next_green), vec![false, false, true]);
 ```
 
+## Bisimulation
+
+Bisimulation compares two models without unfolding them.
+A relation `Z` between states is a bisimulation when related states carry the same atoms and every step from one side has a matching step from the other side, in both directions.
+
+`greatest_bisimulation(&left, &right)` returns a matrix `z` with `z[s][t] == true` exactly when state `s` of the left model is bisimilar to state `t` of the right model.
+The computation starts with all pairs that agree on atoms and removes a pair when a step on one side has no matching step on the other side.
+
+Bisimilar states satisfy the same modal formulas, including `EX` and `AX`.
+The quotient by bisimulation is therefore a smaller model with the same modal theory.
+
 ## API
 
 | Item                                          | What it does                                                                 |
@@ -68,6 +79,7 @@ assert_eq!(check(&m, &next_green), vec![false, false, true]);
 | `Kripke::pre_exists(set)` / `pre_forall(set)` | Preimage under one transition (the `EX` / `AX` step)                         |
 | `ctl::Formula`                                | CTL formulas: `Atom`, `Not`, `And`, `Or`, `Ex`, `Ax`                         |
 | `check(&Kripke, &Formula) -> Vec<bool>`       | The labeling check, one bit per state                                        |
+| `greatest_bisimulation(&left, &right)`        | Greatest bisimulation matrix between two Kripke structures                   |
 
 ## Demos
 
@@ -75,8 +87,10 @@ assert_eq!(check(&m, &next_green), vec![false, false, true]);
 | --------------- | ---------------------------------------------------------------------------------------------- |
 | `traffic_light` | the 3-state light: `EX red`, `AX green`, and `red OR (not green)` labeled per state            |
 | `branching`     | a branching state and a dead end: the `EX` / `AX` split and vacuous `AX` truth at the dead end |
+| `bisimulation`  | two non-isomorphic models with bisimilar roots, and the computed relation                    |
 
 ## Tests
 
 - the preimage operators at dead ends and self-loops
 - the labeling check on a traffic-light cycle: atoms, boolean connectives, `EX`, `AX`
+- bisimulation: branching versus a single successor, atom mismatches, missing steps, dead ends

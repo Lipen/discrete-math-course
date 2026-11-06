@@ -2,4 +2,4 @@
 name = "model-checking"
 version = "0.1.0"
 edition = "2021"
-description = "Model checking toolkit: CTL state labeling over Kripke structures"
+description = "Model checking toolkit: CTL labeling and bisimulation over Kripke structures"
