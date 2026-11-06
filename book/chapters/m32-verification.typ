@@ -273,6 +273,27 @@ _Прямой проход_ --- рассуждение от предуслови
   + Правило следствия усиливает предусловие и ослабляет постусловие --- почему это не портит уже доказанную тройку?
 ]
 
+Соберём правила в одну схему.
+
+#block(breakable: false)[
+#table(
+  columns: (auto, 1fr),
+  column-gutter: 1em,
+  align: (left, left),
+  stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+  table.header([*Правило*], [*Схема*]),
+  [Присваивание], [$ {P[x := E]} quad x := E quad {P} $],
+  [Композиция], [$ {P} quad S_1 quad {R}, quad {R} quad S_2 quad {Q} arrow.double.r {P} quad S_1 ⨟ S_2 quad {Q} $],
+  [Следствие], [$ {P'} quad S quad {Q'}, quad P -> P', quad Q' -> Q arrow.double.r {P} quad S quad {Q} $],
+  [Условие], [$ {P and B} quad S_1 quad {Q}, quad {P and not B} quad S_2 quad {Q} arrow.double.r {P} quad "if" B "then" S_1 "else" S_2 quad {Q} $],
+  [Цикл], [$ {I and B} quad S quad {I} arrow.double.r {I} quad "while" B "do" S quad {I and not B} $],
+  [Цикл с вариантом], [$ {I and B and f = z} quad S quad {I and f < z} arrow.double.r [I] quad "while" B "do" S quad [I and not B] $],
+)
+]
+
+Правило следствия не строит программу, а усиливает предусловие и ослабляет постусловие.
+Остальные правила разбирают конструкцию языка: присваивание, последовательность, ветвление и цикл.
+
 === Корректность и полнота правил
 
 Правила собраны в исчисление, и перед тем как на него опираться, нужно доказать метатеорему: механика вывода не порождает лжи.
