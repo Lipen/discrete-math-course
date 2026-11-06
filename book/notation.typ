@@ -85,6 +85,7 @@
 // Стрелки и отношения редукции (beta сверху, без scripts).
 #let beta-red = $->^beta$                     // ->^beta (одношаговая)
 #let beta-reds = $->>^beta$                   // ->>^beta (многошаговая)
+#let eta-red = $->^eta$                       // ->^eta (одношаговая)
 #let beta-eq = $=^beta$                       // =^beta (эквивалентность)
 #let alpha-eq = $=^alpha$                     // =^alpha (альфа-эквивалентность)
 #let par-red = $succ.eq$                       // succ.eq --- параллельная редукция (Church-Rosser proof)
