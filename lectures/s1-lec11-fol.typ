@@ -345,7 +345,7 @@ $forall x exists y . thin L (x, y)$ разрешает $y$ зависеть от
 
 #example[
   - $(forall x . thin P (x)) imply exists x . thin P (x)$ общезначима, домен непуст
-  - $forall x . thin P (x)$ на ${a}$ истинна при $P^I = {a}$ и ложна при $P^I = emptyset$, выполнима, но не общезначима
+  - $forall x . thin P (x)$ ложна при $P^I = emptyset$, значит, не общезначима, но выполнима
   - $forall x . thin (P (x) and not P (x))$ невыполнима
 ]
 
