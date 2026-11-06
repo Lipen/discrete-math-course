@@ -210,6 +210,22 @@ mod tests {
     }
 
     #[test]
+    fn quotient_merges_non_adjacent_classes() {
+        // States 0 and 2 are bisimilar, and so are 1 and 3.
+        // The first class is not contiguous in the numbering.
+        let m = Kripke::new(
+            vec![vec![1], vec![], vec![3], vec![]],
+            vec![vec![], vec![0], vec![], vec![0]],
+        );
+
+        let (q, class) = quotient(&m);
+        assert_eq!(class, vec![0, 1, 0, 1]);
+        assert_eq!(q.n, 2);
+        assert_eq!(q.successors[0], vec![1]);
+        assert!(q.successors[1].is_empty());
+    }
+
+    #[test]
     fn quotient_preserves_formulas() {
         let m = Kripke::new(
             vec![vec![1, 2], vec![], vec![]],
