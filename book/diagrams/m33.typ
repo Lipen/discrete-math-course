@@ -226,3 +226,28 @@
     stroke: none,
   ),
 )
+
+// ── Две бизмулярные модели: разная форма, одна модальная теория ──
+#let bisimilar-models = diagram(
+  node-shape: "circle",
+  node-stroke: t-bd + c-bd,
+  node-fill: c-fl,
+  spacing: 3em,
+
+  node((0, 1.7), text(size: s-cap, fill: c-muted)[$M$], fill: none, stroke: none),
+  node((4.2, 1.7), text(size: s-cap, fill: c-muted)[$M'$], fill: none, stroke: none),
+
+  node((0, 0), $w$, name: <w>, fill: c-fl),
+  node((1.6, -1.0), $v_1$, name: <v1>, fill: c-atom),
+  node((1.6, 1.0), $v_2$, name: <v2>, fill: c-atom),
+  node((4.2, 0), $w'$, name: <w2>, fill: c-fl),
+  node((5.8, 0), $v'$, name: <vp>, fill: c-atom),
+
+  edge(<w>, <v1>, "-}>", stroke: acc-stroke),
+  edge(<w>, <v2>, "-}>", stroke: acc-stroke),
+  edge(<w2>, <vp>, "-}>", stroke: acc-stroke),
+
+  edge(<w>, <w2>, "-", stroke: (paint: c-muted, thickness: t-ed, dash: "dashed")),
+  edge(<v1>, <vp>, "-", stroke: (paint: c-muted, thickness: t-ed, dash: "dashed")),
+  edge(<v2>, <vp>, "-", stroke: (paint: c-muted, thickness: t-ed, dash: "dashed")),
+)

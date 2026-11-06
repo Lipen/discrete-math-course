@@ -1,7 +1,7 @@
 // M33 --- Модальная логика: модели Крипке, LTL/CTL, model checking.
 #import "../common.typ": *
 #import "../notation.typ": *
-#import "../diagrams/m33.typ": kripke-traffic, kripke-forcing, frame-classes, modal-cube, mutex-states
+#import "../diagrams/m33.typ": kripke-traffic, kripke-forcing, frame-classes, modal-cube, mutex-states, bisimilar-models
 
 = Модальная логика <chap:modal>
 
@@ -1242,6 +1242,13 @@ Model checking --- метод автоматической верификаци�
   Поэтому $w$ и $w'$ принуждают одни и те же модальные формулы, в частности $diamond p$ и $square p$.
   Модели при этом не изоморфны: у $w$ два преемника, у $w'$ один.
 ]
+
+Та же пара моделей показана на диаграмме: слева $w$ видит два мира с атомом $p$, справа $w'$ видит один, а пунктир связывает бизмулярные миры (рис.~@fig:bisimilar-models).
+
+#figure(
+  bisimilar-models,
+  caption: [Две бизмулярные модели: зелёные миры с атомом $p$, пунктир --- бизмуляция.],
+) <fig:bisimilar-models>
 
 Бизмуляция даёт фактор-модель.
 Классы эквивалентности $[w]$ становятся новыми мирами, а переход между классами определяется переходом между любыми их представителями.
