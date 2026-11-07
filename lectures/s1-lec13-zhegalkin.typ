@@ -353,7 +353,7 @@ $
     columns: 5,
     align: center,
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-    table.header([*Импликанта*], [$0 0 0$], [$0 0 1$], [$0 1 1$], [$1 1 1$]),
+    table.header([*Импликанта*], [*$0 0 0$*], [*$0 0 1$*], [*$0 1 1$*], [*$1 1 1$*]),
     [$overline(x) overline(y)$], [$bullet$], [$bullet$], [], [],
     [$overline(x) z$], [], [$bullet$], [$bullet$], [],
     [$y z$], [], [], [$bullet$], [$bullet$],

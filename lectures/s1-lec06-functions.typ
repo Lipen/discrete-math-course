@@ -1240,7 +1240,7 @@ $
   columns: 5,
   align: (left, center, center, center, center),
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-  table.header([*Размер*], [0], [1], [2], [3]),
+  table.header([*Размер*], [*0*], [*1*], [*2*], [*3*]),
   [пример], [$emptyset$], [${1}$], [${1, 2}$], [${1, 2, 3}$],
   [количество], [1], [3], [3], [1],
 )
