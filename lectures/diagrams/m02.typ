@@ -2,6 +2,8 @@
 #import "@preview/fletcher:0.5.8": diagram, edge, node
 #import "style.typ": *
 
+#let imply = sym.arrow.r
+
 #let premise-node(pos, body, ..args) = node(
   pos,
   text(size: 1.4em)[#body],
@@ -55,39 +57,29 @@
   spacing: 2.4em,
   conclusion-node((0, 2.8), $C$, name: <c>),
   premise-node((-1.7, 1.4), $B$, name: <b>),
-  premise-node((-3.4, 0), $A -> B$, name: <ab>),
+  premise-node((-3.4, 0), $A imply B$, name: <ab>),
   premise-node((-0.2, 0), $A$, name: <a>),
-  premise-node((1.7, 0), $B -> C$, name: <bc>),
+  premise-node((1.7, 0), $B imply C$, name: <bc>),
   rule-edge(<ab>, <b>, $"MP"$, side: left),
   silent-edge(<a>, <b>),
   rule-edge(<b>, <c>, $"MP"$, side: left),
   silent-edge(<bc>, <c>),
 )
 
-// ── Введение импликации: A -> (B -> A), гипотезы сняты дважды ──
-#let nd-impi = diagram(
-  spacing: 2.6em,
-  conclusion-node((0, 2.8), $A -> (B -> A)$, name: <goal>),
-  premise-node((0, 1.4), $B -> A$, name: <mid>),
-  discharged-node((0, 0), $[A]^1 [B]^2$, name: <hyp>),
-  rule-edge(<hyp>, <mid>, $-> I thin 2$),
-  rule-edge(<mid>, <goal>, $-> I thin 1$),
-)
-
 // ── Проекция: A and B -> A ──
 #let nd-projection = diagram(
   spacing: 2.6em,
-  conclusion-node((0, 2.8), $A and B -> A$, name: <goal>),
+  conclusion-node((0, 2.8), $A and B imply A$, name: <goal>),
   premise-node((0, 1.4), $A$, name: <half>),
   discharged-node((0, 0), $[A and B]^1$, name: <hyp>),
   rule-edge(<hyp>, <half>, $and E$),
-  rule-edge(<half>, <goal>, $-> I thin 1$),
+  rule-edge(<half>, <goal>, $imply I thin 1$),
 )
 
 // ── Коммутативность: A and B -> B and A ──
 #let nd-comm = diagram(
   spacing: 2.4em,
-  conclusion-node((0, 5.4), $A and B -> B and A$, name: <goal>),
+  conclusion-node((0, 5.4), $A and B imply B and A$, name: <goal>),
   premise-node((0, 3.6), $B and A$, name: <conj>),
   premise-node((-1.5, 1.8), $B$, name: <left>),
   premise-node((1.5, 1.8), $A$, name: <right>),
@@ -96,5 +88,5 @@
   rule-edge(<hyp>, <right>, $and E$, side: right),
   rule-edge(<left>, <conj>, $and I$, side: left),
   silent-edge(<right>, <conj>),
-  rule-edge(<conj>, <goal>, $-> I thin 1$),
+  rule-edge(<conj>, <goal>, $imply I thin 1$),
 )
