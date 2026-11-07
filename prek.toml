@@ -38,5 +38,6 @@ repo = "local"
 hooks = [
   { id = "cargo-fmt", name = "cargo fmt", entry = "cargo fmt --check --all --manifest-path code/Cargo.toml", language = "system", files = '^code/', pass_filenames = false },
   { id = "check-ex-ids", name = "check exercise ids", entry = "python3 tools/check-ex-ids.py", language = "system", files = '^book/.*\.typ$', pass_filenames = false },
-  { id = "check-lecture-citations", name = "check lecture citations", entry = "python3 tools/check-lecture-citations.py", language = "system", files = '^lectures/.*\.typ$', pass_filenames = false },
+  { id = "check-lecture-prose", name = "check lecture prose", entry = "python3 tools/check-lecture-prose.py", language = "system", files = '^lectures/(course-intro|s[12]-lec[0-9]{2}-[^/]+)\.typ$', pass_filenames = true },
+  { id = "check-lecture-citations", name = "check lecture citations", entry = "python3 tools/check-lecture-citations.py", language = "system", files = '^lectures/(course-intro|s[12]-lec[0-9]{2}-[^/]+)\.typ$', pass_filenames = false },
 ]
