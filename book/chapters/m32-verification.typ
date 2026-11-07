@@ -276,9 +276,11 @@ _Прямой проход_ --- рассуждение от предуслови
 Соберём правила в одну схему.
 
 #block(breakable: false)[
+#set text(size: 10pt)
 #table(
   columns: (auto, 1fr),
-  column-gutter: 1em,
+  inset: (x: 1pt, y: 3pt),
+  column-gutter: 0.5em,
   align: (left, left),
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*Правило*], [*Схема*]),
