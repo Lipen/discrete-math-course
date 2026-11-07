@@ -61,8 +61,8 @@ None imports another.
 
 ### Probability
 
-| Crate                                  | Topic               | Highlights                                                                 |
-| -------------------------------------- | ------------------- | -------------------------------------------------------------------------- |
+| Crate                                  | Topic                | Highlights                                                                        |
+| -------------------------------------- | -------------------- | --------------------------------------------------------------------------------- |
 | [`probability`](probability/README.md) | Discrete probability | Bernoulli, binomial, geometric and Poisson distributions, covariance, correlation |
 
 ### Circuits and verification
