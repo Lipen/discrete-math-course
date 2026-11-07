@@ -659,7 +659,7 @@
   Из $a rel(R) c$ и $c S b$ выходит $a (S compose R) b$, а вместе с $b T d$ --- пара $(a, d) in T compose (S compose R)$.
 
   Обратно.
-  Пусть $(a, d) in T compose (S compose R)$, то есть есть $b$ с $a (S compose R) b$ и $b T d$, а для первой пары есть $c$ с $a rel(R) c$ и $c S b$.
+  Пусть $(a, d) in T compose (S compose R)$, то есть найдётся $b$ с $a (S compose R) b$ и $b T d$, а для первой пары есть $c$ с $a rel(R) c$ и $c S b$.
   Тот же $b$ собирает $(c, d) in T compose S$, и вместе с $a rel(R) c$ выходит $(a, d) in (T compose S) compose R$.
 ]
 
