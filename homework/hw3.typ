@@ -298,7 +298,7 @@
 ]
 
 #tasklist("t6")[
-  + Постройте выводы.
+  + Постройте выводы в натуральной дедукции по правилам из условия, указывая правило на каждом шаге.
 
     + $forall x . thin (P(x) -> Q(x)), quad forall x . thin P(x) entails forall x . thin Q(x)$
     + $exists x . thin (P(x) and Q(x)) entails exists x . thin P(x)$
