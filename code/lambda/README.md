@@ -62,6 +62,7 @@ All drivers are fuel-limited (`max_steps`), so diverging terms such as $\Omega$ 
 | `Term::substitute`                                           | capture-avoiding substitution $M[x := N]$                                         |
 | `Term::rename`                                               | α-conversion (rename a bound variable)                                            |
 | `Term::beta_reduce`                                          | one normal-order β-step, `None` at a normal form                                  |
+| `Term::eta_reduce`                                           | one η-step: `λx. M x -> M` when `x` is not free in `M`                             |
 | `Term::beta_reduce_applicative`                              | one applicative-order β-step (leftmost innermost)                                 |
 | `Term::whnf_step`                                            | one step toward weak head normal form                                             |
 | `Term::normalize`                                            | normal-order reduction to normal form, fuel-limited                               |

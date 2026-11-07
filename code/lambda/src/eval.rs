@@ -63,6 +63,39 @@ impl Term {
         }
     }
 
+    /// One step of **η-reduction**: `λx. M x -> M` when `x` is not free in `M`.
+    ///
+    /// Returns `None` if no η-redex exists. The bound variable must not occur
+    /// free in the function part, otherwise dropping the argument would lose a
+    /// dependency.
+    ///
+    /// ```
+    /// use lambda::Term;
+    /// let f = Term::var("f");
+    /// let t = Term::abs("x", Term::app(f.clone(), Term::var("x")));
+    /// assert_eq!(t.eta_reduce(), Some(f));
+    /// ```
+    pub fn eta_reduce(&self) -> Option<Term> {
+        match self {
+            Term::Abs(x, body) => {
+                if let Term::App(fun, arg) = body.as_ref() {
+                    if arg.as_ref() == &Term::Var(x.clone()) && !fun.free_vars().contains(x) {
+                        return Some(fun.as_ref().clone());
+                    }
+                }
+                body.eta_reduce().map(|b| Term::Abs(x.clone(), Box::new(b)))
+            }
+            Term::App(fun, arg) => {
+                if let Some(f) = fun.eta_reduce() {
+                    return Some(Term::App(Box::new(f), arg.clone()));
+                }
+                arg.eta_reduce()
+                    .map(|a| Term::App(fun.clone(), Box::new(a)))
+            }
+            Term::Var(_) => None,
+        }
+    }
+
     /// One step of **applicative-order** β-reduction (leftmost innermost redex).
     ///
     /// Arguments are reduced before functions are applied.
@@ -581,5 +614,28 @@ mod tests {
     fn application_of_normal_forms_is_normal_form() {
         let t = Term::app(Term::var("f"), Term::var("a"));
         assert!(t.is_normal_form());
+    }
+
+    // -- η-reduction =========================================================
+
+    #[test]
+    fn eta_drops_a_fresh_bound_variable() {
+        let t = Term::abs("x", Term::app(Term::var("f"), Term::var("x")));
+        assert_eq!(t.eta_reduce(), Some(Term::var("f")));
+    }
+
+    #[test]
+    fn eta_keeps_a_used_bound_variable() {
+        let t = Term::abs("x", Term::app(Term::var("x"), Term::var("x")));
+        assert_eq!(t.eta_reduce(), None);
+    }
+
+    #[test]
+    fn eta_reduces_inside_a_body() {
+        let inner = Term::abs("x", Term::app(Term::var("f"), Term::var("x")));
+        let t = Term::abs("y", inner);
+        let once = t.eta_reduce().unwrap();
+        assert_eq!(once.to_string(), "λy. f");
+        assert_eq!(once.eta_reduce(), None);
     }
 }
