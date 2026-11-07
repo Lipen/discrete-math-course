@@ -27,4 +27,5 @@ members = [
     "categories",
     "bignum",
     "generating-functions",
+    "probability",
 ]

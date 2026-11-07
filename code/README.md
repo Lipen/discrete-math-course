@@ -1,6 +1,6 @@
 # code
 
-Rust study samples for discrete mathematics: **25 crates, one per topic**.
+Rust study samples for discrete mathematics: **26 crates, one per topic**.
 
 Each crate is a self-contained study aid — a library, its unit tests, and runnable examples you read like code, not just execute.
 Every crate builds, tests, and runs on its own.
@@ -59,6 +59,12 @@ None imports another.
 | ------------------------------------------------------ | ------------------- | ------------------------------------------------------------------------------------------------------------------- |
 | [`generating-functions`](generating-functions/README.md) | Formal power series | Truncated series arithmetic, inverse, derivative and integral, Catalan, Fibonacci and partition coefficients        |
 
+### Probability
+
+| Crate                                  | Topic               | Highlights                                                                 |
+| -------------------------------------- | ------------------- | -------------------------------------------------------------------------- |
+| [`probability`](probability/README.md) | Discrete probability | Bernoulli, binomial, geometric and Poisson distributions, covariance, correlation |
+
 ### Circuits and verification
 
 | Crate                                        | Topic                    | Highlights                                                                                    |
@@ -71,7 +77,7 @@ None imports another.
 ## Quick start
 
 ```bash
-cargo build --workspace     # build all 25 crates
+cargo build --workspace     # build all 26 crates
 cargo test --workspace      # run every test in every crate
 cargo clippy --workspace --all-targets   # lint everything, warning-free
 ```

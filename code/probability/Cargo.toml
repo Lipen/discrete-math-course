@@ -1,0 +1,5 @@
+[package]
+name = "probability"
+version = "0.1.0"
+edition = "2021"
+description = "Discrete distributions and covariance: Bernoulli, binomial, geometric, Poisson"
