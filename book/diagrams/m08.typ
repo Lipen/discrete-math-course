@@ -123,3 +123,27 @@
   cover-edge(<n5-b>, <n5-one>),
   cover-edge(<n5-c>, <n5-one>),
 )
+
+// ── Сдвиг натуральных чисел: изоморфизм двух строк ──
+#let order-isomorphism-shift = hasse-diagram(
+  spacing: 2.2em,
+  node((1.5, 2.2), $NN$, fill: none, stroke: none),
+  node((1.5, -2.2), $NN setminus {0}$, fill: none, stroke: none),
+
+  hasse-node((0, 1), $0$, name: <t0>),
+  hasse-node((1, 1), $1$, name: <t1>),
+  hasse-node((2, 1), $2$, name: <t2>),
+  hasse-node((3, 1), $3$, name: <t3>),
+  node((4, 1), $dots.c$, fill: none, stroke: none),
+
+  hasse-node((0, -1), $1$, name: <b1>),
+  hasse-node((1, -1), $2$, name: <b2>),
+  hasse-node((2, -1), $3$, name: <b3>),
+  hasse-node((3, -1), $4$, name: <b4>),
+  node((4, -1), $dots.c$, fill: none, stroke: none),
+
+  edge(<t0>, <b1>, "-}>", stroke: e-stroke, label: $f$, label-size: s-cap, label-fill: c-white),
+  edge(<t1>, <b2>, "-}>", stroke: e-stroke),
+  edge(<t2>, <b3>, "-}>", stroke: e-stroke),
+  edge(<t3>, <b4>, "-}>", stroke: e-stroke),
+)

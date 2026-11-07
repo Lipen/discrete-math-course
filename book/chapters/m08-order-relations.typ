@@ -3,7 +3,7 @@
 #import "../notation.typ": *
 #import "../diagrams/m08.typ": (
   hasse-chain-3, hasse-divisors-12, hasse-powerset-2, hasse-powerset-3,
-  lattice-m3, lattice-n5,
+  lattice-m3, lattice-n5, order-isomorphism-shift,
 )
 
 = Отношения порядка <chap:orders>
@@ -313,6 +313,13 @@ _Частичный порядок_ допускает, что некоторы�
   Оно биективно, и $a <= b$ тогда и только тогда, когда $a + 1 <= b + 1$.
   Конкретное имя $0$ не является порядковым свойством: сдвиг сохраняет порядок, хотя наименьший элемент теперь называется $1$.
 ]
+
+Сдвиг показан на рис.~@fig:order-iso-shift: каждая стрелка переводит $n$ в $n+1$.
+
+#figure(
+  order-isomorphism-shift,
+  caption: [Сдвиг $n |-> n+1$: две строки изоморфны.],
+) <fig:order-iso-shift>
 
 #example[Натуральные и целые][
   У $(NN, <=)$ есть наименьший элемент, а у $(ZZ, <=)$ его нет.
