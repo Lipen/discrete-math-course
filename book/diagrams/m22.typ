@@ -129,3 +129,27 @@
     ((x: 0, n: $0$),),
   )
 })
+
+// ── Комплексное число на плоскости ──
+#let e-stroke = t-ed + c-edge
+#let d-stroke = (paint: c-muted, thickness: t-ed, dash: "dashed")
+
+#let complex-plane = canvas({
+  draw.line((-0.4, 0), (3.2, 0), stroke: e-stroke, mark: (end: ">", fill: c-edge))
+  draw.line((0, -0.4), (0, 2.6), stroke: e-stroke, mark: (end: ">", fill: c-edge))
+
+  draw.line((0, 0), (2.2, 1.54), stroke: e-stroke)
+  draw.line((2.2, 0), (2.2, 1.54), stroke: d-stroke)
+  draw.line((0, 1.54), (2.2, 1.54), stroke: d-stroke)
+
+  draw.circle((2.2, 1.54), radius: 0.07, fill: c-hot, stroke: none)
+  draw.content((2.45, 1.72), text(size: s-cap, fill: c-ink)[$z = a + b i$])
+  draw.content((3.15, -0.25), text(size: s-cap, fill: c-muted)[$"Re"$])
+  draw.content((0.28, 2.55), text(size: s-cap, fill: c-muted)[$"Im"$])
+
+  draw.arc((0, 0), start: 0deg, stop: 35deg, radius: 0.7, stroke: e-stroke)
+  draw.content((0.92, 0.22), text(size: s-cap, fill: c-ink)[$arg z$])
+  draw.content((1.05, 0.95), text(size: s-cap, fill: c-ink)[$abs(z)$])
+  draw.content((2.2, -0.22), text(size: s-cap, fill: c-muted)[$a$])
+  draw.content((-0.22, 1.54), text(size: s-cap, fill: c-muted)[$b$])
+})

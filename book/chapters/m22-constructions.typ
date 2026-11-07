@@ -1,7 +1,7 @@
 // M22 --- Конструкции чисел.
 #import "../common.typ": *
 #import "../notation.typ": *
-#import "../diagrams/m22.typ": banach-tarski, dedekind-cuts, von-neumann-nesting
+#import "../diagrams/m22.typ": banach-tarski, dedekind-cuts, von-neumann-nesting, complex-plane
 
 = Конструкции чисел <chap:constructions>
 
@@ -990,6 +990,15 @@ $
     i^2 = (0, 1) dot (0, 1) = (-1, 0) = -1.
   $
 ]
+
+Геометрически число $a + b i$ --- точка плоскости с координатами $(a, b)$: действительная часть откладывается по горизонтали, мнимая --- по вертикали.
+Расстояние от начала координат --- модуль $abs(z) = sqrt(a^2 + b^2)$, а угол с положительным направлением оси $"Re"$ --- аргумент $arg z$.
+На рисунке показаны проекции точки на оси, модуль и аргумент.
+
+#figure(
+  complex-plane,
+  caption: [Комплексное число $z = a + b i$ на плоскости: проекции, модуль и аргумент.],
+) <fig:complex-plane>
 
 #example[Умножение комплексных чисел][
   Перемножим $2 + 3 i$ и $1 - i$:
