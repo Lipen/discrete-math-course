@@ -1303,7 +1303,7 @@ Isabelle и Dafny принимают лексикографические мер
 
 #note[Иерархия $V$][
   $
-    V_0 = emptyset, quad V_(alpha + 1) = cal(P)(V_alpha), quad V_lambda = union.big_(alpha < lambda) V_alpha .
+    V_0 = emptyset, quad V_(alpha + 1) = power(V_alpha), quad V_lambda = union.big_(alpha < lambda) V_alpha .
   $
 ]
 

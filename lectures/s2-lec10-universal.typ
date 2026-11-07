@@ -121,7 +121,7 @@
 
 #definition[НМТ][
   Функция переходов возвращает множество вариантов.
-  $ delta: Q times Gamma -> cal(P)(Q times Gamma times {L, R}) . $
+  $ delta: Q times Gamma -> power(Q times Gamma times {L, R}) . $
 
   Машина принимает вход, если хотя бы одна ветвь вычисления достигает $q_"accept"$.
 ]

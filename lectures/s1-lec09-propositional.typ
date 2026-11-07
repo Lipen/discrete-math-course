@@ -1067,7 +1067,7 @@ fn parse_binary(ts: &mut Tokens) -> Formula {
 ]
 
 #example[
-  - Булеан $cal(P)(X)$ с операциями $inter$, $union$, $overline(dot)$.
+  - Булеан $power(X)$ с операциями $inter$, $union$, $overline(dot)$.
     Здесь $0 = emptyset$, $1 = X$.
   - Классы эквивалентных формул с операциями на классах.
     Здесь #box[$0 = [p and not p]$], #box[$1 = [p or not p]$].
