@@ -52,4 +52,4 @@ parallel:
 
 # Compile one file
 _compile *args:
-    typst compile {{ args }}
+    typst compile --root .. {{ args }}
