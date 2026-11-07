@@ -808,7 +808,7 @@ $
   $
     0.40 log_2 0.40 approx 0.529, quad
     0.25 log_2 0.25 = 0.5, quad
-    0.20 log_2 0.20 approx 0.464, quad
+    0.20 log_2 0.20 approx 0.464, \
     0.10 log_2 0.10 approx 0.332, quad
     0.05 log_2 0.05 approx 0.216.
   $
