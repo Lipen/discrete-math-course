@@ -1,0 +1,471 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Preparation Guide - Discrete Mathematics</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="Course materials for Discrete Mathematics at ITMO University">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../../searchindex.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Discrete Mathematics</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/Lipen/discrete-math-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/Lipen/discrete-math-course/edit/master/docs/src/assessments/colloquiums/preparation.md" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="-tm-preparation-guide"><a class="header" href="#-tm-preparation-guide">📖 TM Preparation Guide</a></h1>
+<h2 id="-study-timeline"><a class="header" href="#-study-timeline">📅 Study Timeline</a></h2>
+<h3 id="4-weeks-before-tm"><a class="header" href="#4-weeks-before-tm">4 Weeks Before TM</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Focus</th><th>Activities</th></tr></thead><tbody>
+<tr><td><strong>Content Review</strong></td><td>Read all lecture notes systematically</td></tr>
+<tr><td><strong>Gap Identification</strong></td><td>List topics you find confusing</td></tr>
+<tr><td><strong>Resource Gathering</strong></td><td>Collect textbook sections, homework solutions</td></tr>
+<tr><td><strong>Initial Organization</strong></td><td>Create folder structure for study materials</td></tr>
+</tbody></table>
+</div>
+<h3 id="3-weeks-before-tm"><a class="header" href="#3-weeks-before-tm">3 Weeks Before TM</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Focus</th><th>Activities</th></tr></thead><tbody>
+<tr><td><strong>Concept Mapping</strong></td><td>Draw connections between topics visually</td></tr>
+<tr><td><strong>Definition List</strong></td><td>Compile ALL definitions in one document</td></tr>
+<tr><td><strong>Theorem List</strong></td><td>List all theorem statements (no proofs yet)</td></tr>
+<tr><td><strong>Weak Area Focus</strong></td><td>Spend extra time on confusing topics</td></tr>
+<tr><td><strong>Flashcard Creation</strong></td><td>Start making definition/theorem flashcards</td></tr>
+</tbody></table>
+</div>
+<h3 id="2-weeks-before-tm"><a class="header" href="#2-weeks-before-tm">2 Weeks Before TM</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Focus</th><th>Activities</th></tr></thead><tbody>
+<tr><td><strong>Daily Proofs</strong></td><td>Practice 3–5 proofs every day</td></tr>
+<tr><td><strong>Study Group</strong></td><td>Form group, meet 2–3 times per week</td></tr>
+<tr><td><strong>Flashcard Review</strong></td><td>Daily flashcard sessions (20–30 min)</td></tr>
+<tr><td><strong>Office Hours</strong></td><td>Visit instructor/mentors with specific questions</td></tr>
+<tr><td><strong>Practice Exams</strong></td><td>Attempt old TM questions under timed conditions</td></tr>
+</tbody></table>
+</div>
+<h3 id="1-week-before-tm"><a class="header" href="#1-week-before-tm">1 Week Before TM</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Focus</th><th>Activities</th></tr></thead><tbody>
+<tr><td><strong>Review Session</strong></td><td>Attend instructor’s review session</td></tr>
+<tr><td><strong>Practice Problems</strong></td><td>Work through comprehensive problem sets</td></tr>
+<tr><td><strong>Definition Mastery</strong></td><td>Can recite all definitions word-perfect?</td></tr>
+<tr><td><strong>Theorem Recall</strong></td><td>Practice stating theorems precisely</td></tr>
+<tr><td><strong>Mock Exam</strong></td><td>Take full 120-min practice test</td></tr>
+<tr><td><strong>Group Quizzing</strong></td><td>Quiz each other on random topics</td></tr>
+</tbody></table>
+</div>
+<h3 id="23-days-before-tm"><a class="header" href="#23-days-before-tm">2–3 Days Before TM</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Focus</th><th>Activities</th></tr></thead><tbody>
+<tr><td><strong>Light Review</strong></td><td>Skim through notes (don’t cram new material)</td></tr>
+<tr><td><strong>Flashcard Final Pass</strong></td><td>Review all flashcards one last time</td></tr>
+<tr><td><strong>Rest &amp; Recovery</strong></td><td>Reduce study intensity, avoid burnout</td></tr>
+<tr><td><strong>Confidence Building</strong></td><td>Review what you DO know well</td></tr>
+</tbody></table>
+</div>
+<h3 id="day-before-tm"><a class="header" href="#day-before-tm">Day Before TM</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Focus</th><th>Activities</th></tr></thead><tbody>
+<tr><td><strong>Minimal Study</strong></td><td>30–60 min light review only</td></tr>
+<tr><td><strong>Sleep Priority</strong></td><td>Get 8 hours of quality sleep</td></tr>
+<tr><td><strong>Good Nutrition</strong></td><td>Eat healthy meals, stay hydrated</td></tr>
+<tr><td><strong>Mental Prep</strong></td><td>Visualize success, stay positive</td></tr>
+<tr><td><strong>Logistics</strong></td><td>Know exam location, bring ID</td></tr>
+</tbody></table>
+</div>
+<h2 id="-proof-techniques"><a class="header" href="#-proof-techniques">🛠️ Proof Techniques</a></h2>
+<h3 id="essential-proof-methods"><a class="header" href="#essential-proof-methods">Essential Proof Methods</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Type</th><th>When to Use</th><th>Template</th><th>Example</th></tr></thead><tbody>
+<tr><td><strong>Direct</strong></td><td>Straightforward implication</td><td>Assume P. Show Q follows.</td><td>If \(n\) even, then \(n^2\) even</td></tr>
+<tr><td><strong>Contradiction</strong></td><td>Proving impossibility</td><td>Assume \(\lnot Q\). Derive contradiction.</td><td>\(\sqrt{2}\) is irrational</td></tr>
+<tr><td><strong>Contrapositive</strong></td><td>Negation easier than direct</td><td>Prove \(\lnot Q \to \lnot P\) instead of \(P \to Q\)</td><td>If \(n^2\) odd, then \(n\) odd</td></tr>
+<tr><td><strong>Induction</strong></td><td>Properties of \(\mathbb{N}\)</td><td>Base case + inductive step</td><td>\(\sum_{i=1}^{n} i = \frac{n(n+1)}{2}\)</td></tr>
+<tr><td><strong>Construction</strong></td><td>Existence claims</td><td>Build explicit example</td><td>Bijection between \(A\) and \(B\)</td></tr>
+<tr><td><strong>Cases</strong></td><td>Multiple scenarios</td><td>Case 1: …, Case 2: …</td><td>Prove for even and odd separately</td></tr>
+</tbody></table>
+</div>
+<h3 id="proof-writing-tips"><a class="header" href="#proof-writing-tips">Proof Writing Tips</a></h3>
+<blockquote>
+<p><strong>✍️ Structure Every Proof</strong></p>
+<ol>
+<li><strong>Opening</strong>: State what you’re proving</li>
+<li><strong>Setup</strong>: Define variables, state assumptions</li>
+<li><strong>Body</strong>: Logical argument with clear steps</li>
+<li><strong>Conclusion</strong>: “Therefore, …” or “Thus, …” or \(\square\)</li>
+</ol>
+<p><strong>Bad</strong>: “It’s obvious that…”
+<strong>Good</strong>: “By definition of X, we have… Therefore…”</p>
+</blockquote>
+<h2 id="-what-to-memorize"><a class="header" href="#-what-to-memorize">📚 What to Memorize</a></h2>
+<h3 id="-set-theory-essentials"><a class="header" href="#-set-theory-essentials">📐 Set Theory Essentials</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Category</th><th>Must Know</th></tr></thead><tbody>
+<tr><td><strong>Set Laws</strong></td><td>Commutative, associative, distributive, De Morgan’s, identity, complement, idempotent, domination, absorption, involution</td></tr>
+<tr><td><strong>Power Set</strong></td><td>\(\mathcal{P}(A) = \{B \mid B \subseteq A\}\), \(|\mathcal{P}(A)| = 2^{|A|}\)</td></tr>
+<tr><td><strong>Cantor’s Theorem</strong></td><td>\(|A| &lt; |\mathcal{P}(A)|\) for any set \(A\)</td></tr>
+<tr><td><strong>Schroeder-Bernstein</strong></td><td>If exists injection \(A \to B\) and exists injection \(B \to A\), then exists bijection \(A \leftrightarrow B\)</td></tr>
+</tbody></table>
+</div>
+<h3 id="-relations-essentials"><a class="header" href="#-relations-essentials">🔗 Relations Essentials</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Category</th><th>Must Know</th></tr></thead><tbody>
+<tr><td><strong>Properties</strong></td><td>Reflexive: \(\forall x ~ (xRx)\); Symmetric: \(\forall x,y ~ (xRy \to yRx)\); Transitive: \(\forall x,y,z ~ (xRy \land yRz \to xRz)\); Antisymmetric: \(\forall x,y ~ (xRy \land yRx \to x=y)\)</td></tr>
+<tr><td><strong>Equivalence</strong></td><td>Reflexive + symmetric + transitive \(\leftrightarrow\) partition</td></tr>
+<tr><td><strong>Functions</strong></td><td>Injective: \(f(a)=f(b) \to a=b\); Surjective: \(\forall y ~ \exists x ~ f(x)=y\); Bijective: both</td></tr>
+<tr><td><strong>Composition</strong></td><td>\((g \circ f)(x) = g(f(x))\); associative; inverse if bijective</td></tr>
+</tbody></table>
+</div>
+<h3 id="-boolean-algebra-essentials"><a class="header" href="#-boolean-algebra-essentials">⚡ Boolean Algebra Essentials</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Category</th><th>Must Know</th></tr></thead><tbody>
+<tr><td><strong>Boolean Laws</strong></td><td>Identity, Null, Idempotent, Complement, De Morgan’s, Absorption</td></tr>
+<tr><td><strong>Normal Forms</strong></td><td>DNF: OR of ANDs; CNF: AND of ORs</td></tr>
+<tr><td><strong>Completeness</strong></td><td>\(\{\land, \lor, \lnot\}\), \(\{\text{NAND}\}\), \(\{\text{NOR}\}\) are functionally complete</td></tr>
+<tr><td><strong>Gate Symbols</strong></td><td>Know circuit symbols for AND, OR, NOT, NAND, NOR, XOR</td></tr>
+</tbody></table>
+</div>
+<h3 id="-formal-logic-essentials"><a class="header" href="#-formal-logic-essentials">🧠 Formal Logic Essentials</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Category</th><th>Must Know</th></tr></thead><tbody>
+<tr><td><strong>Truth Tables</strong></td><td>\(\lnot, \land, \lor, \to, \leftrightarrow\) truth values for all combinations</td></tr>
+<tr><td><strong>Natural Deduction</strong></td><td>Modus Ponens (\(P, P\to Q \vdash Q\)), Modus Tollens (\(\lnot Q, P\to Q \vdash \lnot P\)), \(\land\)-Intro, \(\lor\)-Elim, etc.</td></tr>
+<tr><td><strong>Soundness vs Completeness</strong></td><td>Soundness: \(\vdash\) implies \(\models\) (no false proofs); Completeness: \(\models\) implies \(\vdash\) (can prove all truths)</td></tr>
+<tr><td><strong>Quantifiers</strong></td><td>\(\lnot(\forall x ~ P(x)) \equiv \exists x ~ \lnot P(x)\); \(\lnot(\exists x ~ P(x)) \equiv \forall x ~ \lnot P(x)\)</td></tr>
+</tbody></table>
+</div>
+<h2 id="-study-strategies"><a class="header" href="#-study-strategies">🧠 Study Strategies</a></h2>
+<h3 id="effective-techniques"><a class="header" href="#effective-techniques">Effective Techniques</a></h3>
+<ul>
+<li><strong>Active Recall</strong>: Test yourself without looking at notes – strengthens memory retrieval</li>
+<li><strong>Spaced Repetition</strong>: Review material at increasing intervals to fight forgetting</li>
+<li><strong>Teach Others</strong>: Explain concepts to study partners – best test of true understanding</li>
+<li><strong>Practice Exams</strong>: Simulate exam conditions to build familiarity and reduce anxiety</li>
+<li><strong>Whiteboard Practice</strong>: Work problems standing at a whiteboard – engages different thinking patterns</li>
+</ul>
+<h3 id="study-group-best-practices"><a class="header" href="#study-group-best-practices">Study Group Best Practices</a></h3>
+<p>✅ <strong>Do This:</strong></p>
+<ul>
+<li>Meet regularly (2–3 times per week)</li>
+<li>Quiz each other on definitions/theorems</li>
+<li>Work through proofs together</li>
+<li>Explain difficult concepts to each other</li>
+<li>Share different solution approaches</li>
+</ul>
+<p>❌ <strong>Don’t Do This:</strong></p>
+<ul>
+<li>Just socialize without studying</li>
+<li>Let one person do all the explaining</li>
+<li>Skip individual preparation before meeting</li>
+<li>Argue about minutiae; ask instructor to clarify</li>
+<li>Study only in groups (need solo time too!)</li>
+</ul>
+<h2 id="-resources-to-use"><a class="header" href="#-resources-to-use">📖 Resources to Use</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Resource</th><th>Priority</th></tr></thead><tbody>
+<tr><td><strong>Lecture Slides</strong></td><td>⭐⭐⭐⭐⭐</td></tr>
+<tr><td><strong>Textbook</strong></td><td>⭐⭐⭐⭐</td></tr>
+<tr><td><strong>Homework Solutions</strong></td><td>⭐⭐⭐⭐</td></tr>
+<tr><td><strong>Review Sessions</strong></td><td>⭐⭐⭐⭐⭐</td></tr>
+<tr><td><strong>Mentors/Office Hours</strong></td><td>⭐⭐⭐⭐⭐</td></tr>
+</tbody></table>
+</div>
+<h3 id="supplementary-resources"><a class="header" href="#supplementary-resources">Supplementary Resources</a></h3>
+<ul>
+<li><strong>Online Videos</strong>: When reading isn’t clicking</li>
+<li><strong>Math StackExchange</strong>: For alternative perspectives</li>
+<li><strong>Practice Problems</strong>: Throughout preparation</li>
+<li><strong>Old Exams</strong>: Final week preparation</li>
+</ul>
+<h2 id="-common-mistakes"><a class="header" href="#-common-mistakes">⚠️ Common Mistakes</a></h2>
+<h3 id="logical-errors"><a class="header" href="#logical-errors">Logical Errors</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Mistake</th><th>Why It’s Wrong</th><th>Fix</th></tr></thead><tbody>
+<tr><td><strong>Circular Reasoning</strong></td><td>Assumes what you’re proving</td><td>Ensure logical flow: premises \(\to\) conclusion</td></tr>
+<tr><td><strong>Using “Obvious”</strong></td><td>Skips justification</td><td>Provide explicit reasoning</td></tr>
+<tr><td><strong>Confusing Necessary/Sufficient</strong></td><td>\(P\to Q\): \(Q\) necessary for \(P\), \(P\) sufficient for \(Q\)</td><td>Remember the direction!</td></tr>
+<tr><td><strong>Wrong Quantifier Order</strong></td><td>\(\forall x ~ \exists y ~ P(x,y) \neq \exists y ~ \forall x ~ P(x,y)\)</td><td>Be precise with quantifier scope</td></tr>
+<tr><td><strong>Incomplete Cases</strong></td><td>Miss edge cases</td><td>Systematically check all scenarios</td></tr>
+</tbody></table>
+</div>
+<h3 id="proof-writing-errors"><a class="header" href="#proof-writing-errors">Proof-Writing Errors</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Mistake</th><th>Example</th><th>Correction</th></tr></thead><tbody>
+<tr><td><strong>No setup</strong></td><td>“Therefore \(x = 5\)”</td><td>“Let \(x\) be arbitrary. Then…”</td></tr>
+<tr><td><strong>Jumping steps</strong></td><td>“Clearly \(A = B\)”</td><td>Show intermediate steps</td></tr>
+<tr><td><strong>Poor notation</strong></td><td>Using same variable for different things</td><td>Define all variables clearly</td></tr>
+<tr><td><strong>No conclusion</strong></td><td>Proof just stops</td><td>End with “Therefore…” or \(\square\)</td></tr>
+</tbody></table>
+</div>
+<h2 id="-day-before-tm"><a class="header" href="#-day-before-tm">🌙 Day Before TM</a></h2>
+<h3 id="what-to-do"><a class="header" href="#what-to-do">What TO DO</a></h3>
+<p>✅ Light review (1 hour max):</p>
+<ul>
+<li>Skim definition flashcards</li>
+<li>Glance at theorem list</li>
+<li>Review 1–2 key proofs</li>
+</ul>
+<p>✅ Self-care:</p>
+<ul>
+<li><strong>8 hours of sleep</strong> (non-negotiable!)</li>
+<li>Healthy meals throughout the day</li>
+<li>Light exercise or walk</li>
+<li>Relaxation techniques (deep breathing, meditation)</li>
+</ul>
+<p>✅ Logistics:</p>
+<ul>
+<li>Confirm exam time and location</li>
+<li>Prepare ID and any allowed materials</li>
+<li>Set multiple alarms</li>
+<li>Plan to arrive 10 min early</li>
+</ul>
+<h3 id="what-not-to-do"><a class="header" href="#what-not-to-do">What NOT TO DO</a></h3>
+<ul>
+<li>❌ <strong>Don’t cram new material</strong> – if you don’t know it now, won’t learn it tonight</li>
+<li>❌ <strong>Don’t stay up late studying</strong> – sleep &gt; cramming</li>
+<li>❌ <strong>Don’t drink excessive caffeine</strong> – disrupts sleep quality</li>
+<li>❌ <strong>Don’t panic</strong> – trust your preparation</li>
+<li>❌ <strong>Don’t compare yourself to others</strong> – focus on your own readiness</li>
+</ul>
+<h2 id="-mental-preparation"><a class="header" href="#-mental-preparation">💪 Mental Preparation</a></h2>
+<h3 id="confidence-builders"><a class="header" href="#confidence-builders">Confidence Builders</a></h3>
+<blockquote>
+<p><strong>🎯 Positive Self-Talk</strong></p>
+<ul>
+<li>“I’ve prepared thoroughly for this.”</li>
+<li>“I know the material well.”</li>
+<li>“Partial credit means every bit of knowledge counts.”</li>
+<li>“I can handle difficult questions – I’ll do my best.”</li>
+<li>“One exam doesn’t define me or my understanding.”</li>
+</ul>
+</blockquote>
+<h3 id="during-the-exam"><a class="header" href="#during-the-exam">During the Exam</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Situation</th><th>Response</th></tr></thead><tbody>
+<tr><td><strong>Can’t remember definition</strong></td><td>Move on, come back later; write related concepts</td></tr>
+<tr><td><strong>Proof seems impossible</strong></td><td>Write setup, state approach, show what you can</td></tr>
+<tr><td><strong>Running out of time</strong></td><td>Prioritize high-value questions; outline remaining proofs</td></tr>
+<tr><td><strong>Feeling anxious</strong></td><td>Deep breath, 30-second break, refocus</td></tr>
+<tr><td><strong>Blank mind</strong></td><td>Read question again slowly; write anything related</td></tr>
+</tbody></table>
+</div>
+<h2 id="-final-wisdom"><a class="header" href="#-final-wisdom">🎓 Final Wisdom</a></h2>
+<blockquote>
+<p><strong>Remember</strong>: TMs test understanding, not just memorization. Focus on:</p>
+<ul>
+<li><strong>Why</strong> definitions are structured that way</li>
+<li><strong>How</strong> theorems connect to each other</li>
+<li><strong>When</strong> to apply different proof techniques</li>
+<li><strong>What</strong> the big ideas are, not just details</li>
+</ul>
+<p>Trust your preparation, stay calm, and do your best. Good luck! 🍀</p>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../assessments/colloquiums/tm2.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../assessments/exam/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../assessments/colloquiums/tm2.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../assessments/exam/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>
