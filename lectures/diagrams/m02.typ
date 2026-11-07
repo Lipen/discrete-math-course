@@ -90,3 +90,46 @@
   silent-edge(<right>, <conj>),
   rule-edge(<conj>, <goal>, $imply I thin 1$),
 )
+
+// ── Поиск с возвратом: тупик и откат на дереве целей ──
+#let search-node(pos, body, note, tone, ..args) = node(
+  pos,
+  text(size: 1.3em)[#body \ #text(size: 0.62em, fill: tone)[#note]],
+  fill: tone.lighten(88%),
+  stroke: 1.1pt + tone,
+  corner-radius: 4pt,
+  inset: 0.3em,
+  width: auto,
+  height: auto,
+  ..args,
+)
+
+#let search-backtrack = diagram(
+  spacing: 2.2em,
+  search-node((0, 0), [$p or q$], [цель], cool, name: <search-root>),
+  search-node((-1.8, 1.5), [$p$], [тупик], warm, name: <search-dead>),
+  search-node((1.8, 1.5), [$q$], [успех], green, name: <search-ok>),
+  edge(
+    <search-root>,
+    <search-dead>,
+    "-}>",
+    stroke: 1.1pt + cool,
+    label: text(fill: ink)[$or I$],
+    label-side: left,
+  ),
+  edge(
+    <search-root>,
+    <search-ok>,
+    "-}>",
+    stroke: 1.1pt + cool,
+    label: text(fill: ink)[$or I$],
+    label-side: right,
+  ),
+  edge(
+    <search-dead>,
+    <search-ok>,
+    "-}>",
+    stroke: (paint: warm, thickness: 1.2pt, dash: "dashed"),
+    label: text(fill: warm)[откат],
+  ),
+)

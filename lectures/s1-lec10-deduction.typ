@@ -4,7 +4,10 @@
 #import "@preview/frederic:0.1.0": (
   fitch-assume, fitch-premise, fitch-proof, fitch-step, fitch-subproof,
 )
-#import "diagrams/m02.typ": mp-chain, nd-comm, nd-projection
+#import "diagrams/m02.typ": mp-chain, nd-comm, nd-projection, search-backtrack
+#let premise-label = [Посылка]
+#let assumption-label = [Допущение]
+
 #show: slides.with(
   title: [Натуральная дедукция],
   date: "Осень 2026",
@@ -192,8 +195,8 @@ $and E$ извлекает из конъюнкции левую половину
 
 #example[
   #fitch-proof(
-    fitch-premise(1, $P imply Q$),
-    fitch-premise(2, $P$),
+    fitch-premise(1, $P imply Q$, rule: premise-label),
+    fitch-premise(2, $P$, rule: premise-label),
     fitch-step(3, $Q$, rule: [$imply$E 1, 2]),
   )
 
@@ -205,9 +208,9 @@ $and E$ извлекает из конъюнкции левую половину
 #example[Два вложенных допущения][
   #fitch-proof(
     fitch-subproof(
-      fitch-assume(1, $A$),
+      fitch-assume(1, $A$, rule: assumption-label),
       fitch-subproof(
-        fitch-assume(2, $B$),
+        fitch-assume(2, $B$, rule: assumption-label),
         fitch-step(3, $A$, rule: [R 1]),
       ),
       fitch-step(4, $B imply A$, rule: [$imply$I 2-3]),
@@ -274,13 +277,13 @@ $or E$ опирается на три посылки.
 
 #example[Разбор случаев][
   #fitch-proof(
-    fitch-premise(1, $P or Q$),
+    fitch-premise(1, $P or Q$, rule: premise-label),
     fitch-subproof(
-      fitch-assume(2, $P$),
+      fitch-assume(2, $P$, rule: assumption-label),
       fitch-step(3, $Q or P$, rule: [$or$I 2]),
     ),
     fitch-subproof(
-      fitch-assume(4, $Q$),
+      fitch-assume(4, $Q$, rule: assumption-label),
       fitch-step(5, $Q or P$, rule: [$or$I 4]),
     ),
     fitch-step(6, $Q or P$, rule: [$or$E 1, 2-3, 4-5]),
@@ -317,7 +320,7 @@ $not I$ только _вводит_ отрицание.
 #example[
   #fitch-proof(
     fitch-subproof(
-      fitch-assume(1, $A and not A$),
+      fitch-assume(1, $A and not A$, rule: assumption-label),
       fitch-step(2, $A$, rule: [$and$E 1]),
       fitch-step(3, $not A$, rule: [$and$E 1]),
       fitch-step(4, $bot$, rule: [$not$E 2, 3]),
@@ -338,8 +341,8 @@ $not I$ только _вводит_ отрицание.
 
 #example[Взрыв после противоречия][
   #fitch-proof(
-    fitch-premise(1, $P$),
-    fitch-premise(2, $not P$),
+    fitch-premise(1, $P$, rule: premise-label),
+    fitch-premise(2, $not P$, rule: premise-label),
     fitch-step(3, $bot$, rule: [$not$E 1, 2]),
     fitch-step(4, $Q$, rule: [X 3]),
     style: (row-gutter: 0.05em, pad: 0.1em),
@@ -363,9 +366,9 @@ $not I$ только _вводит_ отрицание.
 
 #example[Снятие двойного отрицания][
   #fitch-proof(
-    fitch-premise(1, $not not A$),
+    fitch-premise(1, $not not A$, rule: premise-label),
     fitch-subproof(
-      fitch-assume(2, $not A$),
+      fitch-assume(2, $not A$, rule: assumption-label),
       fitch-step(3, $bot$, rule: [$not$E 1, 2]),
     ),
     fitch-step(4, $A$, rule: [IP 2-3]),
@@ -538,15 +541,15 @@ Modus tollens и контрапозиция строятся без класси
 
 #example[Дизъюнктивный силлогизм][
   #fitch-proof(
-    fitch-premise(1, $P or Q$),
-    fitch-premise(2, $not P$),
+    fitch-premise(1, $P or Q$, rule: premise-label),
+    fitch-premise(2, $not P$, rule: premise-label),
     fitch-subproof(
-      fitch-assume(3, $P$),
+      fitch-assume(3, $P$, rule: assumption-label),
       fitch-step(4, $bot$, rule: [$not$E 2, 3]),
       fitch-step(5, $Q$, rule: [X 4]),
     ),
     fitch-subproof(
-      fitch-assume(6, $Q$),
+      fitch-assume(6, $Q$, rule: assumption-label),
       fitch-step(7, $Q$, rule: [R 6]),
     ),
     fitch-step(8, $Q$, rule: [$or$E 1, 3-5, 6-7]),
@@ -566,11 +569,11 @@ Modus tollens и контрапозиция строятся без класси
 
 #example[Вывод контрапозиции][
   #fitch-proof(
-    fitch-premise(1, $A imply B$),
+    fitch-premise(1, $A imply B$, rule: premise-label),
     fitch-subproof(
-      fitch-assume(2, $not B$),
+      fitch-assume(2, $not B$, rule: assumption-label),
       fitch-subproof(
-        fitch-assume(3, $A$),
+        fitch-assume(3, $A$, rule: assumption-label),
         fitch-step(4, $B$, rule: [$imply$E 1, 3]),
         fitch-step(5, $bot$, rule: [$not$E 2, 4]),
       ),
@@ -593,9 +596,9 @@ IP, двойное отрицание и исключённое третье э�
 #example[Вывод $A or not A$][
   #fitch-proof(
     fitch-subproof(
-      fitch-assume(1, $not (A or not A)$),
+      fitch-assume(1, $not (A or not A)$, rule: assumption-label),
       fitch-subproof(
-        fitch-assume(2, $A$),
+        fitch-assume(2, $A$, rule: assumption-label),
         fitch-step(3, $A or not A$, rule: [$or$I 2]),
         fitch-step(4, $bot$, rule: [$not$E 1, 3]),
       ),
@@ -620,11 +623,11 @@ $((P imply Q) imply P) imply P$ --- классическая тавтологи�
 #example[Закон Пирса][
   #fitch-proof(
     fitch-subproof(
-      fitch-assume(1, $(P imply Q) imply P$),
+      fitch-assume(1, $(P imply Q) imply P$, rule: assumption-label),
       fitch-subproof(
-        fitch-assume(2, $not P$),
+        fitch-assume(2, $not P$, rule: assumption-label),
         fitch-subproof(
-          fitch-assume(3, $P$),
+          fitch-assume(3, $P$, rule: assumption-label),
           fitch-step(4, $bot$, rule: [$not$E 2, 3]),
           fitch-step(5, $Q$, rule: [X 4]),
         ),
@@ -689,8 +692,8 @@ $
 
 #example[Локальный максимум][
   #fitch-proof(
-    fitch-premise(1, $A$),
-    fitch-premise(2, $B$),
+    fitch-premise(1, $A$, rule: premise-label),
+    fitch-premise(2, $B$, rule: premise-label),
     fitch-step(3, $A and B$, rule: [$and$I 1, 2]),
     fitch-step(4, $A$, rule: [$and$E 3]),
   )
@@ -754,15 +757,25 @@ $
 Перебор устроен как поиск с возвратом (_backtracking_).
 Решатель применяет к текущей цели правило, спускается к подцелям, а в тупике снимает последний ход и пробует другой.
 Наивный перебор без запоминания целей может зациклиться.
-С запоминанием поиск полон для логики высказываний.
-
-Для цели $p or q$ при гипотезе $q$ ветка $p$ упирается в тупик, откат выбирает ветку $q$ и находит успех.
 
 #important[Проверка и поиск][
   Проверка вывода --- механическая процедура, линейная по размеру вывода.
 
   Поиск экспоненциален.
   Число вариантов растёт на каждом шаге.
+]
+
+== Дерево поиска
+
+Цель $p or q$ при гипотезе $q$ даёт две ветки.
+В левой нет гипотезы $p$, и поиск откатывается.
+В правой гипотеза $q$ замыкает цель.
+
+#align(center)[#search-backtrack]
+
+#important[Откат][
+  Откат возвращает поиск к последнему выбору.
+  С запоминанием целей поиск полон для логики высказываний.
 ]
 
 == Применения поиска
