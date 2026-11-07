@@ -9,6 +9,7 @@ cargo test
 cargo run --example church_arith
 cargo run --example combinators
 cargo run --example beta_trace
+cargo run --example eta
 ```
 
 ## The idea
@@ -49,6 +50,7 @@ All drivers are fuel-limited (`max_steps`), so diverging terms such as $\Omega$ 
 | `church_arith` | Church numerals: `succ`, `add`, `mult`, `power` ($2^4 = 16$)          |
 | `combinators`  | I, K, S and the reduction of `S K K` to the identity                  |
 | `beta_trace`   | Step-by-step β-reduction traces, including Church `succ` applied to 2 |
+| `eta`          | η-reduction: `λx. f x` becomes `f`, while `λx. x x` has no η-step |
 
 ## API
 

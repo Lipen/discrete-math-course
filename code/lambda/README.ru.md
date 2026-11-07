@@ -9,6 +9,7 @@ cargo test
 cargo run --example church_arith
 cargo run --example combinators
 cargo run --example beta_trace
+cargo run --example eta
 ```
 
 ## Идея
@@ -49,6 +50,7 @@ $$ (\lambda x.\; M)\; N \;\to_\beta\; M[x := N] $$
 | `church_arith` | Числа Чёрча: `succ`, `add`, `mult`, `power` ($2^4 = 16$)          |
 | `combinators`  | I, K, S и редукция `S K K` к тождеству                            |
 | `beta_trace`   | Пошаговые следы β-редукции, включая `succ` Чёрча, применённый к 2 |
+| `eta`          | η-редукция: `λx. f x` становится `f`, а у `λx. x x` η-шага нет |
 
 ## API
 
