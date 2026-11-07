@@ -42,6 +42,7 @@
 #let imply = sym.arrow.r
 #let iff = sym.arrow.l.r
 #let models = sym.tack.rr // семантическое следование
+#let proves = $scripts(tack.r)$ // синтаксическая выводимость, индекс --- система S
 #let setminus = sym.without
 #let symdiff = $Delta$
 #let sim = sym.tilde
