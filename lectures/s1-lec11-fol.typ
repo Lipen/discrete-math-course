@@ -9,6 +9,8 @@
   euler-barbara, euler-celarent, euler-darii, judgment-circles, parse-tree,
   square-of-opposition,
 )
+#let premise-label = [Посылка]
+
 #show: slides.with(
   title: [Логика первого порядка],
   date: "Осень 2026",
@@ -620,8 +622,12 @@ $ not (forall x in A . thin P (x)) equiv exists x in A . thin not P (x) $
 
 #example[
   #fitch-proof(
-    fitch-premise(1, $forall x . thin (S (x) imply P (x))$),
-    fitch-premise(2, $S ("Марла")$),
+    fitch-premise(
+      1,
+      $forall x . thin (S (x) imply P (x))$,
+      rule: premise-label,
+    ),
+    fitch-premise(2, $S ("Марла")$, rule: premise-label),
     fitch-step(3, $S ("Марла") imply P ("Марла")$, rule: [$forall$E 1]),
     fitch-step(4, $P ("Марла")$, rule: [$imply$E 3, 2]),
   )
@@ -730,9 +736,9 @@ $
   forall x . thin (P (x) -> Q (x)), quad exists x . thin P (x) quad models quad exists x . thin Q (x).
 $
 
-Отрицаем заключение, сколемизируем $exists x . thin P (x)$ и приводим всё к дизъюнктам.
+Отрицаем заключение, сколемизируем $exists x . thin P (x)$ и подставляем $x := c$.
 $
-  not P (x) or Q (x), quad P (c), quad not Q (x).
+  not P (c) or Q (c), quad P (c), quad not Q (c).
 $
 
 #table(
@@ -740,11 +746,11 @@ $
   align: (left, left),
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*Шаг*], [*Дизъюнкт*]),
-  [посылка 1], [$not P (x) or Q (x)$],
-  [посылка 2], [$P (c)$],
-  [отрицание цели], [$not Q (x)$],
-  [резолюция 1 и 2], [$Q (c)$],
-  [резолюция 4 и 3], [$square$],
+  [1. посылка], [$not P (c) or Q (c)$],
+  [2. посылка], [$P (c)$],
+  [3. отрицание цели], [$not Q (c)$],
+  [4. резолюция 1 и 2], [$Q (c)$],
+  [5. резолюция 4 и 3], [$square$],
 )
 
 Пустой дизъюнкт означает противоречие, поэтому отрицание следования невыполнимо.
