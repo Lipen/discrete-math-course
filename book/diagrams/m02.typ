@@ -72,22 +72,48 @@
   stroke: bar-str,
 )
 
-#let nd-rule-ande = prooftree(
-  rule(
-    name: rname[$and$E],
-    $A and B$,
-    $A$,
+#let nd-rule-ande = grid(
+  columns: 2,
+  column-gutter: 0.8em,
+  align: center,
+  prooftree(
+    rule(
+      name: rname[$and$E],
+      $A and B$,
+      $A$,
+    ),
+    stroke: bar-str,
   ),
-  stroke: bar-str,
+  prooftree(
+    rule(
+      name: rname[$and$E],
+      $A and B$,
+      $B$,
+    ),
+    stroke: bar-str,
+  ),
 )
 
-#let nd-rule-ori = prooftree(
-  rule(
-    name: rname[$or$I],
-    $A$,
-    $A or B$,
+#let nd-rule-ori = grid(
+  columns: 2,
+  column-gutter: 0.8em,
+  align: center,
+  prooftree(
+    rule(
+      name: rname[$or$I],
+      $A$,
+      $A or B$,
+    ),
+    stroke: bar-str,
   ),
-  stroke: bar-str,
+  prooftree(
+    rule(
+      name: rname[$or$I],
+      $B$,
+      $A or B$,
+    ),
+    stroke: bar-str,
+  ),
 )
 
 #let nd-rule-ore = prooftree(
