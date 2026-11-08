@@ -20,6 +20,8 @@
 #let iff = sym.arrow.l.r
 #let setminus = sym.without
 #let sim = sym.tilde
+// Линейная логика: мультипликативная дизъюнкция (пар). Глифа нет в наборе Typst.
+#let parr = math.class("binary", $#[⅋]$)
 
 // === Helpers ===
 // Инфиксное отношение: rel(R) или rel($<=$). Отрицание: nrel(R).
