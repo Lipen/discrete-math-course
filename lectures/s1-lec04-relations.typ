@@ -434,10 +434,12 @@
 
 У разнородного отношения два конца, поэтому тотальность распадается на две.
 
-#definition[
-  $R$ называют *лево-тотальным* (англ. left-total), если каждый элемент $A$ участвует хотя бы в одной паре, $forall a in A exists b in B . thin a rel(R) b$.
+#definition[Лево-тотальное отношение][
+  $R$ называют *лево-тотальным*, если $forall a in A exists b in B . thin a rel(R) b$.
+]
 
-  $R$ называют *право-тотальным* (англ. right-total), если каждый элемент $B$ участвует хотя бы в одной паре, $forall b in B exists a in A . thin a rel(R) b$.
+#definition[Право-тотальное отношение][
+  $R$ называют *право-тотальным*, если $forall b in B exists a in A . thin a rel(R) b$.
 ]
 
 #example[
