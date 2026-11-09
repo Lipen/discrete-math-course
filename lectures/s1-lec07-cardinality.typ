@@ -947,7 +947,7 @@ $ aleph_0 < 2^(aleph_0) < 2^(2^(aleph_0)) < dots $
 == Кардинальная арифметика
 
 #definition[Арифметика мощностей][
-  Для множеств $K, L$ мощности $kappa, lambda$
+  *Арифметику мощностей* для множеств $K, L$ мощности $kappa, lambda$ задают равенствами
   $
     kappa + lambda = abs(K union.sq L), quad kappa dot lambda = abs(K times L), quad kappa^lambda = abs(K^lambda) .
   $
