@@ -93,7 +93,7 @@
 
 #let nd-rule-iii = prooftree(
   rule(
-    name: rname[$imply I$],
+    name: rname[$imply I thin 1$],
     rule(
       $[A]^1$,
       $dots.v$,
@@ -160,7 +160,7 @@
 
 #let nd-rule-ore = prooftree(
   rule(
-    name: rname[$or E$],
+    name: rname[$or E thin 1, 2$],
     $A or B$,
     rule(
       $[A]^1$,
@@ -189,7 +189,7 @@
 
 #let nd-rule-ni = prooftree(
   rule(
-    name: rname[$not I$],
+    name: rname[$not I thin 1$],
     rule(
       $[A]^1$,
       $dots.v$,
@@ -211,7 +211,7 @@
 
 #let nd-rule-ip = prooftree(
   rule(
-    name: rname[IP],
+    name: rname[IP thin 1],
     rule(
       $[not A]^1$,
       $dots.v$,
