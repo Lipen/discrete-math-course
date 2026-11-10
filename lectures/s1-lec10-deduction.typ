@@ -204,9 +204,9 @@
 
 Теорема $(A and B) imply A$ получается только после того, как $A and B$ станет допущением.
 
-#trap[Закрытая строка][
-  На строку из закрытого поддоказательства ссылаться нельзя.
-  Гипотеза уже снята, и такой вывод неверен.
+#note[Чем отличаются][
+  Посылка остаётся в выводе до конца.
+  Допущение действует только внутри поддоказательства.
 ]
 
 == Правила импликации
@@ -250,6 +250,47 @@
   + *Строка 3.* Реитерация повторяет $A$ из внешнего поддоказательства.
   + *Строки 4 и 5.* Снимаются $B$ и $A$, заключение не зависит от гипотез.
 ]
+
+== Ссылка на недоступную строку
+
+Строка 4 снимает допущение $B$ и завершает поддоказательство 2--3.
+После этого строка 3 больше не доступна.
+
+#grid(
+  columns: (1fr, 1fr),
+  column-gutter: 1.5em,
+  align(center)[
+    #text(weight: "bold", fill: colors.red)[Ошибка]
+    #fitch-proof(
+      fitch-subproof(
+        fitch-assume(1, $A$, rule: assumption-label),
+        fitch-subproof(
+          fitch-assume(2, $B$, rule: assumption-label),
+          fitch-step(3, $A$, rule: [R 1]),
+        ),
+        fitch-step(4, $B imply A$, rule: [$imply$I 2-3]),
+        fitch-step(5, $A$, rule: [#text(fill: colors.red)[R 3]]),
+      ),
+    )
+  ],
+  align(center)[
+    #text(weight: "bold", fill: colors.green)[Верно]
+    #fitch-proof(
+      fitch-subproof(
+        fitch-assume(1, $A$, rule: assumption-label),
+        fitch-subproof(
+          fitch-assume(2, $B$, rule: assumption-label),
+          fitch-step(3, $A$, rule: [R 1]),
+        ),
+        fitch-step(4, $B imply A$, rule: [$imply$I 2-3]),
+        fitch-step(5, $A$, rule: [R 1]),
+      ),
+    )
+  ],
+)
+
+Строка 5 в левом выводе ссылается на строку 3, но та уже снята строкой 4.
+Верный ход --- реитерация строки 1.
 
 == Правила конъюнкции
 
