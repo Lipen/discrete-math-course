@@ -225,7 +225,7 @@
 // ── Поиск с возвратом: тупик и откат на дереве целей ──
 #let search-node(pos, body, note, tone, ..args) = node(
   pos,
-  text(size: 1.3em)[#body \ #text(size: 0.62em, fill: tone)[#note]],
+  text(size: 1.3em)[#body \ #text(size: 0.8em, fill: tone)[#note]],
   fill: tone.lighten(88%),
   stroke: 1.1pt + tone,
   corner-radius: 4pt,
