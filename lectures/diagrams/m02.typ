@@ -5,8 +5,8 @@
 
 #let imply = sym.arrow.r
 
-#let rname(body) = text(size: 0.8em, fill: ink)[#body]
-#let bar = 0.8pt + ink
+#let rname(body) = text(size: 0.95em, weight: "semibold", fill: ink)[#body]
+#let bar = 1.1pt + ink
 
 // ── Цепочка двух MP: C выводится из A -> B, A и B -> C ──
 #let mp-chain = prooftree(
