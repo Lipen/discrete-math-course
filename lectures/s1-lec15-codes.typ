@@ -1,7 +1,7 @@
 // s1, лекция 15 --- Коды, исправляющие ошибки (неделя 14--20 декабря).
 #import "theme.typ": *
 #import "diagrams/ghosts.typ": hamming-balls-ghost
-#import "diagrams/m13.typ": hamming-groups, hamming-spheres
+#import "diagrams/m13.typ": hamming-groups, hamming-spheres, hamming-venn
 #show: slides.with(
   title: [Коды, исправляющие ошибки],
   date: "Осень 2026",
@@ -575,6 +575,15 @@ $
 ]
 
 Слово $00000000$ с ошибками в позициях 1 и 2 читается как $11000000$, и чётность сходится.
+
+== Круги проверок
+
+#align(center)[#hamming-venn(ext: true)]
+
+#note[
+  Три круга --- контрольные группы $p_1$, $p_2$, $p_4$.
+  Пересечения кругов дают информационные биты $d_1, ..., d_4$, а внешняя рамка --- общий бит чётности $p_8$.
+]
 
 == Четыре исхода декодера
 

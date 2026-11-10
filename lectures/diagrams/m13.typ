@@ -173,3 +173,44 @@
   databit("d3", xs.at(5), $d_3$, [6], 2)
   databit("d4", xs.at(6), $d_4$, [7], 3)
 })
+
+// ── Круги проверок Хэмминга: пересечения групп и общий бит чётности ──
+#let hamming-venn(ext: false) = canvas({
+  let r = 1.15
+  let a = (-0.75, 0.35)
+  let b = (0.75, 0.35)
+  let c = (0, -0.65)
+  let ball(center, tone) = draw.circle(
+    center,
+    radius: r,
+    fill: tone.lighten(86%),
+    stroke: 1pt + tone,
+  )
+  let mark-pos(pos, body, tone: ink, size: 12pt) = draw.content(
+    pos,
+    text(size: size, fill: tone, body),
+  )
+
+  ball(a, cool)
+  ball(b, warm)
+  ball(c, green)
+
+  mark-pos((-1.55, 1.2), $p_1$, tone: cool)
+  mark-pos((1.55, 1.2), $p_2$, tone: warm)
+  mark-pos((0, -1.65), $p_4$, tone: green)
+
+  mark-pos((0, 0.86), $d_1$)
+  mark-pos((-0.56, -0.14), $d_2$)
+  mark-pos((0.56, -0.14), $d_3$)
+  mark-pos((0, 0.18), $d_4$)
+
+  if ext {
+    draw.rect(
+      (-2.05, 1.55),
+      (2.05, -2.05),
+      radius: 0.25,
+      stroke: (paint: violet, thickness: 1.1pt, dash: "dashed"),
+    )
+    mark-pos((1.6, -1.78), $p_8$, tone: violet)
+  }
+})
