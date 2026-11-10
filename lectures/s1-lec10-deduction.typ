@@ -259,8 +259,10 @@
 #grid(
   columns: (1fr, 1fr),
   column-gutter: 1.5em,
-  align(center)[
-    #text(weight: "bold", fill: colors.red)[Ошибка]
+  align(left)[
+    #align(center)[
+      #text(weight: "bold", fill: colors.red)[Ошибка]
+    ]
     #fitch-proof(
       fitch-subproof(
         fitch-assume(1, $A$, rule: assumption-label),
@@ -273,8 +275,10 @@
       ),
     )
   ],
-  align(center)[
-    #text(weight: "bold", fill: colors.green)[Верно]
+  align(left)[
+    #align(center)[
+      #text(weight: "bold", fill: colors.green)[Верно]
+    ]
     #fitch-proof(
       fitch-subproof(
         fitch-assume(1, $A$, rule: assumption-label),
