@@ -472,18 +472,20 @@ $or E$ опирается на три посылки.
   align: (left, left, left),
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*Связка*], [*Введение*], [*Устранение*]),
-  [$and$], [$A, B tack.r A and B$], [$A and B tack.r A$ или $B$],
-  [$imply$], [$[A] dots.v B tack.r A imply B$], [$A imply B, A tack.r B$],
-  [$or$],
-  [$A tack.r A or B$ или $B$],
-  [$A or B, [A] dots.v C, [B] dots.v C tack.r C$],
+  [$and$],
+  [$A, B tack.r A and B$],
+  [$A and B tack.r A$ (или $A and B tack.r B$)],
 
-  [$not$], [$[A] dots.v bot tack.r not A$], [$A, not A tack.r bot$],
+  [$imply$], [$[A] dots.h B tack.r A imply B$], [$A imply B, A tack.r B$],
+  [$or$],
+  [$A tack.r A or B$ (или $B tack.r A or B$)],
+  [$A or B, [A] dots.h C, [B] dots.h C tack.r C$],
+
+  [$not$], [$[A] dots.h bot tack.r not A$], [$A, not A tack.r bot$],
   [$bot$], [---], [$bot tack.r A$],
-  [IP], [---], [$[not A] dots.v bot tack.r A$],
+  [IP], [---], [$[not A] dots.h bot tack.r A$],
 )
 
-Введение работает на цель, устранение --- на посылки.
 IP --- классическое дополнение к паре для отрицания.
 
 == От цели к посылкам
@@ -935,8 +937,6 @@ $((P imply Q) imply P) imply P$ --- классическая тавтологи�
 
 == Корректность
 
-Первая из двух теорем связывает вывод с истиной только в одну сторону.
-
 #theorem[Корректность][
   Если $Gamma tack.r phi$, то $Gamma models phi$.
 ]
@@ -1055,7 +1055,7 @@ $((P imply Q) imply P) imply P$ --- классическая тавтологи�
   *Отрицание.* $not chi$ истинна, когда $chi$ ложна, то есть $chi in.not Delta$, а максимальность даёт $not chi in Delta$.
   *Конъюнкция.* $chi and eta$ истинна, когда обе в $Delta$, а замкнутость даёт $chi and eta in Delta$ в обе стороны.
   *Дизъюнкция.* Если $chi or eta in Delta$, максимальность и дизъюнктивный силлогизм дают $chi in Delta$ или $eta in Delta$, а обратно работают $or I$ и замкнутость.
-  *Импликация.* $chi imply eta in Delta$ тогда и только тогда, когда из $chi in Delta$ следует $eta in Delta$, прямо --- MP, обратно --- $imply I$ и максимальность.
+  *Импликация.* $chi imply eta in Delta$ тогда и только тогда, когда из $chi in Delta$ следует $eta in Delta$, прямо --- MP, обратно --- $imply I$, максимальность и взрыв.
 ]
 
 == Доказательство полноты
