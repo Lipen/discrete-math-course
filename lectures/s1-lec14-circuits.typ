@@ -688,13 +688,21 @@ $
 
 Нетлист --- схема в тексте, то есть список вентилей в топологическом порядке.
 
-```python
-# Нетлист реле: f = z or (x and not y).
-gates = [("not", "y"), ("and", "x", "g1"), ("or", "z", "g2")]
-d = {v: 0 for v in "xyz"}  # входы начинаются с уровня 0
-for i, (_, *ins) in enumerate(gates):
-    d[f"g{i + 1}"] = 1 + max(d[w] for w in ins)
-print(d["g3"])  # 3
+```rust
+use std::collections::HashMap;
+
+let gates: [(&str, &[&str]); 3] = [
+    ("g1", &["y"]),
+    ("g2", &["x", "g1"]),
+    ("g3", &["z", "g2"]),
+];
+
+let mut level = HashMap::from([("x", 0), ("y", 0), ("z", 0)]);
+for (out, ins) in gates {
+    let d = 1 + ins.iter().map(|w| level[*w]).max().unwrap();
+    level.insert(out, d);
+}
+println!("{}", level["g3"]); // 3
 ```
 
 Один проход считает уровни всех проводов.
@@ -997,36 +1005,54 @@ DPLL спускается по формуле двумя правилами, и 
 Ядро умещается в полтора десятка строк.
 Литерал --- целое со знаком, где $1$ --- это $x$, а $-1$ --- это $overline(x)$.
 
-```python
-def step(clauses, lit):
-    return [[l for l in c if l != -lit] for c in clauses if lit not in c]
+```rust
+use std::collections::HashMap;
 
-def dpll(clauses, model):
-    while True:  # единичное распространение
-        unit = next((c[0] for c in clauses if len(c) == 1), None)
-        if unit is None: break
-        print("unit  ", unit)
-        model[abs(unit)] = unit > 0
-        clauses = step(clauses, unit)
-        if [] in clauses:
-            print("конфликт")
-            return None
+fn step(clauses: &[Vec<i32>], lit: i32) -> Vec<Vec<i32>> {
+    clauses
+        .iter()
+        .filter(|c| !c.contains(&lit))
+        .map(|c| c.iter().copied().filter(|&l| l != -lit).collect())
+        .collect()
+}
+
+fn dpll(mut clauses: Vec<Vec<i32>>, mut model: HashMap<i32, bool>)
+    -> Option<HashMap<i32, bool>>
+{
+    loop {
+        let unit = clauses.iter().find(|c| c.len() == 1).map(|c| c[0]);
+        let Some(unit) = unit else { break };
+        model.insert(unit.abs(), unit > 0);
+        clauses = step(&clauses, unit);
+        if clauses.iter().any(|c| c.is_empty()) {
+            return None;
+        }
+    }
 ```
 
 == Ветвление в коде DPLL
 
 Остаток функции выбирает литерал и вызывает себя на формуле, укороченной этим выбором.
 
-```python
-    if not clauses: print("модель", model); return model
-    lit = clauses[0][0]
-    for val in (False, True):  # ветвление
-        print("ветвим", lit, "=", val)
-        r = dpll(step(clauses, lit if val else -lit), {**model, abs(lit): val})
-        if r is not None: return r
-    return None
+```rust
+    if clauses.is_empty() {
+        return Some(model);
+    }
 
-dpll([[1, 2], [-1, 2], [1, -2], [2, 3]], {})  # (x y) (-x y) (x -y) (y z)
+    let lit = clauses[0][0];
+    for val in [false, true] {
+        let mut next = model.clone();
+        next.insert(lit.abs(), val);
+        let reduced = step(&clauses, if val { lit } else { -lit });
+        if let Some(m) = dpll(reduced, next) {
+            return Some(m);
+        }
+    }
+    None
+}
+
+dpll(vec![vec![1, 2], vec![-1, 2], vec![1, -2], vec![2, 3]], HashMap::new());
+// (x y) (-x y) (x -y) (y z)
 ```
 
 #note[

@@ -1182,17 +1182,44 @@ $
 Атом и связку вычисляет разбор структуры, кванторы уходят в отдельные функции.
 
 #example[Ядро вычисления][
-  ```python
-  D = ["a", "b", "c"]
-  E = {("a", "b"), ("b", "c"), ("c", "a")}  # цикл
+  #text(0.72em)[
+    ```rust
+    use std::collections::HashMap;
 
-  def ev(f, s):
-      match f:
-          case ("E", x, y):      return (s.get(x, x), s.get(y, y)) in E
-          case ("and", p, q):    return ev(p, s) and ev(q, s)
-          case ("exists", x, p): return exists(x, p, s)
-          case ("forall", x, p): return forall(x, p, s)
-  ```
+    #[derive(Clone, Copy)]
+    enum Formula<'a> {
+        Edge(&'a str, &'a str),
+        And(&'a Formula<'a>, &'a Formula<'a>),
+        Exists(&'a str, &'a Formula<'a>),
+        Forall(&'a str, &'a Formula<'a>),
+    }
+
+    const D: [&str; 3] = ["a", "b", "c"];
+    const E: [(&str, &str); 3] = [("a", "b"), ("b", "c"), ("c", "a")];
+    type Env<'a> = HashMap<&'a str, &'a str>;
+
+    fn ev(f: &Formula, s: &Env) -> bool {
+        match f {
+            Formula::Edge(x, y) => {
+                let x = s.get(*x).copied().unwrap_or(*x);
+                let y = s.get(*y).copied().unwrap_or(*y);
+                E.contains(&(x, y))
+            }
+            Formula::And(p, q) => ev(p, s) && ev(q, s),
+            Formula::Exists(x, p) => D.iter().any(|d| {
+                let mut t = s.clone();
+                t.insert(*x, *d);
+                ev(p, &t)
+            }),
+            Formula::Forall(x, p) => D.iter().all(|d| {
+                let mut t = s.clone();
+                t.insert(*x, *d);
+                ev(p, &t)
+            }),
+        }
+    }
+    ```
+  ]
 ]
 
 Фрагмент показывает атом, конъюнкцию и кванторы, остальные связки устроены так же.
@@ -1202,13 +1229,30 @@ $
 Два квантора --- свёртка по носителю, $exists$ останавливается на первом свидетеле.
 
 #example[Две вложенности][
-  ```python
-  def exists(x, p, s): return any(ev(p, s | {x: d}) for d in D)
-  def forall(x, p, s): return all(ev(p, s | {x: d}) for d in D)
+  #text(0.78em)[
+    ```rust
+    fn exists(x: &'static str, p: &Formula, s: &Env) -> bool {
+        D.iter().any(|d| {
+            let mut t = s.clone();
+            t.insert(x, *d);
+            ev(p, &t)
+        })
+    }
 
-  print(forall("x", ("exists", "y", ("E", "x", "y")), {}))  # True
-  print(exists("y", ("forall", "x", ("E", "x", "y")), {}))  # False
-  ```
+    fn forall(x: &'static str, p: &Formula, s: &Env) -> bool {
+        D.iter().all(|d| {
+            let mut t = s.clone();
+            t.insert(x, *d);
+            ev(p, &t)
+        })
+    }
+
+    let edge = Formula::Edge("x", "y");
+    let inner = Formula::Exists("y", &edge);
+    let f = Formula::Forall("x", &inner);
+    println!("{}", ev(&f, &Env::new())); // true
+    ```
+  ]
 
   Первый вызов находит следующую для каждой вершины, второй ищет общую и не находит.
 ]

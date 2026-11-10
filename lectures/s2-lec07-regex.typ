@@ -505,7 +505,7 @@ $
 
   POSIX-движки (`grep -E`, `awk`) вернут $"a b"$, то есть наибольшее совпадение.
 
-  PCRE, Python `re`, RE2 и Rust `regex` вернут $"a"$, то есть первую альтернативу.
+  PCRE, RE2 и Rust `regex` вернут $"a"$, то есть первую альтернативу.
 ]
 
 == Катастрофический возврат
@@ -517,11 +517,13 @@ $
 
   Сумма по всем $k$ равна $2^(n - 1)$, так что тридцать букв дают $2^(29) approx 5.4 times 10^8$ попыток.
 
-  ```python
-  import re
+  Встроенный Rust `regex` не откатывается, поэтому пример использует backtracking-движок `fancy-regex`.
 
-  pattern = re.compile(r"(a+)+b")
-  pattern.match("a" * 30)   # 2^29 разбиений --- минуты счёта
+  ```rust
+  use fancy_regex::Regex;
+
+  let pattern = Regex::new(r"(a+)+b").unwrap();
+  pattern.is_match(&"a".repeat(30)); // 2^29 разбиений --- минуты счёта
   ```
 ]
 

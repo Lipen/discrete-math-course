@@ -354,7 +354,9 @@ $
     columns: 5,
     align: center,
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-    table.header([*Импликанта*], [*$0 0 0$*], [*$0 0 1$*], [*$0 1 1$*], [*$1 1 1$*]),
+    table.header(
+      [*Импликанта*], [*$0 0 0$*], [*$0 0 1$*], [*$0 1 1$*], [*$1 1 1$*]
+    ),
     [$overline(x) overline(y)$], [$bullet$], [$bullet$], [], [],
     [$overline(x) z$], [], [$bullet$], [$bullet$], [],
     [$y z$], [], [], [$bullet$], [$bullet$],
@@ -625,21 +627,24 @@ $
 
 #example[Треугольник Паскаля на месте][
   #text(0.8em)[
-    ```python
-    def anf(table):
-        a = list(table)
-        h = 1
-        while h < len(a):
-            for i in range(0, len(a), 2 * h):
-                for j in range(i, i + h):
-                    a[j + h] ^= a[j]
-            h *= 2
-        return a
-    names, table = "zyx", [0,0,0,1,0,1,1,1]  # majority(x, y, z), индекс = запись (x y z)
-    print("f =", " + ".join(
-        "*".join(names[i] for i in reversed(range(3)) if m >> i & 1) or "1"
-        for m, c in enumerate(anf(table)) if c))
-    # f = y*z + x*z + x*y   (здесь + означает xor)
+    ```rust
+    fn anf(table: &mut [u8]) {
+        let mut h = 1;
+        while h < table.len() {
+            let mut i = 0;
+            while i < table.len() {
+                for j in i..i + h {
+                    table[j + h] ^= table[j];
+                }
+                i += 2 * h;
+            }
+            h *= 2;
+        }
+    }
+
+    let mut f = [0, 0, 0, 1, 0, 1, 1, 1]; // majority(x, y, z)
+    anf(&mut f);
+    // f = y*z + x*z + x*y, где + означает xor
     ```
   ]
 ]

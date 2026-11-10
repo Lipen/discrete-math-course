@@ -477,25 +477,51 @@ $A = 0.30$, $B = 0.25$, $C = 0.15$, $D = 0.12$, $E = 0.10$, $F = 0.08$.
   На этих частотах Шеннон --- Фано совпал с Хаффманом.
 ]
 
-== Кодер Хаффмана на Python
+== Кодер Хаффмана на Rust
 
-Вся механика --- куча с минимальным весом.
+Вся механика --- список поддеревьев, отсортированный по весу.
 Извлекаем два лёгких поддерева, дописываем им по биту, возвращаем слияние.
 
 #note[
-  ```python
-  import heapq
+  #text(0.75em)[
+    ```rust
+    #[derive(Clone)]
+    enum Node {
+        Leaf(char, u32),
+        Branch(u32, Box<Node>, Box<Node>),
+    }
 
-  def huffman(freq):
-      heap = [[w, [ch, ""]] for ch, w in sorted(freq.items())]
-      heapq.heapify(heap)
-      while len(heap) > 1:
-          lo, hi = heapq.heappop(heap), heapq.heappop(heap)
-          for p in lo[1:]: p[1] = "0" + p[1]
-          for p in hi[1:]: p[1] = "1" + p[1]
-          heapq.heappush(heap, [lo[0] + hi[0]] + lo[1:] + hi[1:])
-      return dict(heap[0][1:])
-  ```
+    fn weight(n: &Node) -> u32 {
+        match n {
+            Node::Leaf(_, w) | Node::Branch(w, _, _) => *w,
+        }
+    }
+
+    fn huffman(freq: &[(char, u32)]) -> Node {
+        let mut nodes: Vec<Node> =
+            freq.iter().map(|&(c, w)| Node::Leaf(c, w)).collect();
+
+        while nodes.len() > 1 {
+            nodes.sort_by_key(weight);
+            let b = nodes.remove(0);
+            let a = nodes.remove(0);
+            let w = weight(&a) + weight(&b);
+            nodes.push(Node::Branch(w, Box::new(a), Box::new(b)));
+        }
+        nodes.pop().unwrap()
+    }
+
+    fn codes(node: &Node, prefix: String, out: &mut Vec<(char, String)>) {
+        match node {
+            Node::Leaf(c, _) => out.push((*c, prefix)),
+            Node::Branch(_, l, r) => {
+                codes(l, format!("{prefix}0"), out);
+                codes(r, format!("{prefix}1"), out);
+            }
+        }
+    }
+    ```
+  ]
 ]
 
 == Выход кодера

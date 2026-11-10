@@ -394,17 +394,30 @@ $epsilon$-рёбра бесплатны, поэтому множество те�
 
 #note[Обход в глубину][
   Замыкание --- обход в глубину по $epsilon$-рёбрам.
-  ```python
-  def eps_closure(states, trans):
-      seen, stack = set(states), list(states)
-      while stack:
-          q = stack.pop()
-          for r in trans.get((q, ""), []):
-              if r not in seen:
-                  seen.add(r)
-                  stack.append(r)
-      return frozenset(seen)
-  ```
+  #text(0.78em)[
+    ```rust
+    use std::collections::{HashMap, HashSet};
+
+    type Trans = HashMap<(&'static str, char), Vec<&'static str>>;
+
+    fn eps_closure(
+        states: &HashSet<&'static str>,
+        trans: &Trans,
+    ) -> HashSet<&'static str> {
+        let mut seen = states.clone();
+        let mut stack: Vec<_> = states.iter().copied().collect();
+
+        while let Some(q) = stack.pop() {
+            for &r in trans.get(&(q, '\0')).into_iter().flatten() {
+                if seen.insert(r) {
+                    stack.push(r);
+                }
+            }
+        }
+        seen
+    }
+    ```
+  ]
 ]
 
 #important[
@@ -415,18 +428,31 @@ $epsilon$-рёбра бесплатны, поэтому множество те�
 
 #note[
   Шаг чтения собирает преемников по символу и сразу замыкает их.
-  ```python
-  def run(trans, start, accept, word):
-      S = eps_closure({start}, trans)
-      print("start:", sorted(S))
-      for a in word:
-          nxt = set()
-          for q in S:
-              nxt.update(trans.get((q, a), []))
-          S = eps_closure(nxt, trans)
-          print(f"{a} ->", sorted(S))
-      return bool(S & accept)
-  ```
+  #text(0.78em)[
+    ```rust
+    fn run(
+        trans: &Trans,
+        start: &'static str,
+        accept: &HashSet<&'static str>,
+        word: &str,
+    ) -> bool {
+        let mut s = eps_closure(&HashSet::from([start]), trans);
+        println!("start: {:?}", s);
+
+        for a in word.chars() {
+            let mut next = HashSet::new();
+            for q in &s {
+                if let Some(rs) = trans.get(&(*q, a)) {
+                    next.extend(rs.iter().copied());
+                }
+            }
+            s = eps_closure(&next, trans);
+            println!("{a} -> {:?}", s);
+        }
+        !s.is_disjoint(accept)
+    }
+    ```
+  ]
 ]
 
 #important[
@@ -437,18 +463,21 @@ $epsilon$-рёбра бесплатны, поэтому множество те�
 == Прогон на "1001"
 
 #example[
-  ```python
-  ends01 = {("s", "0"): ["s", "q1"],
-            ("s", "1"): ["s"],
-            ("q1", "1"): ["q2"]}
-  run(ends01, "s", {"q2"}, "1001")
+  ```rust
+  let ends01: Trans = HashMap::from([
+      (("s", '0'), vec!["s", "q1"]),
+      (("s", '1'), vec!["s"]),
+      (("q1", '1'), vec!["q2"]),
+  ]);
+  let accept = HashSet::from(["q2"]);
+  assert!(run(&ends01, "s", &accept, "1001"));
   ```
-  ```
-  start: ['s']
-  1 -> ['s']
-  0 -> ['q1', 's']
-  0 -> ['q1', 's']
-  1 -> ['q2', 's']
+  ```text
+  start: {"s"}
+  1 -> {"s"}
+  0 -> {"q1", "s"}
+  0 -> {"q1", "s"}
+  1 -> {"q2", "s"}
   ```
 ]
 
