@@ -1182,7 +1182,7 @@ $
 Атом и связку вычисляет разбор структуры, кванторы уходят в отдельные функции.
 
 #example[Ядро вычисления][
-  #text(0.72em)[
+  #text(0.8em)[
     ```rust
     use std::collections::HashMap;
 
@@ -1229,7 +1229,7 @@ $
 Два квантора --- свёртка по носителю, $exists$ останавливается на первом свидетеле.
 
 #example[Две вложенности][
-  #text(0.78em)[
+  #text(0.8em)[
     ```rust
     fn exists(x: &'static str, p: &Formula, s: &Env) -> bool {
         D.iter().any(|d| {

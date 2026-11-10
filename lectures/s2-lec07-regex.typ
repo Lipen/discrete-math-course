@@ -523,7 +523,8 @@ $
   use fancy_regex::Regex;
 
   let pattern = Regex::new(r"(a+)+b").unwrap();
-  pattern.is_match(&"a".repeat(30)); // 2^29 разбиений --- минуты счёта
+  let text = "a".repeat(30);
+  pattern.is_match(&text).unwrap(); // 2^29 разбиений --- минуты счёта
   ```
 ]
 
