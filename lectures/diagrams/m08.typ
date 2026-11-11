@@ -230,7 +230,7 @@
 // ── Экстремумы: максимальный без наибольшего ──
 #let extrema-maximal-chain = diagram(
   ..node-opts,
-  spacing: 1.15em,
+  spacing: 1.2em,
   hn((-0.7, 1.2), $m$, tone: warm, fill: warm.lighten(85%), name: <mx-m>),
   hn((0.7, 2.4), $x_0$, name: <mx-x0>),
   hn((1.6, 1.6), $x_1$, name: <mx-x1>),
@@ -421,7 +421,7 @@
   align(center)[
     #diagram(
       ..node-opts,
-      spacing: 1.15em,
+      spacing: 1.2em,
       hn((0, 2), $bot$, size: 0.8em, label: 0.8em, name: <fm-bot>),
       hn((-1, 1), $a$, size: 0.8em, label: 0.8em, name: <fm-a>),
       hn((0, 1), $b$, size: 0.8em, label: 0.8em, name: <fm-b>),
@@ -438,7 +438,7 @@
   align(center)[
     #diagram(
       ..node-opts,
-      spacing: 1.15em,
+      spacing: 1.2em,
       hn((0, 3), $bot$, size: 0.8em, label: 0.8em, name: <fn-bot>),
       hn((-1, 2), $a$, size: 0.8em, label: 0.8em, name: <fn-a>),
       hn((-1, 1), $b$, size: 0.8em, label: 0.8em, name: <fn-b>),

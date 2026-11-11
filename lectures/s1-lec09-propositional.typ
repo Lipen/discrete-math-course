@@ -712,7 +712,7 @@ fn parse_binary(ts: &mut Tokens) -> Formula {
     #table(
       columns: (auto, auto, auto, auto, auto, auto),
       align: center,
-      inset: (x: 0.6em, y: 0.24em),
+      inset: (x: 0.5em, y: 0.25em),
       stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
       table.header(
         [*$p$*],

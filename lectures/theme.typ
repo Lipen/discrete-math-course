@@ -501,7 +501,7 @@
           ],
           if subtitle != none [
             #text(
-              1.5em,
+              1.4em,
               weight: "bold",
               fill: title-color,
             )[#subtitle]

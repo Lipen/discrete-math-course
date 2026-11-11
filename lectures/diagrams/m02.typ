@@ -226,7 +226,7 @@
 #let search-node(pos, body, note, tone, ..args) = node(
   pos,
   text(size: 1.2em)[#body \ #text(size: 0.8em, fill: tone)[#note]],
-  fill: tone.lighten(88%),
+  fill: tone.lighten(90%),
   stroke: 0.8pt + tone,
   corner-radius: 4pt,
   inset: 0.5em,

@@ -153,12 +153,12 @@
     column-gutter: 5em,
     align(center)[
       #hasse-digraph-full
-      #v(0.6em)
+      #v(0.5em)
       #text(0.8em)[весь порядок на ${1, 2, 3, 6}$]
     ],
     align(center)[
       #hasse-digraph-cover
-      #v(0.6em)
+      #v(0.5em)
       #text(0.8em)[только покрытия]
     ],
   )
