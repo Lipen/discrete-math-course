@@ -6,6 +6,17 @@
   lattice-m3, lattice-n5, order-isomorphism-shift,
 )
 
+// Макросы строгих порядков: scripts(...) чтобы индексы были сбоку, а не снизу.
+// Нестрогий порядок --- как обычно: $a preceq b iff a prec b or a = b$.
+#let precLex = $scripts(prec)_"lex"$
+#let precDict = $scripts(prec)_"dict"$
+#let precSlex = $scripts(prec)_"slex"$
+#let precColex = $scripts(prec)_"colex"$
+#let precA = $scripts(prec)_A$
+#let precB = $scripts(prec)_B$
+#let preceqA = $scripts(prec.eq)_A$
+#let preceqB = $scripts(prec.eq)_B$
+
 = Отношения порядка <chap:orders>
 
 Сборка крупного проекта сводится к вопросу о порядке: сотни модулей связаны зависимостями, и компилировать их можно только в совместимой последовательности.
@@ -300,9 +311,9 @@ _Частичный порядок_ допускает, что некоторы�
 Точное понятие этой одинаковости --- изоморфизм.
 
 #definition[Изоморфизм порядков][#idx("Изоморфизм порядков")
-  *Изоморфизмом* частично упорядоченных множеств $(A, prec.eq_A)$ и $(B, prec.eq_B)$ называется биекция $f: A -> B$, для которой
+  *Изоморфизмом* частично упорядоченных множеств $(A, preceqA)$ и $(B, preceqB)$ называется биекция $f: A -> B$, для которой
   $
-    a prec.eq_A b quad "тогда и только тогда, когда" quad f(a) prec.eq_B f(b).
+    a preceqA b quad "тогда и только тогда, когда" quad f(a) preceqB f(b).
   $
 ]
 
@@ -1105,17 +1116,6 @@ $M_3$ и $N_5$ --- две наименьшие недистрибутивные 
 Ниже --- ещё несколько: подтипирование в системах типов, семантическое версионирование, векторные часы и лексикографический порядок.
 
 == Лексикографический порядок <sec:lexicographic>
-
-// Макросы строгих порядков: scripts(...) чтобы индексы были сбоку, а не снизу.
-// Нестрогий порядок --- как обычно: $a preceq b iff a prec b or a = b$.
-#let precLex = $scripts(prec)_"lex"$
-#let precDict = $scripts(prec)_"dict"$
-#let precSlex = $scripts(prec)_"slex"$
-#let precColex = $scripts(prec)_"colex"$
-#let precA = $scripts(prec)_A$
-#let precB = $scripts(prec)_B$
-#let preceqA = $scripts(prec.eq)_A$
-#let preceqB = $scripts(prec.eq)_B$
 
 Иногда нужен новый способ упорядочить уже известные объекты --- пары элементов, кортежи, строки символов.
 Ответ даёт лексикографический порядок: если каждый компонент берётся из своего порядка, сравниваем первые компоненты, а при равенстве --- вторые.
