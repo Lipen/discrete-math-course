@@ -30,11 +30,17 @@
     stroke: edge-hot,
     mark: (end: "stealth"),
   )
-  draw.circle((0, 0), radius: 0.5, stroke: obj-stroke, fill: cool.lighten(82%), name: "m")
-  mark((0, 0), $M$, size: 1.0em)
-  mark((-2.45, 0), $a$, size: 1.0em)
-  mark((2.75, 0), $a star a$, size: 1.0em)
-  mark((0, -1.45), $"id"_M = e$, tone: ink-soft, size: 1.0em)
+  draw.circle(
+    (0, 0),
+    radius: 0.5,
+    stroke: obj-stroke,
+    fill: cool.lighten(82%),
+    name: "m",
+  )
+  mark((0, 0), $M$, size: 1em)
+  mark((-2.45, 0), $a$, size: 1em)
+  mark((2.75, 0), $a star a$, size: 1em)
+  mark((0, -1.45), $"id"_M = e$, tone: ink-soft, size: 1em)
 })
 
 // ── Цепочка как тонкая категория: композиция даёт пунктирную стрелку ──

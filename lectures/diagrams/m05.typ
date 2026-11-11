@@ -42,7 +42,7 @@
   )
   let spot(name, body) = {
     vertex(name, at.at(name), size: node-r)
-    mark(at.at(name), body, size: 1.15em)
+    mark(at.at(name), body, size: 1.2em)
   }
   let arrow(from, to, bow: 0) = {
     let pa = at.at(from)
@@ -316,11 +316,11 @@
 
   for (name, pos) in left {
     vertex(name, pos, tone: cool, size: node-r)
-    mark(pos, name, size: 1.1em)
+    mark(pos, name, size: 1.2em)
   }
   for (name, pos) in right {
     cell(name, pos, tone: warm, size: node-r)
-    mark(pos, name, size: 1.1em)
+    mark(pos, name, size: 1.2em)
   }
 
   for (a, b) in (("2", "4"), ("2", "6"), ("3", "6"), ("3", "9")) {

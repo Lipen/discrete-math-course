@@ -5,8 +5,8 @@
 
 #let imply = sym.arrow.r
 
-#let rname(body) = text(size: 0.95em, weight: "semibold", fill: ink)[#body]
-#let bar = 1.1pt + ink
+#let rname(body) = text(size: 0.8em, weight: "semibold", fill: ink)[#body]
+#let bar = 0.8pt + ink
 
 // ── Цепочка двух MP: C выводится из A -> B, A и B -> C ──
 #let mp-chain = prooftree(
@@ -225,18 +225,18 @@
 // ── Поиск с возвратом: тупик и откат на дереве целей ──
 #let search-node(pos, body, note, tone, ..args) = node(
   pos,
-  text(size: 1.3em)[#body \ #text(size: 0.8em, fill: tone)[#note]],
+  text(size: 1.2em)[#body \ #text(size: 0.8em, fill: tone)[#note]],
   fill: tone.lighten(88%),
-  stroke: 1.1pt + tone,
+  stroke: 0.8pt + tone,
   corner-radius: 4pt,
-  inset: 0.3em,
+  inset: 0.5em,
   width: auto,
   height: auto,
   ..args,
 )
 
 #let search-backtrack = diagram(
-  spacing: 2.2em,
+  spacing: 2em,
   search-node((0, 0), [$p or q$], [цель], cool, name: <search-root>),
   search-node((-1.8, 1.5), [$p$], [тупик], warm, name: <search-dead>),
   search-node((1.8, 1.5), [$q$], [успех], green, name: <search-ok>),
@@ -244,7 +244,7 @@
     <search-root>,
     <search-dead>,
     "-}>",
-    stroke: 1.1pt + cool,
+    stroke: 0.8pt + cool,
     label: text(fill: ink)[$or I$],
     label-side: left,
   ),
@@ -252,7 +252,7 @@
     <search-root>,
     <search-ok>,
     "-}>",
-    stroke: 1.1pt + cool,
+    stroke: 0.8pt + cool,
     label: text(fill: ink)[$or I$],
     label-side: right,
   ),
@@ -260,7 +260,7 @@
     <search-dead>,
     <search-ok>,
     "-}>",
-    stroke: (paint: warm, thickness: 1.2pt, dash: "dashed"),
+    stroke: (paint: warm, thickness: 0.8pt, dash: "dashed"),
     label: text(fill: warm)[откат],
   ),
 )

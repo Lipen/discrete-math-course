@@ -270,7 +270,7 @@
     branch(root, left-head)
     joint(root)
     head(left-head)
-    mark((x, -0.55), caption, tone: ink-soft, size: 0.7em)
+    mark((x, -0.55), caption, tone: ink-soft, size: 0.8em)
   }
 
   // Старт: три головы, A1 следующая на срез.
@@ -297,7 +297,7 @@
   branch((7.6, 0), (9.05, 1.8))
   head((8.15, 1.8), tone: warm)
   head((9.05, 1.8), tone: warm)
-  mark((8.6, 2.15), [$times 2$], tone: warm, size: 0.7em)
+  mark((8.6, 2.15), [$times 2$], tone: warm, size: 0.8em)
 })
 
 // ── Сложение ординалов: лишняя точка впереди и позади ряда ──
@@ -343,7 +343,7 @@
       stroke: (paint: cool, thickness: 1.2pt, cap: "round"),
       mark: (end: "stealth", fill: cool),
     )
-    mark((-0.8, y), $a = #a$, tone: ink-soft, size: 0.7em)
+    mark((-0.8, y), $a = #a$, tone: ink-soft, size: 0.8em)
   }
 
   draw.bezier(
@@ -387,7 +387,7 @@
     mark: (end: "stealth", fill: cool),
   )
   mark((5.1, 1.4), $dots$, tone: ink-soft)
-  mark((-0.7, 1.4), $2 dot omega$, tone: ink-soft, size: 0.7em)
+  mark((-0.7, 1.4), $2 dot omega$, tone: ink-soft, size: 0.8em)
 
   for i in range(5) {
     bead((i * 0.8, 0))
@@ -407,7 +407,7 @@
   )
   mark((3.6, 0), $dots$, tone: ink-soft)
   mark((3.6, -0.9), $dots$, tone: warm)
-  mark((-0.7, -0.45), $omega dot 2$, tone: ink-soft, size: 0.7em)
+  mark((-0.7, -0.45), $omega dot 2$, tone: ink-soft, size: 0.8em)
 
   draw.bezier(
     (3.2, 0),
@@ -457,6 +457,6 @@
     mark: (end: "stealth", fill: warm),
   )
   mark((2.1, 1.2), $f$, tone: warm)
-  mark((0, -0.5), [порядок $a < b < c$], tone: ink-soft, size: 0.7em)
-  mark((4.2, -0.5), [ординал $3$], tone: ink-soft, size: 0.7em)
+  mark((0, -0.5), [порядок $a < b < c$], tone: ink-soft, size: 0.8em)
+  mark((4.2, -0.5), [ординал $3$], tone: ink-soft, size: 0.8em)
 })

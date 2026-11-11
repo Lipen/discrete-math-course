@@ -18,7 +18,7 @@
 )
 
 // Кодовые плашки и таблицы компактнее основного текста.
-#show raw.where(block: true): set text(0.75em)
+#show raw.where(block: true): set text(0.8em)
 #show table: set text(0.8em)
 
 = Обходы графа

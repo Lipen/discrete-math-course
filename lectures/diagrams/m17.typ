@@ -8,7 +8,7 @@
   node-stroke: (paint: cool, thickness: 1pt),
   node-fill: cool.lighten(82%),
   node-inset: 6pt,
-  spacing: 1.1em,
+  spacing: 1.2em,
   {
     node((0, 0), text[Лес \ ацикличность], name: <forest>)
     node((2.3, 0), text[Векторы \ независимость], name: <vec>)

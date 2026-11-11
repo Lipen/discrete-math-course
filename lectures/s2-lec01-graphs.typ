@@ -18,7 +18,7 @@
 )
 
 // Блочный код компактнее основного текста.
-#show raw.where(block: true): set text(0.75em)
+#show raw.where(block: true): set text(0.8em)
 
 = Язык графов
 #focus-slide(

@@ -165,11 +165,11 @@
 
   let el(name, pos, body) = {
     vertex(name, pos, tone: cool, size: 0.2)
-    draw.content(name, text(size: 0.72em, fill: ink)[#body])
+    draw.content(name, text(size: 0.8em, fill: ink)[#body])
   }
   let bel(name, pos, body) = {
     cell(name, pos, tone: warm, size: 0.18, radius: 0.08)
-    draw.content(name, text(size: 0.72em, fill: ink)[#body])
+    draw.content(name, text(size: 0.8em, fill: ink)[#body])
   }
   let region(pos, radius, tone: violet) = draw.circle(
     pos,
@@ -274,7 +274,7 @@
   ))
   for k in range(-3, 4) {
     draw.line((k, -0.08), (k, 0.08), stroke: edge-thin)
-    mark((k, -0.4), [#k], size: 0.7em)
+    mark((k, -0.4), [#k], size: 0.8em)
   }
 
   let cluster(x, xl, xr, lbl) = {
@@ -415,14 +415,14 @@
   for k in range(0, 9) {
     draw.line((k, -0.06), (k, 0.06), stroke: edge-thin)
   }
-  mark((0, -0.36), [0], tone: edge-plain.paint, size: 0.72em)
-  mark((9.4, 0), $x$, size: 0.75em)
+  mark((0, -0.36), [0], tone: edge-plain.paint, size: 0.8em)
+  mark((9.4, 0), $x$, size: 0.8em)
 
   let n = xs.len()
   for k in range(n) {
     draw.circle((xs.at(k), 0), radius: 0.09, fill: tone)
     let dy = if calc.odd(k) { -0.74 } else { -0.36 }
-    mark((xs.at(k), dy), $x_#k$, tone: tone, size: 0.72em)
+    mark((xs.at(k), dy), $x_#k$, tone: tone, size: 0.8em)
   }
   for k in range(n - 1) {
     let x0 = xs.at(k)
@@ -537,7 +537,7 @@
   mark((0.4, 5.55), $T(n)$)
   for t in (8, 16, 32, 64) {
     draw.line((xs(t), -0.08), (xs(t), 0.08), stroke: edge-thin)
-    mark((xs(t), -0.38), [#t], size: 0.7em)
+    mark((xs(t), -0.38), [#t], size: 0.8em)
   }
 
   let curve(f, scale, stroke-style) = {

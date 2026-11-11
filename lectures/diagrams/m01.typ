@@ -38,7 +38,7 @@
     fill: tone.lighten(90%),
     stroke: 1pt + tone,
   )
-  draw.content(pos, text(font: "DejaVu Sans Mono", size: 0.72em)[#body])
+  draw.content(pos, text(font: "DejaVu Sans Mono", size: 0.8em)[#body])
 }
 
 #let else-leaf(pos, body, tone: green) = else-node(
@@ -64,7 +64,7 @@
   let m = else-mid(a, b)
   draw.content(
     (m.at(0) + dx, m.at(1) + dy),
-    text(size: 0.64em, fill: tone)[#label],
+    text(size: 0.8em, fill: tone)[#label],
     anchor: anchor,
     padding: 0.3,
   )
