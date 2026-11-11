@@ -43,7 +43,7 @@
   Корни вопроса глубже: Лейбниц мечтал о "calculus ratiocinator", универсальном методе разрешать споры вычислением --- а Гильберт встроил эту мечту в программу полной формализации математики.
   Сам Гильберт не сомневался в ответе: "В математике нет ignorabimus".
 
-  Алан Тьюринг в 1936 году, двадцатитрёхлетним аспирантом, опубликовал статью "On Computable Numbers, with an Application to the Entscheidungsproblem"#footnote[A. M. Turing. "On Computable Numbers, with an Application to the Entscheidungsproblem". Proceedings of the London Mathematical Society, 1936.].
+  Алан Тьюринг в 1936 году, двадцатитрёхлетним аспирантом, опубликовал статью "О вычислимых числах"#footnote[A. M. Turing. "On Computable Numbers, with an Application to the Entscheidungsproblem". Proceedings of the London Mathematical Society, 1936.].
   Чтобы сформулировать, что такое алгоритм, он описал гипотетическое устройство с бесконечной лентой и конечным набором правил --- машину Тьюринга --- и показал, что у точного понятия вычисления есть границы.
   Раз некоторые проблемы не решаются никаким алгоритмом, отрицательное решение Entscheidungsproblem следовало автоматически: нет и алгоритма, определяющего истинность любого математического утверждения, записанного в логике первого порядка.
 

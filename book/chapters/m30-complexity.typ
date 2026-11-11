@@ -58,11 +58,11 @@ NP-полнота не означает безнадёжности.
 Как измерить трудность задачи, если алгоритм для неё существует, но ответа не дождаться?
 
 #history-note[Открытая проблема: как вопрос о сложности изменил математику][
-  Юрис Хартманис и Ричард Стернс в 1965 году в статье "On the Computational Complexity of Algorithms"#footnote[J. Hartmanis, R. E. Stearns. "On the Computational Complexity of Algorithms". Transactions of the American Mathematical Society, 1965.] впервые сделали ресурс вычисления предметом математического исследования.
+  Юрис Хартманис и Ричард Стернс в 1965 году в статье "О вычислительной сложности алгоритмов"#footnote[J. Hartmanis, R. E. Stearns. "On the Computational Complexity of Algorithms". Transactions of the American Mathematical Society, 1965.] впервые сделали ресурс вычисления предметом математического исследования.
   Они ввели классы сложности и доказали теорему об иерархии по времени: машине, которой разрешено больше времени, доступно больше задач.
   Так за шесть лет до Кука возникла систематическая теория сложности.
 
-  Стивен Кук в 1971 году опубликовал статью "The Complexity of Theorem-Proving Procedures"#footnote[S. A. Cook. "The Complexity of Theorem-Proving Procedures". Proceedings of the 3rd Annual ACM Symposium on Theory of Computing, 1971.], где доказал, что задача выполнимости булевой формулы (SAT) NP-полна.
+  Стивен Кук в 1971 году опубликовал статью "О сложности доказательства теорем"#footnote[S. A. Cook. "The Complexity of Theorem-Proving Procedures". Proceedings of the 3rd Annual ACM Symposium on Theory of Computing, 1971.], где доказал, что задача выполнимости булевой формулы (SAT) NP-полна.
   Любой язык из $"NP"$ полиномиально сводится к SAT.
   Кук ввёл само понятие NP-полноты как инструмент классификации задач по их вычислительной трудности.
 
@@ -70,10 +70,10 @@ NP-полнота не означает безнадёжности.
   Он искал "универсальные переборные задачи", самые трудные в своём классе, к которым сводятся все остальные переборные.
   Теорема Кука--Левина дала первый естественный пример NP-полной задачи и открыла путь к доказательству NP-полноты сотен других задач.
 
-  Ричард Карп опубликовал "Reducibility Among Combinatorial Problems"#footnote[R. M. Karp. "Reducibility Among Combinatorial Problems". Complexity of Computer Computations, 1972.].
+  Ричард Карп опубликовал "О сводимости комбинаторных задач"#footnote[R. M. Karp. "Reducibility Among Combinatorial Problems". Complexity of Computer Computations, 1972.].
   Статья содержала 21 NP-полную задачу и цепочки полиномиальных сведений между ними.
   Эта работа показала, что NP-полнота --- общее свойство десятков вычислительных проблем: клика, вершинное покрытие, гамильтонов цикл, разбиение, рюкзак --- все они полиномиально эквивалентны SAT.
-  Майкл Гари и Дэвид Джонсон опубликовали "Computers and Intractability: A Guide to the Theory of NP-Completeness"#footnote[
+  Майкл Гари и Дэвид Джонсон опубликовали "Компьютеры и трудновычислимость"#footnote[
     M. R. Garey, D. S. Johnson. "Computers and Intractability: A Guide to the Theory of NP-Completeness". 1979.
   ].
   Книга Гари и Джонсона --- каталог сотен NP-полных задач и систематическая техника доказательства NP-полноты через сведения --- стала настольной для теоретиков computer science.
