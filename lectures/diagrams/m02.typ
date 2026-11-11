@@ -211,7 +211,7 @@
 
 #let nd-rule-ip = prooftree(
   rule(
-    name: rname[IP thin 1],
+    name: rname[$"IP" thin 1$],
     rule(
       $[not A]^1$,
       $dots.v$,
