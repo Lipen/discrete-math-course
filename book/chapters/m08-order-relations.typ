@@ -493,18 +493,14 @@ _Частичный порядок_ допускает, что некоторы�
 #definition[Минимальный элемент][#idx("Минимальный элемент")
   Элемент $m$ называется *минимальным*, если нет элемента строго меньше:
   $
-    & exists.not a in A . thin a prec m \
-    & equiv \
-    & forall a in A . thin a prec.not m
+    exists.not a in A . thin a prec m quad equiv quad forall a in A . thin a prec.not m
   $
 ]
 
 #definition[Максимальный элемент][#idx("Максимальный элемент")
   Элемент $m$ называется *максимальным*, если нет элемента строго больше:
   $
-    & exists.not a in A . thin m prec a \
-    & equiv \
-    & forall a in A . thin m prec.not a
+    exists.not a in A . thin m prec a quad equiv quad forall a in A . thin m prec.not a
   $
 ]
 
@@ -514,18 +510,14 @@ _Частичный порядок_ допускает, что некоторы�
 #definition[Наименьший элемент][#idx("Наименьший элемент")
   Элемент $m$ называется *наименьшим*, если он меньше (нестрого) всех:
   $
-    & forall a in A . thin m prec.eq a \
-    & equiv \
-    & exists.not a in A . thin m prec.eq.not a
+    forall a in A . thin m prec.eq a quad equiv quad exists.not a in A . thin m prec.eq.not a
   $
 ]
 
 #definition[Наибольший элемент][#idx("Наибольший элемент")
   Элемент $m$ называется *наибольшим*, если он больше (нестрого) всех:
   $
-    & forall a in A . thin a prec.eq m \
-    & equiv \
-    & exists.not a in A . thin a prec.eq.not m
+    forall a in A . thin a prec.eq m quad equiv quad exists.not a in A . thin a prec.eq.not m
   $
 ]
 
