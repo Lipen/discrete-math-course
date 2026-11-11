@@ -477,3 +477,29 @@
   draw.content(c20, text(size: s-tiny, weight: "bold", fill: c-accent)[20])
   draw.content((0, -0.6), text(size: s-cap, fill: c-muted)[$20 = 10 + 10$])
 })
+
+#let young-cell(v) = if v == none {
+  box(width: 1.4em, height: 1.4em)
+} else {
+  box(
+    width: 1.4em,
+    height: 1.4em,
+    stroke: t-bd + c-bd,
+    align(center + horizon, text(size: s-node, fill: c-ink)[#v]),
+  )
+}
+
+#let young-hooks = figure(
+  grid(
+    columns: 3,
+    column-gutter: 0pt,
+    row-gutter: 0pt,
+    ..((5, 3, 1), (3, 1, none), (1, none, none))
+      .map(row => row.map(young-cell))
+      .flatten(),
+  ),
+  caption: [
+    Длины крюков диаграммы Юнга формы $(3, 2, 1)$.
+    Произведение $5 dot 3 dot 1 dot 3 dot 1 dot 1 = 45$.
+  ],
+)
