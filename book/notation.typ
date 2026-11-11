@@ -18,6 +18,8 @@
 #let forces = sym.forces     // принуждение (Крипке) (⊩)
 #let imply = sym.arrow.r
 #let iff = sym.arrow.l.r
+// Отрицание отношения «произошло-до» (Лампорт): a ↛ b.
+#let nbefore = sym.arrow.r.not
 #let setminus = sym.without
 #let sim = sym.tilde
 // Линейная логика: мультипликативная дизъюнкция (пар). Глифа нет в наборе Typst.

@@ -16,7 +16,6 @@
 #let precB = $scripts(prec)_B$
 #let preceqA = $scripts(prec.eq)_A$
 #let preceqB = $scripts(prec.eq)_B$
-#let nbefore = $arrow.r.not$
 
 = Отношения порядка <chap:orders>
 

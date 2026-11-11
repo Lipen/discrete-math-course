@@ -10,7 +10,8 @@
   lamport-spacetime, lattice-m3, lattice-n5, partition-lattice-3, sign-lattice,
   sup-missing,
 )
-#let before = sym.arrow.r // произошло-до (Лампорт). before.not --- отрицание
+#let before = sym.arrow.r // произошло-до (Лампорт).
+#let nbefore = sym.arrow.r.not // отрицание: a ↛ b
 #let preck = $scripts(prec)_k$
 #show: slides.with(
   title: [Отношение порядка],
@@ -1359,7 +1360,7 @@ let y = 100 / x;
 
 #align(center)[#lamport-spacetime]
 
-На диаграмме конкурентны $a_2$ и $b_1$. $a_2 before.not b_1$ и $b_1 before.not a_2$, и разные машины могут увидеть их в разном порядке.
+На диаграмме конкурентны $a_2$ и $b_1$. $a_2 nbefore b_1$ и $b_1 nbefore a_2$, и разные машины могут увидеть их в разном порядке.
 
 == Векторные часы
 
