@@ -452,13 +452,6 @@
     + $forall x . thin (P(x) or Q(x)) -> (forall x . thin P(x) or forall x . thin Q(x))$
     + $exists x . thin (P(x) and Q(x)) -> (exists x . thin P(x) and exists x . thin Q(x))$
     + $(exists x . thin P(x) and exists x . thin Q(x)) -> exists x . thin (P(x) and Q(x))$
-
-  + Докажите, что формула
-    $
-      exists x . thin (P(x) -> forall y . thin P(y))
-    $
-    классически общезначима в любой непустой области.
-    Объясните, почему она не называет конкретного человека и почему выбор свидетеля зависит от модели.
 ]
 
 
