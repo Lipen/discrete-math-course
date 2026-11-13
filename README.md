@@ -56,6 +56,8 @@ just lectures      # собрать лекции
 just course        # собрать документы курса
 just homework      # собрать домашние задания
 just test          # тесты code-компаньона
+just site          # собрать сайт курса
+just site-serve    # посмотреть сайт на localhost:8765
 ```
 
 ## 📦 Архив

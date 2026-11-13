@@ -17,6 +17,14 @@ lectures:
 course:
     just course/all
 
+# Build the site hub (site/dist)
+site:
+    python3 site/build.py
+
+# Serve the built site on http://localhost:8765
+site-serve:
+    python3 -m http.server -d site/dist 8765
+
 # Build all homeworks
 homework:
     just homework/all
