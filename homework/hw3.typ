@@ -202,7 +202,6 @@
 
     #block(breakable: false)[
       #fitch-proof(
-        style: (row-gutter: 0.1em, pad: 0.2em),
         fitch-subproof(
           fitch-assume(1, $A$, rule: [Допущение]),
           fitch-step(2, $A or B$, rule: [$or$I 1]),
