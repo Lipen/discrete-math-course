@@ -100,7 +100,7 @@
 #let leq = sym.lt.eq
 #let geq = sym.gt.eq
 #let models = sym.tack.rr
-#let entails = sym.tack.r
+#let proves = sym.tack.r
 #let notin = sym.in.not
 #let setminus = sym.without
 #let intersect = sym.inter
@@ -109,6 +109,8 @@
 // Инфиксное отношение: rel(R) или #rel($<=$). Отрицание: nrel(R).
 #let rel(x) = math.class("relation", x)
 #let nrel(x) = math.class("relation", x + [̸])
+// Система Гильберта: индекс H сидит в нижнем индексе, а не под глифом.
+#let provesH = rel($scripts(proves)_"H"$)
 #let angle = sym.chevron
 #let bmat = math.mat.with(delim: "[")
 #let Bmat = math.mat.with(delim: "{")

@@ -5,10 +5,6 @@
 )
 #show: template
 
-// Выводимость: обычная натуральная дедукция и система Гильберта.
-#let proves = math.class("relation", $scripts(tack.r)$)
-#let provesH = math.class("relation", $scripts(tack.r)_"H"$)
-
 #set page(
   paper: "a4",
   margin: (top: 2.5cm, rest: 2cm),
