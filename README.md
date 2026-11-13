@@ -62,7 +62,6 @@ just test          # тесты code-компаньона
 
 - [`typst/`](https://lipen.github.io/discrete-math-course/typst/)
 - [`tex/`](https://lipen.github.io/discrete-math-course/tex/)
-- [`docs/`](https://lipen.github.io/discrete-math-course/docs/)
 
 ## 📜 Лицензия
 

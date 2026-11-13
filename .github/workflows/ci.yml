@@ -199,29 +199,9 @@ jobs:
           name: pdf-tex
           path: "tex/*.pdf"
 
-  build-mdbook:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup mdBook
-        uses: peaceiris/actions-mdbook@v2
-        with:
-          mdbook-version: "0.4.52"
-
-      - name: Build website with mdBook
-        run: mdbook build docs
-
-      - name: Upload website artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: website
-          path: "docs/dist/"
-
   deploy:
     runs-on: ubuntu-latest
-    needs: [lint, build-course, build-typst, build-tex, build-mdbook]
+    needs: [lint, build-course, build-typst, build-tex]
     concurrency:
       group: "pages"
       cancel-in-progress: false
@@ -236,12 +216,11 @@ jobs:
 
       - name: Prepare files for gh-pages
         run: |
-          mkdir -p public/typst public/tex public/docs
+          mkdir -p public/typst public/tex
           cp .github/pages/index.html public/
           cp course-pdf/*.pdf public/
           cp pdf-typst/*.pdf public/typst/
           cp pdf-tex/*.pdf public/tex/
-          cp -r website/* public/docs/
           cp .github/archive/typst.html public/typst/index.html
           cp .github/archive/tex.html public/tex/index.html
 
