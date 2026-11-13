@@ -11,6 +11,8 @@ on:
       - LICENSE
       - .github/**
       - "!.github/workflows/ci.yml"
+      - "!.github/pages/**"
+      - "!.github/archive/**"
   workflow_dispatch:
 
 jobs:
