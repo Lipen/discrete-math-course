@@ -243,6 +243,9 @@ jobs:
           cp .github/archive/typst.html public/typst/index.html
           cp .github/archive/tex.html public/tex/index.html
 
+      - name: Check site links
+        run: python3 tools/check-site-links.py public/index.html public/typst/index.html public/tex/index.html
+
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
         with:
