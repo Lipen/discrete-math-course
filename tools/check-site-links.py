@@ -9,8 +9,9 @@ Every relative ``href`` is resolved against the page and reported when the targe
 file or directory is absent. Pass a directory to check each ``index.html`` inside it.
 External URLs, fragment-only links and ``mailto:`` are ignored.
 
-The pages are named explicitly because mdBook output is not hand-written: the old
-course site carries its own dead links, and those must not block a deploy.
+The pages are named explicitly: the deploy publishes exactly three hand-written index
+pages (the hub and the two archive indexes), so the tool is told which they are rather
+than guessing by discovery, and a generated tree is added by name when it gains one.
 """
 
 import sys
