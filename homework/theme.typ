@@ -9,6 +9,10 @@
 #let warn = rgb("#b45309")
 #let good = rgb("#15803d")
 
+// ── Отступы заголовка задачи ──
+#let heading-above = 1.6em
+#let heading-below = 0.9em
+
 // ── Темплеет ──
 #let template(dark: false, doc) = {
   set text(fill: white) if dark
@@ -34,8 +38,8 @@
   )
   show heading.where(level: 2): it => block(
     width: 100%,
-    above: 1.6em,
-    below: 0.9em,
+    above: heading-above,
+    below: heading-below,
     sticky: true,
     inset: (bottom: 0.35em),
     stroke: (bottom: 0.8pt + accent.lighten(40%)),
@@ -184,6 +188,17 @@
 #let TagCore = Tag("База", green)
 #let TagChallenge = Tag("Челлендж", purple)
 #let TagBonus = Tag("Бонус", yellow)
+
+// ── Заголовок задачи: тег вне heading, чтобы не попадать в PDF bookmarks ──
+#let task-heading(title, tag) = block(
+  width: 100%,
+  sticky: true,
+  above: heading-above,
+  below: heading-below,
+)[
+  #place(right + horizon)[#tag]
+  #heading(level: 2)[#title]
+]
 
 // ── Цветовые помощники и логические ярлыки ──
 #let Green(x) = text(green.darken(20%), x)
