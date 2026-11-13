@@ -5,6 +5,10 @@
 )
 #show: template
 
+// Выводимость: обычная натуральная дедукция и система Гильберта.
+#let proves = math.class("relation", $scripts(tack.r)$)
+#let provesH = math.class("relation", $scripts(tack.r)_"H"$)
+
 #set page(
   paper: "a4",
   margin: (top: 2.5cm, rest: 2cm),
@@ -187,8 +191,8 @@
   + Постройте выводы, указывая правило на каждом шаге.
 
     + $A and B -> A$
-    + $P -> Q, quad Q -> R, quad P tack.r_("ND") R$
-    + $P or Q, quad not P tack.r_("ND") Q$
+    + $P -> Q, quad Q -> R, quad P proves R$
+    + $P or Q, quad not P proves Q$
 
       В какой ветке этого вывода срабатывает взрыв и почему он остаётся допустимым в интуиционистском ядре?
 
@@ -233,7 +237,7 @@
     K: A -> (B -> A), quad quad S: (A -> (B -> C)) -> ((A -> B) -> (A -> C)).
   $
   Правило вывода одно: modus ponens, из $A$ и $A -> B$ выводится $B$.
-  Выводимость в этой системе обозначается $Gamma tack.r_("H") phi$.
+  Выводимость в этой системе обозначается $Gamma provesH phi$.
 ]
 
 #tasklist("t5")[
@@ -242,7 +246,7 @@
 
   + Сформулируйте и докажите теорему о дедукции для системы Гильберта:
     $
-      Gamma, A tack.r_("H") B quad "тогда и только тогда, когда" quad Gamma tack.r_("H") A -> B.
+      Gamma, A provesH B quad "тогда и только тогда, когда" quad Gamma provesH A -> B.
     $
 
     Докажите оба направления.
@@ -268,14 +272,14 @@
   - $forall E$: из $forall x . thin phi(x)$ выводится $phi(t)$ при свободной подстановке.
   - $forall I$: из $phi(a)$ выводится $forall x . thin phi(x)$, если $a$ не свободна в открытых гипотезах.
   - $exists I$: из $phi(t)$ выводится $exists x . thin phi(x)$ при свободной подстановке.
-  - $exists E$: из $exists x . thin phi(x)$ и $phi(a) tack.r_("ND") C$ выводится $C$, если $a$ не свободна в $C$ и открытых гипотезах, кроме $phi(a)$.
+  - $exists E$: из $exists x . thin phi(x)$ и $phi(a) proves C$ выводится $C$, если $a$ не свободна в $C$ и открытых гипотезах, кроме $phi(a)$.
 ]
 
 #tasklist("t6")[
   + Постройте выводы в натуральной дедукции по правилам из условия, указывая правило на каждом шаге.
 
-    + $forall x . thin (P(x) -> Q(x)), quad forall x . thin P(x) tack.r_("ND") forall x . thin Q(x)$
-    + $exists x . thin (P(x) and Q(x)) tack.r_("ND") exists x . thin P(x)$
+    + $forall x . thin (P(x) -> Q(x)), quad forall x . thin P(x) proves forall x . thin Q(x)$
+    + $exists x . thin (P(x) and Q(x)) proves exists x . thin P(x)$
 
   + В протоколе есть вывод, где нарушено условие на вводимую переменную.
     Найдите первую недопустимую строку и объясните, какое условие нарушено.
