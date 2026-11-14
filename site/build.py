@@ -21,7 +21,7 @@ import yaml
 SITE = Path(__file__).resolve().parent
 ROOT = SITE.parent
 DIST = SITE / "dist"
-FILES = DIST / "files"
+ASSETS = DIST
 
 BLOCKS = (
     ("m01", "m09", "b1"),
@@ -117,7 +117,7 @@ def chapter_chip(chapter: str, outline: dict[int, tuple[int, str]]) -> str:
     if not page:
         return f'<span class="chip {block_of(chapter)}">{chapter}</span>'
     return (
-        f'<a class="chip {block_of(chapter)}" href="files/book.pdf#page={page[0]}"'
+        f'<a class="chip {block_of(chapter)}" href="book.pdf#page={page[0]}"'
         f' target="_blank" rel="noopener"'
         f' title="Глава {number}. {escape(page[1])}">{chapter}</a>'
     )
@@ -147,7 +147,7 @@ def topic_row(
     slides = ROOT / "lectures" / f"{topic['slides']}.pdf"
     if slides.is_file():
         chips.append(
-            f'<a class="chip" href="files/{slides.name}" target="_blank" rel="noopener">слайды</a>'
+            f'<a class="chip" href="{slides.name}" target="_blank" rel="noopener">слайды</a>'
         )
     classes = ["topic"]
     start = week_start(topic["dates"], year)
@@ -186,7 +186,7 @@ def materials(content: dict) -> str:
             )
         elif (ROOT / "book" / href).is_file() or (ROOT / "course" / href).is_file():
             cubes.append(
-                f'<a class="cube" href="files/{href}" target="_blank" rel="noopener">'
+                f'<a class="cube" href="{href}" target="_blank" rel="noopener">'
                 f'<span class="cube-head"><span class="cube-t">{title}</span>'
                 f'<span class="cube-fmt">PDF</span></span>'
                 f'<span class="cube-d">{note}</span></a>'
@@ -211,7 +211,7 @@ def homework_section(content: dict) -> str:
     for semester in (1, 2):
         cards = [
             card(
-                f"files/hw{work['number']}.pdf",
+                f"hw{work['number']}.pdf",
                 f"ДЗ\u00a0{work['number']}",
                 work["title"],
             )
@@ -285,19 +285,22 @@ def main() -> int:
 
     if DIST.exists():
         shutil.rmtree(DIST)
-    FILES.mkdir(parents=True)
+    DIST.mkdir(parents=True)
     sources = [
         ROOT / "book" / "book.pdf",
         ROOT / "course" / "syllabus.pdf",
+        ROOT / "course" / "program.pdf",
+        ROOT / "course" / "mentors.pdf",
+        ROOT / "lectures" / "course-intro.pdf",
     ]
     sources += sorted((ROOT / "lectures").glob("s*-lec*.pdf"))
     sources += sorted((ROOT / "homework").glob("hw*.pdf"))
     sheets = sorted((ROOT / "tex").glob("cheat*.pdf"))
     for path in sources:
         if path.is_file():
-            shutil.copy2(path, FILES / path.name)
+            shutil.copy2(path, ASSETS / path.name)
     if sheets:
-        (DIST / "tex").mkdir(exist_ok=True)
+        (DIST / "tex").mkdir(parents=True, exist_ok=True)
         for path in sheets:
             shutil.copy2(path, DIST / "tex" / path.name)
     for name in ("theme.css", "ui.js"):
@@ -338,7 +341,7 @@ def main() -> int:
     (DIST / "index.html").write_text(page(content["title"], body), encoding="utf-8")
     topics = sum(len(s["topics"]) for s in content["semesters"])
     print(
-        f"site: {topics} topics, {len(outline)} chapter pages, {len(list(FILES.iterdir()))} files"
+        f"site: {topics} topics, {len(outline)} chapter pages, {len(list(ASSETS.iterdir()))} entries"
     )
     return 0
 
