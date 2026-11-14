@@ -73,6 +73,7 @@ a:hover { color: var(--accent); }
   color: var(--accent-fg);
 }
 .skip:focus { left: 0.75rem; top: 0.75rem; z-index: 10; }
+.skip:hover { color: var(--accent-fg); }
 
 /* ── Верхняя панель ── */
 .top {
@@ -166,14 +167,14 @@ main { max-width: 60rem; margin: 0 auto; padding: 0 1.25rem 5rem; }
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: var(--bg-card);
-  transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
 }
-a.cube:hover { border-color: var(--accent); transform: translateY(-1px); box-shadow: var(--shadow); }
+a.cube:hover { border-color: var(--accent); background: var(--bg-soft); }
 .cube-head { display: flex; align-items: baseline; justify-content: space-between; gap: 0.6rem; }
 .cube-t { font-size: 1.02rem; font-weight: 620; letter-spacing: -0.01em; }
 .cube-fmt {
   flex: none;
-  font: 600 0.64rem/1 var(--sans);
+  font: 600 0.7rem/1 var(--sans);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--fg-faint);
@@ -206,6 +207,7 @@ a.cube:hover .cube-fmt { color: var(--accent); border-color: currentColor; }
   color: var(--fg-soft);
 }
 .tabs a:hover { background: var(--bg-soft); color: var(--fg); }
+.tabs a.is-on { color: var(--accent); box-shadow: inset 0 -2px 0 var(--accent); border-radius: 7px 7px 0 0; }
 
 /* Кнопка «наверх» вне потока: на широком экране в левом поле рядом с шапкой,
    на узком плавающий круг в углу. Места в раскладке не занимает вовсе. */
@@ -323,6 +325,11 @@ body.scrolled .up { opacity: 1; visibility: visible; pointer-events: auto; }
 
 /* ── Семестр ── */
 .sem { padding-top: 2rem; scroll-margin-top: 7.6rem; }
+.sem-note {
+  margin: 0 0 1rem;
+  font-size: 0.85rem;
+  color: var(--fg-faint);
+}
 .sem h2 {
   margin: 0 0 0.35rem;
   font-size: 1.5rem;
@@ -347,7 +354,7 @@ body.scrolled .up { opacity: 1; visibility: visible; pointer-events: auto; }
 .num { font-size: 1.4rem; font-weight: 650; line-height: 1; letter-spacing: -0.03em; }
 .num .cap {
   margin-right: 0.3rem;
-  font: 600 0.6rem/1.2 var(--sans);
+  font: 600 0.7rem/1.2 var(--sans);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--fg-faint);
@@ -368,7 +375,7 @@ body.scrolled .up { opacity: 1; visibility: visible; pointer-events: auto; }
   padding: 0.15rem 0.4rem;
   border: 1px solid currentColor;
   border-radius: 5px;
-  font: 600 0.68rem/1.35 var(--sans);
+  font: 600 0.7rem/1.35 var(--sans);
   letter-spacing: 0.06em;
   text-transform: uppercase;
   white-space: nowrap;
@@ -376,7 +383,7 @@ body.scrolled .up { opacity: 1; visibility: visible; pointer-events: auto; }
 .ctrl-kr { color: var(--kr); }
 .ctrl-tm { color: var(--tm); }
 
-.topic.now { background: var(--accent-soft); box-shadow: inset 3px 0 0 var(--accent); }
+.topic.now { background: var(--accent-soft); }
 .topic.now .num { color: var(--accent); }
 .topic.now .dates { color: var(--fg-soft); }
 
@@ -436,4 +443,13 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   * { transition: none !important; }
+}
+
+@media print {
+  .top, .tabs, .up, .foot { display: none; }
+  .topic, .cube, .mini, .sheet { break-inside: avoid; }
+  .sem { break-before: page; }
+  body { background: #fff; color: #000; }
+  .topic.now { background: none; box-shadow: none; }
+  a { text-decoration: underline; }
 }

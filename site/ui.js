@@ -27,3 +27,36 @@ if (up) {
     scrollTo({ top: 0, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
   });
 }
+
+// Активная вкладка: подсвечивается раздел, заголовок которого прошёл линию вкладок.
+const tabLinks = [...document.querySelectorAll(".tabs a")];
+if (tabLinks.length) {
+  const targets = tabLinks
+    .map((link) => document.querySelector(link.getAttribute("href")))
+    .filter(Boolean);
+  const bar = document.querySelector(".tabs");
+  const sync = () => {
+    const line = (bar ? bar.getBoundingClientRect().bottom : 0) + 8;
+    let current = null;
+    for (const target of targets) {
+      if (target.getBoundingClientRect().top <= line) current = target;
+    }
+    for (const link of tabLinks) {
+      const on = current !== null && link.getAttribute("href") === `#${current.id}`;
+      link.classList.toggle("is-on", on);
+      if (on) link.setAttribute("aria-current", "true");
+      else link.removeAttribute("aria-current");
+    }
+  };
+  let frame = 0;
+  const schedule = () => {
+    if (frame) return;
+    frame = requestAnimationFrame(() => {
+      frame = 0;
+      sync();
+    });
+  };
+  addEventListener("scroll", schedule, { passive: true });
+  addEventListener("resize", schedule);
+  sync();
+}

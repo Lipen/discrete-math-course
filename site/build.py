@@ -300,10 +300,15 @@ def cheatsheets_section(content: dict) -> str:
 def legacy_section(content: dict) -> str:
     rows = "".join(
         '<li><a class="sheet" href="typst/{file}" target="_blank" rel="noopener">'
+        '<span class="sheet-n">{number:02d}</span>'
         '<span class="sheet-t">{title}</span>'
         '<span class="sheet-go">PDF<span aria-hidden="true"> ↗</span></span>'
-        "</a></li>".format(file=escape(doc["file"]), title=escape(doc["title"]))
-        for doc in content.get("legacy") or []
+        "</a></li>".format(
+            file=escape(doc["file"]),
+            number=index,
+            title=escape(doc["title"]),
+        )
+        for index, doc in enumerate(content.get("legacy") or [], start=1)
     )
     if not rows:
         return ""
@@ -416,21 +421,29 @@ def main() -> int:
             for index, topic in enumerate(semester["topics"], start=1)
         )
         tabs.append(f'<a href="#sem{number}">{escape(semester["tab"])}</a>')
-    if content.get("legacy"):
-        tabs.append('<a href="#legacy">Старые лекции</a>')
+        week_list = [topic["week"] for topic in semester["topics"]]
+        note = (
+            f"{len(week_list)} лекций \u00b7 недели {min(week_list)}\u2013{max(week_list)}"
+            if week_list
+            else ""
+        )
         sections.append(
             f"""<section class="sem" id="sem{number}">
   <h2>{escape(semester["name"])}</h2>
+  <p class="sem-note">{note}</p>
   <ol class="weeks">
 {rows}
   </ol>
 </section>"""
         )
+    if content.get("legacy"):
+        tabs.append('<a href="#legacy">Старые лекции</a>')
 
     body = f"""<main id="main">
 <header class="hero">
   <p class="kicker">{escape(content["university"])} · {escape(content["year"])}</p>
   <h1>{escape(content["title"])}</h1>
+  <p class="lede">{escape(content["lede"])}</p>
   {materials(content)}
 </header>
 <nav class="tabs" aria-label="Разделы">
