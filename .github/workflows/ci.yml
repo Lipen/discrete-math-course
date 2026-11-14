@@ -85,6 +85,9 @@ jobs:
       - name: Build book
         run: just book
 
+      - name: Export chapter pages
+        run: cd book && typst eval 'query(metadata)' --in book.typ > ../chapter-pages.json
+
       - name: Build lectures
         run: just lectures
 
@@ -109,6 +112,12 @@ jobs:
         with:
           name: course-pdf
           path: dist/
+
+      - name: Upload chapter pages
+        uses: actions/upload-artifact@v4
+        with:
+          name: pages
+          path: chapter-pages.json
 
   build-typst:
     runs-on: ubuntu-latest
@@ -217,7 +226,6 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends python3-yaml
-          python3 -m pip install --user pypdf
 
       - name: Place built PDFs for the site
         run: |

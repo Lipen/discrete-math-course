@@ -52,3 +52,4 @@ __pycache__/
 *.synctex.gz(busy)
 *.pdfsync
 site/dist/
+chapter-pages.json

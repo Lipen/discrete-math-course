@@ -156,3 +156,14 @@
 
 // --- Предметный указатель ---
 #include "index.typ"
+
+// Страницы глав для ссылок с сайта курса: номер главы и физическая страница PDF.
+#context {
+  let chapters = query(heading.where(level: 1))
+    .filter(h => h.numbering != none)
+    .map(h => (
+      n: counter(heading).at(h.label).first(),
+      page: h.location().page(),
+    ))
+  metadata((chapter-pages: chapters))
+}

@@ -4,10 +4,12 @@
 Everything on the page comes from `site/course.yml`: the lectures, their short notes,
 the slides file and the book chapters. Nothing is parsed out of the decks or the
 syllabus, and no course data is copied here. Chapter page numbers come from the book's
-own PDF outline, so a plate points at the page where the chapter starts.
+own layout: the book exports chapter pages as metadata, and a plate links to
+`book.pdf#page=N`.
 """
 
 import html
+import json
 import re
 import shutil
 import subprocess
@@ -74,64 +76,34 @@ def escape(text: str) -> str:
     return html.escape(text, quote=False)
 
 
-def book_outline() -> dict[int, tuple[int, str]]:
-    """Chapter number to (page, title): the book's own outline, read any way we can."""
-    book = ROOT / "book" / "book.pdf"
-    if not book.is_file():
-        return {}
-    return _outline_pypdf(book) or _outline_pdftk(book)
+def chapter_pages() -> dict[int, int]:
+    """Chapter number to the physical page of its heading, taken from Typst."""
+    for candidate in (
+        ROOT / "chapter-pages.json",
+        ROOT / "pages" / "chapter-pages.json",
+    ):
+        if candidate.is_file():
+            return _pages(candidate.read_text(encoding="utf-8"))
+    result = subprocess.run(
+        ["typst", "eval", "query(metadata)", "--in", "book.typ"],
+        cwd=ROOT / "book",
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    return _pages(result.stdout) if result.returncode == 0 else {}
 
 
-def _outline_pypdf(book: Path) -> dict[int, tuple[int, str]]:
+def _pages(raw: str) -> dict[int, int]:
     try:
-        from pypdf import PdfReader
-        from pypdf.errors import PdfReadError
-    except ImportError:
+        data = json.loads(raw)
+    except json.JSONDecodeError:
         return {}
-    try:
-        reader = PdfReader(book)
-        items = reader.outline
-    except (PdfReadError, OSError, ValueError):
-        return {}
-    outline: dict[int, tuple[int, str]] = {}
-    for item in items:
-        title = getattr(item, "title", None)
-        chapter = re.match(r"^(\d+) (.+)$", title or "")
-        if not chapter:
-            continue
-        try:
-            page = reader.get_destination_page_number(item) + 1
-        except (PdfReadError, KeyError, TypeError, ValueError):
-            page = None
-        if page is None:
-            continue
-        outline[int(chapter.group(1))] = (page, chapter.group(2))
-    return outline
-
-
-def _outline_pdftk(book: Path) -> dict[int, tuple[int, str]]:
-    try:
-        dump = subprocess.run(
-            ["pdftk", str(book), "dump_data"],
-            capture_output=True,
-            text=True,
-            check=True,
-        ).stdout
-    except (OSError, subprocess.CalledProcessError):
-        return {}
-    outline, title = {}, None
-    for line in dump.splitlines():
-        if line.startswith("BookmarkTitle:"):
-            title = html.unescape(line.split(": ", 1)[1])
-        elif line.startswith("BookmarkPageNumber:") and title:
-            chapter = re.match(r"^(\d+) (.+)$", title)
-            if chapter:
-                outline[int(chapter.group(1))] = (
-                    int(line.split(": ")[1]),
-                    chapter.group(2),
-                )
-            title = None
-    return outline
+    for entry in data if isinstance(data, list) else []:
+        value = entry.get("value") if isinstance(entry, dict) else None
+        if isinstance(value, dict) and "chapter-pages" in value:
+            return {row["n"]: row["page"] for row in value["chapter-pages"]}
+    return {}
 
 
 def block_of(chapter: str) -> str:
@@ -141,15 +113,15 @@ def block_of(chapter: str) -> str:
     return "b1"
 
 
-def chapter_chip(chapter: str, outline: dict[int, tuple[int, str]]) -> str:
+def chapter_chip(chapter: str, pages: dict[int, int]) -> str:
     number = int(chapter[1:])
-    page = outline.get(number)
+    page = pages.get(number)
     if not page:
         return f'<span class="chip {block_of(chapter)}">{chapter}</span>'
     return (
-        f'<a class="chip {block_of(chapter)}" href="book.pdf#page={page[0]}"'
+        f'<a class="chip {block_of(chapter)}" href="book.pdf#page={page}"'
         f' target="_blank" rel="noopener"'
-        f' title="Глава {number}. {escape(page[1])}">{chapter}</a>'
+        f' title="Глава {number}">{chapter}</a>'
     )
 
 
@@ -183,11 +155,11 @@ def topic_row(
     number: int,
     topic: dict,
     dates: str,
-    outline: dict[int, tuple[int, str]],
+    pages: dict[int, int],
     today: date,
     year: int,
 ) -> str:
-    chips = [chapter_chip(chapter, outline) for chapter in topic.get("chapters") or []]
+    chips = [chapter_chip(chapter, pages) for chapter in topic.get("chapters") or []]
     slides = ROOT / "lectures" / f"{topic['slides']}.pdf"
     if slides.is_file():
         chips.append(
@@ -337,7 +309,7 @@ def page(title: str, body: str) -> str:
 
 def main() -> int:
     content = yaml.safe_load((SITE / "course.yml").read_text(encoding="utf-8"))
-    outline = book_outline()
+    pages = chapter_pages()
     today = datetime.now(ZoneInfo("Europe/Moscow")).date()
 
     if DIST.exists():
@@ -375,7 +347,7 @@ def main() -> int:
                 index,
                 topic,
                 dates.get((number, topic["week"]), ""),
-                outline,
+                pages,
                 today,
                 semester["year"],
             )
@@ -411,7 +383,7 @@ def main() -> int:
     (DIST / "404.html").write_text(not_found(), encoding="utf-8")
     topics = sum(len(s["topics"]) for s in content["semesters"])
     note = f", {copied} files for preview" if preview else ""
-    print(f"site: {topics} topics, {len(outline)} chapter pages{note}")
+    print(f"site: {topics} topics, {len(pages)} chapter pages{note}")
     return 0
 
 
