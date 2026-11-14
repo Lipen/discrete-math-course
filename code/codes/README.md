@@ -38,7 +38,7 @@ cargo run --example lz_demo
 | `hamming_extended`  | Extended Hamming: how one parity bit tells 1 error from 2 |
 | `repetition_errors` | Repetition at 0, 1, 2, 3 flipped bits                     |
 | `parity_errors`     | Parity at 0, 1, 2, 3 flipped bits                         |
-| `rs_demo`           | Reed--Solomon (7, 3, 5) over GF(8): two symbol errors out  |
+| `rs_demo`           | Reed–Solomon (7, 3, 5) over GF(8): two symbol errors out  |
 | `lz_demo`           | LZ77 triples and LZ78 pairs on "ABRACADABRA"              |
 
 The `*_errors` demos draw the flipped bits in red when the terminal supports it.
