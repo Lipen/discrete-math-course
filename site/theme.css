@@ -88,18 +88,8 @@ a:hover { color: var(--accent); }
   backdrop-filter: saturate(180%) blur(12px);
   border-bottom: 1px solid var(--line);
 }
-.brand { font-weight: 650; letter-spacing: -0.015em; font-size: 0.98rem; }
-.brand::before {
-  content: "";
-  transition: opacity 0.18s ease;
-  display: inline-block;
-  width: 0.6rem;
-  height: 0.6rem;
-  margin-right: 0.55rem;
-  border-radius: 3px;
-  background: var(--accent);
-  vertical-align: 0.02em;
-}
+.brand { display: inline-flex; align-items: center; gap: 0.55rem; font-weight: 650; letter-spacing: -0.015em; font-size: 0.98rem; }
+.brand-mark { flex: none; width: 1.35rem; height: 1.35rem; color: var(--accent); }
 .top-actions { margin-left: auto; display: flex; align-items: center; gap: 0.5rem; }
 .gh {
   display: inline-flex;
@@ -161,16 +151,27 @@ main { max-width: 60rem; margin: 0 auto; padding: 0 1.25rem 5rem; }
 }
 .cube {
   display: flex;
-  flex-direction: column;
-  gap: 0.15rem;
-  padding: 1rem 1.1rem;
+  align-items: center;
+  gap: 0.95rem;
+  padding: 1.15rem 1.25rem;
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: var(--bg-card);
   transition: border-color 0.15s ease, background-color 0.15s ease;
 }
 a.cube:hover { border-color: var(--accent); background: var(--bg-soft); }
-.cube-head { display: flex; align-items: baseline; justify-content: space-between; gap: 0.6rem; }
+.cube-icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 2.9rem;
+  height: 2.9rem;
+  border-radius: 9px;
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.cube-icon svg { width: 1.5rem; height: 1.5rem; }
+.cube-body { display: flex; flex-direction: column; align-items: flex-start; gap: 0.45rem; min-width: 0; }
 .cube-t { font-size: 1.02rem; font-weight: 620; letter-spacing: -0.01em; }
 .cube-fmt {
   flex: none;
@@ -179,8 +180,8 @@ a.cube:hover { border-color: var(--accent); background: var(--bg-soft); }
   text-transform: uppercase;
   color: var(--fg-faint);
   border: 1px solid var(--line);
-  border-radius: 4px;
-  padding: 0.22rem 0.35rem;
+  border-radius: 999px;
+  padding: 0.16rem 0.5rem;
   transition: color 0.15s ease, border-color 0.15s ease;
 }
 a.cube:hover .cube-fmt { color: var(--accent); border-color: currentColor; }
@@ -287,6 +288,20 @@ body.scrolled .up { opacity: 1; visibility: visible; pointer-events: auto; }
   color: var(--fg-faint);
 }
 .mini-t { font-size: 0.95rem; }
+.pill-fmt {
+  flex: none;
+  align-self: center;
+  margin-left: auto;
+  padding: 0.12rem 0.5rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font: 600 0.7rem/1.5 var(--sans);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fg-faint);
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.mini:hover .pill-fmt, .sheet:hover .pill-fmt { color: var(--accent); border-color: currentColor; }
 
 /* ── Шпаргалки: список строк ── */
 .sheets {

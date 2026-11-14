@@ -47,6 +47,9 @@ MONTHS = {
     "декабря": 12,
 }
 
+BOOK_ICON = """<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H19v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M19 18v3H6.5"/><path d="M8 7.5h7M8 11h5"/></svg>"""
+RULES_ICON = """<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3.5" width="16" height="17" rx="2.5"/><path d="M8 8.5h8M8 12h8M8 15.5h5"/></svg>"""
+
 ICONS = """
 <svg class="i-auto" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg>
 <svg class="i-light" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/><g stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 2.6v2.2M12 19.2v2.2M2.6 12h2.2M19.2 12h2.2M5.4 5.4l1.6 1.6M17 17l1.6 1.6M18.6 5.4L17 7M7 17l-1.6 1.6"/></g></svg>
@@ -221,20 +224,15 @@ def topic_row(
 
 
 def materials(content: dict) -> str:
+    icons = {"book": BOOK_ICON, "rules": RULES_ICON}
     cubes = []
     for item in content["materials"]:
-        href = item["href"]
-        title = escape(item["title"])
-        if href.startswith("#"):
-            cubes.append(
-                f'<a class="cube" href="{href}"><span class="cube-t">{title}</span></a>'
-            )
-        else:
-            cubes.append(
-                f'<a class="cube" href="{href}" target="_blank" rel="noopener">'
-                f'<span class="cube-head"><span class="cube-t">{title}</span>'
-                f'<span class="cube-fmt">PDF</span></span></a>'
-            )
+        cubes.append(
+            f'<a class="cube" href="{escape(item["href"])}" target="_blank" rel="noopener">'
+            f'<span class="cube-icon">{icons.get(item.get("icon"), "")}</span>'
+            f'<span class="cube-body"><span class="cube-t">{escape(item["title"])}</span>'
+            f'<span class="cube-fmt">PDF</span></span></a>'
+        )
     return f'<div class="cubes">{"".join(cubes)}</div>'
 
 
@@ -242,7 +240,8 @@ def card(href: str, label: str, title: str) -> str:
     return (
         f'<a class="mini" href="{href}" target="_blank" rel="noopener">'
         f'<span class="mini-n">{label}</span>'
-        f'<span class="mini-t">{escape(title)}</span></a>'
+        f'<span class="mini-t">{escape(title)}</span>'
+        f'<span class="pill-fmt">PDF</span></a>'
     )
 
 
@@ -278,6 +277,7 @@ def cheatsheets_section(content: dict) -> str:
         '<li><a class="sheet" href="tex/{file}" target="_blank" rel="noopener">'
         '<span class="sheet-n">{number:02d}</span>'
         '<span class="sheet-t">{title}</span>'
+        '<span class="pill-fmt">PDF</span>'
         "</a></li>".format(
             file=escape(sheet["file"]),
             number=index,
@@ -295,6 +295,7 @@ def legacy_section(content: dict) -> str:
     rows = "".join(
         '<li><a class="sheet" href="typst/{file}" target="_blank" rel="noopener">'
         '<span class="sheet-t">{title}</span>'
+        '<span class="pill-fmt">PDF</span>'
         "</a></li>".format(file=escape(doc["file"]), title=escape(doc["title"]))
         for index, doc in enumerate(content.get("legacy") or [], start=1)
     )
@@ -333,7 +334,10 @@ def page(title: str, body: str) -> str:
 <body>
 <a class="skip" href="#main">К содержанию</a>
 <header class="top">
-  <a class="brand" href="index.html">{escape(title)}</a>
+  <a class="brand" href="index.html">
+    <svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M12 7.4 7.2 16.2M12 7.4l4.8 8.8"/><circle cx="12" cy="5.2" r="1.9" fill="currentColor" stroke="none"/><circle cx="6.2" cy="18.4" r="1.9" fill="currentColor" stroke="none"/><circle cx="17.8" cy="18.4" r="1.9" fill="currentColor" stroke="none"/></svg>
+    {escape(title)}
+  </a>
   <div class="top-actions">
     <a class="gh" href="https://github.com/Lipen/discrete-math-course" target="_blank" rel="noopener"
        aria-label="Исходники на GitHub" title="Исходники на GitHub">
@@ -417,6 +421,8 @@ def main() -> int:
   </ol>
 </section>"""
         )
+    tabs.append('<a href="#homework">ДЗ</a>')
+    tabs.append('<a href="#cheatsheets">Шпаргалки</a>')
     if content.get("legacy"):
         tabs.append('<a href="#legacy">Старые лекции</a>')
 

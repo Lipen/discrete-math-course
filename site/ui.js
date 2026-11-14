@@ -35,11 +35,18 @@ if (tabLinks.length) {
     .map((link) => document.querySelector(link.getAttribute("href")))
     .filter(Boolean);
   const bar = document.querySelector(".tabs");
+  const margin = parseFloat(getComputedStyle(targets[0]).scrollMarginTop) || 0;
   const sync = () => {
-    const line = (bar ? bar.getBoundingClientRect().bottom : 0) + 8;
-    let current = null;
-    for (const target of targets) {
-      if (target.getBoundingClientRect().top <= line) current = target;
+    const barBottom = bar ? bar.getBoundingClientRect().bottom : 0;
+    const line = Math.max(barBottom, margin) + 4;
+    const atEnd =
+      window.innerHeight + window.scrollY >=
+      document.documentElement.scrollHeight - 2;
+    let current = atEnd ? targets[targets.length - 1] : null;
+    if (!atEnd) {
+      for (const target of targets) {
+        if (target.getBoundingClientRect().top <= line) current = target;
+      }
     }
     for (const link of tabLinks) {
       const on = current !== null && link.getAttribute("href") === `#${current.id}`;
