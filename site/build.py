@@ -80,14 +80,21 @@ def escape(text: str) -> str:
 def chapter_pages() -> dict[int, int]:
     """Chapter number to the physical page of its heading, taken from Typst.
 
-    The artifact from CI wins. Locally the last answer is reused while no book
-    source is newer than it: a Typst run lays out the whole book, ten seconds.
+    The artifact from CI wins. Locally the last answer is reused while the built
+    book.pdf is not newer: the numbers exist to point into that very PDF, so a
+    re-run after editing a chapter without rebuilding the book would only make
+    them disagree with the file the site links to.
     """
     artifact = ROOT / "pages" / "chapter-pages.json"
     if artifact.is_file():
         return _pages(artifact.read_text(encoding="utf-8"))
     cache = ROOT / "chapter-pages.json"
-    if cache.is_file() and cache.stat().st_mtime >= book_newest():
+    pdf = ROOT / "book" / "book.pdf"
+    if (
+        cache.is_file()
+        and pdf.is_file()
+        and cache.stat().st_mtime > pdf.stat().st_mtime
+    ):
         return _pages(cache.read_text(encoding="utf-8"))
     result = subprocess.run(
         ["typst", "eval", "query(metadata)", "--in", "book.typ"],
@@ -102,22 +109,6 @@ def chapter_pages() -> dict[int, int]:
     if pages:
         cache.write_text(result.stdout, encoding="utf-8")
     return pages
-
-
-def book_newest() -> float:
-    """Modification time of the newest source that can move a chapter page."""
-    newest = 0.0
-    for path in (ROOT / "book").rglob("*"):
-        if path.is_file() and path.suffix in {
-            ".typ",
-            ".png",
-            ".jpg",
-            ".jpeg",
-            ".svg",
-            ".webp",
-        }:
-            newest = max(newest, path.stat().st_mtime)
-    return newest
 
 
 def _pages(raw: str) -> dict[int, int]:
