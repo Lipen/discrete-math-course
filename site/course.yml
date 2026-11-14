@@ -10,12 +10,12 @@ materials:
   - title: Правила курса
     note: Баллы, дедлайны, контроль, экзамен
     href: syllabus.pdf
-  - title: Рабочая программа
-    note: Цели, содержание, аттестация
-    href: program.pdf
   - title: Домашние задания
     note: Работы по блокам курса
     href: "#homework"
+  - title: Шпаргалки
+    note: Сжатые конспекты по темам
+    href: "#cheatsheets"
 semesters:
   - name: Осенний семестр
     tab: Осень
@@ -253,4 +253,19 @@ homework:
     title: Вычислимость и сложность
   - number: 8
     semester: 2
+    title: Комбинаторика
+cheatsheets:
+  - file: cheat1.pdf
+    title: Множества
+  - file: cheat2.pdf
+    title: Бинарные отношения
+  - file: cheat3.pdf
+    title: Булева алгебра
+  - file: cheat4.pdf
+    title: Формальная логика
+  - file: cheat5.pdf
+    title: Теория графов
+  - file: cheat6.pdf
+    title: Автоматы
+  - file: cheat7.pdf
     title: Комбинаторика

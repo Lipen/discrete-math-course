@@ -251,21 +251,22 @@ body.scrolled .up { opacity: 1; visibility: visible; pointer-events: auto; }
   }
 }
 
-/* ── Домашние задания ── */
-.hw-group { margin-top: 1.1rem; }
-.hw-group h3 {
+/* ── Карточки списков: домашки и шпаргалки ── */
+.mini-group { margin-top: 1.1rem; }
+.mini-group h3 {
   margin: 0 0 0.5rem;
   font: 600 0.72rem/1.4 var(--sans);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--fg-faint);
 }
-.hw-grid {
+.mini-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 0.6rem;
 }
-.hw {
+.mini-grid.cheats { grid-template-columns: repeat(4, 1fr); }
+.mini {
   display: flex;
   align-items: baseline;
   gap: 0.6rem;
@@ -275,8 +276,8 @@ body.scrolled .up { opacity: 1; visibility: visible; pointer-events: auto; }
   background: var(--bg-card);
   transition: border-color 0.15s ease;
 }
-.hw:hover { border-color: var(--accent); }
-.hw-n {
+.mini:hover { border-color: var(--accent); }
+.mini-n {
   flex: none;
   white-space: nowrap;
   font: 600 0.72rem/1.4 var(--sans);
@@ -284,7 +285,7 @@ body.scrolled .up { opacity: 1; visibility: visible; pointer-events: auto; }
   text-transform: uppercase;
   color: var(--fg-faint);
 }
-.hw-t { font-size: 0.95rem; }
+.mini-t { font-size: 0.95rem; }
 
 /* ── Семестр ── */
 .sem { padding-top: 2rem; scroll-margin-top: 7.6rem; }
@@ -394,7 +395,9 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); }
   .num { font-size: 1.15rem; }
   .dates { margin-top: 0; }
   .tabs { overflow-x: auto; }
-  .hw-grid { grid-template-columns: 1fr; }
+  .mini-grid { grid-template-columns: 1fr; }
+  .mini-grid.cheats { grid-template-columns: repeat(2, 1fr); }
+  .mini { flex-direction: column; align-items: flex-start; gap: 0.15rem; min-width: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {

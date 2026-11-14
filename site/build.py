@@ -194,6 +194,14 @@ def materials(content: dict) -> str:
     return f'<div class="cubes">{"".join(cubes)}</div>'
 
 
+def card(href: str, label: str, title: str) -> str:
+    return (
+        f'<a class="mini" href="{href}" target="_blank" rel="noopener">'
+        f'<span class="mini-n">{label}</span>'
+        f'<span class="mini-t">{escape(title)}</span></a>'
+    )
+
+
 def homework_section(content: dict) -> str:
     groups = []
     labels = {
@@ -202,21 +210,35 @@ def homework_section(content: dict) -> str:
     }
     for semester in (1, 2):
         cards = [
-            f'<a class="hw" href="files/hw{work["number"]}.pdf" target="_blank" rel="noopener">'
-            f'<span class="hw-n">ДЗ\u00a0{work["number"]}</span>'
-            f'<span class="hw-t">{escape(work["title"])}</span></a>'
+            card(
+                f"files/hw{work['number']}.pdf",
+                f"ДЗ\u00a0{work['number']}",
+                work["title"],
+            )
             for work in content["homework"]
             if work["semester"] == semester
             and (ROOT / "homework" / f"hw{work['number']}.pdf").is_file()
         ]
         if cards:
             groups.append(
-                f'<div class="hw-group"><h3>{escape(labels[semester])}</h3>'
-                f'<div class="hw-grid">{"".join(cards)}</div></div>'
+                f'<div class="mini-group"><h3>{escape(labels[semester])}</h3>'
+                f'<div class="mini-grid">{"".join(cards)}</div></div>'
             )
     return (
         '<section class="sem" id="homework">\n  <h2>Домашние задания</h2>\n  '
         f"{''.join(groups)}\n</section>"
+    )
+
+
+def cheatsheets_section(content: dict) -> str:
+    cards = [
+        card(f"tex/{sheet['file']}", f"Шпаргалка\u00a0{index}", sheet["title"])
+        for index, sheet in enumerate(content.get("cheatsheets") or [], start=1)
+        if (ROOT / "tex" / sheet["file"]).is_file()
+    ]
+    return (
+        '<section class="sem" id="cheatsheets">\n  <h2>Шпаргалки</h2>\n  '
+        f'<div class="mini-grid cheats">{"".join(cards)}</div>\n</section>'
     )
 
 
@@ -267,13 +289,17 @@ def main() -> int:
     sources = [
         ROOT / "book" / "book.pdf",
         ROOT / "course" / "syllabus.pdf",
-        ROOT / "course" / "program.pdf",
     ]
     sources += sorted((ROOT / "lectures").glob("s*-lec*.pdf"))
     sources += sorted((ROOT / "homework").glob("hw*.pdf"))
+    sheets = sorted((ROOT / "tex").glob("cheat*.pdf"))
     for path in sources:
         if path.is_file():
             shutil.copy2(path, FILES / path.name)
+    if sheets:
+        (DIST / "tex").mkdir(exist_ok=True)
+        for path in sheets:
+            shutil.copy2(path, DIST / "tex" / path.name)
     for name in ("theme.css", "ui.js"):
         shutil.copy2(SITE / name, DIST / name)
 
@@ -307,6 +333,7 @@ def main() -> int:
 </nav>
 {chr(10).join(sections)}
 {homework_section(content)}
+{cheatsheets_section(content)}
 </main>"""
     (DIST / "index.html").write_text(page(content["title"], body), encoding="utf-8")
     topics = sum(len(s["topics"]) for s in content["semesters"])
