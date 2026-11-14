@@ -210,7 +210,7 @@ def topic_row(
         plate = f'<div class="ctrl ctrl-{control["kind"]}">{label} {control["n"]}</div>'
     return (
         f'<li class="{" ".join(classes)}">'
-        f'<div class="when"><div class="num"><span class="cap">лекция</span> {number:02d}</div>'
+        f'<div class="when"><div class="num">{number:02d}</div>'
         f'<div class="wk">нед.\u00a0{topic["week"]}</div>'
         f'<div class="dates">{escape(tight(dates))}</div>'
         f"{plate}</div>"
@@ -225,20 +225,15 @@ def materials(content: dict) -> str:
     for item in content["materials"]:
         href = item["href"]
         title = escape(item["title"])
-        note = escape(item["note"])
         if href.startswith("#"):
             cubes.append(
-                f'<a class="cube" href="{href}">'
-                f'<span class="cube-head"><span class="cube-t">{title}</span>'
-                f'<span class="cube-fmt">к списку</span></span>'
-                f'<span class="cube-d">{note}</span></a>'
+                f'<a class="cube" href="{href}"><span class="cube-t">{title}</span></a>'
             )
         else:
             cubes.append(
                 f'<a class="cube" href="{href}" target="_blank" rel="noopener">'
                 f'<span class="cube-head"><span class="cube-t">{title}</span>'
-                f'<span class="cube-fmt">PDF</span></span>'
-                f'<span class="cube-d">{note}</span></a>'
+                f'<span class="cube-fmt">PDF</span></span></a>'
             )
     return f'<div class="cubes">{"".join(cubes)}</div>'
 
@@ -283,7 +278,6 @@ def cheatsheets_section(content: dict) -> str:
         '<li><a class="sheet" href="tex/{file}" target="_blank" rel="noopener">'
         '<span class="sheet-n">{number:02d}</span>'
         '<span class="sheet-t">{title}</span>'
-        '<span class="sheet-go">PDF<span aria-hidden="true"> ↗</span></span>'
         "</a></li>".format(
             file=escape(sheet["file"]),
             number=index,
@@ -300,14 +294,8 @@ def cheatsheets_section(content: dict) -> str:
 def legacy_section(content: dict) -> str:
     rows = "".join(
         '<li><a class="sheet" href="typst/{file}" target="_blank" rel="noopener">'
-        '<span class="sheet-n">{number:02d}</span>'
         '<span class="sheet-t">{title}</span>'
-        '<span class="sheet-go">PDF<span aria-hidden="true"> ↗</span></span>'
-        "</a></li>".format(
-            file=escape(doc["file"]),
-            number=index,
-            title=escape(doc["title"]),
-        )
+        "</a></li>".format(file=escape(doc["file"]), title=escape(doc["title"]))
         for index, doc in enumerate(content.get("legacy") or [], start=1)
     )
     if not rows:
@@ -358,7 +346,7 @@ def page(title: str, body: str) -> str:
 </header>
 {body}
 <footer class="foot">
-  <p>{escape(title)} · Университет ИТМО · 2026/27</p>
+  <p>Университет ИТМО · 2026/27</p>
   <p><a href="https://github.com/Lipen/discrete-math-course">Исходники курса</a></p>
 </footer>
 <script src="ui.js"></script>
@@ -421,16 +409,9 @@ def main() -> int:
             for index, topic in enumerate(semester["topics"], start=1)
         )
         tabs.append(f'<a href="#sem{number}">{escape(semester["tab"])}</a>')
-        week_list = [topic["week"] for topic in semester["topics"]]
-        note = (
-            f"{len(week_list)} лекций \u00b7 недели {min(week_list)}\u2013{max(week_list)}"
-            if week_list
-            else ""
-        )
         sections.append(
             f"""<section class="sem" id="sem{number}">
   <h2>{escape(semester["name"])}</h2>
-  <p class="sem-note">{note}</p>
   <ol class="weeks">
 {rows}
   </ol>
@@ -443,7 +424,6 @@ def main() -> int:
 <header class="hero">
   <p class="kicker">{escape(content["university"])} · {escape(content["year"])}</p>
   <h1>{escape(content["title"])}</h1>
-  <p class="lede">{escape(content["lede"])}</p>
   {materials(content)}
 </header>
 <nav class="tabs" aria-label="Разделы">

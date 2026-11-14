@@ -184,7 +184,6 @@ a.cube:hover { border-color: var(--accent); background: var(--bg-soft); }
   transition: color 0.15s ease, border-color 0.15s ease;
 }
 a.cube:hover .cube-fmt { color: var(--accent); border-color: currentColor; }
-.cube-d { font-size: 0.85rem; color: var(--fg-faint); }
 
 /* ── Вкладки семестров ── */
 .tabs {
@@ -314,22 +313,9 @@ body.scrolled .up { opacity: 1; visibility: visible; pointer-events: auto; }
 }
 .sheet-t { font-size: 1rem; }
 .sheet:hover .sheet-t { text-decoration: underline; text-underline-offset: 0.18em; }
-.sheet-go {
-  flex: none;
-  font: 600 0.72rem/1.4 var(--sans);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--fg-faint);
-}
-.sheet:hover .sheet-go { color: var(--accent); }
 
 /* ── Семестр ── */
 .sem { padding-top: 2rem; scroll-margin-top: 7.6rem; }
-.sem-note {
-  margin: 0 0 1rem;
-  font-size: 0.85rem;
-  color: var(--fg-faint);
-}
 .sem h2 {
   margin: 0 0 0.35rem;
   font-size: 1.5rem;
@@ -352,14 +338,6 @@ body.scrolled .up { opacity: 1; visibility: visible; pointer-events: auto; }
 
 .when { color: var(--fg-faint); }
 .num { font-size: 1.4rem; font-weight: 650; line-height: 1; letter-spacing: -0.03em; }
-.num .cap {
-  margin-right: 0.3rem;
-  font: 600 0.7rem/1.2 var(--sans);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--fg-faint);
-  vertical-align: 0.5em;
-}
 .wk {
   margin-top: 0.15rem;
   font: 600 0.7rem/1.4 var(--sans);
