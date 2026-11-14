@@ -1,13 +1,10 @@
-//! Group homomorphisms: maps that preserve the operation, their kernels and
-//! images, cosets, and the quotient group behind the first isomorphism
-//! theorem.
+//! Group homomorphisms: maps that preserve the operation, their kernels and images, cosets, and the quotient group behind the first isomorphism theorem.
 
 use crate::traits::Group;
 
 /// Whether `f: G -> H` preserves the operation on every pair of `elems`.
 ///
-/// `elems` is the complete element list of a finite group `G`, and the check
-/// is `f(a op b) == f(a) op f(b)` for all `a`, `b`.
+/// `elems` is the complete element list of a finite group `G`, and the check is `f(a op b) == f(a) op f(b)` for all `a`, `b`.
 pub fn is_homomorphism<G: Group, H: Group>(elems: &[G], f: &dyn Fn(&G) -> H) -> bool {
     for a in elems {
         for b in elems {
@@ -39,8 +36,7 @@ pub fn image<G: Group, H: Group>(elems: &[G], f: &dyn Fn(&G) -> H) -> Vec<H> {
 
 /// The left cosets `gK` of a subgroup `K` in a finite group, one per coset.
 ///
-/// `group` is the complete element list, and `subgroup` is a subgroup of it
-/// (its own complete element list).
+/// `group` is the complete element list, and `subgroup` is a subgroup of it (its own complete element list).
 /// Returns each distinct coset `{ g*k : k in K }` as a list of group elements.
 pub fn left_cosets<G: Group>(group: &[G], subgroup: &[G]) -> Vec<Vec<G>> {
     let mut seen: Vec<G> = Vec::new();
@@ -70,12 +66,9 @@ pub fn is_normal<G: Group>(group: &[G], subgroup: &[G]) -> bool {
     true
 }
 
-/// The coset containing `g.op(h)`, where `g` and `h` are representatives of
-/// two cosets of `cosets` (the quotient's coset list from [`left_cosets`]).
+/// The coset containing `g.op(h)`, where `g` and `h` are representatives of two cosets of `cosets` (the quotient's coset list from [`left_cosets`]).
 ///
-/// For a normal subgroup this coset does not depend on the choice of
-/// representatives -- that independence is exactly what makes the quotient a
-/// group.
+/// For a normal subgroup this coset does not depend on the choice of representatives -- that independence is exactly what makes the quotient a group.
 pub fn coset_product<G: Group>(cosets: &[Vec<G>], g: &G, h: &G) -> Vec<G> {
     let gh = g.op(h);
     cosets

@@ -1,8 +1,7 @@
 //! The exact spots where `u64` arithmetic breaks, and the same values computed exactly.
 //!
 //! Built-in addition and multiplication wrap or panic past `2^64 - 1`.
-//! The demo locates the first overflow in the factorial and Fibonacci
-//! sequences, then recomputes the same sequences with the crate.
+//! The demo locates the first overflow in the factorial and Fibonacci sequences, then recomputes the same sequences with the crate.
 
 use bignum::integer::{factorial, fibonacci, BigInt};
 

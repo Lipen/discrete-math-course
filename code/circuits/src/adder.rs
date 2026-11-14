@@ -1,8 +1,7 @@
 //! Adders built from gates.
 //!
 //! A half adder is two gates, a full adder is five.
-//! Chaining `n` full adders gives a ripple-carry adder: the carry travels
-//! through every bit, so size and depth both grow linearly with the width.
+//! Chaining `n` full adders gives a ripple-carry adder: the carry travels through every bit, so size and depth both grow linearly with the width.
 
 use crate::circuit::{Circuit, CircuitError, NodeId};
 
@@ -13,11 +12,10 @@ pub fn half_adder(c: &mut Circuit, a: NodeId, b: NodeId) -> (NodeId, NodeId) {
     (sum, carry)
 }
 
-/// A full adder: `S = A XOR B XOR C_in`, and `C_out` is the majority of the
-/// three inputs. Returns `(sum, carry_out)`.
+/// A full adder: `S = A XOR B XOR C_in`, and `C_out` is the majority of the three inputs.
+/// Returns `(sum, carry_out)`.
 ///
-/// `A XOR B` is computed once and reused by both the sum and the carry, so
-/// the circuit is two XORs, two ANDs, and one OR -- five gates in total.
+/// `A XOR B` is computed once and reused by both the sum and the carry, so the circuit is two XORs, two ANDs, and one OR -- five gates in total.
 pub fn full_adder(c: &mut Circuit, a: NodeId, b: NodeId, c_in: NodeId) -> (NodeId, NodeId) {
     let a_xor_b = c.xor(a, b);
     let sum = c.xor(a_xor_b, c_in);
@@ -30,9 +28,7 @@ pub fn full_adder(c: &mut Circuit, a: NodeId, b: NodeId, c_in: NodeId) -> (NodeI
 
 /// A bitwise adder: a circuit that adds two `n`-bit operands.
 ///
-/// The primary inputs are laid out as `A_0..A_{n-1}` at indices `0..n` and
-/// `B_0..B_{n-1}` at indices `n..2n`, least significant bit first.
-/// [`Adder::add`] and [`Adder::add_bits`] build the assignment for you.
+/// The primary inputs are laid out as `A_0..A_{n-1}` at indices `0..n` and `B_0..B_{n-1}` at indices `n..2n`, least significant bit first. [`Adder::add`] and [`Adder::add_bits`] build the assignment for you.
 pub struct Adder {
     /// The underlying circuit.
     pub circuit: Circuit,
@@ -52,24 +48,23 @@ impl Adder {
         self.a.len()
     }
 
-    /// Add two integers. Returns `(sum, carry_out)` where `sum` is the low
-    /// `n` bits (as an integer) and `carry_out` is the `(n+1)`-th bit.
+    /// Add two integers.
+    /// Returns `(sum, carry_out)` where `sum` is the low `n` bits (as an integer) and `carry_out` is the `(n+1)`-th bit.
     pub fn add(&self, x: u64, y: u64) -> Result<(u64, bool), CircuitError> {
         let n = self.bits();
         let (sum_bits, carry) = self.add_bits(&bits_of(x, n), &bits_of(y, n))?;
         Ok((value_of(&sum_bits), carry))
     }
 
-    /// Add two integers and combine `sum` and the final carry into one exact
-    /// result: `x + y` (which may need `n + 1` bits).
+    /// Add two integers and combine `sum` and the final carry into one exact result: `x + y` (which may need `n + 1` bits).
     pub fn add_exact(&self, x: u64, y: u64) -> Result<u128, CircuitError> {
         let n = self.bits();
         let (sum, carry) = self.add(x, y)?;
         Ok(sum as u128 + ((carry as u128) << n))
     }
 
-    /// Add two LSB-first bit slices and return the `n` sum bits plus the final
-    /// carry. Every slice must have `bits()` entries.
+    /// Add two LSB-first bit slices and return the `n` sum bits plus the final carry.
+    /// Every slice must have `bits()` entries.
     pub fn add_bits(&self, x: &[bool], y: &[bool]) -> Result<(Vec<bool>, bool), CircuitError> {
         let n = self.bits();
         if x.len() != n || y.len() != n {

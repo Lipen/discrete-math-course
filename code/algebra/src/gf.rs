@@ -1,28 +1,20 @@
-//! The finite fields `GF(2^m)`: polynomials over `GF(2)` modulo an
-//! irreducible polynomial.
+//! The finite fields `GF(2^m)`: polynomials over `GF(2)` modulo an irreducible polynomial.
 //!
-//! The field `GF(2^m)` is `GF(2)[x] / (f(x))` for an irreducible `f` of
-//! degree `m`, the case used by AES and by linear codes over `GF(2)`.
-//! Addition is XOR, multiplication is polynomial multiplication reduced mod
-//! the irreducible modulus, and every nonzero element has an inverse found
-//! by the extended Euclidean algorithm on polynomials.
+//! The field `GF(2^m)` is `GF(2)[x] / (f(x))` for an irreducible `f` of degree `m`, the case used by AES and by linear codes over `GF(2)`.
+//! Addition is XOR, multiplication is polynomial multiplication reduced mod the irreducible modulus, and every nonzero element has an inverse found by the extended Euclidean algorithm on polynomials.
 
 use std::fmt;
 
 use crate::traits::{Field, Ring};
 
-/// An element of `GF(2^m)`: a polynomial over `GF(2)` of degree `< m`, stored
-/// as its coefficient bits (bit `i` is the coefficient of `x^i`).
+/// An element of `GF(2^m)`: a polynomial over `GF(2)` of degree `< m`, stored as its coefficient bits (bit `i` is the coefficient of `x^i`).
 ///
-/// The field is `GF(2)[x] / (MOD)`, where `MOD` is an irreducible polynomial
-/// of degree `m` (its degree-`m` bit included).
-/// `M` is the degree `m`, and [`Gf::new`] builds elements by masking off
-/// bits of degree `>= m`.
+/// The field is `GF(2)[x] / (MOD)`, where `MOD` is an irreducible polynomial of degree `m` (its degree-`m` bit included).
+/// `M` is the degree `m`, and [`Gf::new`] builds elements by masking off bits of degree `>= m`.
 #[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
 pub struct Gf<const M: usize, const MOD: u64>(pub u64);
 
-/// `GF(4) = GF(2)[x] / (x^2 + x + 1)`: the field of four elements, with the
-/// root `alpha = x` satisfying `alpha^2 = alpha + 1`.
+/// `GF(4) = GF(2)[x] / (x^2 + x + 1)`: the field of four elements, with the root `alpha = x` satisfying `alpha^2 = alpha + 1`.
 pub type Gf4 = Gf<2, 0b111>;
 
 /// `GF(256) = GF(2)[x] / (x^8 + x^4 + x^3 + x + 1)`: the byte field behind
@@ -59,8 +51,7 @@ impl<const M: usize, const MOD: u64> Gf<M, MOD> {
         result
     }
 
-    /// The multiplicative order: the smallest `k >= 1` with `self^k == 1`, or
-    /// `None` for zero (which has no multiplicative order).
+    /// The multiplicative order: the smallest `k >= 1` with `self^k == 1`, or `None` for zero (which has no multiplicative order).
     pub fn order(&self) -> Option<u64> {
         if self.0 == 0 {
             return None;
@@ -81,8 +72,7 @@ impl<const M: usize, const MOD: u64> Gf<M, MOD> {
         (0..(1u64 << M)).map(Gf::new).collect()
     }
 
-    /// A primitive element: one of order `2^m - 1`, whose powers run through
-    /// every nonzero element of the field.
+    /// A primitive element: one of order `2^m - 1`, whose powers run through every nonzero element of the field.
     pub fn primitive_element() -> Self {
         let q = (1u64 << M) - 1;
         for g in 1..(1u64 << M) {
@@ -138,8 +128,7 @@ impl<const M: usize, const MOD: u64> Field for Gf<M, MOD> {
         if self.0 == 0 {
             return None;
         }
-        // Extended Euclidean algorithm on polynomials: track `t` so that
-        // `t * a == 1 (mod MOD)` when the remainder reaches the gcd `1`.
+        // Extended Euclidean algorithm on polynomials: track `t` so that `t * a == 1 (mod MOD)` when the remainder reaches the gcd `1`.
         let (mut r0, mut r1) = (MOD, self.0);
         let (mut t0, mut t1) = (0u64, 1u64);
         while r1 != 0 {

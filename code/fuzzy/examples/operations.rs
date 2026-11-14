@@ -1,5 +1,4 @@
-//! Zadeh operations, the three t-norm families, and the failure of the law
-//! of the excluded middle.
+//! Zadeh operations, the three t-norm families, and the failure of the law of the excluded middle.
 
 use fuzzy::{FuzzySet, TNorm};
 

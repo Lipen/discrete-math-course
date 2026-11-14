@@ -1,12 +1,9 @@
 //! Nondeterministic finite automata (NFA) and the subset construction.
 //!
-//! An NFA may have several transitions from a state on the same symbol,
-//! plus epsilon transitions (on the empty string).
-//! A word is accepted if there exists a path that reads the entire word
-//! and ends in an accepting state.
+//! An NFA may have several transitions from a state on the same symbol, plus epsilon transitions (on the empty string).
+//! A word is accepted if there exists a path that reads the entire word and ends in an accepting state.
 //!
-//! The subset construction ([`Nfa::to_dfa`]) turns an NFA into an
-//! equivalent DFA by treating each subset of NFA states as a single DFA state.
+//! The subset construction ([`Nfa::to_dfa`]) turns an NFA into an equivalent DFA by treating each subset of NFA states as a single DFA state.
 //!
 //! ```
 //! use automata::Nfa;
@@ -41,8 +38,7 @@ use crate::dfa::Dfa;
 
 /// A nondeterministic finite automaton with epsilon transitions.
 ///
-/// States are added via [`add_state`](Self::add_state) and return
-/// consecutive integer identifiers.
+/// States are added via [`add_state`](Self::add_state) and return consecutive integer identifiers.
 /// Transitions on symbols go to sets of states.
 /// Epsilon transitions go to single states.
 #[derive(Debug, Clone)]
@@ -116,8 +112,7 @@ impl Nfa {
 
     /// Adds a transition from `from` to `to` on symbol `sym`.
     ///
-    /// Multiple transitions on the same symbol are allowed (that is
-    /// the nondeterminism).
+    /// Multiple transitions on the same symbol are allowed (that is the nondeterminism).
     ///
     /// # Errors
     ///
@@ -142,8 +137,7 @@ impl Nfa {
 
     /// Adds an epsilon transition from `from` to `to`.
     ///
-    /// An epsilon transition is a spontaneous move: the automaton can
-    /// jump to the target state without reading a symbol.
+    /// An epsilon transition is a spontaneous move: the automaton can jump to the target state without reading a symbol.
     ///
     /// ```
     /// use automata::Nfa;
@@ -195,8 +189,7 @@ impl Nfa {
         state < self.accepting.len() && self.accepting[state]
     }
 
-    /// Epsilon closure of a set of states: everything reachable by a
-    /// chain of epsilon transitions (including the original states).
+    /// Epsilon closure of a set of states: everything reachable by a chain of epsilon transitions (including the original states).
     ///
     /// ```
     /// use automata::Nfa;
@@ -227,9 +220,7 @@ impl Nfa {
 
     /// Whether the automaton accepts a word.
     ///
-    /// Starting from the epsilon closure of the start state, processes
-    /// each symbol by computing the set of reachable states and taking
-    /// their epsilon closure.
+    /// Starting from the epsilon closure of the start state, processes each symbol by computing the set of reachable states and taking their epsilon closure.
     ///
     /// ```
     /// use automata::Nfa;
@@ -265,10 +256,8 @@ impl Nfa {
 
     /// Subset construction: turns an NFA into an equivalent DFA.
     ///
-    /// Each DFA state corresponds to a set (the epsilon closure of
-    /// a subset) of NFA states.
-    /// An empty subset maps to the DFA's implicit trap state: the
-    /// transition is left undefined, which the DFA treats as rejection.
+    /// Each DFA state corresponds to a set (the epsilon closure of a subset) of NFA states.
+    /// An empty subset maps to the DFA's implicit trap state: the transition is left undefined, which the DFA treats as rejection.
     ///
     /// ```
     /// use automata::Nfa;

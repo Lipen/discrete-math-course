@@ -1,5 +1,4 @@
-//! Fuzzy relations and max-min composition: four towns on one road, with
-//! "x is close to y" as the relation.
+//! Fuzzy relations and max-min composition: four towns on one road, with "x is close to y" as the relation.
 
 use fuzzy::FuzzyRelation;
 

@@ -1,5 +1,4 @@
-//! A homomorphism Z_6 -> Z_3, its kernel and cosets, and the first
-//! isomorphism theorem.
+//! A homomorphism Z_6 -> Z_3, its kernel and cosets, and the first isomorphism theorem.
 
 use algebra::homomorphism::{
     coset_product, image, is_homomorphism, is_normal, kernel, left_cosets,

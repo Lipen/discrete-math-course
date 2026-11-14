@@ -1,9 +1,8 @@
 //! EX vs AX on a branching Kripke structure.
 //!
-//! State 0 branches into 1 and 2, state 1 continues into 2, and state 2 is
-//! a dead end. The single atom holds only in state 2. The example contrasts
-//! the existential and universal next-step modalities and shows the vacuous
-//! truth of `AX` at the dead end.
+//! State 0 branches into 1 and 2, state 1 continues into 2, and state 2 is a dead end.
+//! The single atom holds only in state 2.
+//! The example contrasts the existential and universal next-step modalities and shows the vacuous truth of `AX` at the dead end.
 
 use model_checking::{check, Formula, Kripke};
 

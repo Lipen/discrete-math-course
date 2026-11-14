@@ -1,8 +1,7 @@
 //! Hamming(7,4) code: encode, detect, and correct a single error.
 //!
-//! Data bits `d1 d2 d3 d4` sit at positions 3, 5, 6, 7; parity bits `p1`, `p2`,
-//! `p4` at positions 1, 2, 4. Each parity bit is the xor of the data bits it
-//! covers:
+//! Data bits `d1 d2 d3 d4` sit at positions 3, 5, 6, 7; parity bits `p1`, `p2`, `p4` at positions 1, 2, 4.
+//! Each parity bit is the xor of the data bits it covers:
 //!
 //! ```text
 //! p1 = d1 ^ d2 ^ d4    (covers positions 1, 3, 5, 7)
@@ -10,11 +9,8 @@
 //! p4 = d2 ^ d3 ^ d4    (covers positions 4, 5, 6, 7)
 //! ```
 //!
-//! The syndrome -- recomputed parity of the received word -- forms a 3-bit
-//! number `(s4 s2 s1)`: zero for a valid codeword, else the 1-based position of
-//! the flipped bit. The trick works because codeword position `i` is covered
-//! by exactly the parity bits whose numbers appear in the binary expansion of
-//! `i`, so the syndrome bits spell out the position.
+//! The syndrome -- recomputed parity of the received word -- forms a 3-bit number `(s4 s2 s1)`: zero for a valid codeword, else the 1-based position of the flipped bit.
+//! The trick works because codeword position `i` is covered by exactly the parity bits whose numbers appear in the binary expansion of `i`, so the syndrome bits spell out the position.
 
 /// Encodes 4 data bits into a 7-bit Hamming codeword.
 ///
@@ -79,8 +75,8 @@ pub struct Decoded {
 
 /// Decodes a 7-bit word, correcting a single error if present.
 ///
-/// The syndrome points at the flipped bit. With two errors it points at a wrong
-/// position -- the decoder still "corrects" something, so the result is wrong.
+/// The syndrome points at the flipped bit.
+/// With two errors it points at a wrong position -- the decoder still "corrects" something, so the result is wrong.
 ///
 /// ```
 /// let data = [true, false, true, true];
@@ -192,8 +188,7 @@ mod tests {
 
     #[test]
     fn syndrome_table_covers_all_single_error_positions() {
-        // For any position 1..7, there exists a codeword whose syndrome at that
-        // position equals the position number.
+        // For any position 1..7, there exists a codeword whose syndrome at that position equals the position number.
         let data = [false, false, false, false];
         let word = encode(data); // all zeros -> parity bits are 0, codeword is all zeros
         for pos in 1..=7 {
@@ -205,11 +200,7 @@ mod tests {
 
     #[test]
     fn encode_one_hand_computed() {
-        // Manual check: data 0001 (d1=0, d2=0, d3=0, d4=1).
-        // p1 = 0 ^ 0 ^ 1 = 1
-        // p2 = 0 ^ 0 ^ 1 = 1
-        // p4 = 0 ^ 0 ^ 1 = 1
-        // Word: [p1, p2, d1, p4, d2, d3, d4] = [1,1,0,1,0,0,1].
+        // Manual check: data 0001 (d1=0, d2=0, d3=0, d4=1). p1 = 0 ^ 0 ^ 1 = 1 p2 = 0 ^ 0 ^ 1 = 1 p4 = 0 ^ 0 ^ 1 = 1 Word: [p1, p2, d1, p4, d2, d3, d4] = [1,1,0,1,0,0,1].
         assert_eq!(
             encode([false, false, false, true]),
             [true, true, false, true, false, false, true]

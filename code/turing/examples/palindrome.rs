@@ -1,12 +1,10 @@
 //! A machine that checks whether a word over {0, 1} is a palindrome.
 //!
-//! The algorithm crosses out matching symbols from both ends. It remembers
-//! the leftmost uncrossed symbol, moves to the right end, checks that the
-//! rightmost uncrossed symbol matches, crosses it out, and returns left.
+//! The algorithm crosses out matching symbols from both ends.
+//! It remembers the leftmost uncrossed symbol, moves to the right end, checks that the rightmost uncrossed symbol matches, crosses it out, and returns left.
 //! The process repeats until all symbols are matched or a mismatch appears.
 //!
-//! This example runs the machine on several words and prints a trace for
-//! one palindrome and one non-palindrome.
+//! This example runs the machine on several words and prints a trace for one palindrome and one non-palindrome.
 
 use turing::{machines, Tape};
 

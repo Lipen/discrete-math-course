@@ -1,12 +1,9 @@
 //! A finite group given only by its Cayley table.
 //!
-//! Here a group is pure data: a set of elements labelled `0..n` plus a
-//! multiplication table.
-//! Nothing about the operation is known except the table, and
-//! [`TableGroup::is_group`] checks the axioms against the data.
+//! Here a group is pure data: a set of elements labelled `0..n` plus a multiplication table.
+//! Nothing about the operation is known except the table, and [`TableGroup::is_group`] checks the axioms against the data.
 
-/// A finite group specified by data: elements `0..n` and a table
-/// `table[i][j] = k`, where `k` is the label of the product of `i` and `j`.
+/// A finite group specified by data: elements `0..n` and a table `table[i][j] = k`, where `k` is the label of the product of `i` and `j`.
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct TableGroup {
     /// Number of elements.
@@ -49,8 +46,7 @@ impl TableGroup {
         }
     }
 
-    /// Whether the table defines a group: closed, associative, with an
-    /// identity and inverses.
+    /// Whether the table defines a group: closed, associative, with an identity and inverses.
     pub fn is_group(&self) -> bool {
         self.is_closed()
             && self.is_associative()

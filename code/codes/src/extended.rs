@@ -1,9 +1,7 @@
 //! Extended Hamming(8, 4, 4): Hamming(7,4) plus an overall parity bit.
 //!
-//! The extra bit makes every codeword have an even number of ones, raising the
-//! minimum distance from 3 to 4. The decoder still corrects a single error and
-//! now also detects a double error -- the case that Hamming(7,4) silently
-//! miscorrects.
+//! The extra bit makes every codeword have an even number of ones, raising the minimum distance from 3 to 4.
+//! The decoder still corrects a single error and now also detects a double error -- the case that Hamming(7,4) silently miscorrects.
 //!
 //! ## Decoding logic
 //!
@@ -19,8 +17,7 @@ use crate::hamming;
 /// Encodes 4 data bits into an 8-bit extended Hamming codeword.
 ///
 /// The first 7 bits are the Hamming(7,4) codeword.
-/// Bit 8 is the overall parity, chosen so that the whole word has an even
-/// number of ones.
+/// Bit 8 is the overall parity, chosen so that the whole word has an even number of ones.
 ///
 /// ```
 /// let word = codes::extended::encode([true, false, true, true]);
@@ -58,10 +55,8 @@ pub struct Decoded {
 /// Decodes an 8-bit word: corrects a single error, detects a double one.
 ///
 /// The syndrome says where a single error would be.
-/// The overall parity says whether the number of errors is odd (one) or
-/// even (zero or two). When both
-/// indicate trouble -- nonzero syndrome with even parity -- it is two errors,
-/// and the decoder reports `Double` instead of correcting the wrong bit.
+/// The overall parity says whether the number of errors is odd (one) or even (zero or two).
+/// When both indicate trouble -- nonzero syndrome with even parity -- it is two errors, and the decoder reports `Double` instead of correcting the wrong bit.
 ///
 /// ```
 /// let data = [true, false, true, true];

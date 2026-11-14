@@ -1,7 +1,6 @@
 //! Finite automata and regular languages.
 //!
-//! DFAs, NFAs (with epsilon transitions), the subset construction and
-//! operations on languages (complement, union, intersection, difference).
+//! DFAs, NFAs (with epsilon transitions), the subset construction and operations on languages (complement, union, intersection, difference).
 //!
 //! ```
 //! use automata::{Dfa, Nfa};

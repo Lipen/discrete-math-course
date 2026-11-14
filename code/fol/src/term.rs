@@ -39,8 +39,8 @@ impl Term {
         }
     }
 
-    /// Replace every occurrence of the variable `x` by `with`. Terms have no
-    /// binders, so no renaming is needed.
+    /// Replace every occurrence of the variable `x` by `with`.
+    /// Terms have no binders, so no renaming is needed.
     pub fn substitute(&self, x: &str, with: &Term) -> Term {
         match self {
             Term::Var(y) => {

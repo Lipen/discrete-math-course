@@ -1,8 +1,6 @@
 //! Modular arithmetic on `u64`.
 //!
-//! The toolbox for the number-theory part:
-//! GCD (Euclid), extended GCD, modular inverse, and fast exponentiation
-//! by repeated squaring.
+//! The toolbox for the number-theory part: GCD (Euclid), extended GCD, modular inverse, and fast exponentiation by repeated squaring.
 
 /// Euclid's algorithm: the greatest common divisor of `a` and `b`.
 ///

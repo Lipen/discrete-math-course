@@ -19,8 +19,7 @@ use crate::set::FuzzySet;
 
 /// A triangular fuzzy number `(l, m, r)`, "about `m`".
 ///
-/// Membership is `0` outside `[l, r]`, rises linearly from `l` to the mode
-/// `m` (where it is `1`), and falls linearly back to `r`.
+/// Membership is `0` outside `[l, r]`, rises linearly from `l` to the mode `m` (where it is `1`), and falls linearly back to `r`.
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct Triangular {
     /// Left edge: membership is 0 at and below `left`, then rises linearly.

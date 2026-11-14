@@ -4,8 +4,7 @@ use fol::formula::{forall, pred};
 use fol::term::{func, var};
 
 fn main() {
-    // The replacement f(y) mentions y, so the bound y is renamed before the
-    // incoming term slides in -- otherwise the free y would be captured.
+    // The replacement f(y) mentions y, so the bound y is renamed before the incoming term slides in -- otherwise the free y would be captured.
     let f = forall("y", pred("P", vec![var("x"), var("y")]));
     let g = func("f", vec![var("y")]);
     println!("formula:          {f}");

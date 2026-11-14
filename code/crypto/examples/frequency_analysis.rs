@@ -1,16 +1,13 @@
 //! Frequency analysis.
 //!
-//! In English text the letter "e" is the most frequent. If a simple substitution
-//! cipher replaces each letter with a fixed one, the most frequent ciphertext
-//! letter most likely corresponds to the most frequent letter of the language --
-//! and the substitution can be recovered from the frequencies.
+//! In English text the letter "e" is the most frequent.
+//! If a simple substitution cipher replaces each letter with a fixed one, the most frequent ciphertext letter most likely corresponds to the most frequent letter of the language -- and the substitution can be recovered from the frequencies.
 
 use std::collections::HashMap;
 
 fn main() {
-    // Simple substitution ciphertext (Atbash: each letter mirrored around the
-    // middle of the alphabet). The most frequent English letter "e" was
-    // replaced by "v", so "v" dominates the counts below.
+    // Simple substitution ciphertext (Atbash: each letter mirrored around the middle of the alphabet).
+    // The most frequent English letter "e" was replaced by "v", so "v" dominates the counts below.
     let cipher = "GSV GIVVH ZIV TIVVM ZMW GSV HVZ RH WVVK ZMW UIVV";
 
     let mut counts: HashMap<char, usize> = HashMap::new();

@@ -1,9 +1,8 @@
 //! What happens at 0, 1, 2, or 3 flipped bits: the limits of the parity code.
 //!
-//! The appended parity bit makes the word have an even number of ones, so any
-//! odd number of errors fails the check -- and an even number slips through
-//! unnoticed. Parity detects, but never corrects. Flipped bits are drawn in
-//! red when the terminal supports it.
+//! The appended parity bit makes the word have an even number of ones, so any odd number of errors fails the check -- and an even number slips through unnoticed.
+//! Parity detects, but never corrects.
+//! Flipped bits are drawn in red when the terminal supports it.
 
 use codes::{parity_encode, parity_ok};
 use std::io::IsTerminal;

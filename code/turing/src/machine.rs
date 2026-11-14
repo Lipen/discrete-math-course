@@ -1,12 +1,8 @@
 //! The Turing machine: states, transitions, and execution.
 //!
-//! A machine is a transition table (a partial function from
-//! (state, symbol) to (symbol, direction, next-state)) together with
-//! designated start, accept, and reject states.
+//! A machine is a transition table (a partial function from (state, symbol) to (symbol, direction, next-state)) together with designated start, accept, and reject states.
 //!
-//! A **run** executes the machine step by step, recording every
-//! configuration until the machine accepts, rejects, gets stuck
-//! (no applicable transition), or hits a step limit.
+//! A **run** executes the machine step by step, recording every configuration until the machine accepts, rejects, gets stuck (no applicable transition), or hits a step limit.
 
 use std::collections::HashMap;
 use std::fmt;
@@ -60,9 +56,8 @@ pub enum Outcome {
     /// No transition applied.
     /// The machine neither accepts nor rejects.
     ///
-    /// In the theoretical model this is the same as a rejection -- a machine
-    /// that halts without accepting is said to reject the input. Here the two
-    /// are told apart so that a trace shows *why* the word was not accepted.
+    /// In the theoretical model this is the same as a rejection -- a machine that halts without accepting is said to reject the input.
+    /// Here the two are told apart so that a trace shows *why* the word was not accepted.
     Stuck,
     /// The step limit was reached before the machine halted.
     Limit,
@@ -79,8 +74,7 @@ impl fmt::Display for Outcome {
     }
 }
 
-/// The full trace of a computation: every configuration visited, together
-/// with the outcome.
+/// The full trace of a computation: every configuration visited, together with the outcome.
 #[derive(Debug, Clone)]
 pub struct Run<Sym, State> {
     /// How the run ended.
@@ -91,16 +85,12 @@ pub struct Run<Sym, State> {
 
 /// A Turing machine.
 ///
-/// Holds the transition table (a partial function) and the designated start,
-/// accept, and reject states. The machine is deterministic: at most one
-/// transition applies to any (state, symbol) pair.
+/// Holds the transition table (a partial function) and the designated start, accept, and reject states.
+/// The machine is deterministic: at most one transition applies to any (state, symbol) pair.
 ///
 /// The sets Q, Σ and Γ of the formal definition are not stored separately.
-/// The state set Q is the states the table mentions plus `start`, `accept`,
-/// and `reject`; the tape alphabet Γ is whatever the symbol type can hold.
-/// There is no separate input alphabet Σ: a word is laid on the tape before
-/// the run, and the machine may read and write any symbol, including markers
-/// such as the `X` used by the example machines.
+/// The state set Q is the states the table mentions plus `start`, `accept`, and `reject`; the tape alphabet Γ is whatever the symbol type can hold.
+/// There is no separate input alphabet Σ: a word is laid on the tape before the run, and the machine may read and write any symbol, including markers such as the `X` used by the example machines.
 ///
 /// ```
 /// use std::collections::HashMap;
@@ -202,8 +192,7 @@ where
         &self.reject
     }
 
-    /// Computes the next configuration from `config`, or `None` if no
-    /// transition applies.
+    /// Computes the next configuration from `config`, or `None` if no transition applies.
     ///
     /// ```
     /// use std::collections::HashMap;
@@ -239,9 +228,7 @@ where
     /// A machine that has not halted by then ends with `Outcome::Limit`
     /// instead of running forever.
     ///
-    /// `Limit` is an engineering substitute for non-termination, not a
-    /// theoretical outcome: whether a machine stops at all is undecidable, so
-    /// a finite trace simply gives up after `max_steps`.
+    /// `Limit` is an engineering substitute for non-termination, not a theoretical outcome: whether a machine stops at all is undecidable, so a finite trace simply gives up after `max_steps`.
     ///
     /// ```
     /// use std::collections::HashMap;

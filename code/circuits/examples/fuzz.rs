@@ -1,9 +1,8 @@
 //! Fuzz the ripple-carry adder against ordinary integer addition.
 //!
-//! For a range of bit widths, build the ripple-carry adder and check a batch
-//! of random operand pairs. Every result must agree with plain integer
-//! arithmetic (done in `u128` so the carry never overflows). The demo prints
-//! how many cases were checked and whether any failed.
+//! For a range of bit widths, build the ripple-carry adder and check a batch of random operand pairs.
+//! Every result must agree with plain integer arithmetic (done in `u128` so the carry never overflows).
+//! The demo prints how many cases were checked and whether any failed.
 
 use circuits::ripple_carry_adder;
 

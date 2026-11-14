@@ -359,10 +359,8 @@ pub fn dijkstra(g: &Graph, start: usize) -> ShortestPaths {
     let mut dist: Vec<Option<i64>> = vec![None; n];
     let mut prev = vec![None; n];
 
-    // Rust's heap is a max-heap, so we store (distance, vertex) inside
-    // Reverse: the minimum is popped first. A vertex is pushed again every
-    // time its distance improves, so the heap holds stale entries too; they
-    // are discarded below.
+    // Rust's heap is a max-heap, so we store (distance, vertex) inside Reverse: the minimum is popped first.
+    // A vertex is pushed again every time its distance improves, so the heap holds stale entries too; they are discarded below.
     let mut heap = BinaryHeap::new();
     dist[start] = Some(0);
     heap.push(Reverse((0, start)));
@@ -523,8 +521,7 @@ pub fn prim(g: &Graph) -> Vec<usize> {
         if in_tree[start] {
             continue;
         }
-        // Grow a tree in the component of `start`: each connected component
-        // gets its own tree, so a disconnected graph yields a spanning forest.
+        // Grow a tree in the component of `start`: each connected component gets its own tree, so a disconnected graph yields a spanning forest.
         in_tree[start] = true;
         let mut heap: BinaryHeap<(Reverse<i64>, usize, usize)> = BinaryHeap::new();
         for &(to, e) in &g.adj[start] {
@@ -607,8 +604,7 @@ pub fn find_eulerian_path(g: &Graph) -> Option<Vec<usize>> {
             None => (0..n).find(|&u| g.degree(u) > 0)?,
         }
     } else {
-        // A self-loop (u -> u) counts 1 in the model's degree, but Euler's
-        // criterion needs it to count 2: add loops to the degree.
+        // A self-loop (u -> u) counts 1 in the model's degree, but Euler's criterion needs it to count 2: add loops to the degree.
         let mut odd = None;
         let mut odd_count = 0;
         for u in 0..n {
@@ -637,9 +633,7 @@ pub fn find_eulerian_path(g: &Graph) -> Option<Vec<usize>> {
     let mut trail = Vec::new();
 
     while let Some(&u) = stack.last() {
-        // Skip already-eaten edges. adj[u][next[u]] is a pair
-        // (neighbor, edge id); if that edge is already used (from the other
-        // end), the entry is no longer considered.
+        // Skip already-eaten edges. adj[u][next[u]] is a pair (neighbor, edge id); if that edge is already used (from the other end), the entry is no longer considered.
         while next[u] < adj[u].len() && used[adj[u][next[u]].1] {
             next[u] += 1;
         }
@@ -1383,9 +1377,7 @@ mod tests {
 
     #[test]
     fn greedy_coloring_bipartite_bad_order_uses_three() {
-        // Bipartite graph (parts {0, 2, 4} and {1, 3}), yet the greedy
-        // algorithm in natural vertex order uses three colors: vertex 4 sees
-        // neighbor 1 colored 1 and neighbor 3 colored 0 -- only color 2 is free.
+        // Bipartite graph (parts {0, 2, 4} and {1, 3}), yet the greedy algorithm in natural vertex order uses three colors: vertex 4 sees neighbor 1 colored 1 and neighbor 3 colored 0 -- only color 2 is free.
         let mut g = Graph::undirected();
         for i in 0..5 {
             g.add_node(i.to_string());

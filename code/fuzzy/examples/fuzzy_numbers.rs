@@ -1,5 +1,4 @@
-//! Fuzzy numbers: membership, alpha-cuts, arithmetic, and reconstruction
-//! from alpha-cuts (the decomposition theorem).
+//! Fuzzy numbers: membership, alpha-cuts, arithmetic, and reconstruction from alpha-cuts (the decomposition theorem).
 
 use fuzzy::{FuzzySet, Triangular};
 

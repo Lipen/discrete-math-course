@@ -1,11 +1,8 @@
 //! A deterministic generator for the randomized property checks.
 //!
-//! The tests cross-check the crate against the built-in types on seeded
-//! operands: the same seed replays the same run, so a failure is always
-//! reproducible.
+//! The tests cross-check the crate against the built-in types on seeded operands: the same seed replays the same run, so a failure is always reproducible.
 
-/// SplitMix64: the state advances by the golden-ratio constant, then three
-/// mixing rounds spread the bits.
+/// SplitMix64: the state advances by the golden-ratio constant, then three mixing rounds spread the bits.
 pub struct SplitMix64 {
     state: u64,
 }

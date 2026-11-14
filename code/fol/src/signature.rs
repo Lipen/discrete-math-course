@@ -4,8 +4,7 @@ use crate::error::Error;
 use crate::formula::Formula;
 use crate::term::Term;
 
-/// A first-order signature: the constants, function symbols, and predicate
-/// symbols of the language, each function and predicate with its arity.
+/// A first-order signature: the constants, function symbols, and predicate symbols of the language, each function and predicate with its arity.
 #[derive(Debug, Clone, Default, PartialEq, Eq)]
 pub struct Signature {
     /// Constant symbols.

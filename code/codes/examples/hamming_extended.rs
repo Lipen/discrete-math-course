@@ -1,12 +1,8 @@
-//! Extended Hamming(8, 4, 4): one extra parity bit tells single from double
-//! errors.
+//! Extended Hamming(8, 4, 4): one extra parity bit tells single from double errors.
 //!
-//! The 8-bit word is the Hamming(7,4) codeword plus an overall parity bit, so
-//! the minimum distance grows to 4. The decoder still corrects one error, but
-//! it now recognizes two: a nonzero syndrome with even parity means "two
-//! errors", and the decoder refuses to "correct" the bit the syndrome points
-//! at -- that correction would be wrong. Flipped bits are drawn in red when
-//! the terminal supports it.
+//! The 8-bit word is the Hamming(7,4) codeword plus an overall parity bit, so the minimum distance grows to 4.
+//! The decoder still corrects one error, but it now recognizes two: a nonzero syndrome with even parity means "two errors", and the decoder refuses to "correct" the bit the syndrome points at -- that correction would be wrong.
+//! Flipped bits are drawn in red when the terminal supports it.
 
 use codes::{
     extended_decode, extended_encode, parity_ok, syndrome, ExtendedDecoded, ExtendedOutcome,

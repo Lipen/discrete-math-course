@@ -1,9 +1,7 @@
 //! CTL model checking on a traffic-light Kripke structure.
 //!
-//! The light cycles green -> yellow -> red -> green forever. The example
-//! labels three formulas over the cycle: `EX red`, `AX green`, and the
-//! boolean combination `red OR (not green)`, printing the bit vector per
-//! formula and the reason behind each bit.
+//! The light cycles green -> yellow -> red -> green forever.
+//! The example labels three formulas over the cycle: `EX red`, `AX green`, and the boolean combination `red OR (not green)`, printing the bit vector per formula and the reason behind each bit.
 
 use model_checking::{check, Formula, Kripke};
 

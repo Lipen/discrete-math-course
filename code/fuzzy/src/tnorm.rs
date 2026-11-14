@@ -5,8 +5,8 @@
 
 /// A family of triangular norm (AND) and conorm (OR) on `[0, 1]`.
 ///
-/// Each variant pairs a t-norm with its dual s-norm. The dual is
-/// `conorm(a, b) = 1 - norm(1 - a, 1 - b)`.
+/// Each variant pairs a t-norm with its dual s-norm.
+/// The dual is `conorm(a, b) = 1 - norm(1 - a, 1 - b)`.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum TNorm {
     /// Zadeh: `min(a, b)` / `max(a, b)`. Idempotent: `min(a, a) = a`.

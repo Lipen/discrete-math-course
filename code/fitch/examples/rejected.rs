@@ -1,8 +1,6 @@
 //! Proofs the checker rejects, and why.
 //!
-//! Two classic mistakes: stating a disjunction whose left disjunct does not
-//! match the line cited, and referencing a line inside a subproof that has
-//! already been discharged.
+//! Two classic mistakes: stating a disjunction whose left disjunct does not match the line cited, and referencing a line inside a subproof that has already been discharged.
 
 use fitch::{atom, check, implies, or, Just, Step};
 

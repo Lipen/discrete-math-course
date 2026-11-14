@@ -1,12 +1,8 @@
 //! Maximum matching in bipartite graphs.
 //!
 //! A matching is a set of edges that share no endpoints.
-//! In a bipartite graph the vertices split into two sides and every edge crosses the split.
-//! [`bipartite_matching`] grows a matching from empty with augmenting paths:
-//! an augmenting path starts at an unmatched vertex, alternates unmatched and matched edges,
-//! and ends at another unmatched vertex.
-//! Flipping the path along its edges raises the matching size by one,
-//! and a matching with no augmenting path left is maximum.
+//! In a bipartite graph the vertices split into two sides and every edge crosses the split. [`bipartite_matching`] grows a matching from empty with augmenting paths: an augmenting path starts at an unmatched vertex, alternates unmatched and matched edges, and ends at another unmatched vertex.
+//! Flipping the path along its edges raises the matching size by one, and a matching with no augmenting path left is maximum.
 
 use crate::algo::is_bipartite;
 use crate::graph::Graph;
@@ -36,10 +32,8 @@ pub struct BipartiteMatching {
 /// Maximum matching of an undirected bipartite graph.
 ///
 /// The two sides come from a BFS 2-coloring of the graph.
-/// Every vertex of side 0 is tried as a root, and an augmenting path is searched with a DFS
-/// that alternates unmatched and matched edges.
-/// A right vertex that is already matched is not taken directly: the search continues
-/// from its partner, so an earlier pair can be rearranged.
+/// Every vertex of side 0 is tried as a root, and an augmenting path is searched with a DFS that alternates unmatched and matched edges.
+/// A right vertex that is already matched is not taken directly: the search continues from its partner, so an earlier pair can be rearranged.
 /// Runs in $O(V E)$.
 /// Returns `None` when the graph is not bipartite, that is, when it contains an odd cycle.
 ///

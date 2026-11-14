@@ -2,11 +2,9 @@
 //!
 //! A DFA is a 5-tuple $(Q, Sigma, delta, q_0, F)$.
 //! Transitions are stored as a table `delta[state][symbol_index]`.
-//! An undefined transition leads to an implicit trap state (index `states`),
-//! which `accepts` catches and treats as rejection.
+//! An undefined transition leads to an implicit trap state (index `states`), which `accepts` catches and treats as rejection.
 //!
-//! The module also provides language operations -- complement, union,
-//! intersection, difference.
+//! The module also provides language operations -- complement, union, intersection, difference.
 //! Union, intersection and difference use the product construction.
 //! Complement completes the automaton and flips the accepting flags.
 //!
@@ -50,14 +48,10 @@ pub struct Dfa {
 }
 
 impl Dfa {
-    /// Creates an automaton with `states` states, start state `start`,
-    /// and the given alphabet.
+    /// Creates an automaton with `states` states, start state `start`, and the given alphabet.
     ///
-    /// All states are non-accepting by default and every transition
-    /// points to the trap state (`states`).
-    /// Call [`set_transition`](Self::set_transition) and
-    /// [`set_accepting`](Self::set_accepting) to build the transition
-    /// function and mark final states.
+    /// All states are non-accepting by default and every transition points to the trap state (`states`).
+    /// Call [`set_transition`](Self::set_transition) and [`set_accepting`](Self::set_accepting) to build the transition function and mark final states.
     ///
     /// ```
     /// use automata::Dfa;
@@ -180,8 +174,7 @@ impl Dfa {
 
     /// Whether the language of the automaton is empty.
     ///
-    /// Runs a reachability traversal from the start state: if no accepting
-    /// state is reachable, the language is empty.
+    /// Runs a reachability traversal from the start state: if no accepting state is reachable, the language is empty.
     ///
     /// ```
     /// use automata::Dfa;
@@ -244,11 +237,9 @@ impl Dfa {
         d1.is_empty() && d2.is_empty()
     }
 
-    /// Adds an explicit sink trap state so that every symbol has a
-    /// transition from every state.
+    /// Adds an explicit sink trap state so that every symbol has a transition from every state.
     ///
-    /// All previously undefined transitions are redirected to the new
-    /// dead state.
+    /// All previously undefined transitions are redirected to the new dead state.
     ///
     /// ```
     /// use automata::Dfa;
@@ -278,9 +269,7 @@ impl Dfa {
 
     /// Language complement: accepting and non-accepting states swap roles.
     ///
-    /// The automaton is first completed (an explicit trap state is added)
-    /// so that every word over the alphabet either reaches an accepting
-    /// or a non-accepting state.
+    /// The automaton is first completed (an explicit trap state is added) so that every word over the alphabet either reaches an accepting or a non-accepting state.
     ///
     /// ```
     /// use automata::Dfa;
@@ -307,8 +296,7 @@ impl Dfa {
 
     /// Union of the languages of two automata.
     ///
-    /// Built via the product construction: the state of the result is a
-    /// pair `(q1, q2)` of states from `self` and `other`.
+    /// Built via the product construction: the state of the result is a pair `(q1, q2)` of states from `self` and `other`.
     /// Only reachable pairs are materialised.
     ///
     /// ```

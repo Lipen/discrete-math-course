@@ -138,8 +138,7 @@ mod tests {
         let y = bdd2.var(1);
         let g = bdd2.xor(x, y);
 
-        // Same function, potentially different managers -- the edges
-        // won't be equal, but the truth tables must match.
+        // Same function, potentially different managers -- the edges won't be equal, but the truth tables must match.
         for a in [false, true] {
             for b in [false, true] {
                 assert_eq!(bdd.eval(f, &[a, b]), bdd2.eval(g, &[a, b]));

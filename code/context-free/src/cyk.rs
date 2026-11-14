@@ -1,16 +1,14 @@
 //! The Cocke-Younger-Kasami (CYK) algorithm.
 //!
-//! CYK recognizes a word against a grammar in Chomsky normal form in
-//! `O(n^3)`. It fills a triangular table `t[i][l]` with the set of
-//! nonterminals that derive the substring `word[i..i+l]`.
+//! CYK recognizes a word against a grammar in Chomsky normal form in `O(n^3)`.
+//! It fills a triangular table `t[i][l]` with the set of nonterminals that derive the substring `word[i..i+l]`.
 
 use std::collections::HashSet;
 
 use crate::grammar::{Grammar, Symbol};
 
-/// The CYK table: `t[i][l]` holds the nonterminals that derive the substring
-/// `word[i..i+l]`. Requires a grammar in Chomsky normal form (see
-/// [`crate::to_cnf`]).
+/// The CYK table: `t[i][l]` holds the nonterminals that derive the substring `word[i..i+l]`.
+/// Requires a grammar in Chomsky normal form (see [`crate::to_cnf`]).
 pub fn table(grammar: &Grammar, word: &[String]) -> Vec<Vec<HashSet<String>>> {
     let n = word.len();
     let mut t: Vec<Vec<HashSet<String>>> = vec![vec![HashSet::new(); n + 1]; n];
@@ -49,8 +47,7 @@ pub fn table(grammar: &Grammar, word: &[String]) -> Vec<Vec<HashSet<String>>> {
     t
 }
 
-/// Is `word` in the language of `grammar` (assumed to be in Chomsky normal
-/// form)?
+/// Is `word` in the language of `grammar` (assumed to be in Chomsky normal form)?
 pub fn recognize(grammar: &Grammar, word: &str) -> bool {
     let tokens = match grammar.lex(word) {
         Some(t) => t,

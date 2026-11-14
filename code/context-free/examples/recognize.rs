@@ -1,8 +1,7 @@
 //! CYK membership over a batch of words.
 //!
 //! The grammar is the balanced-parentheses language `S -> ( S ) S | ε`.
-//! The grammar is converted to Chomsky normal form once, then CYK decides
-//! each word: the start symbol must derive the whole word.
+//! The grammar is converted to Chomsky normal form once, then CYK decides each word: the start symbol must derive the whole word.
 //!
 //! Run with `cargo run --example recognize`.
 

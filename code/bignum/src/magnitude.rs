@@ -1,8 +1,7 @@
 //! Nonnegative integers as limbs of base `2^32`, least significant first.
 //!
-//! This layer knows nothing about signs: it carries, borrows, compares,
-//! multiplies, divides and prints. The signed layer in [`crate::integer`]
-//! adds a sign flag and reduces every case to work done here.
+//! This layer knows nothing about signs: it carries, borrows, compares, multiplies, divides and prints.
+//! The signed layer in [`crate::integer`] adds a sign flag and reduces every case to work done here.
 //!
 //! ```
 //! use bignum::Magnitude;
@@ -26,11 +25,8 @@ const DECIMAL_GROUP: u64 = 1_000_000_000;
 
 /// A nonnegative integer stored as limbs of base `BASE`, least significant first.
 ///
-/// Two invariants hold at every observable moment: the limb array is never
-/// empty, and its most significant limb is nonzero unless the value is zero,
-/// which is stored as the single limb `[0]`.
-/// Every constructor and every operation restores these invariants through
-/// [`Magnitude::from_limbs`].
+/// Two invariants hold at every observable moment: the limb array is never empty, and its most significant limb is nonzero unless the value is zero, which is stored as the single limb `[0]`.
+/// Every constructor and every operation restores these invariants through [`Magnitude::from_limbs`].
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Magnitude {
     limbs: Vec<u32>,
@@ -126,11 +122,9 @@ impl Magnitude {
         Magnitude::from_limbs(out)
     }
 
-    /// Quotient and remainder for a nonzero divisor, by shift-subtract from
-    /// the most significant bit.
+    /// Quotient and remainder for a nonzero divisor, by shift-subtract from the most significant bit.
     ///
-    /// Each step doubles the running remainder, pulls down the next bit of
-    /// the dividend, and subtracts the divisor whenever it fits.
+    /// Each step doubles the running remainder, pulls down the next bit of the dividend, and subtracts the divisor whenever it fits.
     /// The cost is `O(bit_len * limbs)` word operations.
     ///
     /// # Panics
@@ -155,8 +149,7 @@ impl Magnitude {
 
     /// Decimal digits, most significant first, nine digits per division.
     ///
-    /// Each pass divides by `10^9` and peels off one group of nine digits,
-    /// printed as an unpadded head followed by zero-padded groups.
+    /// Each pass divides by `10^9` and peels off one group of nine digits, printed as an unpadded head followed by zero-padded groups.
     pub fn to_decimal_string(&self) -> String {
         if self.is_zero() {
             return String::from("0");
@@ -182,11 +175,8 @@ impl Magnitude {
 
 /// Digit-wise comparison from the most significant limb.
 ///
-/// The implementation is manual on purpose: a derived `Ord` on `Vec<u32>`
-/// would compare the least significant limbs first and get the answer
-/// backwards, calling $1 > 2$ on `[1]` and `[0, 1]`.
-/// Without leading zeros the array length alone orders values of different
-/// widths, then equal-width values compare from the top limb down.
+/// The implementation is manual on purpose: a derived `Ord` on `Vec<u32>` would compare the least significant limbs first and get the answer backwards, calling $1 > 2$ on `[1]` and `[0, 1]`.
+/// Without leading zeros the array length alone orders values of different widths, then equal-width values compare from the top limb down.
 impl Ord for Magnitude {
     fn cmp(&self, other: &Self) -> Ordering {
         match self.limbs.len().cmp(&other.limbs.len()) {
@@ -211,8 +201,7 @@ impl PartialOrd for Magnitude {
 
 /// Schoolbook addition: digits align at the low end, the carry ripples upward.
 ///
-/// A limb plus a limb plus a carry fits a `u64`: the low 32 bits stay in
-/// place, the rest moves one limb up.
+/// A limb plus a limb plus a carry fits a `u64`: the low 32 bits stay in place, the rest moves one limb up.
 impl Add<&Magnitude> for &Magnitude {
     type Output = Magnitude;
 
@@ -260,13 +249,9 @@ impl Sub<&Magnitude> for &Magnitude {
     }
 }
 
-/// Schoolbook multiplication in `O(n * m)`: every limb pair contributes one
-/// double-width product, and the carry of each row normalizes the array in
-/// the same pass.
+/// Schoolbook multiplication in `O(n * m)`: every limb pair contributes one double-width product, and the carry of each row normalizes the array in the same pass.
 ///
-/// The bounds make a bare `u64` cell safe: a cell `out[i + j]` below `2^32`,
-/// a limb product below `2^64` and a carry below `2^32` sum to at most
-/// `2^64 - 1`, so no intermediate ever overflows.
+/// The bounds make a bare `u64` cell safe: a cell `out[i + j]` below `2^32`, a limb product below `2^64` and a carry below `2^32` sum to at most `2^64 - 1`, so no intermediate ever overflows.
 impl Mul<&Magnitude> for &Magnitude {
     type Output = Magnitude;
 

@@ -65,9 +65,8 @@ impl Term {
 
     /// One step of **η-reduction**: `λx. M x -> M` when `x` is not free in `M`.
     ///
-    /// Returns `None` if no η-redex exists. The bound variable must not occur
-    /// free in the function part, otherwise dropping the argument would lose a
-    /// dependency.
+    /// Returns `None` if no η-redex exists.
+    /// The bound variable must not occur free in the function part, otherwise dropping the argument would lose a dependency.
     ///
     /// ```
     /// use lambda::Term;
@@ -113,9 +112,8 @@ impl Term {
         match self {
             Term::App(fun, arg) => match fun.as_ref() {
                 Term::Abs(x, body) => {
-                    // This is a redex, but inner redexes come first: search
-                    // the body (left), then the argument. A step inside the
-                    // body keeps the application: (λx. body) arg -> (λx. body') arg.
+                    // This is a redex, but inner redexes come first: search the body (left), then the argument.
+                    // A step inside the body keeps the application: (λx. body) arg -> (λx. body') arg.
                     if let Some(b) = body.beta_reduce_applicative() {
                         let fun_reduced = Term::Abs(x.clone(), Box::new(b));
                         return Some(Term::App(Box::new(fun_reduced), arg.clone()));
@@ -509,8 +507,7 @@ mod tests {
 
     #[test]
     fn whnf_stops_at_head() {
-        // (λx. x) (f ((λy. y) a)) -- WHNF is f ((λy. y) a): the redex inside
-        // the argument is not touched.
+        // (λx. x) (f ((λy. y) a)) -- WHNF is f ((λy. y) a): the redex inside the argument is not touched.
         let t = Term::app(
             Term::abs("x", Term::var("x")),
             Term::app(

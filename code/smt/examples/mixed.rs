@@ -53,11 +53,8 @@ fn main() {
         Err(e) => println!("  error: {e}"),
     }
 
-    // Two branches, each fine on its own but arithmetically contradictory:
-    // branch A asks the secret to be 0 and 1 at once, branch B asks for
-    // x + y <= 6 and x + y >= 7.
-    // The SAT core proposes each branch, the matching theory rejects it, and
-    // the driver learns the conflict, so in the end no Boolean model survives.
+    // Two branches, each fine on its own but arithmetically contradictory: branch A asks the secret to be 0 and 1 at once, branch B asks for x + y <= 6 and x + y >= 7.
+    // The SAT core proposes each branch, the matching theory rejects it, and the driver learns the conflict, so in the end no Boolean model survives.
     let secret_0 = Formula::Atom(Atom::Bitvec(BoolExpr::Eq(
         Box::new(Expr::Var(0, 4)),
         Box::new(Expr::Const(0, 4)),

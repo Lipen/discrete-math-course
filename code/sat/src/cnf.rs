@@ -154,8 +154,7 @@ pub struct Cnf {
 impl Cnf {
     /// Create a new CNF formula.
     ///
-    /// Returns `None` when any literal is 0 or refers to a variable outside
-    /// `1..=num_vars`.
+    /// Returns `None` when any literal is 0 or refers to a variable outside `1..=num_vars`.
     pub fn new(num_vars: usize, clauses: Vec<Clause>) -> Option<Cnf> {
         for clause in &clauses {
             for &lit in clause {
@@ -245,8 +244,8 @@ pub fn format_cnf(cnf: &Cnf) -> String {
 pub(crate) struct XorShift64(u64);
 
 impl XorShift64 {
-    /// Create a new generator. A zero seed is replaced with a non-zero default
-    /// because xorshift requires a non-zero state.
+    /// Create a new generator.
+    /// A zero seed is replaced with a non-zero default because xorshift requires a non-zero state.
     pub(crate) fn new(seed: u64) -> Self {
         if seed == 0 {
             XorShift64(0x9E37_79B9_7F4A_7C15)

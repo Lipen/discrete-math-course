@@ -1,9 +1,7 @@
 //! Four discrete distributions from one basic trial.
 //!
-//! A trial succeeds with probability `p`. The distributions answer three
-//! questions: one trial (Bernoulli), the number of successes in `n` trials
-//! (binomial), the waiting time for the first success (geometric), and rare
-//! events in a large number of trials (Poisson).
+//! A trial succeeds with probability `p`.
+//! The distributions answer three questions: one trial (Bernoulli), the number of successes in `n` trials (binomial), the waiting time for the first success (geometric), and rare events in a large number of trials (Poisson).
 
 /// A discrete probability distribution on non-negative integers.
 ///

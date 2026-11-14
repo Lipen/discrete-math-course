@@ -1,12 +1,8 @@
 //! Reduced ordered binary decision diagrams (ROBDDs) with complement edges.
 //!
-//! A BDD represents a boolean function as a directed acyclic graph built by
-//! Shannon expansion: a node `(v, lo, hi)` means "if variable `v` then `hi`
-//! else `lo`". Reduction removes redundant nodes (lo == hi) and merges equal
-//! subgraphs, so every function has exactly one canonical diagram under a
-//! fixed variable order. Complement edges store negation as a flag on the
-//! edge: `NOT` costs no new node, and a function and its negation share a
-//! single diagram.
+//! A BDD represents a boolean function as a directed acyclic graph built by Shannon expansion: a node `(v, lo, hi)` means "if variable `v` then `hi` else `lo`".
+//! Reduction removes redundant nodes (lo == hi) and merges equal subgraphs, so every function has exactly one canonical diagram under a fixed variable order.
+//! Complement edges store negation as a flag on the edge: `NOT` costs no new node, and a function and its negation share a single diagram.
 //!
 //! # Quick example
 //!

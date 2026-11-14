@@ -1,6 +1,6 @@
-// Автономный образец вёрстки: все блоки книги на одном листе, чтобы видеть
-// их вид после правок theorems.typ.
-// Сборка: typst compile preview.typ. В книгу не включается.
+// Автономный образец вёрстки: все блоки книги на одном листе, чтобы видеть их вид после правок theorems.typ.
+// Сборка: typst compile preview.typ.
+// В книгу не включается.
 #import "common.typ": *
 #show: notes-template.with(theme: oklch(55%, 0.16, 230deg))
 #set document(title: "Preview")

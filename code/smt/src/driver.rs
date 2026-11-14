@@ -109,16 +109,14 @@ impl std::fmt::Display for Error {
 
 impl std::error::Error for Error {}
 
-/// Decide a quantifier-free mixed formula: `Ok(Sat)` or `Ok(Unsat)`, or an
-/// error when the formula uses a construct outside the supported signature.
+/// Decide a quantifier-free mixed formula: `Ok(Sat)` or `Ok(Unsat)`, or an error when the formula uses a construct outside the supported signature.
 pub fn check(formula: &Formula) -> Result<Verdict, Error> {
     // Collect the distinct atoms.
     // Linear equality atoms are rejected here so that no theory check ever has to decide their negation.
     let mut atoms: Vec<Atom> = vec![];
     collect(formula, &mut atoms)?;
 
-    // Tseitin encoding: each subformula gets a fresh Boolean variable, with
-    // clauses relating it to its children.
+    // Tseitin encoding: each subformula gets a fresh Boolean variable, with clauses relating it to its children.
     // The root is asserted true.
     let mut clauses: Vec<Vec<i32>> = vec![];
     let mut next_var = atoms.len();
@@ -140,8 +138,7 @@ pub fn check(formula: &Formula) -> Result<Verdict, Error> {
             return Ok(Verdict::Unsat);
         };
 
-        // Split the atoms by theory, keeping each truth value: a false atom
-        // still constrains its theory (through its negation).
+        // Split the atoms by theory, keeping each truth value: a false atom still constrains its theory (through its negation).
         let mut diff: Vec<(usize, bool)> = vec![];
         let mut lin: Vec<(usize, bool)> = vec![];
         let mut int: Vec<(usize, bool)> = vec![];
@@ -203,8 +200,8 @@ fn collect(formula: &Formula, atoms: &mut Vec<Atom>) -> Result<(), Error> {
     }
 }
 
-/// Tseitin encoding: return the literal that stands for `formula` and append
-/// the clauses that define it. `next` counts the auxiliary variables.
+/// Tseitin encoding: return the literal that stands for `formula` and append the clauses that define it.
+/// `next` counts the auxiliary variables.
 fn tseitin(
     formula: &Formula,
     atoms: &[Atom],
@@ -400,8 +397,7 @@ mod tests {
 
     #[test]
     fn negation_is_theory_checked() {
-        // NOT (x0 - x1 <= 2) AND NOT (x1 - x0 <= 2): x0 - x1 >= 3 and
-        // x1 - x0 >= 3 at once: unsat.
+        // NOT (x0 - x1 <= 2) AND NOT (x1 - x0 <= 2): x0 - x1 >= 3 and x1 - x0 >= 3 at once: unsat.
         let f = Formula::And(
             Box::new(Formula::Not(Box::new(Formula::Atom(d(0, 1, 2))))),
             Box::new(Formula::Not(Box::new(Formula::Atom(d(1, 0, 2))))),
@@ -434,9 +430,7 @@ mod tests {
 
     #[test]
     fn learning_visits_several_models() {
-        // (x0 - x1 <= 2 AND x1 - x0 <= -3) OR (0x <= -1):
-        // the first branch is a negative cycle, the second is a constant
-        // contradiction.
+        // (x0 - x1 <= 2 AND x1 - x0 <= -3) OR (0x <= -1): the first branch is a negative cycle, the second is a constant contradiction.
         // Both Boolean models get rejected.
         let cycle = Formula::And(
             Box::new(Formula::Atom(d(0, 1, 2))),

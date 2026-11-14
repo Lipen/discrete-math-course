@@ -1,10 +1,8 @@
 //! Context-free grammars and languages.
 //!
-//! A context-free grammar generates a language by rules `A -> alpha`, where a
-//! nonterminal is replaced by a string of terminals and nonterminals. The same
-//! word can have several parse trees. This crate models grammars, enumerates
-//! every parse tree of a word, converts grammars to Chomsky normal form, and
-//! recognizes words with CYK.
+//! A context-free grammar generates a language by rules `A -> alpha`, where a nonterminal is replaced by a string of terminals and nonterminals.
+//! The same word can have several parse trees.
+//! This crate models grammars, enumerates every parse tree of a word, converts grammars to Chomsky normal form, and recognizes words with CYK.
 //!
 //! ```
 //! use context_free::{Grammar, Production, recognize, to_cnf, t, nt};
@@ -31,8 +29,7 @@ use std::fmt;
 /// An error from enumerating parse trees.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum GrammarError {
-    /// A word has more parse trees than the safety cap permits -- typically an
-    /// epsilon- or unit-cycle in the grammar, which is infinitely ambiguous.
+    /// A word has more parse trees than the safety cap permits -- typically an epsilon- or unit-cycle in the grammar, which is infinitely ambiguous.
     TooManyParseTrees,
 }
 

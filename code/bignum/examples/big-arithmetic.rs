@@ -1,7 +1,6 @@
 //! Column arithmetic on values the built-in types cannot hold.
 //!
-//! The demo builds two 39-digit numbers from small factors, then adds,
-//! subtracts, multiplies and divides them, printing every result in full.
+//! The demo builds two 39-digit numbers from small factors, then adds, subtracts, multiplies and divides them, printing every result in full.
 
 use bignum::BigInt;
 

@@ -4,8 +4,7 @@ use crate::traits::{Group, Monoid, Semigroup};
 
 /// A permutation of `{0, ..., N-1}`: `p.0[i]` is the image of `i`.
 ///
-/// Composition `a.op(b)` applies `b` first, then `a`, so
-/// `a.op(b).0[i] == a.0[b.0[i]]`.
+/// Composition `a.op(b)` applies `b` first, then `a`, so `a.op(b).0[i] == a.0[b.0[i]]`.
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub struct Perm<const N: usize>(pub [usize; N]);
 

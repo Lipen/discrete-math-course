@@ -29,9 +29,7 @@ impl fmt::Display for Direction {
 
 /// A Turing-machine tape with a head.
 ///
-/// Symbols to the left of the head sit in the `left` stack (the top is the
-/// nearest cell); symbols to the right sit in `right` (the top is the nearest
-/// cell).
+/// Symbols to the left of the head sit in the `left` stack (the top is the nearest cell); symbols to the right sit in `right` (the top is the nearest cell).
 /// Moving the head pops from one stack and pushes onto the other.
 /// Every cell that has never been visited holds the `blank` symbol.
 ///
@@ -143,8 +141,7 @@ impl<Sym: Clone + Eq> Tape<Sym> {
 
     /// Moves the head one cell to the left.
     ///
-    /// The current symbol is pushed onto `right`; the left neighbour becomes
-    /// the new head (or a blank if the left stack is empty).
+    /// The current symbol is pushed onto `right`; the left neighbour becomes the new head (or a blank if the left stack is empty).
     ///
     /// ```
     /// use turing::Tape;
@@ -163,8 +160,7 @@ impl<Sym: Clone + Eq> Tape<Sym> {
 
     /// Moves the head one cell to the right.
     ///
-    /// The current symbol is pushed onto `left`; the right neighbour becomes
-    /// the new head (or a blank if the right stack is empty).
+    /// The current symbol is pushed onto `left`; the right neighbour becomes the new head (or a blank if the right stack is empty).
     ///
     /// ```
     /// use turing::Tape;
@@ -218,8 +214,7 @@ impl<Sym: Clone + Eq> Tape<Sym> {
 
     /// Returns the tape content with leading and trailing blanks trimmed.
     ///
-    /// Useful for displaying the "meaningful" part of the tape after a
-    /// computation that may have wandered into blank territory.
+    /// Useful for displaying the "meaningful" part of the tape after a computation that may have wandered into blank territory.
     ///
     /// ```
     /// use turing::Tape;

@@ -1,10 +1,8 @@
 //! CTL formulas and the labeling model-checking algorithm.
 //!
-//! The label of a formula is the set of states in which it holds, computed
-//! bottom-up over subformulas. Only the single-step modalities `EX` and
-//! `AX` are covered here.
-//! The fixed-point modalities (`EF`, `EG`, `EU`, and their `A`-duals) are the
-//! subject of a later project.
+//! The label of a formula is the set of states in which it holds, computed bottom-up over subformulas.
+//! Only the single-step modalities `EX` and `AX` are covered here.
+//! The fixed-point modalities (`EF`, `EG`, `EU`, and their `A`-duals) are the subject of a later project.
 
 use crate::kripke::Kripke;
 

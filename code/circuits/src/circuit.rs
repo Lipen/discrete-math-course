@@ -1,10 +1,7 @@
 //! Combinational circuits as DAGs of gates.
 //!
-//! A circuit is a directed acyclic graph: its sources are the primary inputs
-//! and the constants 0/1, its internal nodes are logic gates (AND, OR, XOR,
-//! NOT), and its sinks are the outputs. Because a gate may only reference
-//! nodes created before it, the builder keeps the node list in topological
-//! order and acyclicity holds by construction -- a signal never loops back.
+//! A circuit is a directed acyclic graph: its sources are the primary inputs and the constants 0/1, its internal nodes are logic gates (AND, OR, XOR, NOT), and its sinks are the outputs.
+//! Because a gate may only reference nodes created before it, the builder keeps the node list in topological order and acyclicity holds by construction -- a signal never loops back.
 //!
 //! Two measures describe a circuit:
 //!
@@ -12,8 +9,7 @@
 //! * **depth** -- the longest path from an input to an output (the signal
 //!   delay, the clock rate).
 //!
-//! Parallel branches count only once toward depth: two gates feeding a third
-//! both sit one level below it, so together they add one, not two.
+//! Parallel branches count only once toward depth: two gates feeding a third both sit one level below it, so together they add one, not two.
 
 use std::fmt;
 
@@ -88,8 +84,7 @@ impl std::error::Error for CircuitError {}
 
 /// A combinational circuit: a DAG of gates held in topological order.
 ///
-/// Build a circuit by creating sources ([`Circuit::input`],
-/// [`Circuit::constant`]) and combining them with the gate constructors.
+/// Build a circuit by creating sources ([`Circuit::input`], [`Circuit::constant`]) and combining them with the gate constructors.
 /// Each constructor returns a fresh [`NodeId`] that later gates may feed on.
 ///
 /// ```
@@ -122,8 +117,8 @@ impl Circuit {
         Self::default()
     }
 
-    /// The `i`-th primary input, creating it once and reusing it on later
-    /// calls. Reusing the node lets one input feed several gates (fan-out).
+    /// The `i`-th primary input, creating it once and reusing it on later calls.
+    /// Reusing the node lets one input feed several gates (fan-out).
     pub fn input(&mut self, index: usize) -> NodeId {
         if let Some(n) = self.inputs.get(index).copied().flatten() {
             return n;
@@ -234,8 +229,9 @@ impl Circuit {
         d
     }
 
-    /// Simulate the circuit. `inputs` is indexed by primary input number and
-    /// must cover every input the circuit reads. Returns one value per node.
+    /// Simulate the circuit.
+    /// `inputs` is indexed by primary input number and must cover every input the circuit reads.
+    /// Returns one value per node.
     pub fn simulate(&self, inputs: &[bool]) -> Result<Vec<bool>, CircuitError> {
         let mut values = vec![false; self.nodes.len()];
         for (id, gate) in self.nodes.iter().enumerate() {

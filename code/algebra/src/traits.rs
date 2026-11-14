@@ -2,10 +2,9 @@
 
 /// A set with an associative binary operation.
 ///
-/// The operation is written `a.op(b)`. Associativity -- `(a op b) op c ==
-/// a op (b op c)` -- is a law the implementor promises, not something Rust
-/// checks. Every implementor is a small closed set whose `op` never leaves
-/// the type.
+/// The operation is written `a.op(b)`.
+/// Associativity -- `(a op b) op c == a op (b op c)` -- is a law the implementor promises, not something Rust checks.
+/// Every implementor is a small closed set whose `op` never leaves the type.
 pub trait Semigroup: Clone + PartialEq {
     /// The binary operation.
     fn op(&self, other: &Self) -> Self;
@@ -23,8 +22,7 @@ pub trait Group: Monoid {
     fn inverse(&self) -> Self;
 }
 
-/// A ring: an additive group plus an associative multiplication with a unit,
-/// linked by distributivity.
+/// A ring: an additive group plus an associative multiplication with a unit, linked by distributivity.
 pub trait Ring: Clone + PartialEq {
     /// Addition, the additive group operation.
     fn add(&self, other: &Self) -> Self;

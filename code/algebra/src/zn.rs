@@ -5,8 +5,8 @@ use crate::traits::{Group, Monoid, Ring, Semigroup};
 
 /// A residue modulo `N`, the integers `0..N` with arithmetic taken mod `N`.
 ///
-/// `Zn<N>` is an additive group under `op` (addition mod `N`) and, with
-/// multiplication added, a ring. `N` must be at least 2.
+/// `Zn<N>` is an additive group under `op` (addition mod `N`) and, with multiplication added, a ring.
+/// `N` must be at least 2.
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub struct Zn<const N: u32>(pub u32);
 
@@ -55,10 +55,8 @@ impl<const N: u32> Ring for Zn<N> {
 
 /// An invertible residue mod `N`, a unit of the ring `Zn<N>`.
 ///
-/// Under multiplication these residues form the group `Z_N^*`: exactly the
-/// elements coprime to `N`.
-/// `new` rejects non-units, so a `Unit` obtained through `new` always has
-/// an inverse (found by [`mod_inverse`]).
+/// Under multiplication these residues form the group `Z_N^*`: exactly the elements coprime to `N`.
+/// `new` rejects non-units, so a `Unit` obtained through `new` always has an inverse (found by [`mod_inverse`]).
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub struct Unit<const N: u32>(pub u32);
 

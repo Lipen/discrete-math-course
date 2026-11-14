@@ -99,9 +99,8 @@ impl Term {
 
     /// Capture-avoiding substitution `self[x := replacement]`.
     ///
-    /// Replaces every free occurrence of `x` with `replacement`. When the
-    /// replacement has a free variable that would be captured by a binder in
-    /// `self`, the binder is α-renamed to a fresh name first.
+    /// Replaces every free occurrence of `x` with `replacement`.
+    /// When the replacement has a free variable that would be captured by a binder in `self`, the binder is α-renamed to a fresh name first.
     ///
     /// ```
     /// use type_theory::Term;
@@ -135,8 +134,9 @@ impl Term {
         }
     }
 
-    /// Rename all occurrences of `from` to `to` inside the scope of a matching
-    /// binder. Stops at shadow boundaries. Low-level helper for α-conversion.
+    /// Rename all occurrences of `from` to `to` inside the scope of a matching binder.
+    /// Stops at shadow boundaries.
+    /// Low-level helper for α-conversion.
     fn subst_var(&self, from: &str, to: &str) -> Term {
         match self {
             Term::Var(y) if y == from => Term::Var(to.to_string()),

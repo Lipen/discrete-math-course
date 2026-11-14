@@ -10,14 +10,12 @@ use crate::term::Term;
 
 /// A substitution: a finite map from variable ids to terms.
 ///
-/// For example, the substitution `{X -> alice, Y -> f(Z)}` is the map
-/// `{0 -> alice, 1 -> f(_2)}` when `X = 0`, `Y = 1`, and `Z = 2`.
+/// For example, the substitution `{X -> alice, Y -> f(Z)}` is the map `{0 -> alice, 1 -> f(_2)}` when `X = 0`, `Y = 1`, and `Z = 2`.
 pub type Subst = HashMap<usize, Term>;
 
 /// Apply a substitution to a term, replacing bound variables.
 ///
-/// The application is recursive: a variable bound to a term that itself
-/// contains bound variables is resolved all the way down.
+/// The application is recursive: a variable bound to a term that itself contains bound variables is resolved all the way down.
 ///
 /// ```
 /// use prolog::term::Term;
@@ -45,8 +43,7 @@ pub fn apply(term: &Term, subst: &Subst) -> Term {
 
 /// Apply a substitution to every atom of a goal.
 ///
-/// Used by the solver to instantiate the current goal with the bindings
-/// accumulated so far.
+/// Used by the solver to instantiate the current goal with the bindings accumulated so far.
 ///
 /// ```
 /// use prolog::term::Term;

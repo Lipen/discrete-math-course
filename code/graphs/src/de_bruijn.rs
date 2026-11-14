@@ -205,8 +205,7 @@ impl DeBruijnGraph {
             None => (0..n).find(|&u| out[u] > 0)?,
         };
 
-        // Hierholzer with edge counts: `rest` holds the unused edges,
-        // `next` the position of the next unexamined entry in each list.
+        // Hierholzer with edge counts: `rest` holds the unused edges, `next` the position of the next unexamined entry in each list.
         let mut rest = self.adj.clone();
         let mut next = vec![0usize; n];
         let mut stack = vec![start];

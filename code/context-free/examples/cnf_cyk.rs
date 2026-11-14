@@ -1,8 +1,6 @@
 //! Chomsky normal form and the CYK algorithm.
 //!
-//! `S -> a S b | ε` (the language `a^n b^n`) is converted to Chomsky normal
-//! form, then CYK fills a triangular table of nonterminals per substring and
-//! decides membership.
+//! `S -> a S b | ε` (the language `a^n b^n`) is converted to Chomsky normal form, then CYK fills a triangular table of nonterminals per substring and decides membership.
 
 use context_free::{nt, recognize, t, table, to_cnf, Grammar, Production};
 

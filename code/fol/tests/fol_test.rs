@@ -17,12 +17,11 @@ fn rel(tuples: &[&[&str]]) -> HashSet<Vec<String>> {
 
 #[test]
 fn quantifier_order_changes_truth() {
-    // P(x, y) = "y is the mother of x". In a chain child -> mother ->
-    // grandmother, everyone has a mother, but nobody is the mother of all.
+    // P(x, y) = "y is the mother of x".
+    // In a chain child -> mother -> grandmother, everyone has a mother, but nobody is the mother of all.
     let everyone_has_mother = forall("x", exists("y", pred("P", vec![var("x"), var("y")])));
     let someone_mothers_all = exists("y", forall("x", pred("P", vec![var("x"), var("y")])));
-    // In a three-person cycle c -> m -> g -> c every person has a mother,
-    // but no single person is the mother of all three.
+    // In a three-person cycle c -> m -> g -> c every person has a mother, but no single person is the mother of all three.
     let model = Structure::new(vec!["c".into(), "m".into(), "g".into()])
         .with_predicate("P", rel(&[&["c", "m"], &["m", "g"], &["g", "c"]]));
     assert!(model.eval(&everyone_has_mother).unwrap());
@@ -106,8 +105,7 @@ fn school_arithmetic() {
 
 #[test]
 fn substitution_renames_to_avoid_capture() {
-    // [x := f(y)] ∀y P(x, y): the binder y is renamed so the incoming y is
-    // not captured.
+    // [x := f(y)] ∀y P(x, y): the binder y is renamed so the incoming y is not captured.
     let f = forall("y", pred("P", vec![var("x"), var("y")]));
     let g = func("f", vec![var("y")]);
     let result = f.substitute("x", &g);

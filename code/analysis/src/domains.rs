@@ -1,7 +1,6 @@
 //! Abstract domains: the constant-propagation lattice.
 //!
-//! A domain is a lattice: `lub` is the join ⊔ (merge two values), and
-//! `Bottom`/`Top` are the least and greatest elements of the information order.
+//! A domain is a lattice: `lub` is the join ⊔ (merge two values), and `Bottom`/`Top` are the least and greatest elements of the information order.
 
 // ── Constant domain ──
 
@@ -94,8 +93,7 @@ impl std::ops::Add for Const {
 
 /// Abstract multiplication.
 ///
-/// A key insight of constant propagation: zero times anything is zero,
-/// even when the other operand is unknown.
+/// A key insight of constant propagation: zero times anything is zero, even when the other operand is unknown.
 ///
 /// ```
 /// use analysis::Const;

@@ -1,9 +1,7 @@
 //! Textbook RSA on small numbers.
 //!
-//! A teaching implementation: key generation from two primes,
-//! encryption/decryption, and digital signatures.
-//! Real RSA needs arbitrary-precision integers and padding
-//! (OAEP for encryption, PSS for signatures).
+//! A teaching implementation: key generation from two primes, encryption/decryption, and digital signatures.
+//! Real RSA needs arbitrary-precision integers and padding (OAEP for encryption, PSS for signatures).
 
 use super::modular::{mod_inverse, mod_pow};
 
@@ -29,8 +27,7 @@ pub struct Rsa {
 impl Rsa {
     /// Builds keys from primes `p`, `q` and the public exponent `e`.
     ///
-    /// Computes `n = p * q`, `φ = (p-1)(q-1)`, and the private key
-    /// `d = e^(-1) mod φ`.
+    /// Computes `n = p * q`, `φ = (p-1)(q-1)`, and the private key `d = e^(-1) mod φ`.
     ///
     /// # Panics
     ///
@@ -84,8 +81,7 @@ impl Rsa {
 
     /// Signs `msg` with the private key: `s = msg^d mod n`.
     ///
-    /// In textbook RSA, signing is the same mathematical operation
-    /// as decryption: the signer applies the private exponent.
+    /// In textbook RSA, signing is the same mathematical operation as decryption: the signer applies the private exponent.
     ///
     /// # Examples
     ///

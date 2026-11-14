@@ -1,8 +1,7 @@
 //! Parse trees: every reading of a word.
 //!
-//! A parse tree records which production applies at each node, and
-//! `all_parse_trees` enumerates every tree of a word over the grammar as
-//! written. Ambiguity becomes visible: the same word, several trees.
+//! A parse tree records which production applies at each node, and `all_parse_trees` enumerates every tree of a word over the grammar as written.
+//! Ambiguity becomes visible: the same word, several trees.
 //!
 //! Run with `cargo run --example parse_tree`.
 
@@ -28,8 +27,8 @@ fn print_grammar(title: &str, g: &Grammar) {
 }
 
 fn main() {
-    // Does + or * bind tighter? This grammar does not say, so a word with
-    // both operators has several readings.
+    // Does + or * bind tighter?
+    // This grammar does not say, so a word with both operators has several readings.
     let ambiguous = Grammar::new(
         "E",
         vec![

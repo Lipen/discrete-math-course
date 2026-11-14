@@ -66,8 +66,8 @@ pub fn ends_with_zero() -> Machine<char, &'static str> {
 
 /// A machine that recognises the language `0^n 1^n` (n >= 0).
 ///
-/// The algorithm repeatedly crosses out the leftmost `0` and the rightmost
-/// `1` with `X`. When all symbols are crossed out the machine accepts.
+/// The algorithm repeatedly crosses out the leftmost `0` and the rightmost `1` with `X`.
+/// When all symbols are crossed out the machine accepts.
 /// A mismatch leads to rejection.
 ///
 /// ```
@@ -113,10 +113,10 @@ pub fn zero_n_one_n() -> Machine<char, &'static str> {
 
 /// A machine that increments a binary number.
 ///
-/// The input is a word over `{0, 1}` with the least significant bit on the
-/// left. The machine adds 1: it flips leading
-/// `1`s to `0` (carry propagation) and flips the first `0` to `1`. An all-`1`
-/// input grows one digit on the right (e.g. `111` becomes `0001`).
+/// The input is a word over `{0, 1}` with the least significant bit on the left.
+/// The machine adds 1: it flips leading `1`s to `0` (carry propagation) and flips the first `0` to `1`.
+/// An all-`1` input grows one digit on the right (e.g.
+/// `111` becomes `0001`).
 ///
 /// ```
 /// use turing::{machines, Tape, Outcome};
@@ -156,11 +156,8 @@ pub fn binary_increment() -> Machine<char, &'static str> {
 
 /// A machine that checks whether a word over `{0, 1}` is a palindrome.
 ///
-/// The algorithm crosses out matching symbols from both ends: it remembers
-/// the leftmost uncrossed symbol (crossing it out with `X`), moves to the
-/// right end, checks that the rightmost uncrossed symbol matches, crosses
-/// it out, and returns to the left. The process repeats until all symbols
-/// are matched (accept) or a mismatch is found (reject).
+/// The algorithm crosses out matching symbols from both ends: it remembers the leftmost uncrossed symbol (crossing it out with `X`), moves to the right end, checks that the rightmost uncrossed symbol matches, crosses it out, and returns to the left.
+/// The process repeats until all symbols are matched (accept) or a mismatch is found (reject).
 ///
 /// ```
 /// use turing::{machines, Tape, Outcome};

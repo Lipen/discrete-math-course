@@ -1,9 +1,8 @@
 //! Parity code (n + 1, n, 2): detect a single error, correct nothing.
 //!
-//! One parity bit is appended so the word has an even number of ones. Any odd
-//! number of flipped bits breaks the check, so a single error is detected -- but
-//! the check says nothing about *where* the error is. Two errors slip through
-//! unnoticed.
+//! One parity bit is appended so the word has an even number of ones.
+//! Any odd number of flipped bits breaks the check, so a single error is detected -- but the check says nothing about *where* the error is.
+//! Two errors slip through unnoticed.
 
 /// Returns `true` when `data` has an odd number of ones.
 ///

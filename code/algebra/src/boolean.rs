@@ -4,8 +4,7 @@ use crate::traits::{Field, Group, Monoid, Ring, Semigroup};
 
 /// `false` and `true`, with XOR as addition and AND as multiplication.
 ///
-/// This is the smallest field: every nonzero element (just `true`) is its
-/// own additive and multiplicative inverse.
+/// This is the smallest field: every nonzero element (just `true`) is its own additive and multiplicative inverse.
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub struct Bool(pub bool);
 

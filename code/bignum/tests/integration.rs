@@ -1,5 +1,4 @@
-//! Cross-layer scenarios: records, division inverting multiplication, and
-//! algebraic laws that hold far beyond the built-in widths.
+//! Cross-layer scenarios: records, division inverting multiplication, and algebraic laws that hold far beyond the built-in widths.
 
 use bignum::integer::{factorial, fibonacci, BigInt, Sign};
 use bignum::rng::SplitMix64;

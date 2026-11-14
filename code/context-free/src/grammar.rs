@@ -1,11 +1,8 @@
 //! The grammar model: symbols, productions, and grammars.
 //!
-//! A context-free grammar is a tuple `G = (V, Sigma, P, S)` where `V` is the
-//! set of nonterminals, `Sigma` the terminals, `P` the productions `A -> alpha`,
-//! and `S` the start symbol.
+//! A context-free grammar is a tuple `G = (V, Sigma, P, S)` where `V` is the set of nonterminals, `Sigma` the terminals, `P` the productions `A -> alpha`, and `S` the start symbol.
 //! Here nonterminals and terminals are both named by strings.
-//! A symbol is a terminal only when it appears in a production body
-//! as [`Symbol::Terminal`].
+//! A symbol is a terminal only when it appears in a production body as [`Symbol::Terminal`].
 
 use std::collections::HashSet;
 /// A grammar symbol: a terminal or a nonterminal.
@@ -160,9 +157,8 @@ impl Grammar {
         null
     }
 
-    /// The epsilon-free grammar: every empty-body production is dropped, and
-    /// every other production is replaced by all variants where nullable
-    /// nonterminals are omitted. The result generates `L(G) \ {epsilon}`.
+    /// The epsilon-free grammar: every empty-body production is dropped, and every other production is replaced by all variants where nullable nonterminals are omitted.
+    /// The result generates `L(G) \ {epsilon}`.
     pub fn eliminate_epsilon(&self) -> Grammar {
         let null = self.nullable();
         let mut productions = Vec::new();
@@ -184,9 +180,7 @@ impl Grammar {
 
     /// Remove unit productions (`A -> B`).
     ///
-    /// Computes the unit closure (which pairs `A =>* B` hold via unit
-    /// productions only) and then expands each non-unit production to every
-    /// nonterminal that reaches its head.
+    /// Computes the unit closure (which pairs `A =>* B` hold via unit productions only) and then expands each non-unit production to every nonterminal that reaches its head.
     pub fn remove_unit_productions(&self) -> Grammar {
         let mut units: HashSet<(String, String)> = HashSet::new();
         for nt in &self.nonterminals {

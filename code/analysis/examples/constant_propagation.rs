@@ -32,8 +32,7 @@ fn main() {
 
     // -- Program 2: branch loses precision --
     println!("=== Program 2: branches destroy constants ===");
-    // if ... then w := 1 else w := 2
-    // u := w * 3
+    // if ... then w := 1 else w := 2 u := w * 3
     let mut st: State<Const> = State::new();
     let branchy = vec![
         Stmt::If {
@@ -53,9 +52,7 @@ fn main() {
 
     // -- Program 3: zero kills uncertainty --
     println!("=== Program 3: zero times unknown is zero ===");
-    // t := 0
-    // if ... then v := 10 else v := 20
-    // s := t * v
+    // t := 0 if ... then v := 10 else v := 20 s := t * v
     let program = vec![
         assign("t", 0),
         Stmt::If {

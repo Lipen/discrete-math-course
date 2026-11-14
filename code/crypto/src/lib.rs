@@ -1,8 +1,6 @@
 //! Number theory and cryptography.
 //!
-//! A teaching toolbox for number theory and cryptography:
-//! modular arithmetic on `u64`, textbook RSA with signing,
-//! and attacks that show why the textbook versions are not secure.
+//! A teaching toolbox for number theory and cryptography: modular arithmetic on `u64`, textbook RSA with signing, and attacks that show why the textbook versions are not secure.
 //!
 //! # Quick start
 //!

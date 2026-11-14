@@ -1,12 +1,7 @@
 //! Types as data: a small language of type expressions.
 //!
-//! A compiler or analyzer does not reason with Rust's own types: it holds
-//! types as values.
-//! [`Type`] is such a representation, and the "semiring of types" becomes
-//! ordinary functions over it: sum is a variant, product is a pair, `Void`
-//! is `0` and `Unit` is `1`.
-//! The semiring laws hold up to isomorphism and are shown as rewrite rules
-//! in [`Type::simplify`].
+//! A compiler or analyzer does not reason with Rust's own types: it holds types as values. [`Type`] is such a representation, and the "semiring of types" becomes ordinary functions over it: sum is a variant, product is a pair, `Void` is `0` and `Unit` is `1`.
+//! The semiring laws hold up to isomorphism and are shown as rewrite rules in [`Type::simplify`].
 
 /// A type expression over a tiny universe.
 #[derive(Clone, PartialEq, Eq, Debug)]

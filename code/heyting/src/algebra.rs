@@ -288,8 +288,7 @@ mod tests {
 
     #[test]
     fn implies_satisfies_adjunction() {
-        // For every pair (a, b): a ∧ (a -> b) <= b and a -> b is the largest
-        // such element: c <= a -> b iff a ∧ c <= b.
+        // For every pair (a, b): a ∧ (a -> b) <= b and a -> b is the largest such element: c <= a -> b iff a ∧ c <= b.
         for (name, a) in [
             ("chain3", chain_three()),
             ("bool2", bool_algebra(2)),

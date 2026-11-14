@@ -1,11 +1,8 @@
 //! Signed integers: a sign flag plus a magnitude, with zero always positive.
 //!
-//! Every signed case reduces to magnitude work. Addition of equal signs adds
-//! magnitudes, addition of opposite signs subtracts the smaller magnitude
-//! from the larger and keeps the sign of the larger, subtraction adds the
-//! negation, and multiplication multiplies magnitudes under the parity of
-//! the signs. Zero is canonicalized to [`Sign::Positive`], so sign tests
-//! never need a zero case.
+//! Every signed case reduces to magnitude work.
+//! Addition of equal signs adds magnitudes, addition of opposite signs subtracts the smaller magnitude from the larger and keeps the sign of the larger, subtraction adds the negation, and multiplication multiplies magnitudes under the parity of the signs.
+//! Zero is canonicalized to [`Sign::Positive`], so sign tests never need a zero case.
 
 use crate::magnitude::Magnitude;
 use std::cmp::Ordering;
@@ -32,9 +29,7 @@ impl Sign {
 
 /// An arbitrary-precision integer: sign plus magnitude.
 ///
-/// The magnitude obeys the canonical-limb invariants of
-/// [`Magnitude`](crate::magnitude::Magnitude), and the zero value carries
-/// `Sign::Positive`, so every equal value has exactly one representation.
+/// The magnitude obeys the canonical-limb invariants of [`Magnitude`](crate::magnitude::Magnitude), and the zero value carries `Sign::Positive`, so every equal value has exactly one representation.
 #[derive(Clone, Debug)]
 pub struct BigInt {
     sign: Sign,
@@ -138,8 +133,7 @@ impl PartialEq for BigInt {
 
 impl Eq for BigInt {}
 
-/// Equal signs add magnitudes, opposite signs subtract the smaller magnitude
-/// from the larger and keep the sign of the larger.
+/// Equal signs add magnitudes, opposite signs subtract the smaller magnitude from the larger and keep the sign of the larger.
 impl Add for BigInt {
     type Output = BigInt;
 
@@ -200,8 +194,7 @@ impl fmt::Display for BigInt {
     }
 }
 
-/// `n!` by repeated multiplication, the classic value that outgrows the
-/// built-in widths: `100!` needs 158 decimal digits.
+/// `n!` by repeated multiplication, the classic value that outgrows the built-in widths: `100!` needs 158 decimal digits.
 pub fn factorial(n: u32) -> BigInt {
     let mut acc = BigInt::from_u64(1);
     for k in 2..=n {
@@ -210,8 +203,7 @@ pub fn factorial(n: u32) -> BigInt {
     acc
 }
 
-/// The `n`-th Fibonacci number with `F_1 = F_2 = 1`, by iteration on the pair
-/// `(F_{k-1}, F_k)`: a thousand steps already produce 209 decimal digits.
+/// The `n`-th Fibonacci number with `F_1 = F_2 = 1`, by iteration on the pair `(F_{k-1}, F_k)`: a thousand steps already produce 209 decimal digits.
 pub fn fibonacci(n: u32) -> BigInt {
     let mut a = BigInt::zero();
     let mut b = BigInt::from_u64(1);

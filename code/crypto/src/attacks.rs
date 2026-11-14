@@ -1,14 +1,10 @@
 //! Attacks on cryptosystems.
 //!
-//! Each attack shows the boundary beyond which a system stops being
-//! secure: the common modulus and malleability break careless RSA,
-//! trial division breaks small moduli, and Pohlig--Hellman breaks DLOG
-//! in a group of smooth order.
+//! Each attack shows the boundary beyond which a system stops being secure: the common modulus and malleability break careless RSA, trial division breaks small moduli, and Pohlig--Hellman breaks DLOG in a group of smooth order.
 
 use super::modular::{egcd, mod_inverse, mod_pow};
 
-/// Modular exponentiation with a negative exponent
-/// (through the modular inverse).
+/// Modular exponentiation with a negative exponent (through the modular inverse).
 fn mod_pow_signed(base: u64, exp: i128, m: u64) -> Option<u64> {
     if exp >= 0 {
         Some(mod_pow(base, exp as u64, m))
@@ -20,11 +16,8 @@ fn mod_pow_signed(base: u64, exp: i128, m: u64) -> Option<u64> {
 
 /// Common modulus attack.
 ///
-/// Two users share one modulus `n` with different exponents `e1`, `e2`
-/// (`gcd(e1, e2) = 1`).
-/// Seeing `c1 = m^e1 mod n` and `c2 = m^e2 mod n`, the attacker finds `u`, `v`
-/// with `e1*u + e2*v = 1` by the extended Euclidean algorithm and computes
-/// `c1^u * c2^v mod n = m`.
+/// Two users share one modulus `n` with different exponents `e1`, `e2` (`gcd(e1, e2) = 1`).
+/// Seeing `c1 = m^e1 mod n` and `c2 = m^e2 mod n`, the attacker finds `u`, `v` with `e1*u + e2*v = 1` by the extended Euclidean algorithm and computes `c1^u * c2^v mod n = m`.
 ///
 /// Returns `None` if `gcd(e1, e2) != 1`.
 ///
@@ -51,8 +44,7 @@ pub fn common_modulus_attack(n: u64, e1: u64, c1: u64, e2: u64, c2: u64) -> Opti
     Some(((a as u128 * b as u128) % n as u128) as u64)
 }
 
-/// RSA malleability: the product of ciphertexts is the ciphertext
-/// of the product of the messages: `c1 * c2 = (m1 * m2)^e mod n`.
+/// RSA malleability: the product of ciphertexts is the ciphertext of the product of the messages: `c1 * c2 = (m1 * m2)^e mod n`.
 ///
 /// # Examples
 ///
@@ -103,10 +95,8 @@ pub fn factorize(mut n: u64) -> Vec<(u64, u64)> {
 }
 
 /// Chinese remainder theorem for pairwise coprime moduli.
-/// Given residues `r_i` and pairwise coprime moduli `m_i`,
-/// finds `x` such that `x ≡ r_i (mod m_i)` for all `i`.
-/// Returns `None` if any pair of moduli is not coprime
-/// (the required modular inverse does not exist).
+/// Given residues `r_i` and pairwise coprime moduli `m_i`, finds `x` such that `x ≡ r_i (mod m_i)` for all `i`.
+/// Returns `None` if any pair of moduli is not coprime (the required modular inverse does not exist).
 ///
 /// # Examples
 ///
@@ -129,12 +119,9 @@ pub fn crt(residues: &[u64], moduli: &[u64]) -> Option<u64> {
     Some(x % m)
 }
 
-/// Simplified Pohlig--Hellman attack: the discrete logarithm
-/// `x = log_g h (mod p)`, when the group order `p - 1` is smooth.
+/// Simplified Pohlig--Hellman attack: the discrete logarithm `x = log_g h (mod p)`, when the group order `p - 1` is smooth.
 ///
-/// For each prime power `q^a` the logarithm reduces to the subgroup
-/// of order `q^a`, where the answer is found by brute force, and the
-/// results are combined via CRT.
+/// For each prime power `q^a` the logarithm reduces to the subgroup of order `q^a`, where the answer is found by brute force, and the results are combined via CRT.
 ///
 /// # Examples
 ///

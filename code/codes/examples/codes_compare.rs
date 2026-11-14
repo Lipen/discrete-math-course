@@ -1,8 +1,6 @@
 //! Three code families, one trade-off: parity, repetition, Hamming.
 //!
-//! The demo protects the same 4 data bits with each code, prints their
-//! parameters -- length n, dimension k, minimum distance d -- and then walks
-//! one word through each family: encode, corrupt, recover or detect.
+//! The demo protects the same 4 data bits with each code, prints their parameters -- length n, dimension k, minimum distance d -- and then walks one word through each family: encode, corrupt, recover or detect.
 
 use codes::{
     corrects_up_to, decode, detects_up_to, encode, min_distance, parity_encode, parity_ok,

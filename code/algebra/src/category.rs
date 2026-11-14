@@ -1,14 +1,12 @@
 //! The category of sets: functions as morphisms.
 
-/// A category whose objects are types and whose morphisms `A -> B` are
-/// values of the associated type constructor `Morphism<A, B>`.
+/// A category whose objects are types and whose morphisms `A -> B` are values of the associated type constructor `Morphism<A, B>`.
 ///
-/// The `'static` bounds come from storing morphisms as `Box<dyn Fn>`: a
-/// `'static` trait object can only mention `'static` types. A category must
-/// satisfy three laws:
-/// 1. `compose(f, id) == f` -- right identity.
-/// 2. `compose(id, f) == f` -- left identity.
-/// 3. `compose(compose(f, g), h) == compose(f, compose(g, h))` -- associativity.
+/// The `'static` bounds come from storing morphisms as `Box<dyn Fn>`: a `'static` trait object can only mention `'static` types.
+/// A category must satisfy three laws: 1.
+/// `compose(f, id) == f` -- right identity. 2.
+/// `compose(id, f) == f` -- left identity. 3.
+/// `compose(compose(f, g), h) == compose(f, compose(g, h))` -- associativity.
 pub trait Category {
     /// The type of morphisms `A -> B`.
     type Morphism<A: 'static, B: 'static>;
@@ -56,8 +54,8 @@ pub fn constant<A, B: Clone>(b: B) -> impl Fn(A) -> B {
     move |_| b.clone()
 }
 
-/// Curry: `(A, B) -> C` becomes `A -> (B -> C)`. The inner function is boxed
-/// because nested `impl Trait` is not allowed in return position.
+/// Curry: `(A, B) -> C` becomes `A -> (B -> C)`.
+/// The inner function is boxed because nested `impl Trait` is not allowed in return position.
 pub fn curry<A, B, C, F>(f: F) -> impl Fn(A) -> Box<dyn Fn(B) -> C>
 where
     A: Clone + 'static,

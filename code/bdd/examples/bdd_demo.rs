@@ -1,7 +1,6 @@
 //! Building a BDD for x XOR y.
 //!
-//! The demo constructs the ROBDD, evaluates it on all four assignments, prints
-//! the node count, and shows that negation and satisfiability queries are cheap.
+//! The demo constructs the ROBDD, evaluates it on all four assignments, prints the node count, and shows that negation and satisfiability queries are cheap.
 
 use bdd::Bdd;
 

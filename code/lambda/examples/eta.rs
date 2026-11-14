@@ -1,7 +1,7 @@
 //! η-reduction: dropping a binder that only forwards its argument.
 //!
-//! `λx. f x` computes the same function as `f`, so η-reduction replaces the
-//! wrapper by `f`. When the bound variable is used, no η-step is possible.
+//! `λx. f x` computes the same function as `f`, so η-reduction replaces the wrapper by `f`.
+//! When the bound variable is used, no η-step is possible.
 
 use lambda::Term;
 

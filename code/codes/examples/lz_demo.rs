@@ -1,8 +1,6 @@
 //! LZ77 and LZ78 side by side on the word "ABRACADABRA".
 //!
-//! The demo prints the LZ77 triples and the LZ78 pairs for the same input,
-//! rebuilds the input from each encoding, and shows the phrase dictionary
-//! that LZ78 has learned by the end.
+//! The demo prints the LZ77 triples and the LZ78 pairs for the same input, rebuilds the input from each encoding, and shows the phrase dictionary that LZ78 has learned by the end.
 
 /// Longest match of the remainder against the coded prefix, nearest occurrence preferred.
 /// Returns (offset, length), offset counted back from the cursor.

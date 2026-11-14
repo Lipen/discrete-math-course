@@ -1,10 +1,9 @@
-//! The reduced diagram itself: nodes, complement edges, and the `Bdd` builder
-//! with the core operations -- apply, restrict, evaluate, counting.
+//! The reduced diagram itself: nodes, complement edges, and the `Bdd` builder with the core operations -- apply, restrict, evaluate, counting.
 
 use std::collections::{HashMap, HashSet};
 
-/// An edge in the BDD: a node index shifted left by one, with the low bit
-/// storing a complement flag. Edge `0` is TRUE, edge `1` is FALSE.
+/// An edge in the BDD: a node index shifted left by one, with the low bit storing a complement flag.
+/// Edge `0` is TRUE, edge `1` is FALSE.
 ///
 /// ```
 /// use bdd::{Edge, TRUE, FALSE};
@@ -22,8 +21,7 @@ pub const TRUE: Edge = 0;
 pub const FALSE: Edge = 1;
 
 /// A BDD node: test variable `var`, go to `lo` when false, `hi` when true.
-/// The `hi` edge is always non-complemented (`hi & 1 == 0`) -- this is the
-/// standard complement-edge normalisation.
+/// The `hi` edge is always non-complemented (`hi & 1 == 0`) -- this is the standard complement-edge normalisation.
 #[derive(Clone, Copy, Debug)]
 struct Node {
     var: u32,
@@ -31,11 +29,9 @@ struct Node {
     hi: Edge,
 }
 
-/// A node of a plain (complement-free) BDD: `lo` and `hi` are plain node
-/// indices into a [`PlainBdd`] table, never edges with a complement flag.
+/// A node of a plain (complement-free) BDD: `lo` and `hi` are plain node indices into a [`PlainBdd`] table, never edges with a complement flag.
 ///
-/// Negation is materialized as real nodes: the complement-free form of a
-/// function can use up to twice as many nodes as the complemented form.
+/// Negation is materialized as real nodes: the complement-free form of a function can use up to twice as many nodes as the complemented form.
 #[derive(Clone, Copy, Debug)]
 pub struct PlainNode {
     /// The tested variable `x_var`.
@@ -48,11 +44,9 @@ pub struct PlainNode {
 
 /// A BDD stored without complement edges, produced by [`Bdd::to_plain`].
 ///
-/// This is pure storage: it lets you inspect a diagram whose edges carry no
-/// complement flag. Index `0` is the FALSE terminal, index `1` is the TRUE
-/// terminal, and real nodes start at index `2`. Every non-terminal node
-/// points to a *plain* child index, so a `*`-free traversal is a plain
-/// (not complemented) Shannon tree.
+/// This is pure storage: it lets you inspect a diagram whose edges carry no complement flag.
+/// Index `0` is the FALSE terminal, index `1` is the TRUE terminal, and real nodes start at index `2`.
+/// Every non-terminal node points to a *plain* child index, so a `*`-free traversal is a plain (not complemented) Shannon tree.
 pub struct PlainBdd {
     /// The node table, where `nodes[0]` is FALSE and `nodes[1]` is TRUE.
     pub nodes: Vec<PlainNode>,
@@ -82,8 +76,7 @@ impl PlainBdd {
         }
     }
 
-    /// The canonical `(var, lo, hi)` plain node: drops redundant nodes where
-    /// `lo == hi` and merges equal subgraphs.
+    /// The canonical `(var, lo, hi)` plain node: drops redundant nodes where `lo == hi` and merges equal subgraphs.
     fn mk(&mut self, var: u32, lo: u32, hi: u32) -> u32 {
         if lo == hi {
             return lo;
@@ -100,9 +93,8 @@ impl PlainBdd {
 
 /// A manager for a family of BDDs over a common node table.
 ///
-/// Every boolean function gets a unique canonical edge under a fixed variable
-/// order. Complement edges store negation as a flag on the edge: `NOT` costs
-/// nothing, and a function and its negation share a single diagram.
+/// Every boolean function gets a unique canonical edge under a fixed variable order.
+/// Complement edges store negation as a flag on the edge: `NOT` costs nothing, and a function and its negation share a single diagram.
 ///
 /// ```
 /// use bdd::Bdd;
@@ -266,9 +258,8 @@ impl Bdd {
 
     /// The ternary operator `ite(f, g, h)`: if `f` then `g` else `h`.
     ///
-    /// This is the fundamental BDD operation -- `and`, `or`, `xor` are special
-    /// cases. It builds the result by Shannon expansion on the top variable,
-    /// memoized so the cost stays polynomial in the result size.
+    /// This is the fundamental BDD operation -- `and`, `or`, `xor` are special cases.
+    /// It builds the result by Shannon expansion on the top variable, memoized so the cost stays polynomial in the result size.
     ///
     /// ```
     /// use bdd::Bdd;
@@ -327,8 +318,8 @@ impl Bdd {
     /// Counts how many assignments of `nvars` variables (x_0 ... x_{n-1})
     /// satisfy the function represented by edge `u`.
     ///
-    /// Runs in time proportional to the number of reachable nodes. Returns
-    /// `u64::MAX` when the true count exceeds `u64::MAX`.
+    /// Runs in time proportional to the number of reachable nodes.
+    /// Returns `u64::MAX` when the true count exceeds `u64::MAX`.
     ///
     /// ```
     /// use bdd::Bdd;
@@ -422,12 +413,9 @@ impl Bdd {
     ///
     /// Each node is a circle labelled `x<var>`.
     /// The FALSE and TRUE terminals are boxes labelled `0` and `1`.
-    /// Every edge is labelled with its Shannon branch (`0` for the "false"
-    /// child, `1` for the "true" child).
-    /// A **complemented edge** is drawn dashed with a trailing `~`, so
-    /// negation is always visible on the diagram.
-    /// The single constant node appears as the two terminal boxes `0` and
-    /// `1`, since a complemented edge to it is the other terminal.
+    /// Every edge is labelled with its Shannon branch (`0` for the "false" child, `1` for the "true" child).
+    /// A **complemented edge** is drawn dashed with a trailing `~`, so negation is always visible on the diagram.
+    /// The single constant node appears as the two terminal boxes `0` and `1`, since a complemented edge to it is the other terminal.
     ///
     /// ```
     /// use bdd::Bdd;
@@ -441,8 +429,7 @@ impl Bdd {
     /// assert!(dot.contains("n1 -> zero [label=\"0 ~\", style=dashed]"));
     /// ```
     pub fn to_dot(&self, root: Edge) -> String {
-        // Collect the node indices reachable from the root (the constant node
-        // is rendered as the two terminal boxes instead).
+        // Collect the node indices reachable from the root (the constant node is rendered as the two terminal boxes instead).
         let mut reachable: Vec<u32> = Vec::new();
         let mut seen: HashSet<u32> = HashSet::new();
         let mut stack: Vec<Edge> = vec![root];
@@ -480,9 +467,8 @@ impl Bdd {
 
     /// Appends one DOT edge from `from` along edge `e`, marking complement.
     ///
-    /// `branch` is the Shannon branch label (`""` for the root, `"0"` for the
-    /// false child, `"1"` for the true child). A complemented edge is drawn
-    /// dashed with a `~` on the label.
+    /// `branch` is the Shannon branch label (`""` for the root, `"0"` for the false child, `"1"` for the true child).
+    /// A complemented edge is drawn dashed with a `~` on the label.
     fn push_dot_edge(&self, s: &mut String, from: &str, branch: &str, e: Edge) {
         let idx = e >> 1;
         let comp = e & 1;
@@ -515,11 +501,9 @@ impl Bdd {
 
     /// Renders the BDD rooted at `root` as an indented tree dump.
     ///
-    /// Each line shows a node as `n<idx>: x<var>` followed by its two Shannon
-    /// branches. A **shared subgraph** (a node reached a second time through a
-    /// different path) is printed once as `n<idx>: x<var> *` instead of being
-    /// duplicated, so the dump shows sharing explicitly. A **complemented
-    /// edge** is shown with a `~` before the target.
+    /// Each line shows a node as `n<idx>: x<var>` followed by its two Shannon branches.
+    /// A **shared subgraph** (a node reached a second time through a different path) is printed once as `n<idx>: x<var> *` instead of being duplicated, so the dump shows sharing explicitly.
+    /// A **complemented edge** is shown with a `~` before the target.
     ///
     /// ```
     /// use bdd::Bdd;
@@ -576,15 +560,10 @@ impl Bdd {
     // Plain (complement-free) conversion
     // ==================================================================
 
-    /// Converts the BDD rooted at `root` into a [`PlainBdd`] without any
-    /// complemented edges.
+    /// Converts the BDD rooted at `root` into a [`PlainBdd`] without any complemented edges.
     ///
-    /// Negation is pushed down into the graph: where the complemented form
-    /// stores a `NOT` as a flag on an edge, the plain form materializes it as
-    /// real nodes (a negated node `(var, lo, hi)` becomes `(var, ¬lo, ¬hi)`),
-    /// so the result can use up to twice as many nodes. This is pure storage
-    /// -- no BDD operations are available on [`PlainBdd`] -- meant for
-    /// inspecting a diagram whose edges carry no complement flag.
+    /// Negation is pushed down into the graph: where the complemented form stores a `NOT` as a flag on an edge, the plain form materializes it as real nodes (a negated node `(var, lo, hi)` becomes `(var, ¬lo, ¬hi)`), so the result can use up to twice as many nodes.
+    /// This is pure storage -- no BDD operations are available on [`PlainBdd`] -- meant for inspecting a diagram whose edges carry no complement flag.
     ///
     /// ```
     /// use bdd::Bdd;
@@ -643,8 +622,7 @@ impl Bdd {
 
     /// The canonical `(var, lo, hi)` node.
     ///
-    /// Applies reduction (drops redundant nodes where lo == hi) and the
-    /// complement-edge normalisation: the `hi` child is never complemented.
+    /// Applies reduction (drops redundant nodes where lo == hi) and the complement-edge normalisation: the `hi` child is never complemented.
     fn mk(&mut self, var: u32, lo: Edge, hi: Edge) -> Edge {
         if lo == hi {
             return lo;
@@ -664,8 +642,7 @@ impl Bdd {
 
     /// Restricts `e` to `v = 0` (lo) and `v = 1` (hi).
     ///
-    /// If `e` is a constant or a node below `v`, the restriction is a no-op,
-    /// and a node on `v` splits into its two children.
+    /// If `e` is a constant or a node below `v`, the restriction is a no-op, and a node on `v` splits into its two children.
     /// A complement flag on the edge negates both children.
     fn cofactor(&self, e: Edge, v: u32) -> (Edge, Edge) {
         let idx = e >> 1;
@@ -690,9 +667,7 @@ impl Bdd {
     ) -> u64 {
         let idx = e >> 1;
         if idx == 0 {
-            // Constants are not memoized: the result depends on cur_var,
-            // and the same constant edge can be reached at different
-            // variable levels through different paths.
+            // Constants are not memoized: the result depends on cur_var, and the same constant edge can be reached at different variable levels through different paths.
             return if e & 1 == 0 {
                 pow2_sat(nvars - cur_var)
             } else {
@@ -700,9 +675,8 @@ impl Bdd {
             };
         }
         let node = &self.nodes[idx as usize];
-        // Variables cur_var..node.var do not occur on this path, and each one
-        // doubles the count. The count from node.var down is memoized per
-        // node, so it does not depend on the level we are reached from.
+        // Variables cur_var..node.var do not occur on this path, and each one doubles the count.
+        // The count from node.var down is memoized per node, so it does not depend on the level we are reached from.
         let skipped = pow2_sat(node.var - cur_var);
         let base = if let Some(&c) = memo.get(&e) {
             c
@@ -737,8 +711,7 @@ fn pow2_sat(n: u32) -> u64 {
 mod tests {
     use super::*;
 
-    /// Checks that a BDD edge matches a reference truth table over all
-    /// assignments of `nvars` variables (x_0 ... x_{nvars-1}).
+    /// Checks that a BDD edge matches a reference truth table over all assignments of `nvars` variables (x_0 ... x_{nvars-1}).
     fn check_table(f: Edge, bdd: &Bdd, nvars: usize, table: &[bool]) {
         assert_eq!(table.len(), 1 << nvars);
         for (mask, &expected) in table.iter().enumerate() {
@@ -877,9 +850,7 @@ mod tests {
 
     #[test]
     fn sat_count_shared_subgraph_reached_at_different_levels() {
-        // f = x2 ∧ (x0 ∨ x1): the x2 node is reached both directly from x0
-        // (skipping x1) and through x1, so the same subgraph is counted from
-        // two different variable levels.
+        // f = x2 ∧ (x0 ∨ x1): the x2 node is reached both directly from x0 (skipping x1) and through x1, so the same subgraph is counted from two different variable levels.
         let mut bdd = Bdd::new();
         let x0 = bdd.var(0);
         let x1 = bdd.var(1);

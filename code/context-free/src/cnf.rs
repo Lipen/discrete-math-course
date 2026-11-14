@@ -1,10 +1,7 @@
 //! Chomsky normal form.
 //!
-//! A grammar is in Chomsky normal form (CNF) when every production is
-//! `A -> B C` or `A -> a`, with `S -> ε` allowed only for the start symbol.
-//! The conversion here is the standard one: eliminate epsilon, remove unit
-//! productions, replace terminals in long right-hand sides with fresh
-//! nonterminals, and split long right-hand sides into binary chains.
+//! A grammar is in Chomsky normal form (CNF) when every production is `A -> B C` or `A -> a`, with `S -> ε` allowed only for the start symbol.
+//! The conversion here is the standard one: eliminate epsilon, remove unit productions, replace terminals in long right-hand sides with fresh nonterminals, and split long right-hand sides into binary chains.
 
 use std::collections::{HashMap, HashSet};
 
@@ -12,9 +9,8 @@ use crate::grammar::{fresh_name, Grammar, Production, Symbol};
 
 /// Convert a grammar to Chomsky normal form.
 ///
-/// The result contains only `A -> B C`, `A -> a`, and `S -> ε` (the last kept
-/// exactly when the original start symbol is nullable). The language is
-/// preserved.
+/// The result contains only `A -> B C`, `A -> a`, and `S -> ε` (the last kept exactly when the original start symbol is nullable).
+/// The language is preserved.
 pub fn to_cnf(grammar: &Grammar) -> Grammar {
     let start_nullable = grammar.nullable().contains(&grammar.start);
 
@@ -23,8 +19,7 @@ pub fn to_cnf(grammar: &Grammar) -> Grammar {
     let mut used: HashSet<String> = g.nonterminals.clone();
     let mut counter = 0usize;
 
-    // Only terminals that appear inside a multi-symbol right-hand side need a
-    // fresh nonterminal (a lone `A -> a` is already CNF).
+    // Only terminals that appear inside a multi-symbol right-hand side need a fresh nonterminal (a lone `A -> a` is already CNF).
     let mut needs_nt: HashSet<String> = HashSet::new();
     for p in &g.productions {
         if p.body.len() >= 2 {
@@ -45,8 +40,7 @@ pub fn to_cnf(grammar: &Grammar) -> Grammar {
 
     for p in &g.productions {
         if p.body.len() == 1 {
-            // A -> a: already CNF (unit productions are gone, so a single
-            // symbol in the body is necessarily a terminal).
+            // A -> a: already CNF (unit productions are gone, so a single symbol in the body is necessarily a terminal).
             productions.push(p.clone());
             continue;
         }

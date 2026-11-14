@@ -1,7 +1,7 @@
 //! Lambda terms: variables, abstraction, and application.
 //!
-//! The core data type of untyped lambda calculus. Every computation is a term
-//! built from variables, abstractions, and applications.
+//! The core data type of untyped lambda calculus.
+//! Every computation is a term built from variables, abstractions, and applications.
 //!
 //! The only computation rule is β-reduction: `(λx.M) N -> M[x := N]`.
 //! Substitution is capture-avoiding -- when a free variable of `N` would be captured by a binder in `M`, the binder is α-renamed first (the substitution itself lives in [`crate::subst`], the reduction strategies in [`crate::eval`]).
@@ -135,8 +135,8 @@ impl Term {
 impl Term {
     /// Compute the set of free variables of the term.
     ///
-    /// A variable occurrence is *free* if it is not bound by an enclosing
-    /// abstraction. Free variables determine which substitutions are safe.
+    /// A variable occurrence is *free* if it is not bound by an enclosing abstraction.
+    /// Free variables determine which substitutions are safe.
     ///
     /// ```
     /// use lambda::Term;

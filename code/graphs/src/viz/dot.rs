@@ -132,8 +132,7 @@ mod tests {
 
     #[test]
     fn colliding_sanitized_names_get_unique_ids() {
-        // "a b" and "a_b" sanitize to the same id: the second one gets a
-        // suffix, and the vertices do not merge in the picture.
+        // "a b" and "a_b" sanitize to the same id: the second one gets a suffix, and the vertices do not merge in the picture.
         let mut g = Graph::undirected();
         let a = g.add_node("a b");
         let b = g.add_node("a_b");

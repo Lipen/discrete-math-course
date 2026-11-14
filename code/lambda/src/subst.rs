@@ -47,18 +47,11 @@ impl Term {
             Term::Var(_) => self.clone(),
             Term::Abs(y, _) if y == x => self.clone(),
             Term::Abs(y, body) => {
-                // Rename only when the substitution really reaches under this
-                // binder (x occurs free in the body) AND the replacement's
-                // free variables would be captured. Renaming otherwise is not
-                // just wasted work: the fresh name could collide with `x`,
-                // and the recursive substitution below would then clobber the
-                // freshly renamed occurrences before the new binder wraps them.
+                // Rename only when the substitution really reaches under this binder (x occurs free in the body) AND the replacement's free variables would be captured.
+                // Renaming otherwise is not just wasted work: the fresh name could collide with `x`, and the recursive substitution below would then clobber the freshly renamed occurrences before the new binder wraps them.
                 if replacement.free_vars().contains(y) && body.free_vars().contains(x) {
                     // α-convert the bound variable to avoid capture.
-                    // The fresh name must avoid every name in the body (free
-                    // or bound), not just the free ones: a name bound deeper
-                    // in the body would otherwise stop the renaming and leave
-                    // dangling occurrences.
+                    // The fresh name must avoid every name in the body (free or bound), not just the free ones: a name bound deeper in the body would otherwise stop the renaming and leave dangling occurrences.
                     let mut avoid = body.all_vars();
                     avoid.extend(replacement.free_vars().iter().cloned());
                     let fresh = fresh_var(&avoid, y);
@@ -161,21 +154,19 @@ mod tests {
 
     #[test]
     fn substitute_avoids_capture_by_alpha_conversion() {
-        // [x := y] (λy. y x)  ->  λy'. (y' y)
-        // The bound `y` is renamed to avoid capturing the free `y` from the
-        // replacement.
+        // [x := y] (λy. y x)  ->  λy'.
+        // (y' y) The bound `y` is renamed to avoid capturing the free `y` from the replacement.
         let t = Term::abs("y", Term::app(Term::var("y"), Term::var("x")));
         let result = t.substitute("x", &Term::var("y"));
-        // The result should be something like λy'. (y' y) -- we just check
-        // that the bound variable changed and that no capture happened.
+        // The result should be something like λy'.
+        // (y' y) -- we just check that the bound variable changed and that no capture happened.
         match &result {
             Term::Abs(bound, _) => {
                 assert_ne!(bound, "y"); // must have been alpha-renamed
             }
             _ => panic!("expected abstraction"),
         }
-        // The original free `y` (now the argument) and the bound variable must
-        // be different names.
+        // The original free `y` (now the argument) and the bound variable must be different names.
         assert_eq!(result.free_vars().len(), 1);
         assert!(result.free_vars().contains("y"));
     }

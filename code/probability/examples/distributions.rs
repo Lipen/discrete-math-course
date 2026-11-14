@@ -1,7 +1,7 @@
 //! Print the distributions and a covariance example.
 //!
-//! The Poisson example uses three calls per minute. The covariance example
-//! shows two dependent variables whose covariance is still zero.
+//! The Poisson example uses three calls per minute.
+//! The covariance example shows two dependent variables whose covariance is still zero.
 
 use probability::{correlation, covariance, Distribution};
 

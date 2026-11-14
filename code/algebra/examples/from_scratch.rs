@@ -1,7 +1,6 @@
 //! The bottom layer: Peano naturals and the Euclidean algorithm.
 //!
-//! `Nat` builds numbers from `Zero` and `Succ` and adds by recursion, with
-//! no `u32` arithmetic.
+//! `Nat` builds numbers from `Zero` and `Succ` and adds by recursion, with no `u32` arithmetic.
 //! `extended_gcd` is the core that later yields modular inverses.
 
 use algebra::arithmetic::{extended_gcd, gcd, mod_inverse};

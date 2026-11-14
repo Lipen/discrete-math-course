@@ -1,7 +1,6 @@
 //! Step-by-step beta-reduction trace.
 //!
-//! Demonstrates how to inspect each reduction step, showing the term
-//! before and after each beta-contraction.
+//! Demonstrates how to inspect each reduction step, showing the term before and after each beta-contraction.
 
 use lambda::{church, Term};
 

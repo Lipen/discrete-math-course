@@ -172,8 +172,7 @@ pub struct Constraint {
     pub rel: Rel,
 }
 
-/// An internal constraint widened to `i128` arithmetic, with a strictness flag
-/// (strictness is tracked separately so that `<` survives elimination).
+/// An internal constraint widened to `i128` arithmetic, with a strictness flag (strictness is tracked separately so that `<` survives elimination).
 #[derive(Debug, Clone)]
 struct ICons {
     coeffs: Vec<i128>,
@@ -223,23 +222,20 @@ pub fn solve(constraints: &[Constraint]) -> Option<Vec<Rat>> {
         }
     }
 
-    // Eliminate variable by variable, keeping every intermediate system so
-    // that back-substitution can later bound each variable.
+    // Eliminate variable by variable, keeping every intermediate system so that back-substitution can later bound each variable.
     let mut levels: Vec<Vec<ICons>> = vec![level];
     for k in 0..n {
         levels.push(eliminate(&levels[k], k));
     }
 
-    // Only constraints 0*x1 + ... + 0*xn <= b remain: any negative b (or a
-    // strict 0 < 0) is a contradiction.
+    // Only constraints 0*x1 + ... + 0*xn <= b remain: any negative b (or a strict 0 < 0) is a contradiction.
     for c in &levels[n] {
         if c.b < 0 || (c.b == 0 && c.strict) {
             return None;
         }
     }
 
-    // Back-substitution: assign variables from the last to the first, each
-    // inside the bounds that its elimination level leaves for it.
+    // Back-substitution: assign variables from the last to the first, each inside the bounds that its elimination level leaves for it.
     let mut values: Vec<Rat> = vec![Rat::int(0); n];
     for k in (0..n).rev() {
         let mut lower: Option<(Rat, bool)> = None;
@@ -269,10 +265,8 @@ pub fn solve(constraints: &[Constraint]) -> Option<Vec<Rat>> {
     Some(values)
 }
 
-/// Fourier--Motzkin step: eliminate variable `k` from a system of `n`
-/// variables, where `n` is the width of every constraint's coefficient
-/// vector. Each (lower, upper) pair of bounds on `x_k` becomes one new
-/// constraint on the remaining variables.
+/// Fourier--Motzkin step: eliminate variable `k` from a system of `n` variables, where `n` is the width of every constraint's coefficient vector.
+/// Each (lower, upper) pair of bounds on `x_k` becomes one new constraint on the remaining variables.
 fn eliminate(cons: &[ICons], k: usize) -> Vec<ICons> {
     let mut pos: Vec<&ICons> = vec![];
     let mut neg: Vec<&ICons> = vec![];
@@ -295,8 +289,7 @@ fn eliminate(cons: &[ICons], k: usize) -> Vec<ICons> {
         for m in &neg {
             let ap = p.coeffs[k];
             let an = m.coeffs[k];
-            // Multiply the upper-bound constraint by -an and the lower-bound
-            // constraint by ap (both positive) and add them: x_k cancels.
+            // Multiply the upper-bound constraint by -an and the lower-bound constraint by ap (both positive) and add them: x_k cancels.
             // Result: sum_j (ap*m_j - an*p_j) x_j <= ap*m_b - an*p_b.
             let coeffs: Vec<i128> = m
                 .coeffs
@@ -312,8 +305,7 @@ fn eliminate(cons: &[ICons], k: usize) -> Vec<ICons> {
     out
 }
 
-/// Keep the tighter upper bound: smaller value, and strict beats non-strict
-/// when the values tie.
+/// Keep the tighter upper bound: smaller value, and strict beats non-strict when the values tie.
 fn tighten_upper(cur: Option<(Rat, bool)>, cand: (Rat, bool)) -> Option<(Rat, bool)> {
     Some(match cur {
         None => cand,
@@ -327,8 +319,7 @@ fn tighten_upper(cur: Option<(Rat, bool)>, cand: (Rat, bool)) -> Option<(Rat, bo
     })
 }
 
-/// Keep the tighter lower bound: larger value, and strict beats non-strict
-/// when the values tie.
+/// Keep the tighter lower bound: larger value, and strict beats non-strict when the values tie.
 fn tighten_lower(cur: Option<(Rat, bool)>, cand: (Rat, bool)) -> Option<(Rat, bool)> {
     Some(match cur {
         None => cand,

@@ -1,8 +1,8 @@
 //! Two non-isomorphic models that are bisimilar.
 //!
-//! The left model has a state with two successors. The right model has a
-//! single successor. The bisimulation pairs every left successor with the
-//! right one, so both roots satisfy the same modal formulas.
+//! The left model has a state with two successors.
+//! The right model has a single successor.
+//! The bisimulation pairs every left successor with the right one, so both roots satisfy the same modal formulas.
 
 use model_checking::{greatest_bisimulation, quotient, Kripke};
 

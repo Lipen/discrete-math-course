@@ -1,7 +1,6 @@
 //! Hamming(7,4) in action: encode, corrupt one bit, correct it.
 //!
-//! The demo walks through the whole pipeline on a single word so the syndrome
-//! trick is visible: a nonzero syndrome is exactly the position of the error.
+//! The demo walks through the whole pipeline on a single word so the syndrome trick is visible: a nonzero syndrome is exactly the position of the error.
 //! The flipped bit is drawn in red when the terminal supports it.
 
 use codes::{decode, encode, syndrome};

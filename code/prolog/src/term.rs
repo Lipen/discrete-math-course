@@ -127,8 +127,7 @@ impl Term {
 
     /// Whether `var` occurs anywhere in this term, at any depth.
     ///
-    /// This is the predicate behind the occurs check: a variable may not be
-    /// bound to a term that contains it.
+    /// This is the predicate behind the occurs check: a variable may not be bound to a term that contains it.
     ///
     /// ```
     /// use prolog::term::Term;

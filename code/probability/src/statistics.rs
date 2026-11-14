@@ -1,7 +1,6 @@
 //! Sample covariance, correlation, and the moments of a finite data set.
 //!
-//! The functions treat the data as the whole distribution: means, variances,
-//! and covariance divide by `n`, not by `n - 1`.
+//! The functions treat the data as the whole distribution: means, variances, and covariance divide by `n`, not by `n - 1`.
 
 /// Arithmetic mean of a non-empty slice.
 pub fn mean(xs: &[f64]) -> Option<f64> {
@@ -37,8 +36,7 @@ pub fn covariance(xs: &[f64], ys: &[f64]) -> Option<f64> {
 
 /// Pearson correlation coefficient of two equally long, non-empty slices.
 ///
-/// Returns `None` when either variance is zero, because the coefficient is
-/// undefined in that case.
+/// Returns `None` when either variance is zero, because the coefficient is undefined in that case.
 pub fn correlation(xs: &[f64], ys: &[f64]) -> Option<f64> {
     let cov = covariance(xs, ys)?;
     let sx = variance(xs)?.sqrt();

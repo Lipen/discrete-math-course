@@ -1,9 +1,7 @@
 //! Greatest bisimulation between two finite Kripke structures.
 //!
-//! Two states are bisimilar when they carry the same atoms and every step
-//! from one side can be matched by a step from the other side, in both
-//! directions. Bisimilar states satisfy the same modal formulas, so a model
-//! can be reduced to its bisimulation quotient before checking.
+//! Two states are bisimilar when they carry the same atoms and every step from one side can be matched by a step from the other side, in both directions.
+//! Bisimilar states satisfy the same modal formulas, so a model can be reduced to its bisimulation quotient before checking.
 //!
 //! ```
 //! use model_checking::{greatest_bisimulation, Kripke};
@@ -23,11 +21,8 @@ use crate::kripke::Kripke;
 
 /// Compute the greatest bisimulation between two finite Kripke structures.
 ///
-/// The result is a matrix `z` with `z[s][t] == true` exactly when state `s`
-/// of `left` is bisimilar to state `t` of `right`.
-/// The algorithm starts with all pairs that agree on atoms and repeatedly
-/// removes a pair when some step on one side has no matching step on the
-/// other side.
+/// The result is a matrix `z` with `z[s][t] == true` exactly when state `s` of `left` is bisimilar to state `t` of `right`.
+/// The algorithm starts with all pairs that agree on atoms and repeatedly removes a pair when some step on one side has no matching step on the other side.
 pub fn greatest_bisimulation(left: &Kripke, right: &Kripke) -> Vec<Vec<bool>> {
     let mut z = vec![vec![false; right.n]; left.n];
     for (s, row) in z.iter_mut().enumerate() {
@@ -64,8 +59,7 @@ pub fn greatest_bisimulation(left: &Kripke, right: &Kripke) -> Vec<Vec<bool>> {
 /// Merge bisimilar states of one model into a quotient model.
 ///
 /// Returns the quotient and a map from each old state to its class.
-/// States in one class have the same atoms, and the successors of a class are
-/// the classes of the successors of any representative.
+/// States in one class have the same atoms, and the successors of a class are the classes of the successors of any representative.
 pub fn quotient(model: &Kripke) -> (Kripke, Vec<usize>) {
     let z = greatest_bisimulation(model, model);
     let mut class = vec![usize::MAX; model.n];

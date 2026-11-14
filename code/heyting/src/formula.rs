@@ -114,8 +114,7 @@ impl Formula {
         }
     }
 
-    /// The number of atoms used by the formula (one more than the largest
-    /// atom index, or 0 for a formula without atoms).
+    /// The number of atoms used by the formula (one more than the largest atom index, or 0 for a formula without atoms).
     ///
     /// ```
     /// use heyting::Formula;

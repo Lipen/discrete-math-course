@@ -1,8 +1,7 @@
 //! Building BDDs from boolean expressions.
 //!
-//! The `Expr` type lets you write formulas as Rust expressions and convert
-//! them to BDDs. This demo shows equivalence checking, tautology detection,
-//! and model counting -- all enabled by the canonical representation.
+//! The `Expr` type lets you write formulas as Rust expressions and convert them to BDDs.
+//! This demo shows equivalence checking, tautology detection, and model counting -- all enabled by the canonical representation.
 
 use bdd::{Bdd, Expr};
 

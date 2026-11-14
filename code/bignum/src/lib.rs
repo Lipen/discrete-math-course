@@ -1,14 +1,8 @@
-//! Arbitrary-precision integers built the schoolbook way: a sign flag plus a
-//! magnitude stored as limbs of base `2^32`, least significant first.
+//! Arbitrary-precision integers built the schoolbook way: a sign flag plus a magnitude stored as limbs of base `2^32`, least significant first.
 //!
-//! The crate shows the classic column algorithms on numbers of any width:
-//! addition ripples the carry upward, comparison reads from the most
-//! significant limb, subtraction borrows limb by limb, and multiplication
-//! turns every limb pair into one double-width product. Division works by
-//! shift-subtract and also powers the decimal conversion, nine digits at a
-//! time. On top of the two layers, [`factorial`] and [`fibonacci`] produce
-//! values far beyond 64 bits, and a seeded generator drives randomized
-//! property checks against the built-in types.
+//! The crate shows the classic column algorithms on numbers of any width: addition ripples the carry upward, comparison reads from the most significant limb, subtraction borrows limb by limb, and multiplication turns every limb pair into one double-width product.
+//! Division works by shift-subtract and also powers the decimal conversion, nine digits at a time.
+//! On top of the two layers, [`factorial`] and [`fibonacci`] produce values far beyond 64 bits, and a seeded generator drives randomized property checks against the built-in types.
 //!
 //! ```
 //! use bignum::BigInt;

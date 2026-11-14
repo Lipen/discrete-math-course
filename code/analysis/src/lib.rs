@@ -1,11 +1,7 @@
-//! Abstract interpretation: the constant domain, transfer functions, and
-//! fixed-point iteration.
+//! Abstract interpretation: the constant domain, transfer functions, and fixed-point iteration.
 //!
-//! A tiny imperative program is analyzed on abstract values: the constant
-//! domain tracks which variables hold a known integer (⊥ is unreachable, ⊤ is
-//! "not a constant"). Assignments evaluate expressions abstractly, `If` merges
-//! both branches with the join ⊔, and `While` loops are analyzed by Kleene
-//! iteration to a fixpoint.
+//! A tiny imperative program is analyzed on abstract values: the constant domain tracks which variables hold a known integer (⊥ is unreachable, ⊤ is "not a constant").
+//! Assignments evaluate expressions abstractly, `If` merges both branches with the join ⊔, and `While` loops are analyzed by Kleene iteration to a fixpoint.
 
 pub mod domains;
 pub mod program;

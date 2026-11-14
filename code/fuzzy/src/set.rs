@@ -26,8 +26,7 @@ pub struct FuzzySet {
 }
 
 impl FuzzySet {
-    /// Build a set from breakpoints: sorts them, drops duplicate `x`, and
-    /// removes collinear interior points.
+    /// Build a set from breakpoints: sorts them, drops duplicate `x`, and removes collinear interior points.
     pub fn new(points: Vec<(f64, f64)>) -> Self {
         let mut pts = points;
         pts.sort_by(|a, b| a.0.partial_cmp(&b.0).unwrap());
@@ -115,8 +114,7 @@ impl FuzzySet {
 
     /// The alpha-cut `{x : mu(x) >= alpha}` as a list of closed intervals.
     ///
-    /// At `alpha = 0` the whole span of the set is returned; at
-    /// `alpha = 1` this is the core.
+    /// At `alpha = 0` the whole span of the set is returned; at `alpha = 1` this is the core.
     pub fn alpha_cut(&self, alpha: f64) -> Vec<(f64, f64)> {
         let pts = &self.points;
         let mut result = Vec::new();
@@ -199,9 +197,7 @@ impl FuzzySet {
 
     /// Combine two sets pointwise: `result(x) = op(self(x), other(x))`.
     ///
-    /// Breakpoints of both sets plus every crossing point of the two
-    /// functions are collected, so the result is exact for operations such as
-    /// `min` and `max`.
+    /// Breakpoints of both sets plus every crossing point of the two functions are collected, so the result is exact for operations such as `min` and `max`.
     fn combine(&self, other: &FuzzySet, op: impl Fn(f64, f64) -> f64) -> FuzzySet {
         let mut xs: Vec<f64> = self.points.iter().map(|p| p.0).collect();
         xs.extend(other.points.iter().map(|p| p.0));
@@ -255,8 +251,7 @@ fn cross(x0: f64, y0: f64, x1: f64, y1: f64, level: f64) -> f64 {
     x0 + (level - y0) * (x1 - x0) / (y1 - y0)
 }
 
-/// Drop an interior breakpoint when it lies on the line through its
-/// neighbors (so the function is unchanged with fewer points).
+/// Drop an interior breakpoint when it lies on the line through its neighbors (so the function is unchanged with fewer points).
 fn remove_collinear(pts: Vec<(f64, f64)>) -> Vec<(f64, f64)> {
     if pts.len() <= 2 {
         return pts;
@@ -324,8 +319,7 @@ mod tests {
 
     #[test]
     fn intersection_peaks_at_the_crossing() {
-        // high and middle cross where (x-160)/30 = (180-x)/10, i.e. x = 175,
-        // with value 0.5.
+        // high and middle cross where (x-160)/30 = (180-x)/10, i.e. x = 175, with value 0.5.
         let h = high();
         let m = middle();
         let inter = h.intersection(&m);

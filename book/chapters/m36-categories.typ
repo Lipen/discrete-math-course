@@ -182,8 +182,7 @@ trait Monoid {
     fn e() -> Self;                     // нейтральный элемент = тождественная стрелка
     fn star(self, other: Self) -> Self; // операция = композиция стрелок
 }
-// a.star(b).star(c) == a.star(b.star(c))           --- ассоциативность
-// a.star(Self::e()) == a && Self::e().star(a) == a --- тождество
+// a.star(b).star(c) == a.star(b.star(c))           --- ассоциативность a.star(Self::e()) == a && Self::e().star(a) == a --- тождество
 
 impl<A> Monoid for Vec<A> {
     fn e() -> Self { vec![] }
@@ -444,8 +443,7 @@ hom-множества --- рабочая валюта всей главы: фу
 fn map<T, U>(xs: &[T], f: impl Fn(&T) -> U) -> Vec<U> {
     xs.iter().map(f).collect()
 }
-// map(xs, |x| g(f(x))) == map(map(xs, f), g)   --- композиция
-// map(xs, |x| x)             == xs             --- тождество
+// map(xs, |x| g(f(x))) == map(map(xs, f), g)   --- композиция map(xs, |x| x)             == xs             --- тождество
 ```
 
 Первый классический функтор --- булеан, конструкция, знакомая из теории множеств (глава~@chap:sets).

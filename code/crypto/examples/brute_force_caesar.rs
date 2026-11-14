@@ -1,8 +1,7 @@
 //! Breaking the Caesar cipher by brute force.
 //!
 //! The cipher key is a shift from 1 to 25.
-//! Every shift is tried, and the meaningful word "HELLO" appears at a
-//! shift of 3 positions.
+//! Every shift is tried, and the meaningful word "HELLO" appears at a shift of 3 positions.
 
 /// English alphabet (26 letters).
 const ENG: &str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";

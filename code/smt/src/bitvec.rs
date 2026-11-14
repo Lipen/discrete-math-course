@@ -112,8 +112,7 @@ type Lit = (i32, bool);
 
 /// Solve a conjunction of bitvector literals.
 ///
-/// Returns `Ok(Some(model))` when satisfiable, `Ok(None)` when unsatisfiable,
-/// and `Err` when the problem uses an unsupported operation or a bad width.
+/// Returns `Ok(Some(model))` when satisfiable, `Ok(None)` when unsatisfiable, and `Err` when the problem uses an unsupported operation or a bad width.
 /// `model[i]` is the value of variable `i` (variables that never occur are 0).
 pub fn solve(literals: &[BoolExpr]) -> Result<Option<Vec<u64>>, BitvecError> {
     // Flatten the expression trees into an arena.
@@ -179,8 +178,7 @@ pub fn solve(literals: &[BoolExpr]) -> Result<Option<Vec<u64>>, BitvecError> {
         bits[i] = bs;
     }
 
-    // Assert the top-level literals: an equation forces its boolean bit true,
-    // a disequation forces it false.
+    // Assert the top-level literals: an equation forces its boolean bit true, a disequation forces it false.
     for (i, lit) in literals.iter().enumerate() {
         let (var, pos) = bits[eq_nodes[i]][0];
         match lit {
@@ -290,8 +288,7 @@ fn flatten(
             (BNode::Extract(*hi, *lo, ix), *hi - *lo + 1)
         }
     };
-    // The children were pushed during the match above, so the node's own
-    // index is the current length of the arena.
+    // The children were pushed during the match above, so the node's own index is the current length of the arena.
     let index = nodes.len();
     nodes.push(node);
     widths.push(width);
@@ -327,9 +324,8 @@ impl Blaster {
         v
     }
 
-    /// Emit a clause of bits, treating variable 0 as a constant: a `(0, true)`
-    /// literal makes the clause always true (skip it), a `(0, false)` literal
-    /// is dropped. Real variables (1 and up) become signed literals.
+    /// Emit a clause of bits, treating variable 0 as a constant: a `(0, true)` literal makes the clause always true (skip it), a `(0, false)` literal is dropped.
+    /// Real variables (1 and up) become signed literals.
     fn emit(&mut self, clause: Vec<Lit>) {
         let mut out: Vec<i32> = vec![];
         for (v, p) in clause {
@@ -369,15 +365,13 @@ fn blast_and_or(blaster: &mut Blaster, a: &[Lit], b: &[Lit], is_and: bool) -> Ve
 
 /// A ripple-carry adder: `out = a + b + carry_in` bit by bit.
 ///
-/// For each bit, a helper variable holds `a xor b`, the sum bit holds
-/// `(a xor b) xor carry`, and the next carry is the majority of the three
-/// inputs. `carry_in` as `(0, true)` makes the same circuit a subtractor.
+/// For each bit, a helper variable holds `a xor b`, the sum bit holds `(a xor b) xor carry`, and the next carry is the majority of the three inputs.
+/// `carry_in` as `(0, true)` makes the same circuit a subtractor.
 fn blast_adder(blaster: &mut Blaster, a: &[Lit], b: &[Lit], carry_in: Lit) -> Vec<Lit> {
     let mut carry = carry_in;
     let mut out = vec![];
     for (&(av, ap), &(bv, bp)) in a.iter().zip(b) {
-        // t = a xor b: the four clauses exclude the four rows that are not
-        // in the truth table (t = 1 exactly when the two bits differ).
+        // t = a xor b: the four clauses exclude the four rows that are not in the truth table (t = 1 exactly when the two bits differ).
         let t = blaster.fresh();
         blaster.emit(vec![(t, false), (av, ap), (bv, bp)]);
         blaster.emit(vec![(t, true), (av, ap), (bv, !bp)]);
@@ -391,8 +385,7 @@ fn blast_adder(blaster: &mut Blaster, a: &[Lit], b: &[Lit], carry_in: Lit) -> Ve
         blaster.emit(vec![(s, true), (tv, tp), (cv, !cp)]);
         blaster.emit(vec![(s, true), (tv, !tp), (cv, cp)]);
         blaster.emit(vec![(s, false), (tv, !tp), (cv, !cp)]);
-        // next carry = majority(a, b, carry): the clauses exclude the rows
-        // outside the truth table.
+        // next carry = majority(a, b, carry): the clauses exclude the rows outside the truth table.
         // Carry is 1 when at least two inputs are 1, and the last clause rules out carry = 1 with all inputs 0.
         let next = blaster.fresh();
         blaster.emit(vec![(next, true), (av, !ap), (bv, !bp)]);
@@ -497,8 +490,7 @@ mod tests {
         }
     }
 
-    /// A found model must satisfy every literal: this re-checks the circuits
-    /// independently of the SAT result.
+    /// A found model must satisfy every literal: this re-checks the circuits independently of the SAT result.
     fn check_model(literals: &[BoolExpr], m: &[u64]) {
         for lit in literals {
             let (a, b) = match lit {

@@ -1,7 +1,6 @@
 //! Combinators: I, K, S.
 //!
-//! Each combinator is a closed term that captures a fundamental pattern of
-//! function application.
+//! Each combinator is a closed term that captures a fundamental pattern of function application.
 
 use lambda::{i, k, s, Term};
 

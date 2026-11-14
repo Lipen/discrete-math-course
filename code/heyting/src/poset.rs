@@ -4,8 +4,7 @@
 //! A **downset** (order ideal) of a poset `P` is a subset `D` closed under going down: if `y ∈ D` and `x <= y` then `x ∈ D`.
 //! The downsets of `P` form a Heyting algebra with:
 //!
-//! - meet = intersection, join = union,
-//! - implication `A -> B` = the largest ideal `I` with `I ∩ A ⊆ B`.
+//! - meet = intersection, join = union, - implication `A -> B` = the largest ideal `I` with `I ∩ A ⊆ B`.
 //!
 //! Every finite Heyting algebra is, up to isomorphism, a subalgebra of the downset algebra of some finite poset (Birkhoff duality: a finite distributive lattice is the downset algebra of its poset of join-irreducibles).
 //! The downset algebra of a small poset is therefore a rich source of counterexamples for intuitionistic formulas.
@@ -68,8 +67,7 @@ impl Poset {
         Poset { size, mask }
     }
 
-    /// The poset on `0..size` whose order is the reflexive-transitive closure
-    /// of the given covering relations `(x, y)` with `x < y`.
+    /// The poset on `0..size` whose order is the reflexive-transitive closure of the given covering relations `(x, y)` with `x < y`.
     ///
     /// The relations need not be covering edges: any strict `x < y` works, and chains of them are closed transitively.
     /// Panics if a relation refers to an element outside `0..size` or the closure is not antisymmetric (e.g. a cycle).
@@ -128,8 +126,7 @@ impl Poset {
 
     /// Is the subset `mask` (bit `i` set = element `i` is in it) a downset?
     ///
-    /// A downset is closed under going down: whenever `y` is in the subset
-    /// and `x <= y`, also `x` is in it.
+    /// A downset is closed under going down: whenever `y` is in the subset and `x <= y`, also `x` is in it.
     pub fn is_downset(&self, subset: usize) -> bool {
         for y in 0..self.size {
             if subset & (1 << y) != 0 {
@@ -237,9 +234,7 @@ mod tests {
         let a = p.downset_algebra();
         let ideals = p.downsets();
 
-        // For every pair (A, B), check the defining property directly on
-        // ideals: A -> B is the union of all ideals I with I ∩ A ⊆ B, and
-        // that union is itself an ideal.
+        // For every pair (A, B), check the defining property directly on ideals: A -> B is the union of all ideals I with I ∩ A ⊆ B, and that union is itself an ideal.
         for i in 0..a.size() {
             for j in 0..a.size() {
                 let ab = a.implies(i, j);

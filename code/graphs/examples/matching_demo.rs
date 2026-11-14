@@ -2,8 +2,7 @@
 //!
 //! Three workers W1..W3 and three tasks T1..T3 are the two sides of a bipartite graph.
 //! An edge means the worker can do the task.
-//! The algorithm tries every worker in turn and flips an alternating path when it finds one,
-//! so an earlier assignment can be rearranged to free a task for the newcomer.
+//! The algorithm tries every worker in turn and flips an alternating path when it finds one, so an earlier assignment can be rearranged to free a task for the newcomer.
 
 use graphs::{bipartite_matching, Graph};
 

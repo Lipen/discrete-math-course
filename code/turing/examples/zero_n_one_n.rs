@@ -1,8 +1,7 @@
 //! A machine recognising the language 0^n 1^n.
 //!
-//! The algorithm crosses out matching 0--1 pairs with X and accepts when
-//! all symbols are crossed out. This example prints the outcome for several
-//! words and shows a full step-by-step trace for "0011".
+//! The algorithm crosses out matching 0--1 pairs with X and accepts when all symbols are crossed out.
+//! This example prints the outcome for several words and shows a full step-by-step trace for "0011".
 
 use turing::{machines, Tape};
 

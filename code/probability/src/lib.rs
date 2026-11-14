@@ -1,8 +1,7 @@
 //! Discrete probability: four distributions and sample covariance.
 //!
-//! A single trial with success probability `p` generates Bernoulli, binomial,
-//! and geometric distributions. The Poisson distribution is the limit of the
-//! binomial one when trials are many and successes are rare.
+//! A single trial with success probability `p` generates Bernoulli, binomial, and geometric distributions.
+//! The Poisson distribution is the limit of the binomial one when trials are many and successes are rare.
 //!
 //! ```
 //! use probability::Distribution;
@@ -13,8 +12,7 @@
 //! assert_eq!(calls.mean(), 3.0);
 //! ```
 //!
-//! The statistics module works with finite data sets: mean, variance,
-//! covariance, and the Pearson correlation coefficient.
+//! The statistics module works with finite data sets: mean, variance, covariance, and the Pearson correlation coefficient.
 
 pub mod distribution;
 pub mod statistics;

@@ -1,14 +1,10 @@
 //! Maximum flow and minimum cut.
 //!
-//! A flow network is a directed graph with a non-negative capacity on every edge,
-//! a designated source, and a designated sink.
-//! A flow sends an amount along every edge: no edge carries more than its capacity,
-//! and every vertex except the source and the sink keeps as much as it receives.
+//! A flow network is a directed graph with a non-negative capacity on every edge, a designated source, and a designated sink.
+//! A flow sends an amount along every edge: no edge carries more than its capacity, and every vertex except the source and the sink keeps as much as it receives.
 //! The value of a flow is the net amount that leaves the source.
 //!
-//! The maximum flow equals the minimum cut: the cheapest set of edges whose removal
-//! disconnects the sink from the source has the same total capacity as the best flow.
-//! [`max_flow`] computes both in one run and returns the source side of a minimum cut.
+//! The maximum flow equals the minimum cut: the cheapest set of edges whose removal disconnects the sink from the source has the same total capacity as the best flow. [`max_flow`] computes both in one run and returns the source side of a minimum cut.
 
 use std::collections::VecDeque;
 
@@ -44,10 +40,8 @@ pub struct MaxFlow {
 
 /// Maximum flow from `source` to `sink`, with the minimum cut that proves it.
 ///
-/// Edmonds--Karp: every round finds a shortest augmenting path by BFS in the residual network
-/// and pushes the smallest residual capacity along it.
-/// The residual network keeps a backward arc for every edge, so a later round can cancel
-/// flow already sent.
+/// Edmonds--Karp: every round finds a shortest augmenting path by BFS in the residual network and pushes the smallest residual capacity along it.
+/// The residual network keeps a backward arc for every edge, so a later round can cancel flow already sent.
 /// Runs in $O(V E^2)$.
 /// The capacities are the edge weights and must be non-negative.
 /// The graph must be directed, and `source` and `sink` must differ.

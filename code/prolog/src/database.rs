@@ -9,9 +9,8 @@ use crate::term::Term;
 
 /// A logic program: clauses indexed by the predicate of their head.
 ///
-/// The index key is `(name, arity)`: an atom `p` has arity 0, a structure
-/// `parent(alice, bob)` has arity 2. Clauses are kept in the order they
-/// were added, because the solver tries them in program order.
+/// The index key is `(name, arity)`: an atom `p` has arity 0, a structure `parent(alice, bob)` has arity 2.
+/// Clauses are kept in the order they were added, because the solver tries them in program order.
 ///
 /// ```
 /// use prolog::term::Term;
@@ -64,8 +63,7 @@ impl Database {
 
     /// The clauses whose head predicate matches `term`, in program order.
     ///
-    /// Returns `None` when `term` is a variable (no predicate) or when no
-    /// clause matches.
+    /// Returns `None` when `term` is a variable (no predicate) or when no clause matches.
     ///
     /// ```
     /// use prolog::term::Term;

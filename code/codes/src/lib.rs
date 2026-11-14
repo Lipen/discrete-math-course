@@ -1,17 +1,8 @@
 //! Error-correcting codes: parity, repetition, and Hamming.
 //!
-//! Three code families over a binary channel, from the cheapest protection to
-//! the clever one:
+//! Three code families over a binary channel, from the cheapest protection to the clever one:
 //!
-//! - **parity** appends one bit so a word has an even number of ones: distance 2,
-//!   so it detects a single error but cannot locate it.
-//! - **repetition** sends each bit three times and lets the majority vote:
-//!   distance 3, one error corrected, but the rate is a poor 1/3.
-//! - **Hamming(7,4)** packs 4 data bits with 3 parity bits into a 7-bit
-//!   codeword: the same distance 3 at the better rate 4/7.
-//! - **extended Hamming(8,4,4)** adds an overall parity bit: distance grows to 4,
-//!   still corrects one error, and now *detects* a double error instead of
-//!   silently miscorrecting it.
+//! - **parity** appends one bit so a word has an even number of ones: distance 2, so it detects a single error but cannot locate it. - **repetition** sends each bit three times and lets the majority vote: distance 3, one error corrected, but the rate is a poor 1/3. - **Hamming(7,4)** packs 4 data bits with 3 parity bits into a 7-bit codeword: the same distance 3 at the better rate 4/7. - **extended Hamming(8,4,4)** adds an overall parity bit: distance grows to 4, still corrects one error, and now *detects* a double error instead of silently miscorrecting it.
 //!
 //! # Quick example
 //!
@@ -31,8 +22,7 @@
 //!
 //! # Distance and capability
 //!
-//! A code with minimum distance `d` detects up to `d - 1` errors and corrects up
-//! to `(d - 1) / 2`:
+//! A code with minimum distance `d` detects up to `d - 1` errors and corrects up to `(d - 1) / 2`:
 //!
 //! ```
 //! assert_eq!(codes::detects_up_to(3), 2);

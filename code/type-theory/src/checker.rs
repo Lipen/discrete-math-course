@@ -164,8 +164,8 @@ impl STerm {
 
     /// Capture-avoiding substitution on typed terms, keeping annotations.
     ///
-    /// `self[x := replacement]`. When the replacement has a free variable that
-    /// would be captured by a binder in `self`, the binder is α-renamed first.
+    /// `self[x := replacement]`.
+    /// When the replacement has a free variable that would be captured by a binder in `self`, the binder is α-renamed first.
     fn substitute(&self, x: &str, replacement: &STerm) -> STerm {
         match self {
             STerm::Var(y) if y == x => replacement.clone(),
@@ -197,8 +197,9 @@ impl STerm {
         }
     }
 
-    /// Rename all occurrences of `from` to `to` inside the scope of a matching
-    /// binder. Stops at shadow boundaries. Low-level helper for α-conversion.
+    /// Rename all occurrences of `from` to `to` inside the scope of a matching binder.
+    /// Stops at shadow boundaries.
+    /// Low-level helper for α-conversion.
     fn subst_var(&self, from: &str, to: &str) -> STerm {
         match self {
             STerm::Var(y) if y == from => STerm::Var(to.to_string()),

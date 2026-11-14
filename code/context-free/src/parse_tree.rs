@@ -1,23 +1,17 @@
 //! Parse trees and their enumeration.
 //!
-//! A parse tree makes the structure of a derivation visible: the root is the
-//! start symbol, internal nodes are nonterminals, and the concatenation of the
-//! leaves is the derived word. [`all_parse_trees`] returns every parse tree of
-//! a word, not just the first one.
+//! A parse tree makes the structure of a derivation visible: the root is the start symbol, internal nodes are nonterminals, and the concatenation of the leaves is the derived word. [`all_parse_trees`] returns every parse tree of a word, not just the first one.
 
 use std::collections::HashMap;
 
 use crate::grammar::{Grammar, Symbol};
 use crate::GrammarError;
 
-/// Safety cap on the number of parse trees built for any one nonterminal over
-/// any one substring. A grammar that exceeds it -- typically an epsilon- or
-/// unit-cycle, which is infinitely ambiguous -- is reported as an error
-/// instead of looping forever.
+/// Safety cap on the number of parse trees built for any one nonterminal over any one substring.
+/// A grammar that exceeds it -- typically an epsilon- or unit-cycle, which is infinitely ambiguous -- is reported as an error instead of looping forever.
 pub const MAX_PARSE_TREES: usize = 100_000;
 
-/// A parse tree: a leaf holds a terminal, a node holds a nonterminal and its
-/// children (the right-hand side of the production it applies).
+/// A parse tree: a leaf holds a terminal, a node holds a nonterminal and its children (the right-hand side of the production it applies).
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum ParseTree {
     /// A leaf: the terminal it spells.
@@ -43,8 +37,7 @@ impl ParseTree {
         }
     }
 
-    /// The unique leftmost derivation of this tree, as a sequence of
-    /// sentential forms (each a `Vec<Symbol>`).
+    /// The unique leftmost derivation of this tree, as a sequence of sentential forms (each a `Vec<Symbol>`).
     pub fn leftmost_derivation(&self) -> Vec<Vec<Symbol>> {
         let mut steps = Vec::new();
         let mut work: Vec<&ParseTree> = vec![self];
@@ -78,9 +71,8 @@ impl ParseTree {
         steps
     }
 
-    /// A fully parenthesized form: a node with exactly three children
-    /// `x op y` is written `(x op y)`; anything else is flattened left to
-    /// right. Useful for showing how a binary operator groups its operands.
+    /// A fully parenthesized form: a node with exactly three children `x op y` is written `(x op y)`; anything else is flattened left to right.
+    /// Useful for showing how a binary operator groups its operands.
     pub fn parenthesized(&self) -> String {
         match self {
             ParseTree::Leaf(t) => t.clone(),
@@ -132,24 +124,18 @@ impl std::fmt::Display for ParseTree {
 
 /// All parse trees of `word` rooted at the grammar's start symbol.
 ///
-/// The enumerator keeps epsilon productions (a node with no children) and unit
-/// productions, so the trees show the grammar exactly as written.
-/// To guarantee termination it caps each `(nonterminal, substring)` at
-/// [`MAX_PARSE_TREES`].
-/// A grammar with an epsilon-cycle such as `S -> S S | ε` or a unit-cycle such
-/// as `A -> B, B -> A` exceeds the cap and yields
-/// [`GrammarError::TooManyParseTrees`].
+/// The enumerator keeps epsilon productions (a node with no children) and unit productions, so the trees show the grammar exactly as written.
+/// To guarantee termination it caps each `(nonterminal, substring)` at [`MAX_PARSE_TREES`].
+/// A grammar with an epsilon-cycle such as `S -> S S | ε` or a unit-cycle such as `A -> B, B -> A` exceeds the cap and yields [`GrammarError::TooManyParseTrees`].
 pub fn all_parse_trees(grammar: &Grammar, word: &[String]) -> Result<Vec<ParseTree>, GrammarError> {
     let n = word.len();
-    // memo[(nonterminal, start, end)] = trees for that nonterminal over
-    // word[start..end].
+    // memo[(nonterminal, start, end)] = trees for that nonterminal over word[start..end].
     let mut memo: HashMap<(String, usize, usize), Vec<ParseTree>> = HashMap::new();
 
     for len in 0..=n {
         for i in 0..=(n - len) {
             let j = i + len;
-            // Fixed point over the current span: unit productions and epsilon
-            // chains may add trees within the same span.
+            // Fixed point over the current span: unit productions and epsilon chains may add trees within the same span.
             loop {
                 let mut added = false;
                 for p in &grammar.productions {
@@ -180,14 +166,13 @@ pub fn all_parse_trees(grammar: &Grammar, word: &[String]) -> Result<Vec<ParseTr
 
 /// Is `word` in the language of `grammar`?
 ///
-/// Membership is decided by CYK on the grammar's Chomsky normal form, so it
-/// always terminates regardless of ambiguity.
+/// Membership is decided by CYK on the grammar's Chomsky normal form, so it always terminates regardless of ambiguity.
 pub fn in_language(grammar: &Grammar, word: &str) -> bool {
     crate::cyk::recognize(&crate::to_cnf(grammar), word)
 }
 
-/// Enumerate every way to match `body` over `word[i..j]`, as a list of child
-/// lists. Each child list has `body.len()` subtrees, one per body symbol.
+/// Enumerate every way to match `body` over `word[i..j]`, as a list of child lists.
+/// Each child list has `body.len()` subtrees, one per body symbol.
 /// Capped at [`MAX_PARSE_TREES`].
 fn match_body(
     word: &[String],
@@ -317,8 +302,7 @@ mod tests {
 
     #[test]
     fn epsilon_cycle_is_reported_not_hung() {
-        // S -> S S | ε has infinitely many trees for every word: the cap must
-        // turn the runaway enumeration into an error.
+        // S -> S S | ε has infinitely many trees for every word: the cap must turn the runaway enumeration into an error.
         let g = Grammar::new(
             "S",
             vec![

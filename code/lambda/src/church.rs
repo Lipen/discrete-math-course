@@ -1,7 +1,7 @@
 //! Church encodings: numerals, booleans, and pairs.
 //!
-//! In untyped lambda calculus, data is encoded as functions. A Church numeral
-//! `n` is a function that applies its first argument `n` times:
+//! In untyped lambda calculus, data is encoded as functions.
+//! A Church numeral `n` is a function that applies its first argument `n` times:
 //!
 //! ```text
 //! church 0 = λf x. x

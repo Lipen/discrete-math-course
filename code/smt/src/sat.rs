@@ -102,9 +102,8 @@ impl Solver {
         )
     }
 
-    /// Unit propagation: repeatedly assign every variable forced by a clause
-    /// that has one unassigned literal left. Returns `Err` on a conflict
-    /// (a clause whose literals are all false).
+    /// Unit propagation: repeatedly assign every variable forced by a clause that has one unassigned literal left.
+    /// Returns `Err` on a conflict (a clause whose literals are all false).
     fn propagate(&mut self) -> Result<(), ()> {
         loop {
             let mut changed = false;
@@ -144,10 +143,9 @@ impl Solver {
         }
     }
 
-    /// Undo the last decision: pop the trail past it and flip it. A decision
-    /// that has already been flipped is popped past as well (both values
-    /// failed under the assignments that led here). Returns `false` when no
-    /// decision is left to flip, meaning the formula is unsatisfiable.
+    /// Undo the last decision: pop the trail past it and flip it.
+    /// A decision that has already been flipped is popped past as well (both values failed under the assignments that led here).
+    /// Returns `false` when no decision is left to flip, meaning the formula is unsatisfiable.
     fn backtrack(&mut self) -> bool {
         while let Some(entry) = self.trail.pop() {
             self.assign[entry.var] = None;
@@ -202,20 +200,16 @@ mod tests {
 
     #[test]
     fn backtracking_required() {
-        // The 2-SAT formula (x1 OR x2) AND (NOT x1 OR x2) AND (x1 OR NOT x2)
-        // AND (NOT x1 OR NOT x2) is unsatisfiable, but unit propagation alone
-        // cannot see it: a decision is needed, and both values fail.
+        // The 2-SAT formula (x1 OR x2) AND (NOT x1 OR x2) AND (x1 OR NOT x2) AND (NOT x1 OR NOT x2) is unsatisfiable, but unit propagation alone cannot see it: a decision is needed, and both values fail.
         let clauses = vec![vec![1, 2], vec![-1, 2], vec![1, -2], vec![-1, -2]];
         assert_eq!(solve(2, &clauses), None);
     }
 
     #[test]
     fn decision_is_flipped() {
-        // (x1 OR x2) AND (NOT x1 OR x3) AND (x2 OR NOT x3) AND (NOT x1 OR
-        // NOT x2) AND (x1 OR NOT x3). Deciding x1 = true propagates x3 = true
-        // and x2 = true, which conflicts with (NOT x1 OR NOT x2).
-        // The decision must be flipped to x1 = false, and x = (false, true,
-        // false) is the model.
+        // (x1 OR x2) AND (NOT x1 OR x3) AND (x2 OR NOT x3) AND (NOT x1 OR NOT x2) AND (x1 OR NOT x3).
+        // Deciding x1 = true propagates x3 = true and x2 = true, which conflicts with (NOT x1 OR NOT x2).
+        // The decision must be flipped to x1 = false, and x = (false, true, false) is the model.
         let clauses = vec![
             vec![1, 2],
             vec![-1, 3],
@@ -229,8 +223,7 @@ mod tests {
 
     #[test]
     fn brute_force_against_exhaustive_search() {
-        // Every 2-var and 3-var formula from a fixed clause pool must agree
-        // with exhaustive truth-table search.
+        // Every 2-var and 3-var formula from a fixed clause pool must agree with exhaustive truth-table search.
         let pools: &[&[Vec<i32>]] = &[
             &[vec![1, 2], vec![-1, 2], vec![1, -2], vec![-1, -2]],
             &[
@@ -290,8 +283,7 @@ mod tests {
     fn incremental_solver_reuses_clauses() {
         let mut solver = Solver::new(2);
         solver.add_clause(&[1, 2]);
-        // The solver decides x1 = true, so x = (true, true) satisfies
-        // (x1 OR x2).
+        // The solver decides x1 = true, so x = (true, true) satisfies (x1 OR x2).
         // The point is that a model is returned.
         assert_eq!(solver.solve().unwrap(), vec![true, true]);
         solver.add_clause(&[-1]);

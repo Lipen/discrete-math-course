@@ -11,11 +11,9 @@ use crate::term::Term;
 /// Why two terms could not be unified.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum UnifyError {
-    /// The terms have different structure: different constants, functors,
-    /// or arities.
+    /// The terms have different structure: different constants, functors, or arities.
     Mismatch,
-    /// Binding a variable to a term would create a cycle: the variable
-    /// occurs inside the term (the occurs check).
+    /// Binding a variable to a term would create a cycle: the variable occurs inside the term (the occurs check).
     OccursCheck { var: usize, term: Term },
 }
 

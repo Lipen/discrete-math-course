@@ -1,9 +1,7 @@
 //! Ripple-carry adder: a chain of full adders.
 //!
-//! The carry propagates from the least significant bit through every stage,
-//! so the depth is proportional to the width. The demo traces the 4-bit sum
-//! `0111 + 0001 = 1000`, then adds a wider pair and prints the resulting
-//! size and depth.
+//! The carry propagates from the least significant bit through every stage, so the depth is proportional to the width.
+//! The demo traces the 4-bit sum `0111 + 0001 = 1000`, then adds a wider pair and prints the resulting size and depth.
 
 use circuits::ripple_carry_adder;
 

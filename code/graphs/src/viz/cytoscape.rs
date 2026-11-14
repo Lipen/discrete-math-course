@@ -104,8 +104,7 @@ pub fn render(g: &Graph) -> String {
 /// assert!(html.contains("\"label\": \"a\""));
 /// ```
 pub fn render_html(g: &Graph) -> String {
-    // `<` can only occur inside JSON strings, and `\u003c` is valid JSON,
-    // so escaping keeps the JSON valid and the page injection-proof.
+    // `<` can only occur inside JSON strings, and `\u003c` is valid JSON, so escaping keeps the JSON valid and the page injection-proof.
     let json = render(g).replace('<', "\\u003c");
     indoc::formatdoc! {r#"
         <!doctype html>
@@ -217,8 +216,7 @@ mod tests {
 
     #[test]
     fn html_escapes_script_breaking_names() {
-        // A hostile name must not break out of the inline script: the page
-        // keeps exactly the two closing tags of its own script blocks.
+        // A hostile name must not break out of the inline script: the page keeps exactly the two closing tags of its own script blocks.
         let mut g = Graph::undirected();
         g.add_node("</script><script>alert(1)</script>");
         let html = render_html(&g);

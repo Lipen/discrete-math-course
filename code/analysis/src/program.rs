@@ -1,8 +1,6 @@
 //! A tiny imperative program and abstract transfer functions.
 //!
-//! The analyzer runs the program on abstract values: assignments evaluate an
-//! expression abstractly, `If` merges both branches with the join ⊔, and
-//! `While` computes a fixpoint by Kleene iteration.
+//! The analyzer runs the program on abstract values: assignments evaluate an expression abstractly, `If` merges both branches with the join ⊔, and `While` computes a fixpoint by Kleene iteration.
 
 use std::collections::HashMap;
 
@@ -23,9 +21,8 @@ pub enum Expr {
     Neg(Box<Expr>),
 }
 
-/// A statement. Conditions are deliberately absent: the analyzer
-/// over-approximates by running every branch and merging, and by iterating a
-/// loop body to a fixpoint.
+/// A statement.
+/// Conditions are deliberately absent: the analyzer over-approximates by running every branch and merging, and by iterating a loop body to a fixpoint.
 #[derive(Debug, Clone)]
 pub enum Stmt {
     /// `x := e`.
@@ -65,11 +62,8 @@ pub fn eval_const(e: &Expr, st: &State<Const>) -> Const {
 
 /// Runs a list of statements in the constant domain, updating `st` in place.
 ///
-/// A `While` loop is analyzed by Kleene iteration from the loop-head state:
-/// after each pass the state is joined with the loop-head entry state
-/// (`F(d) = E ⊔ transfer(B)(d)`), and the iteration stops once it stabilizes.
-/// Because the join of two different constants is ⊤ (which every operation
-/// preserves), the iteration always converges quickly.
+/// A `While` loop is analyzed by Kleene iteration from the loop-head state: after each pass the state is joined with the loop-head entry state (`F(d) = E ⊔ transfer(B)(d)`), and the iteration stops once it stabilizes.
+/// Because the join of two different constants is ⊤ (which every operation preserves), the iteration always converges quickly.
 ///
 /// ```
 /// use analysis::program::{assign, exec_const, State};
@@ -98,9 +92,8 @@ pub fn exec_const(stmts: &[Stmt], st: &mut State<Const>) {
                 *st = merge(then_state, else_state, Const::Bottom, Const::lub);
             }
             Stmt::While { body } => {
-                // Kleene iteration from the loop-head state E: after each pass the
-                // next state is joined with E (F(d) = E ⊔ transfer(B)(d)). The
-                // join of different constants is ⊤, so the iteration stabilizes.
+                // Kleene iteration from the loop-head state E: after each pass the next state is joined with E (F(d) = E ⊔ transfer(B)(d)).
+                // The join of different constants is ⊤, so the iteration stabilizes.
                 let entry = st.clone();
                 loop {
                     let mut after = st.clone();

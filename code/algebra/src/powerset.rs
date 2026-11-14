@@ -4,12 +4,8 @@ use std::collections::HashSet;
 use std::hash::Hash;
 use std::ops::{Add, Mul};
 
-/// Over a finite universe this is the boolean ring of the powerset: the
-/// additive identity is the empty set, every element is its own additive
-/// inverse (`a Δ a = ∅`), and every element is idempotent under `*`
-/// (`a ∩ a = a`). The multiplicative identity is the whole universe, which
-/// is why [`BoolSet`] does not implement the `Ring` trait -- there is no
-/// "whole set" without a chosen finite universe.
+/// Over a finite universe this is the boolean ring of the powerset: the additive identity is the empty set, every element is its own additive inverse (`a Δ a = ∅`), and every element is idempotent under `*` (`a ∩ a = a`).
+/// The multiplicative identity is the whole universe, which is why [`BoolSet`] does not implement the `Ring` trait -- there is no "whole set" without a chosen finite universe.
 #[derive(Clone, PartialEq, Eq, Debug)]
 pub struct BoolSet<T: Eq + Hash>(HashSet<T>);
 

@@ -1,9 +1,7 @@
 //! Unification-based type inference for λ→.
 //!
-//! This is algorithm W applied to the untyped [`Term`]: fresh metavariables
-//! are assigned to each binder and unify, producing the most general type.
-//! Self-application `λx. x x` forces the equation `σ = σ -> τ`, which the
-//! occurs check rejects.
+//! This is algorithm W applied to the untyped [`Term`]: fresh metavariables are assigned to each binder and unify, producing the most general type.
+//! Self-application `λx. x x` forces the equation `σ = σ -> τ`, which the occurs check rejects.
 //!
 //! The type system is monomorphic (λ→ has no type quantifiers).
 //! A metavariable left unbound at the end becomes a schematic variable `a`, `b`, ... -- so an open result like the identity reads `a -> a` (the scheme σ → σ).

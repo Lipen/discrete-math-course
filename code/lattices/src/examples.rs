@@ -20,8 +20,7 @@ pub fn m3() -> Lattice {
     }
 }
 
-/// The pentagon N5: `0 < a < b < 1` and `0 < c < 1`, `c` incomparable with
-/// `a` and `b`.
+/// The pentagon N5: `0 < a < b < 1` and `0 < c < 1`, `c` incomparable with `a` and `b`.
 pub fn n5() -> Lattice {
     // 0 = 0, a = 1, b = 2, c = 3, 1 = 4.
     let leq = vec![

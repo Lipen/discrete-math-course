@@ -2,8 +2,7 @@
 //!
 //! The network has a source S, two inner vertices A and B, and a sink T.
 //! Every directed edge carries a capacity.
-//! The algorithm repeatedly finds an augmenting path in the residual network,
-//! prints how much it pushes along it, and finally exhibits a cut of the same total capacity.
+//! The algorithm repeatedly finds an augmenting path in the residual network, prints how much it pushes along it, and finally exhibits a cut of the same total capacity.
 
 use graphs::{max_flow, Graph};
 

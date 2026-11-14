@@ -1,13 +1,8 @@
-//! Lattices and partial orders: join, meet, distributivity, modularity,
-//! and the Birkhoff characterization of distributive lattices.
+//! Lattices and partial orders: join, meet, distributivity, modularity, and the Birkhoff characterization of distributive lattices.
 //!
-//! A lattice is a finite set with a partial order in which every pair of
-//! elements has a join (supremum) and a meet (infimum). Some lattices are
-//! distributive, some are modular but not distributive, and the Birkhoff
-//! characterization says that a lattice is distributive exactly when it
-//! contains no sublattice isomorphic to M3 (the diamond) or N5 (the
-//! pentagon). This crate lets you build small lattices, check these
-//! properties, and search for the forbidden sublattices.
+//! A lattice is a finite set with a partial order in which every pair of elements has a join (supremum) and a meet (infimum).
+//! Some lattices are distributive, some are modular but not distributive, and the Birkhoff characterization says that a lattice is distributive exactly when it contains no sublattice isomorphic to M3 (the diamond) or N5 (the pentagon).
+//! This crate lets you build small lattices, check these properties, and search for the forbidden sublattices.
 //!
 //! ```
 //! use lattices::examples::divisors_12;
@@ -153,8 +148,7 @@ impl Lattice {
         true
     }
 
-    /// Whether the given subset is a sublattice: join and meet of its
-    /// elements again lie in the subset.
+    /// Whether the given subset is a sublattice: join and meet of its elements again lie in the subset.
     fn is_sublattice(&self, s: &[u32]) -> bool {
         for &a in s {
             for &b in s {
@@ -168,9 +162,7 @@ impl Lattice {
         true
     }
 
-    /// Whether the given 5-element subset is isomorphic to M3 (the diamond):
-    /// a least element, a greatest element, and three pairwise incomparable
-    /// middle elements.
+    /// Whether the given 5-element subset is isomorphic to M3 (the diamond): a least element, a greatest element, and three pairwise incomparable middle elements.
     fn is_m3(&self, s: &[u32]) -> bool {
         if !self.is_sublattice(s) {
             return false;
@@ -259,8 +251,7 @@ impl Lattice {
             .any(|s| self.is_n5(&s))
     }
 
-    /// The Birkhoff characterization as a single check: a lattice is
-    /// distributive exactly when it contains neither M3 nor N5.
+    /// The Birkhoff characterization as a single check: a lattice is distributive exactly when it contains neither M3 nor N5.
     pub fn is_distributive_birkhoff(&self) -> bool {
         !self.has_m3_sublattice() && !self.has_n5_sublattice()
     }
@@ -268,9 +259,7 @@ impl Lattice {
 
 /// The relation `{(i, j) : leq(i, j)}` as an explicit list of pairs.
 ///
-/// Builds a full pair set for a finite relation given by a predicate: every
-/// pair `(i, j)` with `0 <= i < n` and `0 <= j < n` is tested, and the pairs
-/// for which `leq(i, j)` is true are collected in lexicographic order.
+/// Builds a full pair set for a finite relation given by a predicate: every pair `(i, j)` with `0 <= i < n` and `0 <= j < n` is tested, and the pairs for which `leq(i, j)` is true are collected in lexicographic order.
 ///
 /// ```
 /// use lattices::relation_pairs;
@@ -294,15 +283,11 @@ pub fn relation_pairs(n: usize, leq: impl Fn(usize, usize) -> bool) -> Vec<(usiz
 
 /// The Hasse diagram (cover relation) of a poset given by its pairs.
 ///
-/// A pair `(a, c)` is removed when it can be obtained by transitivity from
-/// two other pairs: some `b` with both `(a, b)` and `(b, c)` in the
-/// relation. What remains are the covers, the pairs that are not a
-/// composition of two smaller steps. The input is expected to be the full
-/// relation (as produced by `relation_pairs`), so that dropping the
-/// transitive pairs leaves exactly the covering pairs.
+/// A pair `(a, c)` is removed when it can be obtained by transitivity from two other pairs: some `b` with both `(a, b)` and `(b, c)` in the relation.
+/// What remains are the covers, the pairs that are not a composition of two smaller steps.
+/// The input is expected to be the full relation (as produced by `relation_pairs`), so that dropping the transitive pairs leaves exactly the covering pairs.
 ///
-/// This variant drops the reflexive pairs `(a, a)` too, so the result is
-/// the strict cover relation.
+/// This variant drops the reflexive pairs `(a, a)` too, so the result is the strict cover relation.
 ///
 /// ```
 /// use lattices::{hasse, relation_pairs};
@@ -333,13 +318,8 @@ pub fn hasse(pairs: &[(usize, usize)]) -> Vec<(usize, usize)> {
 
 /// The Hasse diagram, keeping the reflexive pairs.
 ///
-/// Like `hasse`, this removes the transitive pairs, but it keeps the
-/// reflexive pairs `(a, a)`, so the result is in the same pair format as
-/// `Lattice::leq`.
-/// `Lattice::leq` must be transitively closed, while the Hasse diagram
-/// is deliberately not: to build a `Lattice` from a Hasse diagram, take
-/// the transitive closure first (for a poset, the transitive closure of
-/// the covers is the whole relation).
+/// Like `hasse`, this removes the transitive pairs, but it keeps the reflexive pairs `(a, a)`, so the result is in the same pair format as `Lattice::leq`.
+/// `Lattice::leq` must be transitively closed, while the Hasse diagram is deliberately not: to build a `Lattice` from a Hasse diagram, take the transitive closure first (for a poset, the transitive closure of the covers is the whole relation).
 ///
 /// ```
 /// use lattices::{hasse_reflexive, relation_pairs, Lattice};
@@ -474,8 +454,7 @@ mod tests {
         // The chain 0 < 1 < 2: reflexive pairs plus the covers.
         let covers = crate::hasse_reflexive(&crate::relation_pairs(3, |i, j| i <= j));
         assert_eq!(covers, vec![(0, 0), (0, 1), (1, 1), (1, 2), (2, 2)]);
-        // A Lattice needs the transitively closed relation, as the crate's
-        // example lattices have it.
+        // A Lattice needs the transitively closed relation, as the crate's example lattices have it.
         let leq: Vec<(u32, u32)> = crate::relation_pairs(3, |i, j| i <= j)
             .into_iter()
             .map(|(a, b)| (a as u32, b as u32))
@@ -498,9 +477,8 @@ mod tests {
         let d12 = divisors_12();
         let pairs = crate::relation_pairs(6, |i, j| d12.le(d12.elements[i], d12.elements[j]));
         let covers = crate::hasse(&pairs);
-        // The covers are the covering pairs: 1<2, 1<3, 2<4, 2<6, 3<6,
-        // 4<12, 6<12. The transitive pairs (1,4), (1,6), (1,12), (2,12),
-        // (3,12) are removed; (2,6) stays because 4 does not divide 6.
+        // The covers are the covering pairs: 1<2, 1<3, 2<4, 2<6, 3<6, 4<12, 6<12.
+        // The transitive pairs (1,4), (1,6), (1,12), (2,12), (3,12) are removed; (2,6) stays because 4 does not divide 6.
         assert!(!covers.contains(&(0, 3))); // 1 -> 4 via 2
         assert!(!covers.contains(&(0, 4))); // 1 -> 6 via 3
         assert!(!covers.contains(&(0, 5))); // 1 -> 12

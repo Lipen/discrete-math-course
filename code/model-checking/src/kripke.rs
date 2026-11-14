@@ -1,9 +1,6 @@
-//! A Kripke structure: a finite set of states, a transition relation, and a
-//! labeling of each state with the atoms true in it.
+//! A Kripke structure: a finite set of states, a transition relation, and a labeling of each state with the atoms true in it.
 //!
-//! The structure is the semantic domain for CTL: a formula holds in a state
-//! or not, and the preimage operators `pre_exists` / `pre_forall` push a
-//! label one transition back through the graph.
+//! The structure is the semantic domain for CTL: a formula holds in a state or not, and the preimage operators `pre_exists` / `pre_forall` push a label one transition back through the graph.
 
 /// A finite Kripke structure `(S, R, L)`.
 ///
@@ -39,8 +36,7 @@ impl Kripke {
         out
     }
 
-    /// States whose every successor lies in `set` (true also for states with
-    /// no successors -- vacuous truth).
+    /// States whose every successor lies in `set` (true also for states with no successors -- vacuous truth).
     pub fn pre_forall(&self, set: &[bool]) -> Vec<bool> {
         let mut out = vec![false; self.n];
         for (s, succ) in self.successors.iter().enumerate() {
@@ -56,24 +52,22 @@ mod tests {
 
     #[test]
     fn pre_exists_is_false_at_a_dead_end() {
-        // EX φ needs a successor in the set, so a state with no successors
-        // cannot have one, even when the set is everything.
+        // EX φ needs a successor in the set, so a state with no successors cannot have one, even when the set is everything.
         let m = Kripke::new(vec![vec![], vec![0]], vec![vec![], vec![]]);
         assert_eq!(m.pre_exists(&[true, true]), vec![false, true]);
     }
 
     #[test]
     fn pre_forall_is_vacuous_at_a_dead_end() {
-        // AX φ: every successor satisfies φ. A state with no successors
-        // satisfies this vacuously -- even for the empty set.
+        // AX φ: every successor satisfies φ.
+        // A state with no successors satisfies this vacuously -- even for the empty set.
         let m = Kripke::new(vec![vec![], vec![0]], vec![vec![], vec![]]);
         assert_eq!(m.pre_forall(&[false, false]), vec![true, false]);
     }
 
     #[test]
     fn self_loop_is_its_own_successor() {
-        // A reflexive state is a successor of itself: EX φ and AX φ both
-        // hold there for the same set.
+        // A reflexive state is a successor of itself: EX φ and AX φ both hold there for the same set.
         let m = Kripke::new(vec![vec![0]], vec![vec![]]);
         assert_eq!(m.pre_exists(&[true]), vec![true]);
         assert_eq!(m.pre_forall(&[true]), vec![true]);

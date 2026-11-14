@@ -1,8 +1,6 @@
 //! Two records far beyond 64 bits: 100! and the thousandth Fibonacci number.
 //!
-//! The demo prints the inputs, the digit counts along the way, both full
-//! decimal records, and the checks: exactly 24 trailing zeros in 100!, and
-//! divisibility of Fibonacci numbers by their index divisors.
+//! The demo prints the inputs, the digit counts along the way, both full decimal records, and the checks: exactly 24 trailing zeros in 100!, and divisibility of Fibonacci numbers by their index divisors.
 
 use bignum::integer::{factorial, fibonacci};
 

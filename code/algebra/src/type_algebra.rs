@@ -1,14 +1,10 @@
 //! The type-level semiring: `Sum` (+) and `Prod` (×) over Rust types.
 //!
-//! Rust's types form a *commutative semiring* up to isomorphism: [`Zero`] is
-//! `0`, [`One`] is `1`, [`Sum`] is `+`, [`Prod`] is `×`. The laws do not hold
-//! by `==` (Rust cannot compare types), but by a pair of inverse functions:
-//! each law below is an isomorphism together with its inverse, and the tests
-//! check the round-trip on concrete finite types.
+//! Rust's types form a *commutative semiring* up to isomorphism: [`Zero`] is `0`, [`One`] is `1`, [`Sum`] is `+`, [`Prod`] is `×`.
+//! The laws do not hold by `==` (Rust cannot compare types), but by a pair of inverse functions: each law below is an isomorphism together with its inverse, and the tests check the round-trip on concrete finite types.
 //!
-//! This is the type-level cousin of the data-level [`crate::types::Type`],
-//! which represents the same semiring as values. The exponential `B^A`
-//! (function types) lives in [`crate::category`].
+//! This is the type-level cousin of the data-level [`crate::types::Type`], which represents the same semiring as values.
+//! The exponential `B^A` (function types) lives in [`crate::category`].
 
 /// The empty type, `0`: it has no values, hence no constructor.
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
@@ -111,8 +107,8 @@ pub fn prod_one_inv<A>(a: A) -> Prod<One, A> {
     Prod(One, a)
 }
 
-/// `0 * A ≅ 0`: a `Prod<Zero, A>` is uninhabited, so both directions are
-/// defined by an empty match. The law is vacuous.
+/// `0 * A ≅ 0`: a `Prod<Zero, A>` is uninhabited, so both directions are defined by an empty match.
+/// The law is vacuous.
 pub fn prod_zero<A>(p: Prod<Zero, A>) -> Zero {
     match p.0 {}
 }
@@ -126,9 +122,8 @@ pub fn prod_zero_inv<A>(z: Zero) -> Prod<Zero, A> {
 mod tests {
     use super::*;
 
-    /// Check `back(fwd(x)) == x` over a finite domain. For our isomorphisms
-    /// the domain and codomain have equal size, so this single direction is
-    /// enough to pin down the inverse.
+    /// Check `back(fwd(x)) == x` over a finite domain.
+    /// For our isomorphisms the domain and codomain have equal size, so this single direction is enough to pin down the inverse.
     fn check_iso<A, B, F, G>(domain: &[A], fwd: F, back: G)
     where
         A: Clone + PartialEq + std::fmt::Debug,

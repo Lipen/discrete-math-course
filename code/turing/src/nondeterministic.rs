@@ -221,9 +221,7 @@ where
     /// A configuration that has already been reached is not expanded again, so cyclic branches do not loop.
     /// The search stops with:
     ///
-    /// - `Accepted` when a level contains an accepting configuration, with the shortest witness path in `path`,
-    /// - `Rejected` when the reachable configurations are exhausted without an accepting one,
-    /// - `Limit` when `max_steps` levels were expanded and branches remain.
+    /// - `Accepted` when a level contains an accepting configuration, with the shortest witness path in `path`, - `Rejected` when the reachable configurations are exhausted without an accepting one, - `Limit` when `max_steps` levels were expanded and branches remain.
     ///
     /// ```
     /// use turing::{machines, NondeterministicOutcome, Tape};
@@ -366,8 +364,7 @@ mod tests {
 
     #[test]
     fn search_reports_the_step_limit_with_live_branches() {
-        // Every branch keeps producing fresh configurations and no accepting
-        // state is reachable.
+        // Every branch keeps producing fresh configurations and no accepting state is reachable.
         let mut t: HashMap<(&str, char), Vec<Transition<char, &str>>> = HashMap::new();
         t.insert(
             ("q0", 'a'),

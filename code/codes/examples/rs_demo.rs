@@ -1,9 +1,6 @@
 //! Reed--Solomon (7, 3, 5) over GF(8): encode, corrupt two symbols, recover.
 //!
-//! The demo follows the book example end to end: the message polynomial
-//! 1 + a x + a^2 x^2 is evaluated at the powers of the primitive element
-//! alpha, two received symbols are corrupted, and a brute-force interpolation
-//! decoder votes the true polynomial back out.
+//! The demo follows the book example end to end: the message polynomial 1 + a x + a^2 x^2 is evaluated at the powers of the primitive element alpha, two received symbols are corrupted, and a brute-force interpolation decoder votes the true polynomial back out.
 
 /// A GF(8) element: bitmask of polynomial coefficients, low bit = constant term.
 type Elem = u8;

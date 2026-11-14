@@ -2,8 +2,7 @@
 //!
 //! Distance 3 means one error is outvoted.
 //! Two errors flip the vote.
-//! The code is the honest naive answer to noise -- it works, but spends three
-//! bits to protect one (rate 1/3).
+//! The code is the honest naive answer to noise -- it works, but spends three bits to protect one (rate 1/3).
 
 /// Encodes one bit as three identical bits.
 ///

@@ -68,8 +68,7 @@ fn main() {
     }
     println!();
 
-    // -- A concrete constraint from the context ================================
-    // (λx. x) a with a : Nat forces x : Nat, so the application is Nat.
+    // -- A concrete constraint from the context ================================ (λx. x) a with a : Nat forces x : Nat, so the application is Nat.
     let app = Term::app(Term::abs("x", Term::var("x")), Term::var("a"));
     let ctx = type_theory::Context::new().extend("a", Type::nat());
     println!(

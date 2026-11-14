@@ -2,10 +2,7 @@
 //!
 //! Four models share one tape implementation:
 //!
-//! - [`Machine`]: a deterministic machine with one tape, a transition table, accepting and rejecting states, and a trace of every configuration,
-//! - [`MultiTapeMachine`]: `k` tapes with independent heads, one step moves all of them,
-//! - [`NondeterministicMachine`]: a transition relation that offers several moves, searched breadth-first up to a step bound,
-//! - [`UniversalMachine`]: a simulator that decodes an [`Encoding`] of a machine and runs it.
+//! - [`Machine`]: a deterministic machine with one tape, a transition table, accepting and rejecting states, and a trace of every configuration, - [`MultiTapeMachine`]: `k` tapes with independent heads, one step moves all of them, - [`NondeterministicMachine`]: a transition relation that offers several moves, searched breadth-first up to a step bound, - [`UniversalMachine`]: a simulator that decodes an [`Encoding`] of a machine and runs it.
 //!
 //! ```
 //! use turing::{machines, Tape, Outcome};

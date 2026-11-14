@@ -50,8 +50,7 @@ fn circular_genome() {
     let assembled = g.genome_from_path(&cycle);
     println!("assembled genome: {assembled}");
 
-    // Reading circularly, every read must appear in the assembled string
-    // (the doubled string covers the wrap-around).
+    // Reading circularly, every read must appear in the assembled string (the doubled string covers the wrap-around).
     let doubled = format!("{assembled}{assembled}");
     for r in reads {
         assert!(doubled.contains(r), "read {r} missing from {assembled}");

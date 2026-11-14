@@ -1,10 +1,8 @@
 //! Peano natural numbers.
 //!
 //! `Zero` and `Succ` are the only constructors.
-//! Addition and multiplication are written as recursion over those
-//! constructors, with no `u32` arithmetic.
-//! This is the slow, definitional version, kept to show what an operation is
-//! before any built-in number type enters the picture.
+//! Addition and multiplication are written as recursion over those constructors, with no `u32` arithmetic.
+//! This is the slow, definitional version, kept to show what an operation is before any built-in number type enters the picture.
 
 use crate::traits::{Monoid, Semigroup};
 
@@ -52,8 +50,7 @@ impl Nat {
     }
 }
 
-// Under addition the naturals are a monoid: identity is zero, and there is
-// no inverse (no negative naturals), so this is a monoid and not a group.
+// Under addition the naturals are a monoid: identity is zero, and there is no inverse (no negative naturals), so this is a monoid and not a group.
 impl Semigroup for Nat {
     fn op(&self, other: &Self) -> Self {
         self.add(other)

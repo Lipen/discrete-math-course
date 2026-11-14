@@ -1,7 +1,4 @@
-//! Combinational circuits as DAGs of gates: build a circuit from inputs,
-//! constants, and logic gates, simulate it in one ordered pass, measure its
-//! **size** (gate count) and **depth** (longest input-to-output path), and
-//! check the standard adders against ordinary integer addition.
+//! Combinational circuits as DAGs of gates: build a circuit from inputs, constants, and logic gates, simulate it in one ordered pass, measure its **size** (gate count) and **depth** (longest input-to-output path), and check the standard adders against ordinary integer addition.
 //!
 //! ```
 //! use circuits::adder::ripple_carry_adder;

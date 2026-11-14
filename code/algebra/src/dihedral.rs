@@ -1,14 +1,12 @@
 //! The dihedral group D_4: the symmetries of the square.
 //!
 //! The eight symmetries are the four rotations and the four reflections.
-//! With `r` the quarter-turn and `s` a reflection, the group is
-//! `{e, r, r², r³, s, rs, r²s, r³s}` subject to `r⁴ = e`, `s² = e`, and
-//! `s r = r³ s`. The rotations alone form the cyclic subgroup C_4.
+//! With `r` the quarter-turn and `s` a reflection, the group is `{e, r, r², r³, s, rs, r²s, r³s}` subject to `r⁴ = e`, `s² = e`, and `s r = r³ s`.
+//! The rotations alone form the cyclic subgroup C_4.
 
 use crate::traits::{Group, Monoid, Semigroup};
 
-/// A symmetry of the square: `r^k` (a rotation) or `r^k s` (a rotation after
-/// a reflection).
+/// A symmetry of the square: `r^k` (a rotation) or `r^k s` (a rotation after a reflection).
 #[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
 pub struct D4 {
     /// Rotation exponent, in `0..4`.

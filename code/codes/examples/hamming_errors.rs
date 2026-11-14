@@ -1,10 +1,8 @@
 //! What happens at 0, 1, 2, or 3 flipped bits: the limits of Hamming(7,4).
 //!
-//! Hamming(7,4) has minimum distance 3, so it corrects any single error and
-//! flags a double error with a nonzero syndrome. But a double error makes the
-//! syndrome point at the wrong position -- the decoder "corrects" a healthy
-//! bit -- and three flipped bits can land on another valid codeword and go
-//! unnoticed. Flipped bits are drawn in red when the terminal supports it.
+//! Hamming(7,4) has minimum distance 3, so it corrects any single error and flags a double error with a nonzero syndrome.
+//! But a double error makes the syndrome point at the wrong position -- the decoder "corrects" a healthy bit -- and three flipped bits can land on another valid codeword and go unnoticed.
+//! Flipped bits are drawn in red when the terminal supports it.
 
 use codes::{decode, encode, syndrome, Decoded};
 use std::io::IsTerminal;

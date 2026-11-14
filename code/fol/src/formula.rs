@@ -163,8 +163,7 @@ fn substitute_quantifier(
         // The replacement does not mention `y`: no capture can occur.
         wrap(y.to_string(), body.substitute(x, with))
     } else {
-        // The replacement mentions `y`: rename the binder to a fresh variable
-        // before substituting, so the incoming `y` stays free.
+        // The replacement mentions `y`: rename the binder to a fresh variable before substituting, so the incoming `y` stays free.
         let mut avoid = body.free_vars();
         avoid.extend(with.vars());
         avoid.insert(x.to_string());

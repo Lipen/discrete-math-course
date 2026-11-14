@@ -1,9 +1,7 @@
 //! Hamming distance and code capability.
 //!
-//! The Hamming distance between two equal-length bit strings is the number of
-//! positions where they differ. A code's minimum distance `d` determines its
-//! error-handling power: it detects up to `d - 1` errors and corrects up to
-//! `floor((d - 1) / 2)`.
+//! The Hamming distance between two equal-length bit strings is the number of positions where they differ.
+//! A code's minimum distance `d` determines its error-handling power: it detects up to `d - 1` errors and corrects up to `floor((d - 1) / 2)`.
 
 /// The number of positions where two equal-length bit slices differ.
 ///

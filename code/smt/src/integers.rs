@@ -142,8 +142,7 @@ mod tests {
 
     #[test]
     fn branching_is_needed() {
-        // 2x <= 1 (x <= 1/2) and x >= 1/2: only the fractional relaxation
-        // value 1/2 satisfies the reals, no integer does.
+        // 2x <= 1 (x <= 1/2) and x >= 1/2: only the fractional relaxation value 1/2 satisfies the reals, no integer does.
         let cs = vec![c(vec![-2], -1), c(vec![2], 1)];
         assert_eq!(solve(&cs), None);
     }
@@ -166,8 +165,7 @@ mod tests {
 
     #[test]
     fn two_branches_both_fail() {
-        // x >= 1/2 and x <= 3/2 and 2x = 2k... keep it simple: x >= 1/2,
-        // x <= 1/2 (no integer), and a constant contradiction 0 <= -1.
+        // x >= 1/2 and x <= 3/2 and 2x = 2k... keep it simple: x >= 1/2, x <= 1/2 (no integer), and a constant contradiction 0 <= -1.
         let cs = vec![c(vec![-2], -1), c(vec![2], 1), c(vec![0], -1)];
         assert_eq!(solve(&cs), None);
     }
@@ -182,8 +180,7 @@ mod tests {
 
     #[test]
     fn two_variable_system() {
-        // x + 2y <= 4, x >= 1, y >= 1, x <= 2: x = 1, y = 1 works and the
-        // relaxation x = 2, y = 1 forces a split on x.
+        // x + 2y <= 4, x >= 1, y >= 1, x <= 2: x = 1, y = 1 works and the relaxation x = 2, y = 1 forces a split on x.
         let cs = vec![
             c(vec![1, 2], 4),
             c(vec![-1, 0], -1),

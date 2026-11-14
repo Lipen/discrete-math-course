@@ -1,9 +1,8 @@
 //! Half adder and full adder from gates.
 //!
-//! The half adder is two gates (XOR for the sum, AND for the carry). The full
-//! adder takes a carry in as well, and is five gates: two XOR, two AND, one
-//! OR. The demo prints the truth table of each and shows the size and depth
-//! the circuit costs.
+//! The half adder is two gates (XOR for the sum, AND for the carry).
+//! The full adder takes a carry in as well, and is five gates: two XOR, two AND, one OR.
+//! The demo prints the truth table of each and shows the size and depth the circuit costs.
 
 use circuits::{full_adder, half_adder, Circuit};
 
