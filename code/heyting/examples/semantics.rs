@@ -14,14 +14,14 @@ fn main() {
 
     let a = poset.downset_algebra();
     println!("downset algebra of {} elements:", a.size());
-    for i in 0..a.size() {
-        println!("  {i}: {}", a.labels[i]);
+    for (i, label) in a.labels.iter().enumerate() {
+        println!("  {i}: {label}");
     }
 
     println!("\nimplication table A -> B:");
     print!("      ");
-    for j in 0..a.size() {
-        print!("  {:>7}", a.labels[j]);
+    for label in &a.labels {
+        print!("  {:>7}", label);
     }
     println!();
     for i in 0..a.size() {
