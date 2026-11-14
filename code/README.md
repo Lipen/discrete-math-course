@@ -1,6 +1,6 @@
 # code
 
-Rust study samples for discrete mathematics: **26 crates, one per topic**.
+Rust study samples for discrete mathematics: **27 crates, one per topic**.
 
 Each crate is a self-contained study aid — a library, its unit tests, and runnable examples you read like code, not just execute.
 Every crate builds, tests, and runs on its own.
@@ -77,7 +77,7 @@ None imports another.
 ## Quick start
 
 ```bash
-cargo build --workspace     # build all 26 crates
+cargo build --workspace     # build all 27 crates
 cargo test --workspace      # run every test in every crate
 cargo clippy --workspace --all-targets   # lint everything, warning-free
 ```
@@ -91,18 +91,7 @@ cargo run --example <name>    # run one demo
 
 ## Layout
 
-Every crate follows the same shape:
-
-```
-<workspace root>
-└── <crate>/
-    ├── Cargo.toml
-    ├── src/lib.rs            # library entry point
-    ├── src/*.rs              # topic modules
-    ├── examples/*.rs         # runnable demos
-    ├── README.md             # crate guide (English)
-    └── README.ru.md          # the same guide in Russian
-```
+Every crate is a library in `src/`, runnable demos in `examples/`, and a guide in `README.md` with a Russian twin in `README.ru.md`.
 
 ## How to read the demos
 
