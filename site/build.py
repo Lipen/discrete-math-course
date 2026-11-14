@@ -75,10 +75,41 @@ def escape(text: str) -> str:
 
 
 def book_outline() -> dict[int, tuple[int, str]]:
-    """Chapter number to (page, title), taken from the book's own PDF outline."""
+    """Chapter number to (page, title): the book's own outline, read any way we can."""
     book = ROOT / "book" / "book.pdf"
     if not book.is_file():
         return {}
+    return _outline_pypdf(book) or _outline_pdftk(book)
+
+
+def _outline_pypdf(book: Path) -> dict[int, tuple[int, str]]:
+    try:
+        from pypdf import PdfReader
+        from pypdf.errors import PdfReadError
+    except ImportError:
+        return {}
+    try:
+        reader = PdfReader(book)
+        items = reader.outline
+    except (PdfReadError, OSError, ValueError):
+        return {}
+    outline: dict[int, tuple[int, str]] = {}
+    for item in items:
+        title = getattr(item, "title", None)
+        chapter = re.match(r"^(\d+) (.+)$", title or "")
+        if not chapter:
+            continue
+        try:
+            page = reader.get_destination_page_number(item) + 1
+        except (PdfReadError, KeyError, TypeError, ValueError):
+            page = None
+        if page is None:
+            continue
+        outline[int(chapter.group(1))] = (page, chapter.group(2))
+    return outline
+
+
+def _outline_pdftk(book: Path) -> dict[int, tuple[int, str]]:
     try:
         dump = subprocess.run(
             ["pdftk", str(book), "dump_data"],
@@ -88,7 +119,6 @@ def book_outline() -> dict[int, tuple[int, str]]:
         ).stdout
     except (OSError, subprocess.CalledProcessError):
         return {}
-
     outline, title = {}, None
     for line in dump.splitlines():
         if line.startswith("BookmarkTitle:"):
@@ -123,6 +153,19 @@ def chapter_chip(chapter: str, outline: dict[int, tuple[int, str]]) -> str:
     )
 
 
+def schedule_dates() -> dict[tuple[int, int], str]:
+    """(semester, week) to the dates written in the syllabus."""
+    source = ROOT / "course" / "syllabus.typ"
+    if not source.is_file():
+        return {}
+    text = source.read_text(encoding="utf-8")
+    found = {}
+    for sem, week, dates in re.findall(r"#week\((\d+),\s*(\d+),\s*\[([^\]]*)\]", text):
+        clean = dates.replace("---", "\u2013").replace("--", "\u2013")
+        found[(int(sem), int(week))] = re.sub(r"\s+", " ", clean).strip()
+    return found
+
+
 def tight(dates: str) -> str:
     """No break between a number and its month."""
     return re.sub(r"(\d+)\s+(" + "|".join(MONTHS) + r")", "\\1\u00a0\\2", dates)
@@ -139,6 +182,7 @@ def week_start(dates: str, year: int) -> date | None:
 def topic_row(
     number: int,
     topic: dict,
+    dates: str,
     outline: dict[int, tuple[int, str]],
     today: date,
     year: int,
@@ -150,7 +194,7 @@ def topic_row(
             f'<a class="chip" href="{slides.name}" target="_blank" rel="noopener">слайды</a>'
         )
     classes = ["topic"]
-    start = week_start(topic["dates"], year)
+    start = week_start(dates, year) if dates else None
     if start and start <= today < date.fromordinal(start.toordinal() + 7):
         classes.append("now")
     note = f'<p class="teaser">{escape(topic["note"])}</p>' if topic.get("note") else ""
@@ -163,7 +207,7 @@ def topic_row(
         f'<li class="{" ".join(classes)}">'
         f'<div class="when"><div class="num"><span class="cap">лекция</span> {number:02d}</div>'
         f'<div class="wk">нед.\u00a0{topic["week"]}</div>'
-        f'<div class="dates">{escape(tight(topic["dates"]))}</div>'
+        f'<div class="dates">{escape(tight(dates))}</div>'
         f"{plate}</div>"
         f'<div class="what"><h3>{escape(topic["title"])}</h3>{note}'
         f'<p class="chips">{" ".join(chips)}</p></div>'
@@ -242,6 +286,18 @@ def cheatsheets_section(content: dict) -> str:
     )
 
 
+def not_found() -> str:
+    body = """<main id="main">
+<header class="hero">
+  <p class="kicker">Ошибка 404</p>
+  <h1>Такой страницы нет</h1>
+  <p class="lede">Адрес устарел или в нём опечатка. Материалы курса собраны на главной.</p>
+  <p class="actions"><a class="btn primary" href="index.html">На главную</a></p>
+</header>
+</main>"""
+    return page("Страница не найдена", body)
+
+
 def page(title: str, body: str) -> str:
     return f"""<!doctype html>
 <html lang="ru">
@@ -251,6 +307,7 @@ def page(title: str, body: str) -> str:
 <meta name="color-scheme" content="light dark">
 <title>{escape(title)}</title>
 <script>{THEME_INIT}</script>
+<link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="theme.css">
 </head>
 <body>
@@ -293,23 +350,35 @@ def main() -> int:
         ROOT / "course" / "mentors.pdf",
         ROOT / "lectures" / "course-intro.pdf",
     ]
+    preview = "--preview" in sys.argv[1:]
     sources += sorted((ROOT / "lectures").glob("s*-lec*.pdf"))
     sources += sorted((ROOT / "homework").glob("hw*.pdf"))
     sheets = sorted((ROOT / "tex").glob("cheat*.pdf"))
-    for path in sources:
+    copied = 0
+    for path in sources if preview else []:
         if path.is_file():
             shutil.copy2(path, ASSETS / path.name)
-    if sheets:
+            copied += 1
+    if sheets and preview:
         (DIST / "tex").mkdir(parents=True, exist_ok=True)
         for path in sheets:
             shutil.copy2(path, DIST / "tex" / path.name)
-    for name in ("theme.css", "ui.js"):
+            copied += 1
+    for name in ("theme.css", "ui.js", "icon.svg"):
         shutil.copy2(SITE / name, DIST / name)
 
+    dates = schedule_dates()
     tabs, sections = [], []
     for number, semester in enumerate(content["semesters"], start=1):
         rows = "\n".join(
-            topic_row(index, topic, outline, today, semester["year"])
+            topic_row(
+                index,
+                topic,
+                dates.get((number, topic["week"]), ""),
+                outline,
+                today,
+                semester["year"],
+            )
             for index, topic in enumerate(semester["topics"], start=1)
         )
         tabs.append(f'<a href="#sem{number}">{escape(semester["tab"])}</a>')
@@ -339,10 +408,10 @@ def main() -> int:
 {cheatsheets_section(content)}
 </main>"""
     (DIST / "index.html").write_text(page(content["title"], body), encoding="utf-8")
+    (DIST / "404.html").write_text(not_found(), encoding="utf-8")
     topics = sum(len(s["topics"]) for s in content["semesters"])
-    print(
-        f"site: {topics} topics, {len(outline)} chapter pages, {len(list(ASSETS.iterdir()))} entries"
-    )
+    note = f", {copied} files for preview" if preview else ""
+    print(f"site: {topics} topics, {len(outline)} chapter pages{note}")
     return 0
 
 

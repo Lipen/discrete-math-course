@@ -216,7 +216,8 @@ jobs:
       - name: Install site tooling
         run: |
           sudo apt-get update
-          sudo apt-get install -y --no-install-recommends pdftk-java python3-yaml
+          sudo apt-get install -y --no-install-recommends python3-yaml
+          python3 -m pip install --user pypdf
 
       - name: Place built PDFs for the site
         run: |
@@ -232,6 +233,7 @@ jobs:
         run: |
           mkdir -p public/typst public/tex
           cp -r site/dist/. public/
+          cp course-pdf/*.pdf public/
           cp pdf-typst/*.pdf public/typst/
           cp pdf-tex/*.pdf public/tex/
           cp .github/archive/typst.html public/typst/index.html

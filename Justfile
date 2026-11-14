@@ -21,8 +21,9 @@ course:
 site:
     python3 site/build.py
 
-# Serve the built site on http://localhost:8765
+# Build the site with local copies of the PDFs and serve it on http://localhost:8765
 site-serve:
+    python3 site/build.py --preview
     python3 -m http.server -d site/dist 8765
 
 # Build all homeworks
