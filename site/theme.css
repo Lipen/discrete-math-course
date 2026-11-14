@@ -296,22 +296,24 @@ body.scrolled .up { opacity: 1; visibility: visible; pointer-events: auto; }
 }
 .sheets li { border-bottom: 1px solid var(--line); }
 .sheet {
-  display: grid;
-  grid-template-columns: 2.4rem 1fr auto;
+  display: flex;
   align-items: baseline;
-  gap: 0.8rem;
+  gap: 0.55rem;
   padding: 0.72rem 0.2rem;
   transition: color 0.15s ease;
 }
-.sheets.plain .sheet { grid-template-columns: 1fr auto; }
 .sheet:hover { color: var(--accent); }
 .sheet-n {
+  flex: none;
+  width: 1.9rem;
   font: 600 0.78rem/1.4 var(--mono);
   font-variant-numeric: tabular-nums;
   color: var(--fg-faint);
 }
 .sheet-t { font-size: 1rem; }
+.sheet:hover .sheet-t { text-decoration: underline; text-underline-offset: 0.18em; }
 .sheet-go {
+  flex: none;
   font: 600 0.72rem/1.4 var(--sans);
   letter-spacing: 0.08em;
   text-transform: uppercase;

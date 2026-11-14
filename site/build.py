@@ -309,7 +309,7 @@ def legacy_section(content: dict) -> str:
         return ""
     return (
         '<section class="sem" id="legacy">\n  <h2>Старые лекции</h2>\n  '
-        f'<ol class="sheets plain">{rows}</ol>\n</section>'
+        f'<ol class="sheets">{rows}</ol>\n</section>'
     )
 
 
