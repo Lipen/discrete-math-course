@@ -1,0 +1,83 @@
+# Даты и контроль по неделям: читают и syllabus.typ, и сайт курса.
+# start — понедельник недели; конец недели через шесть дней.
+semesters:
+  - year: 2026
+    weeks:
+      - week: 2
+        start: '2026-09-07'
+      - week: 3
+        start: '2026-09-14'
+      - week: 4
+        start: '2026-09-21'
+      - week: 5
+        start: '2026-09-28'
+      - week: 6
+        start: '2026-10-05'
+        control: {kind: kr, n: 1}
+      - week: 7
+        start: '2026-10-12'
+      - week: 8
+        start: '2026-10-19'
+      - week: 9
+        start: '2026-10-26'
+      - week: 10
+        start: '2026-11-02'
+        control: {kind: kr, n: 2}
+      - week: 11
+        start: '2026-11-09'
+        control: {kind: tm, n: 1}
+      - week: 12
+        start: '2026-11-16'
+      - week: 13
+        start: '2026-11-23'
+        control: {kind: kr, n: 3}
+      - week: 14
+        start: '2026-11-30'
+      - week: 15
+        start: '2026-12-07'
+      - week: 16
+        start: '2026-12-14'
+        control: {kind: kr, n: 4}
+      - week: 17
+        start: '2026-12-21'
+        control: {kind: tm, n: 2}
+  - year: 2027
+    weeks:
+      - week: 1
+        start: '2027-02-08'
+      - week: 2
+        start: '2027-02-15'
+      - week: 3
+        start: '2027-02-22'
+      - week: 4
+        start: '2027-03-01'
+        control: {kind: kr, n: 1}
+      - week: 5
+        start: '2027-03-08'
+      - week: 6
+        start: '2027-03-15'
+      - week: 7
+        start: '2027-03-22'
+      - week: 8
+        start: '2027-03-29'
+        control: {kind: kr, n: 2}
+      - week: 9
+        start: '2027-04-05'
+        control: {kind: tm, n: 3}
+      - week: 10
+        start: '2027-04-12'
+      - week: 11
+        start: '2027-04-19'
+        control: {kind: kr, n: 3}
+      - week: 12
+        start: '2027-04-26'
+      - week: 13
+        start: '2027-05-03'
+      - week: 14
+        start: '2027-05-10'
+      - week: 15
+        start: '2027-05-17'
+        control: {kind: kr, n: 4}
+      - week: 16
+        start: '2027-05-24'
+        control: {kind: tm, n: 4}

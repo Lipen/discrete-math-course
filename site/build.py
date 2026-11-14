@@ -10,6 +10,7 @@ own layout: the book exports chapter pages as metadata, and a plate links to
 
 import html
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -125,17 +126,42 @@ def chapter_chip(chapter: str, pages: dict[int, int]) -> str:
     )
 
 
-def schedule_dates() -> dict[tuple[int, int], str]:
-    """(semester, week) to the dates written in the syllabus."""
-    source = ROOT / "course" / "syllabus.typ"
-    if not source.is_file():
+def schedule_rows() -> dict[tuple[int, int], dict]:
+    """(semester, week) to the row from the shared course/schedule.yml."""
+    path = ROOT / "course" / "schedule.yml"
+    if not path.is_file():
         return {}
-    text = source.read_text(encoding="utf-8")
-    found = {}
-    for sem, week, dates in re.findall(r"#week\((\d+),\s*(\d+),\s*\[([^\]]*)\]", text):
-        clean = dates.replace("---", "\u2013").replace("--", "\u2013")
-        found[(int(sem), int(week))] = re.sub(r"\s+", " ", clean).strip()
-    return found
+    data = yaml.safe_load(path.read_text(encoding="utf-8"))
+    rows = {}
+    for index, semester in enumerate(data["semesters"], start=1):
+        for week in semester["weeks"]:
+            rows[(index, week["week"])] = week
+    return rows
+
+
+def week_dates(row: dict | None) -> str:
+    if not row or not row.get("start"):
+        return ""
+    start = date.fromisoformat(str(row["start"]))
+    end = date.fromordinal(start.toordinal() + 6)
+    months = (
+        "января",
+        "февраля",
+        "марта",
+        "апреля",
+        "мая",
+        "июня",
+        "июля",
+        "августа",
+        "сентября",
+        "октября",
+        "ноября",
+        "декабря",
+    )
+    tail = months[end.month - 1]
+    if start.month == end.month:
+        return f"{start.day}\u2013{end.day} {tail}"
+    return f"{start.day} {months[start.month - 1]} \u2013 {end.day} {tail}"
 
 
 def tight(dates: str) -> str:
@@ -143,34 +169,25 @@ def tight(dates: str) -> str:
     return re.sub(r"(\d+)\s+(" + "|".join(MONTHS) + r")", "\\1\u00a0\\2", dates)
 
 
-def week_start(dates: str, year: int) -> date | None:
-    day = re.match(r"(\d+)", dates)
-    month = re.search("|".join(MONTHS), dates)
-    if not day or not month:
-        return None
-    return date(year, MONTHS[month.group(0)], int(day.group(1)))
-
-
 def topic_row(
     number: int,
     topic: dict,
     dates: str,
+    row: dict | None,
     pages: dict[int, int],
     today: date,
     year: int,
 ) -> str:
     chips = [chapter_chip(chapter, pages) for chapter in topic.get("chapters") or []]
-    slides = ROOT / "lectures" / f"{topic['slides']}.pdf"
-    if slides.is_file():
-        chips.append(
-            f'<a class="chip" href="{slides.name}" target="_blank" rel="noopener">слайды</a>'
-        )
+    chips.append(
+        f'<a class="chip" href="{topic["slides"]}.pdf" target="_blank" rel="noopener">слайды</a>'
+    )
     classes = ["topic"]
-    start = week_start(dates, year) if dates else None
+    start = date.fromisoformat(str(row["start"])) if row and row.get("start") else None
     if start and start <= today < date.fromordinal(start.toordinal() + 7):
         classes.append("now")
     note = f'<p class="teaser">{escape(topic["note"])}</p>' if topic.get("note") else ""
-    control = topic.get("control")
+    control = (row or {}).get("control")
     plate = ""
     if control:
         label = {"kr": "КР", "tm": "ТМ"}[control["kind"]]
@@ -200,7 +217,7 @@ def materials(content: dict) -> str:
                 f'<span class="cube-fmt">к списку</span></span>'
                 f'<span class="cube-d">{note}</span></a>'
             )
-        elif (ROOT / "book" / href).is_file() or (ROOT / "course" / href).is_file():
+        else:
             cubes.append(
                 f'<a class="cube" href="{href}" target="_blank" rel="noopener">'
                 f'<span class="cube-head"><span class="cube-t">{title}</span>'
@@ -233,7 +250,6 @@ def homework_section(content: dict) -> str:
             )
             for work in content["homework"]
             if work["semester"] == semester
-            and (ROOT / "homework" / f"hw{work['number']}.pdf").is_file()
         ]
         if cards:
             groups.append(
@@ -250,7 +266,6 @@ def cheatsheets_section(content: dict) -> str:
     cards = [
         card(f"tex/{sheet['file']}", f"Шпаргалка\u00a0{index}", sheet["title"])
         for index, sheet in enumerate(content.get("cheatsheets") or [], start=1)
-        if (ROOT / "tex" / sheet["file"]).is_file()
     ]
     return (
         '<section class="sem" id="cheatsheets">\n  <h2>Шпаргалки</h2>\n  '
@@ -310,6 +325,7 @@ def page(title: str, body: str) -> str:
 def main() -> int:
     content = yaml.safe_load((SITE / "course.yml").read_text(encoding="utf-8"))
     pages = chapter_pages()
+    weeks = schedule_rows()
     today = datetime.now(ZoneInfo("Europe/Moscow")).date()
 
     if DIST.exists():
@@ -326,27 +342,27 @@ def main() -> int:
     sources += sorted((ROOT / "lectures").glob("s*-lec*.pdf"))
     sources += sorted((ROOT / "homework").glob("hw*.pdf"))
     sheets = sorted((ROOT / "tex").glob("cheat*.pdf"))
-    copied = 0
+    linked = 0
     for path in sources if preview else []:
         if path.is_file():
-            shutil.copy2(path, ASSETS / path.name)
-            copied += 1
+            os.symlink(path, ASSETS / path.name)
+            linked += 1
     if sheets and preview:
         (DIST / "tex").mkdir(parents=True, exist_ok=True)
         for path in sheets:
-            shutil.copy2(path, DIST / "tex" / path.name)
-            copied += 1
+            os.symlink(path, DIST / "tex" / path.name)
+            linked += 1
     for name in ("theme.css", "ui.js", "icon.svg"):
         shutil.copy2(SITE / name, DIST / name)
 
-    dates = schedule_dates()
     tabs, sections = [], []
     for number, semester in enumerate(content["semesters"], start=1):
         rows = "\n".join(
             topic_row(
                 index,
                 topic,
-                dates.get((number, topic["week"]), ""),
+                week_dates(weeks.get((number, topic["week"]))),
+                weeks.get((number, topic["week"])),
                 pages,
                 today,
                 semester["year"],
@@ -382,7 +398,7 @@ def main() -> int:
     (DIST / "index.html").write_text(page(content["title"], body), encoding="utf-8")
     (DIST / "404.html").write_text(not_found(), encoding="utf-8")
     topics = sum(len(s["topics"]) for s in content["semesters"])
-    note = f", {copied} files for preview" if preview else ""
+    note = f", {linked} links for preview" if preview else ""
     print(f"site: {topics} topics, {len(pages)} chapter pages{note}")
     return 0
 

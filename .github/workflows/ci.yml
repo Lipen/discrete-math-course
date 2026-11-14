@@ -227,13 +227,6 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends python3-yaml
 
-      - name: Place built PDFs for the site
-        run: |
-          cp course-pdf/book.pdf book/
-          cp course-pdf/s*-lec*.pdf course-pdf/course-intro.pdf lectures/
-          cp course-pdf/syllabus.pdf course-pdf/program.pdf course-pdf/mentors.pdf course/
-          cp course-pdf/hw*.pdf homework/
-
       - name: Build site
         run: python3 site/build.py
 
