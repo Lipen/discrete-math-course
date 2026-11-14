@@ -11,7 +11,6 @@ on:
       - LICENSE
       - .github/**
       - "!.github/workflows/ci.yml"
-      - "!.github/archive/**"
   workflow_dispatch:
 
 jobs:
@@ -237,8 +236,8 @@ jobs:
           cp course-pdf/*.pdf public/
           cp pdf-typst/*.pdf public/typst/
           cp pdf-tex/*.pdf public/tex/
-          cp .github/archive/typst.html public/typst/index.html
-          cp .github/archive/tex.html public/tex/index.html
+          python3 tools/gen-archive-index.py public/typst typst
+          python3 tools/gen-archive-index.py public/tex tex
 
       - name: Check site links
         run: python3 tools/check-site-links.py public/index.html public/typst/index.html public/tex/index.html

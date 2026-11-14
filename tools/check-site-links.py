@@ -9,9 +9,9 @@ Every relative ``href`` is resolved against the page and reported when the targe
 file or directory is absent. Pass a directory to check each ``index.html`` inside it.
 External URLs, fragment-only links and ``mailto:`` are ignored.
 
-The pages are named explicitly: the deploy publishes exactly three hand-written index
-pages (the hub and the two archive indexes), so the tool is told which they are rather
-than guessing by discovery, and a generated tree is added by name when it gains one.
+The pages are named explicitly: the deploy publishes exactly three index pages
+(the hub and the two generated archive indexes), so the tool is told which they are
+rather than guessing by discovery, and a generated tree is added by name when it gains one.
 """
 
 import sys

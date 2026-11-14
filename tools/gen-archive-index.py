@@ -1,63 +1,50 @@
 #!/usr/bin/env python3
-"""Generate static archive index pages (.github/archive/{typst,tex}.html).
+"""Write an archive index that lists exactly the PDFs present in a directory.
 
-Sources of truth:
-- typst/: the legacy files compiled by the `build-typst` CI job — parsed from
-  `typst compile typst/<stem>.typ` lines in .github/workflows/ci.yml
-- tex/: every tex/*.tex (the `build-tex` job compiles all of them)
+The deploy copies the built PDFs first and then calls this, so the page cannot
+advertise a file that the build did not produce:
 
-Run from repo root:  python3 tools/gen-archive-index.py
-Commit the result.
+    python3 tools/gen-archive-index.py public/typst typst
+
+The index replaces the hand-written snapshots that used to drift from the build.
 """
 
-import re
+import sys
 from pathlib import Path
-
-ROOT = Path(__file__).resolve().parent.parent
-CI = ROOT / ".github/workflows/ci.yml"
-TEX = ROOT / "tex"
-OUT = ROOT / ".github/archive"
 
 PAGE = """<!doctype html>
 <meta charset="utf-8">
-<title>Archive: {name}</title>
+<title>Archive: {title}</title>
 <body style="font-family:system-ui,sans-serif;max-width:46em;margin:2.5em auto;padding:0 1.2em;color:#1a1a2e">
-<h1 style="font-size:1.5em">📁 Archive: {name}</h1>
-<p style="color:#777">{count} legacy PDF files.</p>
+<h1 style="font-size:1.5em">📁 Archive: {title}</h1>
+<p style="color:#777">{count} legacy PDF {word}.</p>
 <ul style="columns:2;column-gap:2.5em;list-style:none;padding:0;line-height:1.9">
 {items}
 </ul>
+<p style="margin-top:2em;color:#777"><a href="../" style="color:#4f46e5">← На главную курса</a></p>
 """
 
 
-def typst_stems() -> list[str]:
-    text = CI.read_text(encoding="utf-8")
-    return sorted(
-        set(
-            re.findall(
-                r"^\s*- run: typst compile typst/([a-z0-9-]+)\.typ$", text, re.MULTILINE
-            )
-        )
+def main(argv: list[str]) -> int:
+    if len(argv) != 3:
+        print(__doc__.strip().splitlines()[3].strip(), file=sys.stderr)
+        return 2
+    directory, title = Path(argv[1]), argv[2]
+    if not directory.is_dir():
+        print(f"{directory}: not a directory", file=sys.stderr)
+        return 2
+    names = sorted(path.name for path in directory.glob("*.pdf"))
+    items = "\n".join(f'<li><a href="{name}">{name}</a></li>' for name in names)
+    page = PAGE.format(
+        title=title,
+        count=len(names),
+        word="file" if len(names) == 1 else "files",
+        items=items,
     )
-
-
-def tex_stems() -> list[str]:
-    return sorted(p.stem for p in TEX.glob("*.tex"))
-
-
-def write_page(name: str, stems: list[str]) -> None:
-    items = "\n".join(f'<li><a href="{s}.pdf">{s}.pdf</a></li>' for s in stems)
-    page = PAGE.format(name=name, count=len(stems), items=items)
-    path = OUT / f"{name}.html"
-    path.write_text(page, encoding="utf-8")
-    print(f"{path.relative_to(ROOT)}: {len(stems)} files")
-
-
-def main() -> None:
-    OUT.mkdir(parents=True, exist_ok=True)
-    write_page("typst", typst_stems())
-    write_page("tex", tex_stems())
+    (directory / "index.html").write_text(page, encoding="utf-8")
+    print(f"archive {directory}: {len(names)} files")
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main(sys.argv))
