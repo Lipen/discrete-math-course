@@ -279,13 +279,21 @@ def homework_section(content: dict) -> str:
 
 
 def cheatsheets_section(content: dict) -> str:
-    cards = [
-        card(f"tex/{sheet['file']}", f"Шпаргалка\u00a0{index}", sheet["title"])
+    rows = "".join(
+        '<li><a class="sheet" href="tex/{file}" target="_blank" rel="noopener">'
+        '<span class="sheet-n">{number:02d}</span>'
+        '<span class="sheet-t">{title}</span>'
+        '<span class="sheet-go">PDF<span aria-hidden="true"> ↗</span></span>'
+        "</a></li>".format(
+            file=escape(sheet["file"]),
+            number=index,
+            title=escape(sheet["title"]),
+        )
         for index, sheet in enumerate(content.get("cheatsheets") or [], start=1)
-    ]
+    )
     return (
         '<section class="sem" id="cheatsheets">\n  <h2>Шпаргалки</h2>\n  '
-        f'<div class="mini-grid cheats">{"".join(cards)}</div>\n</section>'
+        f'<ol class="sheets">{rows}</ol>\n</section>'
     )
 
 

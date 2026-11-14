@@ -21,6 +21,7 @@
   --tm: #6d28d9;
   --shadow: 0 1px 2px rgb(16 19 25 / 6%), 0 8px 24px rgb(16 19 25 / 4%);
   --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
   --radius: 10px;
 }
 
@@ -265,7 +266,6 @@ body.scrolled .up { opacity: 1; visibility: visible; pointer-events: auto; }
   grid-template-columns: repeat(2, 1fr);
   gap: 0.6rem;
 }
-.mini-grid.cheats { grid-template-columns: repeat(4, 1fr); }
 .mini {
   display: flex;
   align-items: baseline;
@@ -286,6 +286,37 @@ body.scrolled .up { opacity: 1; visibility: visible; pointer-events: auto; }
   color: var(--fg-faint);
 }
 .mini-t { font-size: 0.95rem; }
+
+/* ── Шпаргалки: список строк ── */
+.sheets {
+  list-style: none;
+  margin: 0.4rem 0 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+}
+.sheets li { border-bottom: 1px solid var(--line); }
+.sheet {
+  display: grid;
+  grid-template-columns: 2.4rem 1fr auto;
+  align-items: baseline;
+  gap: 0.8rem;
+  padding: 0.72rem 0.2rem;
+  transition: color 0.15s ease;
+}
+.sheet:hover { color: var(--accent); }
+.sheet-n {
+  font: 600 0.78rem/1.4 var(--mono);
+  font-variant-numeric: tabular-nums;
+  color: var(--fg-faint);
+}
+.sheet-t { font-size: 1rem; }
+.sheet-go {
+  font: 600 0.72rem/1.4 var(--sans);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-faint);
+}
+.sheet:hover .sheet-go { color: var(--accent); }
 
 /* ── Семестр ── */
 .sem { padding-top: 2rem; scroll-margin-top: 7.6rem; }
@@ -396,7 +427,6 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); }
   .dates { margin-top: 0; }
   .tabs { overflow-x: auto; }
   .mini-grid { grid-template-columns: 1fr; }
-  .mini-grid.cheats { grid-template-columns: repeat(2, 1fr); }
   .mini { flex-direction: column; align-items: flex-start; gap: 0.15rem; min-width: 0; }
 }
 
