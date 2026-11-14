@@ -118,76 +118,6 @@ jobs:
           name: pages
           path: chapter-pages.json
 
-  build-typst:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Install Libertinus fonts
-        run: |
-          curl -sSL https://github.com/alerque/libertinus/releases/download/v7.051/Libertinus-7.051.zip -o libertinus.zip
-          unzip -q libertinus.zip
-          mkdir -p ~/.fonts
-          cp Libertinus-7.051/static/OTF/*.otf ~/.fonts/
-
-      - name: Install Font Awesome fonts
-        run: |
-          curl -sSL https://github.com/FortAwesome/Font-Awesome/releases/download/7.2.0/fontawesome-free-7.2.0-desktop.zip -o fa.zip
-          unzip -q fa.zip
-          mkdir -p ~/.fonts
-          cp fontawesome-free-7.2.0-desktop/otfs/*.otf ~/.fonts/
-
-      - name: Install Source fonts
-        run: |
-          curl -sSL https://github.com/fontist/source-fonts/releases/download/v1.2/source-fonts-latn-1.2.zip -o source.zip
-          unzip -q source.zip
-          mkdir -p ~/.fonts
-          cp fonts-latn/*.ttf ~/.fonts/
-
-      - run: ls -lh ~/.fonts
-      - run: echo "TYPST_FONT_PATHS=$HOME/.fonts" >> $GITHUB_ENV
-
-      - name: Setup Typst
-        uses: typst-community/setup-typst@v4
-        with:
-          typst-version: ^0.14
-          cache-dependency-path: typst/requirements.typ
-
-      - run: rm -f typst/requirements.pdf
-      - run: typst --version
-      - run: typst fonts
-
-      - run: typst compile typst/syllabus.typ
-      - run: typst compile typst/overview.typ
-      - run: typst compile typst/jaccard.typ
-      - run: typst compile typst/lec-set-theory.typ
-      - run: typst compile typst/lec-relations.typ
-      - run: typst compile typst/lec-boolean-algebra.typ
-      - run: typst compile typst/lec-sat.typ
-      - run: typst compile typst/lec-logic.typ
-      - run: typst compile typst/lec-graphs.typ
-      - run: typst compile typst/lec-computation.typ
-      - run: typst compile typst/lec-combinatorics.typ
-      - run: typst compile typst/hw1.typ
-      - run: typst compile typst/hw1-ru.typ
-      - run: typst compile typst/hw2.typ
-      - run: typst compile typst/hw3.typ
-      - run: typst compile typst/hw4.typ
-      - run: typst compile typst/hw5.typ
-      - run: typst compile typst/hw6.typ
-      - run: typst compile typst/hw7.typ
-      - run: typst compile typst/hw8.typ
-
-      - name: List generated PDFs
-        run: ls -lh typst/*.pdf
-
-      - name: Upload PDFs as artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: pdf-typst
-          path: "typst/*.pdf"
-
   build-tex:
     runs-on: ubuntu-latest
     steps:
@@ -208,7 +138,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    needs: [lint, build-course, build-typst, build-tex]
+    needs: [lint, build-course, build-tex]
     concurrency:
       group: "pages"
       cancel-in-progress: false
@@ -231,16 +161,14 @@ jobs:
 
       - name: Prepare files for gh-pages
         run: |
-          mkdir -p public/typst public/tex
+          mkdir -p public/tex
           cp -r site/dist/. public/
           cp course-pdf/*.pdf public/
-          cp pdf-typst/*.pdf public/typst/
           cp pdf-tex/*.pdf public/tex/
-          python3 tools/gen-archive-index.py public/typst typst
           python3 tools/gen-archive-index.py public/tex tex
 
       - name: Check site links
-        run: python3 tools/check-site-links.py public/index.html public/typst/index.html public/tex/index.html
+        run: python3 tools/check-site-links.py public/index.html public/tex/index.html
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4

@@ -62,8 +62,7 @@ just site-serve    # посмотреть сайт на localhost:8765
 
 ## 📦 Архив
 
-- [`typst/`](https://lipen.github.io/discrete-math-course/typst/)
-- [`tex/`](https://lipen.github.io/discrete-math-course/tex/)
+- [`tex/`](https://lipen.github.io/discrete-math-course/tex/) — шпаргалки и материалы прошлых лет в LaTeX
 
 ## 📜 Лицензия
 

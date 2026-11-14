@@ -4,7 +4,7 @@
 The deploy copies the built PDFs first and then calls this, so the page cannot
 advertise a file that the build did not produce:
 
-    python3 tools/gen-archive-index.py public/typst typst
+    python3 tools/gen-archive-index.py public/tex tex
 
 The index replaces the hand-written snapshots that used to drift from the build.
 """
