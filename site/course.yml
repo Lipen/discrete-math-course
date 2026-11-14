@@ -211,6 +211,24 @@ homework:
   - number: 8
     semester: 2
     title: Комбинаторика
+legacy:
+  - file: lec-set-theory.pdf
+    title: Теория множеств
+  - file: lec-relations.pdf
+    title: Отношения
+  - file: lec-logic.pdf
+    title: Формальная логика
+  - file: lec-boolean-algebra.pdf
+    title: Булева алгебра
+  - file: lec-sat.pdf
+    title: Выполнимость
+  - file: lec-graphs.pdf
+    title: Теория графов
+  - file: lec-computation.pdf
+    title: Формальные языки
+  - file: lec-combinatorics.pdf
+    title: Комбинаторика
+
 cheatsheets:
   - file: cheat1.pdf
     title: Множества

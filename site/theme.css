@@ -303,6 +303,14 @@ body.scrolled .up { opacity: 1; visibility: visible; pointer-events: auto; }
   padding: 0.72rem 0.2rem;
   transition: color 0.15s ease;
 }
+.sheets.plain .sheet { grid-template-columns: 1fr auto; }
+.sheets-note {
+  margin: 0.55rem 0 0;
+  font-size: 0.9rem;
+  color: var(--fg-faint);
+}
+.sheets-note a { color: inherit; text-decoration: underline; text-underline-offset: 0.15em; }
+.sheets-note a:hover { color: var(--accent); }
 .sheet:hover { color: var(--accent); }
 .sheet-n {
   font: 600 0.78rem/1.4 var(--mono);

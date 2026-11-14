@@ -297,6 +297,24 @@ def cheatsheets_section(content: dict) -> str:
     )
 
 
+def legacy_section(content: dict) -> str:
+    rows = "".join(
+        '<li><a class="sheet" href="typst/{file}" target="_blank" rel="noopener">'
+        '<span class="sheet-t">{title}</span>'
+        '<span class="sheet-go">PDF<span aria-hidden="true"> ↗</span></span>'
+        "</a></li>".format(file=escape(doc["file"]), title=escape(doc["title"]))
+        for doc in content.get("legacy") or []
+    )
+    if not rows:
+        return ""
+    return (
+        '<section class="sem" id="legacy">\n  <h2>Старые лекции</h2>\n  '
+        '<p class="sheets-note">Деки прошлых лет, оставлены для справки. '
+        'Остальные материалы архива --- в каталоге <a href="typst/">typst/</a>.</p>\n  '
+        f'<ol class="sheets plain">{rows}</ol>\n</section>'
+    )
+
+
 def not_found() -> str:
     body = """<main id="main">
 <header class="hero">
@@ -376,6 +394,12 @@ def main() -> int:
         for path in sheets:
             os.symlink(path, DIST / "tex" / path.name)
             linked += 1
+    legacy = sorted((ROOT / "typst").glob("*.pdf"))
+    if legacy and preview:
+        (DIST / "typst").mkdir(parents=True, exist_ok=True)
+        for path in legacy:
+            os.symlink(path, DIST / "typst" / path.name)
+            linked += 1
     for name in ("theme.css", "ui.js", "icon.svg"):
         shutil.copy2(SITE / name, DIST / name)
 
@@ -394,6 +418,8 @@ def main() -> int:
             for index, topic in enumerate(semester["topics"], start=1)
         )
         tabs.append(f'<a href="#sem{number}">{escape(semester["tab"])}</a>')
+    if content.get("legacy"):
+        tabs.append('<a href="#legacy">Старые лекции</a>')
         sections.append(
             f"""<section class="sem" id="sem{number}">
   <h2>{escape(semester["name"])}</h2>
@@ -418,6 +444,7 @@ def main() -> int:
 {chr(10).join(sections)}
 {homework_section(content)}
 {cheatsheets_section(content)}
+{legacy_section(content)}
 </main>"""
     (DIST / "index.html").write_text(page(content["title"], body), encoding="utf-8")
     (DIST / "404.html").write_text(not_found(), encoding="utf-8")
