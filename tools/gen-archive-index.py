@@ -18,7 +18,6 @@ PAGE = """<!doctype html>
 <body style="font-family:system-ui,sans-serif;max-width:46em;margin:2.5em auto;padding:0 1.2em;color:#1a1a2e">
 <h1 style="font-size:1.5em">📁 Archive: {title}</h1>
 <p style="color:#777">{count} legacy PDF {word}.</p>
-<p style="color:#777">Материалы прошлых лет: актуальные документы курса лежат на главной странице.</p>
 <ul style="columns:2;column-gap:2.5em;list-style:none;padding:0;line-height:1.9">
 {items}
 </ul>
