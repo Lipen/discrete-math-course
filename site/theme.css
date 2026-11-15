@@ -89,7 +89,7 @@ a:hover { color: var(--accent); }
   border-bottom: 1px solid var(--line);
 }
 .brand { display: inline-flex; align-items: center; gap: 0.55rem; font-weight: 650; letter-spacing: -0.015em; font-size: 0.98rem; }
-.brand-mark { flex: none; width: 1.35rem; height: 1.35rem; color: var(--accent); }
+.brand-mark { flex: none; width: 1.55rem; height: 1.55rem; color: var(--accent); }
 .top-actions { margin-left: auto; display: flex; align-items: center; gap: 0.5rem; }
 .gh {
   display: inline-flex;

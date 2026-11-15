@@ -339,7 +339,7 @@ def page(title: str, body: str) -> str:
 <a class="skip" href="#main">К содержанию</a>
 <header class="top">
   <a class="brand" href="index.html">
-    <svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.6 19.3 7.8v8.4L12 20.4 4.7 16.2V7.8z"/><path d="M12 12 4.7 7.8M12 12l7.3-4.2M12 12v8.4"/></svg>
+    <svg class="brand-mark" viewBox="0 0 100 100" aria-hidden="true" fill="none"><path d="M50 10 L84 30 V70 L50 90 L16 70 V30 Z" stroke="currentColor" stroke-width="5.2" stroke-linejoin="round"/><g fill="currentColor" fill-rule="evenodd"><path d="M18 71 L32.5 31 L47 71 Z M28.6 62 L32.5 50.6 L36.4 62 Z"/><path d="M52 71 V31 L63.5 52.5 L75 31 V71 H69 V44.5 L63.5 57 L58 44.5 V71 Z"/></g></svg>
     {escape(title)}
   </a>
   <div class="top-actions">
