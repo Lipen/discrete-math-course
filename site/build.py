@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+# /// script
+# requires-python = ">=3.11"
+# dependencies = ["pyyaml"]
+# ///
 """Build the course hub: materials, the lecture list and chapter links.
 
 Everything on the page comes from `site/course.yml`: the lectures, their short notes,
