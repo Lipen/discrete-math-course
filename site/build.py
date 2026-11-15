@@ -48,7 +48,7 @@ MONTHS = {
 }
 
 BOOK_ICON = """<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6.6C10.4 5 8.3 4.2 5.8 4.2H3.5v13.4h2.3c2.5 0 4.6.8 6.2 2.4 1.6-1.6 3.7-2.4 6.2-2.4h2.3V4.2h-2.3c-2.5 0-4.6.8-6.2 2.4z"/><path d="M12 6.6V20"/></svg>"""
-RULES_ICON = """<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.6" y="4.8" width="3.1" height="3.1" rx="0.9"/><rect x="3.6" y="10.4" width="3.1" height="3.1" rx="0.9"/><rect x="3.6" y="16" width="3.1" height="3.1" rx="0.9"/><path d="M9.8 6.35h10.6M9.8 11.95h10.6M9.8 17.55h6.8"/></svg>"""
+RULES_ICON = """<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4.6" width="14" height="16.2" rx="2.4"/><path d="M9.2 2.6h5.6v3.8H9.2z"/><path d="M8.7 13.4l2.1 2.1 4.5-4.5"/></svg>"""
 
 ICONS = """
 <svg class="i-auto" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg>
