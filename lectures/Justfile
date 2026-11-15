@@ -16,7 +16,7 @@ files := """
     s1-lec10-deduction.typ
     s1-lec11-fol.typ
     s1-lec12-boolean-algebra.typ
-    s1-lec13-zhegalkin.typ
+    s1-lec13-minimization.typ
     s1-lec14-circuits.typ
     s1-lec15-codes.typ
     s1-lec16-compression.typ
