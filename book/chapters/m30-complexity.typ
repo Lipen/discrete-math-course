@@ -684,7 +684,7 @@ NP-полные задачи --- универсальные приёмники �
 $O(2^n)$ для $n = 100$ --- астрономическое число.
 Положение меняется, если экспонента зависит от малого параметра $k$, а от размера входа $n$ --- лишь полиномиально.
 
-#definition[FPT --- Fixed-Parameter Tractable][#idx("FPT — Fixed-Parameter Tractable")
+#definition[FPT --- Fixed-Parameter Tractable][#idx("FPT --- Fixed-Parameter Tractable")
   Задача с параметром $k$ (выделенным аспектом входа) называется *параметрически разрешимой* (FPT), если она разрешима за время
   $
     f(k) dot n^(O(1)),
