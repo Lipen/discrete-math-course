@@ -50,7 +50,7 @@
     table(
       columns: (auto,),
       align: left,
-      inset: (x: 0.4em, y: 0.1em),
+      inset: 5pt,
       stroke: none,
       premise-a,
       premise-b,
