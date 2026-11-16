@@ -142,8 +142,8 @@
 // ── Квадрат оппозиций: A, E, I, O и отношения между суждениями ──
 #let square-of-opposition = {
   let xh = 2.7
-  let yh = 1.35
-  let box = 0.5
+  let yh = 1.08
+  let box = 0.45
 
   // Универсальные суждения холодные, частные тёплые.
   let corner(pos, name, tone) = {
@@ -180,7 +180,21 @@
     link("A", "I", arrow: true)
     link("E", "O", arrow: true)
     link("A", "O", dashed: true)
-    link("I", "E", dashed: true)
+    link("E", "I", dashed: true)
+
+    // Подписи стоят вне линий: сверху, снизу и сбоку от вертикалей.
+    draw.content((0, yh + box + 0.3), text(fill: ink)[контрарность])
+    draw.content((0, -yh - box - 0.3), text(fill: ink)[субконтрарность])
+    draw.content(
+      (-xh - box - 0.3, 0),
+      text(fill: ink)[подчинение],
+      angle: 90deg,
+    )
+    draw.content(
+      (xh + box + 0.3, 0),
+      text(fill: ink)[подчинение],
+      angle: 90deg,
+    )
     draw.content(
       (0, 0),
       text(fill: ink)[противоречие],
