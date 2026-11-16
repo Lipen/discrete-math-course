@@ -195,7 +195,7 @@
   above: heading-above,
   below: heading-below,
 )[
-  #place(right + horizon)[#tag]
+  #place(right + horizon, dy: -0.18em)[#tag]
   #heading(level: 2)[#title]
 ]
 
