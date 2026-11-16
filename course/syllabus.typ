@@ -27,6 +27,23 @@
 #let hairline = 0.6pt + accent.lighten(58%)
 #let small = 0.85em
 
+// Сегмент диаграммы: тинт, верхняя полоса и вертикальный разделитель.
+#let bar-segment(
+  main,
+  body,
+  first: false,
+  inset: (x: 0.4em, y: 0.55em),
+) = block(
+  width: 100%,
+  fill: main.transparentize(88%),
+  stroke: (
+    top: 2.5pt + main.transparentize(45%),
+    left: if first { none } else { 0.8pt + ink.transparentize(65%) },
+  ),
+  inset: inset,
+  body,
+)
+
 #set document(
   title: "Дискретная математика. ИТМО 2026/27",
   keywords: ("дискретная математика", "syllabus", "расписание"),
@@ -419,29 +436,27 @@
     width: 100%,
     stroke: (bottom: 0.4pt + ink.transparentize(88%)),
   )[
+    #let zone(c, verb, words, first: false) = bar-segment(
+      c,
+      [
+        #set par(justify: false)
+        #text(size: 1.1em, weight: "bold", fill: c, hyphenate: false)[#verb]
+        #v(0.3em)
+        #for (i, w) in words.enumerate() [
+          #text(size: small, fill: muted, hyphenate: false)[#w]
+          #if i < words.len() - 1 [\ ]
+        ]
+      ],
+      first: first,
+      inset: (x: 0.7em, y: 0.55em),
+    )
     #grid(
       columns: (1fr, 1fr, 1fr, 1fr),
       column-gutter: 0pt,
-      ..(
-        (blue, "Описать", ("логика", "множества", "отношения")),
-        (purple, "Построить", ("алгебра", "схемы", "коды")),
-        (amber, "Сосчитать", ("комбинаторика", "производящие", "функции")),
-        (green, "Вычислить", ("графы", "автоматы", "машины")),
-      ).map(((c, verb, words)) => block(
-        width: 100%,
-        fill: c.transparentize(88%),
-        stroke: (top: 2.5pt + c.transparentize(45%)),
-        inset: (x: 0.7em, y: 0.55em),
-        [
-          #set par(justify: false)
-          #text(size: 1.1em, weight: "bold", fill: c, hyphenate: false)[#verb]
-          #v(0.3em)
-          #for (i, w) in words.enumerate() [
-            #text(size: small, fill: muted, hyphenate: false)[#w]
-            #if i < words.len() - 1 [\ ]
-          ]
-        ],
-      )),
+      zone(blue, "Описать", ("логика", "множества", "отношения"), first: true),
+      zone(purple, "Построить", ("алгебра", "схемы", "коды")),
+      zone(amber, "Сосчитать", ("комбинаторика", "производящие", "функции")),
+      zone(green, "Вычислить", ("графы", "автоматы", "машины")),
     )
   ]
   #v(0.9em)
@@ -540,26 +555,23 @@
   width: 100%,
   stroke: (bottom: 0.4pt + ink.transparentize(88%)),
 )[
+  #let part(c, num, label, first: false) = bar-segment(
+    c,
+    align(center + horizon)[
+      #text(size: 1.25em, weight: "bold", fill: c, hyphenate: false)[#num]
+      #v(0.15em)
+      #text(size: 0.72em, fill: muted, hyphenate: false)[#label]
+    ],
+    first: first,
+  )
   #grid(
     columns: (40fr, 20fr, 20fr, 10fr, 10fr),
     column-gutter: 0pt,
-    ..(
-      (blue, [40], [домашка и контрольные]),
-      (cyan, [20], [теормины]),
-      (purple, [20], [экзамен]),
-      (green, [10], [практики]),
-      (amber, [10], [лекции]),
-    ).map(((c, num, label)) => block(
-      width: 100%,
-      fill: c.transparentize(88%),
-      stroke: (top: 2.5pt + c.transparentize(45%)),
-      inset: (x: 0.4em, y: 0.55em),
-      align(center + horizon)[
-        #text(size: 1.25em, weight: "bold", fill: c, hyphenate: false)[#num]
-        #v(0.15em)
-        #text(size: 0.72em, fill: muted, hyphenate: false)[#label]
-      ],
-    )),
+    part(blue, [40], [домашка и контрольные], first: true),
+    part(cyan, [20], [теормины]),
+    part(purple, [20], [экзамен]),
+    part(green, [10], [практики]),
+    part(amber, [10], [лекции]),
   )
 ]
 
@@ -591,25 +603,23 @@
   width: 100%,
   stroke: (bottom: 0.4pt + ink.transparentize(88%)),
 )[
+  #let part(c, range, label, first: false) = bar-segment(
+    c,
+    align(center + horizon)[
+      #text(size: 0.9em, weight: "bold", fill: c, hyphenate: false)[#range]
+      #v(0.15em)
+      #text(size: 0.65em, fill: muted, hyphenate: false)[#label]
+    ],
+    first: first,
+    inset: (x: 0.2em, y: 0.55em),
+  )
   #grid(
     columns: (60fr, 14fr, 16fr, 11fr),
     column-gutter: 0pt,
-    ..(
-      (bad, [0--59], [долг]),
-      (amber, [60--73], [удовл.]),
-      (blue, [74--89], [хорошо]),
-      (good, [90--100], [отлично]),
-    ).map(((c, range, label)) => block(
-      width: 100%,
-      fill: c.transparentize(88%),
-      stroke: (top: 2.5pt + c.transparentize(45%)),
-      inset: (x: 0.2em, y: 0.55em),
-      align(center + horizon)[
-        #text(size: 0.9em, weight: "bold", fill: c, hyphenate: false)[#range]
-        #v(0.15em)
-        #text(size: 0.65em, fill: muted, hyphenate: false)[#label]
-      ],
-    )),
+    part(bad, [0--59], [долг], first: true),
+    part(amber, [60--73], [удовл.]),
+    part(blue, [74--89], [хорошо]),
+    part(good, [90--100], [отлично]),
   )
 ]
 
