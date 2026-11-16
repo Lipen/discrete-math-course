@@ -23,36 +23,36 @@
 #let judgment-circles = canvas({
   let pair-a(x) = {
     panel((x - 1.25, -1.85), (x + 1.25, 1.2), tone: cool)
-    euler-set("A-P", (x, 0), 1, cool, cool.lighten(82%))
-    euler-set("A-S", (x, 0.32), 0.42, warm, warm.lighten(82%))
+    euler-set("A-P", (x, 0), 1, cool, cool.transparentize(80%))
+    euler-set("A-S", (x, 0.32), 0.42, warm, warm.transparentize(62%))
     mark((x, 0.32), $S$)
-    mark((x - 0.45, -0.62), $P$)
+    mark((x - 0.5, -0.62), $P$)
     mark((x, -1.55), [*$A$*])
   }
   let pair-e(x) = {
     panel((x - 1.25, -1.85), (x + 1.25, 1.2), tone: cool)
-    euler-set("E-S", (x - 0.65, 0), 0.55, warm, warm.lighten(82%))
-    euler-set("E-P", (x + 0.65, 0), 0.55, cool, cool.lighten(82%))
+    euler-set("E-S", (x - 0.65, 0), 0.55, warm, warm.transparentize(72%))
+    euler-set("E-P", (x + 0.65, 0), 0.55, cool, cool.transparentize(72%))
     mark((x - 0.65, 0), $S$)
     mark((x + 0.65, 0), $P$)
     mark((x, -1.55), [*$E$*])
   }
   let pair-i(x) = {
     panel((x - 1.25, -1.85), (x + 1.25, 1.2), tone: cool)
-    euler-set("I-S", (x - 0.4, 0), 0.65, warm, warm.lighten(82%))
-    euler-set("I-P", (x + 0.5, 0), 0.65, cool, cool.lighten(82%))
+    euler-set("I-S", (x - 0.4, 0), 0.65, warm, warm.transparentize(72%))
+    euler-set("I-P", (x + 0.5, 0), 0.65, cool, cool.transparentize(72%))
     witness((x + 0.05, 0))
-    mark((x - 0.55, 0.35), $S$)
-    mark((x + 0.7, 0.35), $P$)
+    mark((x - 0.95, 0.42), $S$)
+    mark((x + 1.05, 0.42), $P$)
     mark((x, -1.55), [*$I$*])
   }
   let pair-o(x) = {
     panel((x - 1.25, -1.85), (x + 1.25, 1.2), tone: cool)
-    euler-set("O-S", (x - 0.3, 0), 0.65, warm, warm.lighten(82%))
-    euler-set("O-P", (x + 0.55, -0.28), 0.65, cool, cool.lighten(82%))
-    witness((x - 0.55, 0.38))
-    mark((x - 0.45, -0.15), $S$)
-    mark((x + 0.85, -0.6), $P$)
+    euler-set("O-S", (x - 0.3, 0), 0.65, warm, warm.transparentize(72%))
+    euler-set("O-P", (x + 0.55, -0.28), 0.65, cool, cool.transparentize(72%))
+    witness((x - 0.72, 0.32))
+    mark((x - 0.55, -0.28), $S$)
+    mark((x + 1.02, -0.68), $P$)
     mark((x, -1.55), [*$O$*])
   }
 
@@ -64,19 +64,19 @@
 
 // ── Barbara: все M суть P, все S суть M --- все S суть P ──
 #let euler-barbara = canvas({
-  euler-set("P", (0, 0), 1.6, cool, cool.lighten(82%))
-  euler-set("M", (0.2, -0.35), 0.95, green, green.lighten(82%))
-  euler-set("S", (0.38, -0.6), 0.42, warm, warm.lighten(82%))
-  mark((0.38, -0.6), $S$)
-  mark((-0.35, 0.15), $M$)
-  mark((0.75, 1.05), $P$)
+  euler-set("P", (0, 0), 1.55, cool, cool.transparentize(82%))
+  euler-set("M", (0.15, -0.3), 0.9, green, green.transparentize(72%))
+  euler-set("S", (0.32, -0.55), 0.4, warm, warm.transparentize(58%))
+  mark((0.32, -0.55), $S$)
+  mark((0.52, 0.2), $M$)
+  mark((-0.8, 0.95), $P$)
 })
 
 // ── Celarent: ни одно M не есть P, все S суть M --- ни одно S не есть P ──
 #let euler-celarent = canvas({
-  euler-set("M", (-1.05, 0), 1.15, green, green.lighten(82%))
-  euler-set("P", (1.35, 0), 1.15, cool, cool.lighten(82%))
-  euler-set("S", (-1.05, -0.35), 0.42, warm, warm.lighten(82%))
+  euler-set("M", (-1.05, 0), 1.1, green, green.transparentize(72%))
+  euler-set("P", (1.35, 0), 1.1, cool, cool.transparentize(72%))
+  euler-set("S", (-1.05, -0.35), 0.4, warm, warm.transparentize(58%))
   mark((-1.05, -0.35), $S$)
   mark((-1.05, 0.72), $M$)
   mark((1.35, 0), $P$)
@@ -84,13 +84,13 @@
 
 // ── Darii: все M суть P, некоторые S суть M --- некоторые S суть P ──
 #let euler-darii = canvas({
-  euler-set("P", (0.35, 0), 1.5, cool, cool.lighten(82%))
-  euler-set("M", (0.5, -0.2), 0.9, green, green.lighten(82%))
-  euler-set("S", (-0.85, -0.5), 0.85, warm, warm.lighten(82%))
-  witness((-0.3, -0.45))
-  mark((-1.3, -0.2), $S$)
-  mark((1.0, -0.2), $M$)
-  mark((1.0, 1.0), $P$)
+  euler-set("P", (0.35, 0), 1.45, cool, cool.transparentize(82%))
+  euler-set("M", (0.5, -0.15), 0.85, green, green.transparentize(72%))
+  euler-set("S", (-0.8, -0.5), 0.8, warm, warm.transparentize(62%))
+  witness((-0.15, -0.33))
+  mark((-1.35, -0.5), $S$)
+  mark((0.95, -0.5), $M$)
+  mark((0.95, 1.0), $P$)
 })
 
 // ── Дерево разбора: $forall x . thin (P(x) -> exists y . thin Q(x, f(y)))$ ──
@@ -159,23 +159,14 @@
     mark(pos, [*#name*])
   }
 
-  let link(from, to, label: none, dashed: false, arrow: false, at: none) = {
+  let link(from, to, arrow: false, dashed: false) = {
     let st = if dashed {
       edge-soft
     } else {
       (paint: ink, thickness: 0.8pt, cap: "round")
     }
     let mk = if arrow { (end: (symbol: "stealth", fill: ink)) } else { none }
-    draw.line(from, to, name: from + "-" + to, stroke: st, mark: mk)
-    if label != none {
-      let anchor = if at == none { from + "-" + to } else { at }
-      draw.content(
-        anchor,
-        text(fill: ink)[#label],
-        fill: white,
-        padding: 2pt,
-      )
-    }
+    draw.line(from, to, stroke: st, mark: mk)
   }
 
   canvas({
@@ -184,18 +175,17 @@
     corner((-xh, -yh), "I", warm)
     corner((xh, -yh), "O", warm)
 
-    link("A", "E", label: [контрарность])
-    link("I", "O", label: [субконтрарность])
-    link("A", "I", label: [подчинение], arrow: true, at: (-xh, 0))
-    link("E", "O", label: [подчинение], arrow: true, at: (xh, 0))
-
+    link("A", "E")
+    link("I", "O")
+    link("A", "I", arrow: true)
+    link("E", "O", arrow: true)
     link("A", "O", dashed: true)
     link("I", "E", dashed: true)
     draw.content(
       (0, 0),
       text(fill: ink)[противоречие],
       fill: white,
-      padding: 2pt,
+      padding: 3pt,
     )
   })
 }
