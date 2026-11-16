@@ -41,22 +41,28 @@
 
 
 // ── Силлогизм: посылки столбцом, черта вывода, заключение ──
-#let syllogism(label, premise-a, premise-b, conclusion) = block(breakable: false, {
+#let syllogism(num, premise-a, premise-b, conclusion) = block(breakable: false, {
   set par(justify: false)
   set text(size: 0.9em)
-  stack(
-    spacing: 0.4em,
-    text(size: 0.85em, fill: luma(45%))[#label],
-    table(
-      columns: (auto,),
-      align: left,
-      inset: 5pt,
-      stroke: none,
-      premise-a,
-      premise-b,
-      table.hline(stroke: 0.8pt + luma(30%)),
-      conclusion,
+  place(
+    left + horizon,
+    dx: -1em,
+    box(
+      radius: 50%,
+      inset: (x: 0.42em, y: 0.12em),
+      stroke: 0.6pt + luma(60%),
+      text(size: 0.85em, fill: luma(45%))[#num],
     ),
+  )
+  table(
+    columns: (auto,),
+    align: left,
+    inset: 5pt,
+    stroke: none,
+    premise-a,
+    premise-b,
+    table.hline(stroke: 0.8pt + luma(30%)),
+    conclusion,
   )
 })
 
@@ -347,7 +353,7 @@
   #block(breakable: false)[
     Из свода уцелели три максимы.
 
-    #grid(
+    #pad(left: 11pt, grid(
       columns: (auto, auto, auto),
       column-gutter: 0.8em,
       syllogism(
@@ -368,7 +374,7 @@
         [Все реле стары.],
         [Некоторые старые --- годны.],
       ),
-    )
+    ))
   ]
 ]
 
