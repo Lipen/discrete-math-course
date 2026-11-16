@@ -313,27 +313,32 @@
   n,
 ))
 
-// Неделя: чип номера, даты, метка контроля и строки занятий.
+// Неделя: чип номера, даты, контроль и строки занятий.
 #let week(sem, n, items) = {
   let dates = week-dates(sem, n)
   let ctl = week-control(sem, n)
   let col = if sem == 2 { spring } else { accent }
   block(
     width: 100%,
-    above: 1.05em,
+    above: 0.9em,
     below: 0.7em,
     breakable: false,
   )[
     #set par(justify: false)
     #grid(
-      columns: (auto, auto, 1fr, auto),
-      column-gutter: 0.55em,
-      align: (center + horizon, left, left, right),
+      columns: (auto, auto, 1fr),
+      column-gutter: 0.6em,
+      align: (left + horizon, left + horizon, right + horizon),
       box(
+        width: 1.8em,
         fill: col,
-        radius: 3pt,
-        inset: (x: 5.5pt, y: 1.5pt),
-        text(weight: "bold", fill: white, hyphenate: false)[#n],
+        radius: 2pt,
+        inset: (y: 1.5pt),
+        align(center + horizon, text(
+          weight: "bold",
+          fill: white,
+          hyphenate: false,
+        )[#n]),
       ),
       text(
         size: small,
@@ -341,15 +346,16 @@
         fill: muted,
         hyphenate: false,
       )[#dates],
-      [],
       if ctl != none { control-badge(ctl.first(), ctl.last()) } else { [] },
     )
-    #v(0.4em)
-    #grid(
-      columns: (6.4em, 1fr),
-      column-gutter: 1em,
-      row-gutter: 0.5em,
+    #v(0.3em)
+    #line(length: 100%, stroke: 0.6pt + col.transparentize(70%))
+    #v(0.1em)
+    #table(
+      columns: (7.8em, 1fr),
       align: (right + top, left + top),
+      inset: (x: 0.6em, y: 0.2em),
+      stroke: (x, y) => if y > 0 { (top: 0.4pt + ink.transparentize(85%)) },
       ..items.flatten(),
     )
   ]
@@ -358,7 +364,13 @@
 #let keep(body) = block(breakable: false, body)
 
 #let witem(lab, body, tone: muted) = (
-  text(weight: "semibold", fill: tone, hyphenate: false)[#lab],
+  text(
+    size: small,
+    weight: "semibold",
+    fill: tone,
+    hyphenate: false,
+    tracking: 0.04em,
+  )[#upper[#lab]],
   body,
 )
 
