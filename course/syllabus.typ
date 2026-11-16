@@ -326,11 +326,11 @@
         )[#if ctl.first() == "kr" { "КР" } else { "ТМ" } #ctl.last()]
       } else { [] },
     )
-    #v(0.3em)
+    #v(0.35em)
     #grid(
-      columns: (7em, 1fr),
+      columns: (6em, 1fr),
       column-gutter: 1em,
-      row-gutter: 0.25em,
+      row-gutter: 0.28em,
       align: (right + top, left + top),
       ..items.flatten(),
     )
