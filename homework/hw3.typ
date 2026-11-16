@@ -43,13 +43,14 @@
 // ── Силлогизм: посылки столбцом, черта вывода, заключение ──
 #let syllogism(label, premise-a, premise-b, conclusion) = block(breakable: false, {
   set par(justify: false)
+  set text(size: 0.9em)
   stack(
     spacing: 0.4em,
-    text(size: 0.8em, fill: luma(45%))[#label],
+    text(size: 0.85em, fill: luma(45%))[#label],
     table(
       columns: (auto,),
       align: left,
-      inset: (x: 0.2em, y: 0.1em),
+      inset: (x: 0.4em, y: 0.1em),
       stroke: none,
       premise-a,
       premise-b,
