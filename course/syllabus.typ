@@ -297,7 +297,6 @@
     width: 100%,
     above: 1.1em,
     below: 0.9em,
-    inset: (left: 0.6em),
     breakable: false,
   )[
     #set par(justify: false)
