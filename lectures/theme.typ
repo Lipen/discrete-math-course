@@ -43,6 +43,8 @@
 #let iff = sym.arrow.l.r
 #let models = sym.tack.rr // семантическое следование
 #let proves = $scripts(tack.r)$ // синтаксическая выводимость, индекс --- система S
+// Подстановка терма: subst(phi, x, t) печатает phi[x := t].
+#let subst(M, x, N) = box($#M \[ #x := #N \]$)
 #let setminus = sym.without
 #let symdiff = $Delta$
 #let sim = sym.tilde
