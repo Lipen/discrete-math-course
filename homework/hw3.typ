@@ -40,6 +40,31 @@
 #show table: set block(breakable: false)
 
 
+// ── Силлогизм: посылки столбцом, черта вывода, заключение ──
+#let syllogism(label, premise-a, premise-b, conclusion) = block(
+  breakable: false,
+  width: 100%,
+  {
+    set align(center)
+    set par(justify: false)
+    stack(
+      spacing: 0.45em,
+      text(size: 0.8em, fill: luma(45%))[#label],
+      table(
+        columns: (auto,),
+        align: center,
+        inset: (x: 0.5em, y: 0.1em),
+        stroke: none,
+        premise-a,
+        premise-b,
+        table.hline(stroke: 0.8pt + luma(30%)),
+        conclusion,
+      ),
+    )
+  },
+)
+
+
 #Box[
   "Логика --- это наука о наиболее общих законах истины."
   #align(right)[--- Готлоб Фреге]
@@ -326,22 +351,27 @@
   #block(breakable: false)[
     Из свода уцелели три максимы.
 
-    #table(
-      columns: (auto, auto, auto),
-      align: left,
-      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-      table.header([*Посылка 1*], [*Посылка 2*], [*Заключение*]),
-      [Все зонды --- сканеры.],
-      [Все сканеры калиброваны.],
-      [Все зонды калиброваны.],
-
-      [Все маяки --- передатчики.],
-      [Все маяки надёжны.],
-      [Все передатчики надёжны.],
-
-      [Все реле --- годны.],
-      [Все реле стары.],
-      [Некоторые старые --- годны.],
+    #grid(
+      columns: 1,
+      row-gutter: 0.55em,
+      syllogism(
+        [Максима 1],
+        [Все зонды --- сканеры.],
+        [Все сканеры калиброваны.],
+        [Все зонды калиброваны.],
+      ),
+      syllogism(
+        [Максима 2],
+        [Все маяки --- передатчики.],
+        [Все маяки надёжны.],
+        [Все передатчики надёжны.],
+      ),
+      syllogism(
+        [Максима 3],
+        [Все реле --- годны.],
+        [Все реле стары.],
+        [Некоторые старые --- годны.],
+      ),
     )
   ]
 ]
