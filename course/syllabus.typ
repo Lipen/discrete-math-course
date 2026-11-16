@@ -295,8 +295,8 @@
   let col = if sem == 2 { spring } else { accent }
   block(
     width: 100%,
-    above: 1.6em,
-    below: 1.2em,
+    above: 1.1em,
+    below: 0.9em,
     breakable: false,
   )[
     #set par(justify: false)
@@ -325,9 +325,7 @@
         )[#if ctl.first() == "kr" { "КР" } else { "ТМ" } #ctl.last()]
       } else { [] },
     )
-    #v(0.15em)
-    #line(length: 100%, stroke: 0.5pt + col.transparentize(72%))
-    #v(0.1em)
+    #v(0.3em)
     #grid(
       columns: (7em, 1fr),
       column-gutter: 1em,
