@@ -605,12 +605,12 @@
   ],
 
   [
-    #text(fill: warn, weight: "semibold", hyphenate: false)[60--73]
+    #text(fill: amber, weight: "semibold", hyphenate: false)[60--73]
     #h(0.7em)
-    #text(fill: warn, hyphenate: false)[удовл.]
+    #text(fill: amber, hyphenate: false)[удовл.]
   ],
   block(width: 100%, height: 0.8em, fill: ink.transparentize(92%), radius: 2pt)[
-    #block(width: 14%, height: 0.8em, fill: warn, radius: 2pt)
+    #block(width: 14%, height: 0.8em, fill: amber, radius: 2pt)
   ],
 
   [
