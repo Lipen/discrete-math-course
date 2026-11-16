@@ -24,9 +24,6 @@
 #let p-green = green.transparentize(90%)
 #let p-amber = amber.transparentize(90%)
 #let p-spring = spring.transparentize(88%)
-#let p-warn = warn.transparentize(92%)
-#let p-good = good.transparentize(92%)
-#let p-bad = bad.transparentize(90%)
 #let hairline = 0.6pt + accent.lighten(58%)
 #let small = 0.85em
 
@@ -366,45 +363,6 @@
   #text(hyphenate: true, fill: color)[#sym.arrow.r #hook]
 ]
 
-// ── Баллы ──
-
-#let pcell(main, pastel, num) = block(
-  width: 100%,
-  height: 2.2em,
-  fill: pastel,
-  stroke: (top: 2pt + main),
-  inset: (x: 2pt),
-  breakable: false,
-  align(center + horizon)[
-    #text(size: 1.2em, weight: "bold", fill: main, hyphenate: false)[#num]
-  ],
-)
-
-#let pcap(label) = block(
-  width: 100%,
-  inset: (x: 2pt),
-  align(center)[
-    #text(size: small, fill: muted, hyphenate: false)[#label]
-  ],
-)
-
-#let zone(main, pastel, range, name) = block(
-  width: 100%,
-  fill: pastel,
-  stroke: (top: 2pt + main),
-  inset: (x: 2pt, y: 6pt),
-  height: 3.1em,
-  breakable: false,
-  {
-    set text(hyphenate: false)
-    set par(justify: false)
-    align(center + horizon)[
-      #text(weight: "bold", fill: main)[#range] \
-      #text(size: small, fill: muted)[#name]
-    ]
-  },
-)
-
 // ── Обложка ──
 
 #let term-chip(color, pastel, title, dates) = block(
@@ -540,23 +498,17 @@
 Итог за семестр --- 100 баллов.
 Слагаемые и их вес:
 
-#v(0.5em)
-
-#grid(
-  columns: (40fr, 20fr, 20fr, 10fr, 10fr),
-  column-gutter: 3pt,
-  row-gutter: 3pt,
-  pcell(blue, p-blue, [40]),
-  pcell(cyan, p-cyan, [20]),
-  pcell(purple, p-purple, [20]),
-  pcell(green, p-green, [10]),
-  pcell(amber, p-amber, [10]),
-
-  pcap([домашка и контрольные]),
-  pcap([теормины]),
-  pcap([экзамен]),
-  pcap([практики]),
-  pcap([лекции]),
+#table(
+  columns: (1.5fr, 1fr, 1fr, 0.9fr, 0.9fr),
+  align: center,
+  table.header(
+    [*Домашка и контрольные*],
+    [*Теормины*],
+    [*Экзамен*],
+    [*Практики*],
+    [*Лекции*],
+  ),
+  [40], [20], [20], [10], [10],
 )
 
 - *Домашка и контрольные*: четыре работы, каждая подтверждается контрольной, за блок засчитывается меньший из двух баллов.
@@ -576,18 +528,12 @@
 
 Оценка за семестр выставляется по итоговым баллам:
 
-#v(0.5em)
-
-#grid(
-  columns: (60fr, 14fr, 16fr, 11fr),
-  column-gutter: 3pt,
-  zone(bad, p-bad, [0--59], [долг]),
-  zone(warn, p-warn, [60--73], [удовл.]),
-  zone(blue, p-blue, [74--89], [хорошо]),
-  zone(good, p-good, [90--100], [отлично]),
+#table(
+  columns: (1fr, 1fr, 1fr, 1fr),
+  align: center,
+  table.header([*0--59*], [*60--73*], [*74--89*], [*90--100*]),
+  [долг], [удовл.], [хорошо], [отлично],
 )
-
-#v(0.6em)
 
 Практическая часть --- всё, кроме экзамена: не больше 80 баллов.
 К экзамену допускают при 48 баллах практической части и зачтённых работах: каждый блок не меньше четырёх, каждый теормин --- не меньше четырёх.
