@@ -41,28 +41,23 @@
 
 
 // ── Силлогизм: посылки столбцом, черта вывода, заключение ──
-#let syllogism(label, premise-a, premise-b, conclusion) = block(
-  breakable: false,
-  width: 100%,
-  {
-    set align(center)
-    set par(justify: false)
-    stack(
-      spacing: 0.45em,
-      text(size: 0.8em, fill: luma(45%))[#label],
-      table(
-        columns: (auto,),
-        align: center,
-        inset: (x: 0.5em, y: 0.1em),
-        stroke: none,
-        premise-a,
-        premise-b,
-        table.hline(stroke: 0.8pt + luma(30%)),
-        conclusion,
-      ),
-    )
-  },
-)
+#let syllogism(label, premise-a, premise-b, conclusion) = block(breakable: false, {
+  set par(justify: false)
+  stack(
+    spacing: 0.4em,
+    text(size: 0.8em, fill: luma(45%))[#label],
+    table(
+      columns: (auto,),
+      align: left,
+      inset: (x: 0.2em, y: 0.1em),
+      stroke: none,
+      premise-a,
+      premise-b,
+      table.hline(stroke: 0.8pt + luma(30%)),
+      conclusion,
+    ),
+  )
+})
 
 
 #Box[
@@ -352,8 +347,8 @@
     Из свода уцелели три максимы.
 
     #grid(
-      columns: 1,
-      row-gutter: 0.55em,
+      columns: (auto, auto, auto),
+      column-gutter: 0.5em,
       syllogism(
         [Максима 1],
         [Все зонды --- сканеры.],
@@ -411,6 +406,8 @@
     Почему замена законна при проверке невыполнимости, хотя равносильности нет?
 ]
 
+
+#pagebreak()
 
 #task-heading([Задача 10: Модели и контрмодели], [#TagChallenge])
 
