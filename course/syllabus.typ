@@ -297,6 +297,7 @@
     width: 100%,
     above: 1.1em,
     below: 0.9em,
+    inset: (left: 0.6em),
     breakable: false,
   )[
     #set par(justify: false)
@@ -330,7 +331,7 @@
       columns: (7em, 1fr),
       column-gutter: 1em,
       row-gutter: 0.25em,
-      align: (left + top, left + top),
+      align: (right + top, left + top),
       ..items.flatten(),
     )
   ]
