@@ -32,7 +32,7 @@
     ..module-row(p-blue, [Логика и множества], [1--3]),
     ..module-row(p-cyan, [Отношения, порядок, функции и счётность], [4--8]),
     ..module-row(p-purple, [Формальная логика], [9--11]),
-    ..module-row(p-green, [Булева алгебра, схемы и решатели], [12--14]),
+    ..module-row(p-green, [Булева алгебра и схемы], [12--14]),
     ..module-row(p-amber, [Коды и информация], [15--16]),
     table.cell(colspan: 2, fill: band, inset: (x: 8pt, y: 4.5pt))[
       #text(weight: "semibold", fill: c-ink)[Семестр 2]
