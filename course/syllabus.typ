@@ -171,31 +171,6 @@
   #body
 ]
 
-// Метка контроля: кружок для контрольной, ромб для теормина.
-#let control-badge(kind, num) = box(
-  radius: 3pt,
-  inset: (x: 6pt, y: 1pt),
-  fill: if kind == "kr" { p-blue } else { p-purple },
-)[
-  #set text(size: small, weight: "bold", hyphenate: false)
-  #if kind == "kr" {
-    text(
-      fill: accent,
-    )[#box(circle(radius: 3.5pt, fill: accent)) #h(0.25em) КР #num]
-  } else {
-    text(fill: purple)[
-      #box(height: 7pt)[#polygon(
-        fill: purple,
-        (3.5pt, 0pt),
-        (7pt, 3.5pt),
-        (3.5pt, 7pt),
-        (0pt, 3.5pt),
-      )]
-      #h(0.25em) ТМ #num
-    ]
-  }
-]
-
 // ── Расписание: единственный источник дат --- schedule.yml ──
 
 #let schedule = yaml("schedule.yml")
@@ -313,49 +288,46 @@
   n,
 ))
 
-// Неделя: чип номера, даты, контроль и строки занятий.
+// Неделя: номер, даты, контроль и строки занятий.
 #let week(sem, n, items) = {
   let dates = week-dates(sem, n)
   let ctl = week-control(sem, n)
   let col = if sem == 2 { spring } else { accent }
   block(
     width: 100%,
-    above: 0.9em,
-    below: 0.7em,
+    above: 1em,
+    below: 0.8em,
     breakable: false,
   )[
     #set par(justify: false)
     #grid(
-      columns: (auto, auto, 1fr),
-      column-gutter: 0.6em,
+      columns: (1.8em, 1fr, auto),
+      column-gutter: 0.5em,
       align: (left + horizon, left + horizon, right + horizon),
-      box(
-        width: 1.8em,
-        fill: col,
-        radius: 2pt,
-        inset: (y: 1.5pt),
-        align(center + horizon, text(
-          weight: "bold",
-          fill: white,
-          hyphenate: false,
-        )[#n]),
-      ),
+      text(size: 1.15em, weight: "bold", fill: col, hyphenate: false)[#n],
       text(
         size: small,
         weight: "semibold",
         fill: muted,
         hyphenate: false,
       )[#dates],
-      if ctl != none { control-badge(ctl.first(), ctl.last()) } else { [] },
+      if ctl != none {
+        text(
+          size: small,
+          weight: "semibold",
+          fill: if ctl.first() == "kr" { accent } else { purple },
+          hyphenate: false,
+        )[#if ctl.first() == "kr" { "КР" } else { "ТМ" } #ctl.last()]
+      } else { [] },
     )
     #v(0.3em)
-    #line(length: 100%, stroke: 0.6pt + col.transparentize(70%))
-    #v(0.1em)
-    #table(
-      columns: (7.8em, 1fr),
-      align: (right + top, left + top),
-      inset: (x: 0.6em, y: 0.2em),
-      stroke: (x, y) => if y > 0 { (top: 0.4pt + ink.transparentize(85%)) },
+    #line(length: 100%, stroke: 0.5pt + col.transparentize(72%))
+    #v(0.25em)
+    #grid(
+      columns: (7em, 1fr),
+      column-gutter: 1em,
+      row-gutter: 0.35em,
+      align: (left + top, left + top),
       ..items.flatten(),
     )
   ]
@@ -364,13 +336,7 @@
 #let keep(body) = block(breakable: false, body)
 
 #let witem(lab, body, tone: muted) = (
-  text(
-    size: small,
-    weight: "semibold",
-    fill: tone,
-    hyphenate: false,
-    tracking: 0.04em,
-  )[#upper[#lab]],
+  text(size: small, weight: "semibold", fill: tone, hyphenate: false)[#lab],
   body,
 )
 
