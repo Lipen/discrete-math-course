@@ -303,8 +303,8 @@
   let col = if sem == 2 { spring } else { accent }
   block(
     width: 100%,
-    above: 1.25em,
-    below: 0.9em,
+    above: 1.05em,
+    below: 0.7em,
     breakable: false,
   )[
     #set par(justify: false)
@@ -372,28 +372,6 @@
   #text(hyphenate: true, fill: color)[#sym.arrow.r #hook]
 ]
 
-// ── Баллы ──
-
-#let pcell(main, pastel, num) = block(
-  width: 100%,
-  height: 2.2em,
-  fill: pastel,
-  stroke: (top: 2pt + main),
-  inset: (x: 2pt),
-  breakable: false,
-  align(center + horizon)[
-    #text(size: 1.2em, weight: "bold", fill: main, hyphenate: false)[#num]
-  ],
-)
-
-#let pcap(label) = block(
-  width: 100%,
-  inset: (x: 2pt),
-  align(center)[
-    #text(size: small, fill: muted, hyphenate: false)[#label]
-  ],
-)
-
 // ── Обложка ──
 
 #let term-chip(color, pastel, title, dates) = block(
@@ -436,36 +414,45 @@
   term-chip(blue, p-blue, [Осенний семестр], [7 сентября --- 27 декабря]),
   term-chip(spring, p-spring, [Весенний семестр], [8 февраля --- 30 мая]),
 )
-#v(1fr)
-#grid(
-  columns: (1fr, 1fr),
-  column-gutter: 1em,
-  row-gutter: 1em,
-  ..(
-    (blue, "Описать", "логика, множества, отношения"),
-    (purple, "Построить", "алгебра, схемы, коды"),
-    (amber, "Сосчитать", "комбинаторика, производящие функции"),
-    (green, "Вычислить", "графы, автоматы, машины"),
-  ).map(((c, verb, themes)) => block(
+#place(bottom, block(width: 100%)[
+  #block(
     width: 100%,
-    stroke: (top: 2pt + c),
-    inset: (top: 0.6em),
-    [
-      #set par(justify: false)
-      #text(size: 1.2em, weight: "bold", fill: c, hyphenate: false)[#verb]
-      #v(0.35em)
-      #text(size: small, fill: muted, hyphenate: false)[#themes]
-    ],
-  )),
-)
-#v(0.9em)
-#align(center)[
-  #text(
-    size: small,
-    fill: muted,
-    hyphenate: false,
-  )[144 академических часа · 4 зачётные единицы]
-]
+    stroke: (bottom: 0.4pt + ink.transparentize(88%)),
+  )[
+    #grid(
+      columns: (1fr, 1fr, 1fr, 1fr),
+      column-gutter: 0pt,
+      ..(
+        (blue, "Описать", ("логика", "множества", "отношения")),
+        (purple, "Построить", ("алгебра", "схемы", "коды")),
+        (amber, "Сосчитать", ("комбинаторика", "производящие", "функции")),
+        (green, "Вычислить", ("графы", "автоматы", "машины")),
+      ).map(((c, verb, words)) => block(
+        width: 100%,
+        fill: c.transparentize(88%),
+        stroke: (top: 2.5pt + c.transparentize(45%)),
+        inset: (x: 0.7em, y: 0.55em),
+        [
+          #set par(justify: false)
+          #text(size: 1.1em, weight: "bold", fill: c, hyphenate: false)[#verb]
+          #v(0.3em)
+          #for (i, w) in words.enumerate() [
+            #text(size: small, fill: muted, hyphenate: false)[#w]
+            #if i < words.len() - 1 [\ ]
+          ]
+        ],
+      )),
+    )
+  ]
+  #v(0.9em)
+  #align(center)[
+    #text(
+      size: small,
+      fill: muted,
+      hyphenate: false,
+    )[144 академических часа · 4 зачётные единицы]
+  ]
+])
 
 #pagebreak()
 
@@ -549,22 +536,32 @@
 
 #v(0.4em)
 
-#grid(
-  columns: (40fr, 20fr, 20fr, 10fr, 10fr),
-  column-gutter: 0.25em,
-  row-gutter: 0.25em,
-  pcell(blue, p-blue, [40]),
-  pcell(cyan, p-cyan, [20]),
-  pcell(purple, p-purple, [20]),
-  pcell(green, p-green, [10]),
-  pcell(amber, p-amber, [10]),
-
-  pcap([домашка и контрольные]),
-  pcap([теормины]),
-  pcap([экзамен]),
-  pcap([практики]),
-  pcap([лекции]),
-)
+#block(
+  width: 100%,
+  stroke: (bottom: 0.4pt + ink.transparentize(88%)),
+)[
+  #grid(
+    columns: (40fr, 20fr, 20fr, 10fr, 10fr),
+    column-gutter: 0pt,
+    ..(
+      (blue, [40], [домашка и контрольные]),
+      (cyan, [20], [теормины]),
+      (purple, [20], [экзамен]),
+      (green, [10], [практики]),
+      (amber, [10], [лекции]),
+    ).map(((c, num, label)) => block(
+      width: 100%,
+      fill: c.transparentize(88%),
+      stroke: (top: 2.5pt + c.transparentize(45%)),
+      inset: (x: 0.4em, y: 0.55em),
+      align(center + horizon)[
+        #text(size: 1.25em, weight: "bold", fill: c, hyphenate: false)[#num]
+        #v(0.15em)
+        #text(size: 0.72em, fill: muted, hyphenate: false)[#label]
+      ],
+    )),
+  )
+]
 
 - *Домашние работы и контрольные*: четыре блока по 10 баллов.
   В зачёт идёт меньший из баллов за домашку и контрольную.
@@ -590,47 +587,31 @@
 
 #v(0.4em)
 
-#grid(
-  columns: (auto, 1fr),
-  column-gutter: 0.8em,
-  row-gutter: 0.4em,
-  align: (left + horizon, left + horizon),
-  [
-    #text(fill: bad, weight: "semibold", hyphenate: false)[0--59]
-    #h(0.7em)
-    #text(fill: bad, hyphenate: false)[долг]
-  ],
-  block(width: 100%, height: 0.8em, fill: ink.transparentize(92%), radius: 2pt)[
-    #block(width: 60%, height: 0.8em, fill: bad, radius: 2pt)
-  ],
-
-  [
-    #text(fill: amber, weight: "semibold", hyphenate: false)[60--73]
-    #h(0.7em)
-    #text(fill: amber, hyphenate: false)[удовл.]
-  ],
-  block(width: 100%, height: 0.8em, fill: ink.transparentize(92%), radius: 2pt)[
-    #block(width: 14%, height: 0.8em, fill: amber, radius: 2pt)
-  ],
-
-  [
-    #text(fill: blue, weight: "semibold", hyphenate: false)[74--89]
-    #h(0.7em)
-    #text(fill: blue, hyphenate: false)[хорошо]
-  ],
-  block(width: 100%, height: 0.8em, fill: ink.transparentize(92%), radius: 2pt)[
-    #block(width: 16%, height: 0.8em, fill: blue, radius: 2pt)
-  ],
-
-  [
-    #text(fill: good, weight: "semibold", hyphenate: false)[90--100]
-    #h(0.7em)
-    #text(fill: good, hyphenate: false)[отлично]
-  ],
-  block(width: 100%, height: 0.8em, fill: ink.transparentize(92%), radius: 2pt)[
-    #block(width: 11%, height: 0.8em, fill: good, radius: 2pt)
-  ],
-)
+#block(
+  width: 100%,
+  stroke: (bottom: 0.4pt + ink.transparentize(88%)),
+)[
+  #grid(
+    columns: (60fr, 14fr, 16fr, 11fr),
+    column-gutter: 0pt,
+    ..(
+      (bad, [0--59], [долг]),
+      (amber, [60--73], [удовл.]),
+      (blue, [74--89], [хорошо]),
+      (good, [90--100], [отлично]),
+    ).map(((c, range, label)) => block(
+      width: 100%,
+      fill: c.transparentize(88%),
+      stroke: (top: 2.5pt + c.transparentize(45%)),
+      inset: (x: 0.2em, y: 0.55em),
+      align(center + horizon)[
+        #text(size: 0.9em, weight: "bold", fill: c, hyphenate: false)[#range]
+        #v(0.15em)
+        #text(size: 0.65em, fill: muted, hyphenate: false)[#label]
+      ],
+    )),
+  )
+]
 
 Семестровая часть --- всё, кроме экзамена: не больше 80 баллов.
 К экзамену допускают при 48 баллах семестровой части, если все работы сданы.
@@ -1600,29 +1581,28 @@
 Если пришло мало студентов, всех собирают в одну аудиторию.
 
 На консультации можно спросить про лекцию, разобрать задачу, досдать домашку.
-Иногда по объявлению проходит пересдача.
-Она бывает не всегда, следите за объявлениями.
+Иногда по объявлению проходит пересдача, но не всегда.
 Посещение свободное, расписание --- в объявлениях.
 
 == Менторы
 
 Менторы --- старшие студенты, которые прошли курс раньше.
-Они часть команды курса, но не преподаватели: пар не ведут, баллов не ставят.
+Они помогают, но не преподают и не ставят баллов.
 
 #grid(
   columns: (1fr, 1fr),
   gutter: 0.8em,
   card(kind: good, title: [Что делают])[
     - Отвечают на вопросы в чате и на консультациях.
-    - Проверяют домашки и показывают пробелы в решении.
-    - Тренируют перед теорминами и флеш-опросниками.
-    - Помогают практикам на теорминах: очередь, вопросы по терминам.
+    - Проверяют домашки и показывают пробелы.
+    - Тренируют перед теорминами и опросниками.
+    - Помогают на теорминах: очередь и вопросы.
   ],
   card(kind: warn, title: [Границы])[
-    - Не решают за вас: готовое решение не пройдёт защиту.
-    - Не ставят баллов: оценку ставит преподаватель.
+    - Не решают за вас.
+    - Не ставят баллов.
     - Не принимают контрольные и экзамен.
-    - Не договариваются о досдачах, но передают вопрос преподавателю.
+    - Передают вопросы о досдачах.
   ],
 )
 
@@ -1630,6 +1610,5 @@
 Если поведение ментора показалось некорректным, сообщите преподавателю практики или лектору.
 Разговор останется конфиденциальным.
 
-Менторов объявляют в объявлениях на первой неделе.
-Кроме менторов команде помогают волонтёры: старшие студенты без закреплённых групп.
-Они отвечают всем, когда есть время.
+Менторов и волонтёров объявляют в объявлениях на первой неделе.
+Волонтёры отвечают, когда есть время.
