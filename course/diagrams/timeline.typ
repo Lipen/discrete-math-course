@@ -1,5 +1,5 @@
-// Таймлайны семестров: ось с неделями и датами, ленты месяцев, точки контроля с датами, фигурные скобки модулей.
-#import "@preview/cetz:0.5.2": canvas, decorations, draw
+// Таймлайны семестров: полосы модулей, ось с неделями и датами, ленты месяцев, точки контроля.
+#import "@preview/cetz:0.5.2": canvas, draw
 
 // ── Палитра ──
 #let c-ink = oklch(45%, 0.02, 265deg)
@@ -19,13 +19,14 @@
   legend-kr-r: 0.1, // кружок «контрольная»
   legend-tm-r: 0.15, // ромб «теормин»
   legend-gap: 0.5, // от конца слова до центра ромба
-  kr-r: 0.15, // точка контрольной
-  tm-r: 0.15, // теормина
+  kr-r: 0.17, // точка контрольной
+  tm-r: 0.17, // теормина
   mark-date: 0.15, // зазор дата над точкой
   saturday: 0.25, // метка на 75% недели
-  brace-y: 0.4, // скобка модуля
-  brace-amp: 0.3, // амплитуда скобок
-  brace-inset: 0.1, // отступ кончиков от краёв модуля
+  mod-bottom: 0.5, // полоса модуля
+  mod-top: 0.98,
+  mod-inset: 0.04, // зазор между соседними полосами
+  mod-label-y: 0.74,
 )
 
 // ── Помощники ──
@@ -37,9 +38,9 @@
 #let month-band(i, name, x0, x1) = {
   let id = "month-" + str(i)
   let fill = if calc.even(i) {
-    c-mute.transparentize(88%)
+    c-mute.transparentize(90%)
   } else {
-    c-mute.transparentize(95%)
+    c-mute.transparentize(96%)
   }
   draw.rect(
     (x0, g.month-bot),
@@ -49,7 +50,7 @@
   )
   draw.content(
     id,
-    text(size: 6pt, fill: c-mute)[#name],
+    text(size: 6.5pt, weight: "semibold", fill: c-ink)[#name],
   )
 }
 
@@ -76,7 +77,7 @@
 // Дата субботы над точкой контроля.
 #let mark-date(id, date, color) = draw.content(
   id + ".north",
-  text(size: 5pt, fill: color)[#date],
+  text(size: 5.5pt, weight: "semibold", fill: color)[#date],
   anchor: "south",
   padding: 0.05,
 )
@@ -91,7 +92,7 @@
   )
   draw.content(
     "leg-kr.east",
-    text(size: 6pt, fill: c-mute)[контрольная],
+    text(size: 6.5pt, weight: "semibold", fill: c-ink)[контрольная],
     anchor: "west",
     padding: (left: 0.08),
     name: "leg-kr-lab",
@@ -105,7 +106,7 @@
   )
   draw.content(
     "leg-tm.east",
-    text(size: 6pt, fill: c-mute)[теормин],
+    text(size: 6.5pt, weight: "semibold", fill: c-ink)[теормин],
     anchor: "west",
     padding: (left: 0.09),
   )
@@ -126,11 +127,11 @@
     week-tick(w - 1)
     draw.content(
       (w - 0.5, g.num-y),
-      text(size: 8pt, fill: c-mute)[#w],
+      text(size: 8pt, weight: "semibold", fill: c-ink)[#w],
     )
     draw.content(
       (w - 0.5, g.date-y),
-      text(size: 5pt, fill: c-mute)[#dates.at(w - 1, default: [])],
+      text(size: 5.5pt, fill: c-mute)[#dates.at(w - 1, default: [])],
     )
   }
   week-tick(weeks)
@@ -149,19 +150,23 @@
   legend()
 
   for (a, b, name, color) in modules {
-    let lab = "brace-" + str(a) + "-" + str(b)
-    decorations.brace(
-      (a - 1 + g.brace-inset, g.brace-y),
-      (b - g.brace-inset, g.brace-y),
-      fill: color,
-      amplitude: g.brace-amp,
-      name: lab,
+    let x0 = a - 1 + g.mod-inset
+    let x1 = b - g.mod-inset
+    draw.rect(
+      (x0, g.mod-bottom),
+      (x1, g.mod-top),
+      fill: color.transparentize(92%),
+      stroke: none,
+    )
+    draw.line(
+      (x0, g.mod-top),
+      (x1, g.mod-top),
+      stroke: 2pt + color,
+      cap: "round",
     )
     draw.content(
-      lab + ".spike",
-      text(size: 8pt, fill: color)[#name],
-      anchor: "south",
-      padding: 0.05,
+      ((x0 + x1) / 2, g.mod-label-y),
+      text(size: 7pt, weight: "semibold", fill: color, hyphenate: false)[#name],
     )
   }
 
