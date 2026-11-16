@@ -301,10 +301,15 @@
   )[
     #set par(justify: false)
     #grid(
-      columns: (1.8em, 1fr, auto),
+      columns: (5.4em, 1fr, auto),
       column-gutter: 0.5em,
       align: (left + horizon, left + horizon, right + horizon),
-      text(size: 1.15em, weight: "bold", fill: col, hyphenate: false)[#n],
+      text(
+        size: 1.05em,
+        weight: "bold",
+        fill: col,
+        hyphenate: false,
+      )[Неделя #n],
       text(
         size: small,
         weight: "semibold",
