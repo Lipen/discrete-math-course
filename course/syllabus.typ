@@ -3,53 +3,32 @@
 #import "diagrams/course-map.typ": course-map
 
 // ── Палитра ──
-// Штрихи, тёмный текст и маркеры.
-#let c-accent = oklch(45%, 0.13, 262deg)
-#let c-ink = oklch(30%, 0.02, 265deg)
-#let c-soft = oklch(45%, 0.02, 265deg)
-#let c-blue = oklch(45%, 0.12, 262deg)
-#let c-cyan = oklch(45%, 0.11, 205deg)
-#let c-purple = oklch(45%, 0.12, 320deg)
-#let c-green = oklch(45%, 0.12, 150deg)
-#let c-amber = oklch(48%, 0.12, 70deg)
-#let c-warn = oklch(48%, 0.12, 55deg)
-#let c-good = oklch(45%, 0.12, 152deg)
-#let c-bad = oklch(45%, 0.15, 27deg)
+// Тёмный текст, приглушённые подписи, один акцент и цвета модулей.
+#let accent = oklch(45%, 0.13, 262deg)
+#let ink = oklch(30%, 0.02, 265deg)
+#let muted = oklch(50%, 0.02, 265deg)
+#let blue = accent
+#let cyan = oklch(45%, 0.11, 205deg)
+#let purple = oklch(45%, 0.12, 320deg)
+#let green = oklch(45%, 0.12, 150deg)
+#let amber = oklch(48%, 0.12, 70deg)
+#let spring = oklch(45%, 0.12, 175deg)
+#let good = oklch(45%, 0.12, 152deg)
+#let warn = oklch(48%, 0.12, 55deg)
+#let bad = oklch(45%, 0.15, 27deg)
 
 // Заливки: сочный источник оттенка, 90% прозрачности над белой страницей.
-#let p-blue = oklch(52%, 0.19, 262deg).transparentize(90%)
-#let p-cyan = oklch(52%, 0.17, 205deg).transparentize(90%)
-#let p-purple = oklch(52%, 0.18, 320deg).transparentize(90%)
-#let p-green = oklch(52%, 0.17, 150deg).transparentize(90%)
-#let p-amber = oklch(56%, 0.16, 75deg).transparentize(90%)
-#let p-bad = oklch(52%, 0.21, 27deg).transparentize(90%)
-#let p-warn = oklch(56%, 0.17, 60deg).transparentize(90%)
-#let s-warn = oklch(56%, 0.17, 60deg).transparentize(93%)
-#let s-good = oklch(45%, 0.12, 152deg).transparentize(92%)
-
-// Весенний семестр: тил, зеркалом осенней синей семьи.
-#let c-spring = oklch(45%, 0.12, 175deg)
-#let p-spring = oklch(52%, 0.16, 175deg).transparentize(88%)
-
-
-// Метки контроля: неделя, вид, сквозной номер, дата субботы.
-// Единый источник для обложки, таймлайнов и бейджей недель.
-#let marks-1 = (
-  (6, "kr", [1], [10.10]),
-  (10, "kr", [2], [7.11]),
-  (11, "tm", [1], [14.11]),
-  (13, "kr", [3], [28.11]),
-  (16, "kr", [4], [19.12]),
-  (17, "tm", [2], [26.12]),
-)
-#let marks-2 = (
-  (4, "kr", [1], [6.3]),
-  (8, "kr", [2], [3.4]),
-  (9, "tm", [3], [10.4]),
-  (11, "kr", [3], [24.4]),
-  (15, "kr", [4], [22.5]),
-  (16, "tm", [4], [29.5]),
-)
+#let p-blue = blue.transparentize(90%)
+#let p-cyan = cyan.transparentize(90%)
+#let p-purple = purple.transparentize(90%)
+#let p-green = green.transparentize(90%)
+#let p-amber = amber.transparentize(90%)
+#let p-spring = spring.transparentize(88%)
+#let p-warn = warn.transparentize(92%)
+#let p-good = good.transparentize(92%)
+#let p-bad = bad.transparentize(90%)
+#let hairline = 0.6pt + accent.lighten(58%)
+#let small = 0.85em
 
 #set document(
   title: "Дискретная математика. Syllabus 2026/27",
@@ -57,304 +36,307 @@
 )
 
 #set text(12pt, lang: "ru")
-#set par(justify: true)
+#set par(justify: true, leading: 0.62em)
 #set page(
   paper: "a4",
   margin: (x: 2.2cm, top: 2.8cm, bottom: 2.4cm),
   header: context {
     if counter(page).get().first() > 1 {
-      set text(0.8em, fill: c-soft)
+      set text(small, fill: muted)
       let heads = query(heading.where(level: 1))
       let page = here().page()
-      let page_heads = heads.filter(h => h.location().page() == page)
-      let cur = if page_heads.len() > 0 {
-        page_heads.first()
+      let on-page = heads.filter(h => h.location().page() == page)
+      let before = heads.filter(h => h.location().page() < page)
+      let prev = if before.len() > 0 { before.last() } else { none }
+      let cur = if (
+        on-page.len() > 0 and on-page.first().location().position().y < 160pt
+      ) {
+        on-page.first()
       } else {
-        heads.filter(h => h.location().page() < page).last()
+        prev
       }
       block(
         width: 100%,
-        stroke: (bottom: 0.6pt + c-accent.lighten(55%)),
-        inset: (bottom: 7pt),
+        stroke: (bottom: hairline),
+        inset: (bottom: 6pt),
       )[
         #smallcaps[Дискретная математика]
         #h(1fr)
-        #if cur != none [#smallcaps[#cur.body]]
+        #if cur != none [#text(fill: muted)[#smallcaps[#cur.body]]]
       ]
     }
   },
   footer: context {
     if counter(page).get().first() > 1 {
-      set text(0.8em, fill: c-soft)
-      let p = counter(page).get().first()
-      let t = counter(page).final().first()
-      block(width: 100%)[
-        #grid(
-          columns: (1fr, auto),
-          column-gutter: 1em,
-          align: (left, right),
-          grid(
-            columns: (100% * calc.min(1, p / t), 1fr),
-            rect(
-              width: 100%,
-              height: 2pt,
-              fill: c-accent.lighten(45%),
-              stroke: none,
-            ),
-            rect(
-              width: 100%,
-              height: 2pt,
-              fill: c-soft.transparentize(90%),
-              stroke: none,
-            ),
-          ),
-          counter(page).display("1 / 1"),
-        )
-      ]
+      set text(small, fill: muted)
+      block(
+        width: 100%,
+        inset: (top: 6pt),
+        stroke: (top: hairline),
+      )[#h(1fr) #counter(page).display("1 / 1")]
     }
   },
 )
 
-#show link: it => text(fill: c-accent, it)
-
+#show link: it => text(fill: accent, it)
 #set heading(numbering: "1.1")
 
-#show heading.where(level: 1): it => {
-  block(
-    width: 100%,
-    above: 2em,
-    below: 1em,
-    inset: (bottom: 0.5em),
-    stroke: (bottom: 0.6pt + c-accent.lighten(50%)),
-  )[
-    #if it.numbering != none {
-      grid(
-        columns: (auto, 1fr),
-        column-gutter: 0.5em,
-        box(
-          fill: c-accent.lighten(20%),
-          width: 1cm,
-          outset: (y: 4pt),
-          radius: 4pt,
-        )[
-          #set align(center)
-          #context text(
-            weight: "bold",
-            fill: white,
-            hyphenate: false,
-          )[#counter(heading).display("1")]
-        ],
-        text(
-          weight: "bold",
-          fill: c-ink,
-          hyphenate: false,
-        )[#it.body],
-      )
-    } else {
-      text(16pt, weight: "bold", fill: c-accent)[#it.body]
-    }
-  ]
-}
-#show heading.where(level: 2): it => block(
+#show heading.where(level: 1): it => block(
   width: 100%,
-  above: 2em,
-  below: 1em,
-  text(
-    fill: c-accent,
-    weight: "semibold",
-    it,
-  ),
-)
-
-// Бейдж контроля: кружок или ромб с номером.
-#let control-badge(kind, num) = box(
-  radius: 3pt,
-  inset: (x: 6pt),
-  outset: (y: 4pt),
-  fill: if kind == "kr" { p-blue } else { p-purple },
+  above: 2.2em,
+  below: 1.2em,
+  inset: (bottom: 0.55em),
+  stroke: (bottom: hairline),
 )[
-  #text(size: 0.8em, weight: "bold", fill: if kind == "kr" { c-accent } else {
-    c-purple
-  })[
-    #if kind == "kr" [
-      #box(circle(radius: 4pt, fill: c-accent)) #h(0.3em) КР #num
-    ] else [
-      #box(height: 8pt)[#polygon(fill: c-purple, (4pt, 0pt), (8pt, 4pt), (4pt, 8pt), (0pt, 4pt))] #h(0.3em) ТМ #num
-    ]
-  ]
+  #grid(
+    columns: (auto, 1fr),
+    column-gutter: 0.6em,
+    align: (center + horizon, left + horizon),
+    box(
+      fill: accent,
+      width: 0.95cm,
+      inset: (y: 4pt),
+      radius: 3pt,
+      align(center, text(
+        weight: "bold",
+        fill: white,
+        hyphenate: false,
+      )[#counter(heading).display("1")]),
+    ),
+    text(weight: "bold", fill: ink, hyphenate: false)[#it.body],
+  )
 ]
 
-// Даты и контроль недель живут в course/schedule.yml: их читает и сайт курса.
-#let schedule = yaml("schedule.yml")
-#let month-gen = (
-  "января", "февраля", "марта", "апреля", "мая", "июня",
-  "июля", "августа", "сентября", "октября", "ноября", "декабря",
+#show heading.where(level: 2): it => block(
+  width: 100%,
+  above: 1.9em,
+  below: 0.8em,
+  text(fill: accent, weight: "semibold", size: 1.05em, it),
 )
 
-#let week-row(sem, n) = schedule.semesters.at(sem - 1).weeks.find(w => w.week == n)
+#show heading: set par(justify: false)
+#show heading: it => block(breakable: false, it)
+#show table: it => block(breakable: false, it)
+#show table.cell: set par(justify: false)
+#set table(
+  stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+  inset: (x: 8pt, y: 7pt),
+)
+
+// ── Блоки ──
+
+// Карточка: цветная полоса слева, тинт, без рамки вокруг текста.
+#let card(kind: accent, title: none, body) = block(
+  width: 100%,
+  above: 0.9em,
+  below: 0.9em,
+  fill: kind.transparentize(92%),
+  stroke: (
+    left: 2.5pt + kind,
+    top: 0.6pt + kind.lighten(78%),
+    bottom: 0.6pt + kind.lighten(78%),
+    right: 0.6pt + kind.lighten(78%),
+  ),
+  radius: 3pt,
+  inset: (x: 13pt, y: 10pt),
+  breakable: false,
+)[
+  #set par(justify: false)
+  #if title != none [
+    #text(hyphenate: false, weight: "bold", fill: kind.darken(12%))[#title]
+    #v(0.45em)
+  ]
+  #set text(hyphenate: true)
+  #body
+]
+
+// Метка контроля: кружок для контрольной, ромб для теормина.
+#let control-badge(kind, num) = box(
+  radius: 3pt,
+  inset: (x: 6pt, y: 1pt),
+  fill: if kind == "kr" { p-blue } else { p-purple },
+)[
+  #set text(size: small, weight: "bold", hyphenate: false)
+  #if kind == "kr" {
+    text(
+      fill: accent,
+    )[#box(circle(radius: 3.5pt, fill: accent)) #h(0.25em) КР #num]
+  } else {
+    text(fill: purple)[
+      #box(height: 7pt)[#polygon(
+        fill: purple,
+        (3.5pt, 0pt),
+        (7pt, 3.5pt),
+        (3.5pt, 7pt),
+        (0pt, 3.5pt),
+      )]
+      #h(0.25em) ТМ #num
+    ]
+  }
+]
+
+// ── Расписание: единственный источник дат --- schedule.yml ──
+
+#let schedule = yaml("schedule.yml")
+#let month-gen = (
+  "января",
+  "февраля",
+  "марта",
+  "апреля",
+  "мая",
+  "июня",
+  "июля",
+  "августа",
+  "сентября",
+  "октября",
+  "ноября",
+  "декабря",
+)
+#let month-nom = (
+  "январь",
+  "февраль",
+  "март",
+  "апрель",
+  "май",
+  "июнь",
+  "июль",
+  "август",
+  "сентябрь",
+  "октябрь",
+  "ноябрь",
+  "декабрь",
+)
+
+#let sem-rows(sem) = schedule.semesters.at(sem - 1).weeks
+#let row-start(row) = {
+  let p = row.start.split("-").map(int)
+  datetime(year: p.at(0), month: p.at(1), day: p.at(2))
+}
+#let week-row(sem, n) = sem-rows(sem).find(w => w.week == n)
 
 #let week-dates(sem, n) = {
   let row = week-row(sem, n)
   if row == none { return [] }
-  let head = row.start.split("-").map(int)
-  let start = datetime(year: head.at(0), month: head.at(1), day: head.at(2))
+  let start = row-start(row)
   let end = start + duration(days: 6)
   let m1 = month-gen.at(start.month() - 1)
   let m2 = month-gen.at(end.month() - 1)
-  if start.month() == end.month() [#start.day()--#end.day() #m2]
-  else [#start.day() #m1 --- #end.day() #m2]
+  if (
+    start.month() == end.month()
+  ) [#start.day()--#end.day() #m2] else [#start.day() #m1 --- #end.day() #m2]
 }
 
 #let week-control(sem, n) = {
   let row = week-row(sem, n)
-  if row == none or "control" not in row { none }
-  else { (row.control.kind, [#(row.control.n)]) }
+  if row == none or "control" not in row { none } else {
+    (row.control.kind, [#(row.control.n)])
+  }
 }
 
-// Неделя расписания: чип с номером, даты, бейдж контроля, занятия.
-#let week(sem, n, body) = {
-  let dates = week-dates(sem, n)
-  let control = week-control(sem, n)
-  let col = if sem == 2 { c-spring } else { c-accent }
-  block(
-    width: 100%,
-    above: 1.2em,
-    below: 1em,
-    sticky: true,
-  )[
-    #box(
-      fill: col,
-      radius: 3pt,
-      inset: (x: 5pt),
-      outset: (y: 4pt),
-    )[
-      #text(
-        weight: "bold",
-        fill: white,
-      )[#n]
-    ]
-    #h(0.5em, weak: true)
-    #text(
-      fill: c-soft,
-      weight: "semibold",
-    )[#dates]
-    #h(1fr)
-    #if control != none {
-      control-badge(control.first(), control.last())
-    }
-  ]
-  body
-}
-#show heading: set par(justify: false)
-#show table.cell: set par(justify: false)
-
-#let card(
-  kind: c-accent,
-  soft: auto,
-  title: none,
-  brk: false,
-  body,
-) = block(
-  width: 100%,
-  above: 0.8em,
-  below: 0.8em,
-  fill: if soft == auto { kind.transparentize(88%) } else { soft },
-  stroke: (
-    left: 2.5pt + kind,
-    top: 0.6pt + kind.lighten(76%),
-    bottom: 0.6pt + kind.lighten(76%),
-    right: 0.6pt + kind.lighten(76%),
-  ),
-  outset: (y: -1.25pt),
-  inset: (x: 14pt, y: 11pt),
-  breakable: brk,
-)[
-  #set par(justify: false)
-  #if title != none [
-    #text(hyphenate: false, weight: "bold", fill: kind.darken(10%))[#title]
-    #v(0.5em)
-  ]
-  #set text(hyphenate: true)
-  #body
-]
-
-// FAQ-карточка.
-#let fcard(title, body) = block(
-  width: 100%,
-  fill: c-accent.transparentize(92%),
-  stroke: (
-    left: 2.5pt + c-accent,
-    top: 0.6pt + c-accent.lighten(70%),
-    bottom: 0.6pt + c-accent.lighten(70%),
-    right: 0.6pt + c-accent.lighten(70%),
-  ),
-  outset: (y: -1.25pt),
-  inset: (x: 14pt, y: 11pt),
-  breakable: false,
-)[
-  #set par(justify: false)
-  #text(hyphenate: false, weight: "bold", fill: c-accent.darken(10%))[#title]
-  #v(0.5em)
-  #set text(hyphenate: true)
-  #body
-]
-
-// Сегмент полосы баллов: пастель, тёмный текст, подпись снизу.
-#let pseg(main, pastel, num, label) = {
-  block(
-    width: 100%,
-    fill: pastel,
-    below: 0.5em,
-    stroke: (top: 2pt + main),
-    outset: (x: -1.2pt),
-    height: 2em,
-    breakable: false,
-    align(center + horizon)[
-      #text(
-        size: 1.2em,
-        weight: "bold",
-        fill: main,
-      )[#num]
-    ],
+// Дни лекций недели: вторник и среда.
+#let lecture-days(sem, n) = {
+  let row = week-row(sem, n)
+  if row == none { return [] }
+  let s = row-start(row)
+  let a = s + duration(days: 1)
+  let b = s + duration(days: 2)
+  let text-days = (
+    str(a.day()) + "\u{2013}" + str(b.day()) + "." + str(b.month())
   )
-  align(center)[
-    #text(
-      size: 0.8em,
-      fill: c-soft,
-    )[#label]
-  ]
+  [#text-days]
 }
 
-// Зона шкалы оценок: диапазон и имя на разных строках, фиксированная высота.
-#let zone(main, pastel, range, name) = block(
-  width: 100%,
-  fill: pastel,
-  stroke: (top: 2pt + main),
-  outset: (x: -1.2pt),
-  inset: (x: 2pt, y: 5pt),
-  height: 3em,
-  breakable: false,
-  {
-    set text(hyphenate: false)
-    set par(justify: false)
-    align(center + horizon)[
-      #text(weight: "bold", fill: main)[#range] \
-      #text(size: 0.8em, fill: c-soft)[#name]
-    ]
-  },
+// Даты суббот с контролем: (неделя, вид, номер, день-месяц).
+#let control-marks(sem) = (
+  sem-rows(sem)
+    .filter(r => "control" in r)
+    .map(r => {
+      let sat = row-start(r) + duration(days: 5)
+      (r.week, r.control.kind, r.control.n, [#str(sat.day()).#str(sat.month())])
+    })
 )
 
-// Карточка модуля в карте курса.
-#let mod-card(color, pastel, title, meta, keywords, hook) = block(
+// Ленты месяцев для таймлайна: (имя, начало, конец) в неделях от старта.
+#let month-bands(sem) = {
+  let rows = sem-rows(sem)
+  let out = ()
+  let i = 0
+  while i < rows.len() {
+    let m = row-start(rows.at(i)).month()
+    let j = i
+    while j + 1 < rows.len() and row-start(rows.at(j + 1)).month() == m {
+      j += 1
+    }
+    let x0 = if i == 0 and sem == 1 { 0 } else { rows.at(i).week - 1 }
+    out.push((month-nom.at(m - 1), x0, rows.at(j).week))
+    i = j + 1
+  }
+  out
+}
+
+// Полоса дат лекций по неделям (первая неделя осени пустая).
+#let timeline-dates(sem, weeks) = range(1, weeks + 1).map(n => lecture-days(
+  sem,
+  n,
+))
+
+// Неделя: чип номера, даты, метка контроля и строки занятий.
+#let week(sem, n, items) = {
+  let dates = week-dates(sem, n)
+  let ctl = week-control(sem, n)
+  let col = if sem == 2 { spring } else { accent }
+  block(
+    width: 100%,
+    above: 1.15em,
+    below: 0.85em,
+    breakable: false,
+  )[
+    #grid(
+      columns: (auto, auto, 1fr, auto),
+      column-gutter: 0.55em,
+      align: (center + horizon, left, left, right),
+      box(
+        fill: col,
+        radius: 3pt,
+        inset: (x: 5.5pt, y: 1.5pt),
+        text(weight: "bold", fill: white, hyphenate: false)[#n],
+      ),
+      text(
+        size: small,
+        weight: "semibold",
+        fill: muted,
+        hyphenate: false,
+      )[#dates],
+      [],
+      if ctl != none { control-badge(ctl.first(), ctl.last()) } else { [] },
+    )
+    #v(0.32em)
+    #grid(
+      columns: (4.6em, 1fr),
+      column-gutter: 9pt,
+      row-gutter: 2.6pt,
+      ..items.flatten(),
+    )
+  ]
+}
+
+#let witem(lab, body, tone: muted) = (
+  text(size: small, weight: "semibold", fill: tone, hyphenate: false)[#lab],
+  body,
+)
+
+// ── Модули ──
+
+#let module-card(color, pastel, title, meta, keywords, hook) = block(
   width: 100%,
   fill: pastel,
   stroke: (
     left: 3pt + color,
-    top: 0.6pt + color.lighten(72%),
-    bottom: 0.6pt + color.lighten(72%),
-    right: 0.6pt + color.lighten(72%),
+    top: 0.6pt + color.lighten(74%),
+    bottom: 0.6pt + color.lighten(74%),
+    right: 0.6pt + color.lighten(74%),
   ),
-  outset: (y: -1.5pt),
+  radius: 3pt,
   inset: (x: 11pt, y: 9pt),
   breakable: false,
 )[
@@ -362,149 +344,173 @@
   #block[
     #set text(hyphenate: false)
     #text(weight: "bold")[#title] \
-    #text(size: 0.8em, fill: c-soft)[#meta]
+    #text(size: small, fill: muted)[#meta]
   ]
-  #v(0.5em)
-  #text(size: 0.8em, hyphenate: true)[#keywords]
-  #v(0.5em)
-  #text(size: 0.8em, hyphenate: true, fill: color)[-> #hook]
+  #v(0.55em)
+  #text(hyphenate: true)[#keywords]
+  #v(0.55em)
+  #text(hyphenate: true, fill: color)[#sym.arrow.r #hook]
 ]
 
-// Крупная цифра для шпаргалки.
-#let stat(num, label) = block(
+// ── Баллы ──
+
+#let pcell(main, pastel, num) = block(
   width: 100%,
-  fill: c-accent.transparentize(90%),
-  stroke: 0.6pt + c-accent.lighten(68%),
-  inset: (x: 10pt, y: 9pt),
-  height: 3.6em,
+  height: 2.2em,
+  fill: pastel,
+  stroke: (top: 2pt + main),
+  inset: (x: 2pt),
+  breakable: false,
+  align(center + horizon)[
+    #text(size: 1.2em, weight: "bold", fill: main, hyphenate: false)[#num]
+  ],
+)
+
+#let pcap(label) = block(
+  width: 100%,
+  inset: (x: 2pt),
+  align(center)[
+    #text(size: small, fill: muted, hyphenate: false)[#label]
+  ],
+)
+
+#let zone(main, pastel, range, name) = block(
+  width: 100%,
+  fill: pastel,
+  stroke: (top: 2pt + main),
+  inset: (x: 2pt, y: 6pt),
+  height: 3.1em,
   breakable: false,
   {
     set text(hyphenate: false)
     set par(justify: false)
     align(center + horizon)[
-      #text(size: 1.2em, weight: "bold", fill: c-accent)[#num] \
-      #text(size: 0.8em, fill: c-soft)[#label]
+      #text(weight: "bold", fill: main)[#range] \
+      #text(size: small, fill: muted)[#name]
     ]
   },
 )
 
-
 // ── Обложка ──
 
+#let term-chip(color, pastel, title, dates) = block(
+  width: 100%,
+  fill: pastel,
+  stroke: 0.6pt + color.lighten(62%),
+  radius: 4pt,
+  inset: (x: 12pt, y: 10pt),
+  breakable: false,
+)[
+  #set par(justify: false)
+  #grid(
+    columns: (auto, 1fr),
+    column-gutter: 8pt,
+    align: (center + horizon, left),
+    box(width: 7pt, height: 7pt, radius: 50%, fill: color),
+    [
+      #text(weight: "semibold", hyphenate: false)[#title] \
+      #text(size: small, fill: muted, hyphenate: false)[#dates]
+    ],
+  )
+]
+
+#v(2.6cm)
 #align(center)[
-  #text(
-    size: 0.8em,
-    weight: "semibold",
-    fill: c-accent,
-  )[#smallcaps[Syllabus · 2026/27]]
-  #v(1fr)
+  #text(size: small, weight: "semibold", fill: accent)[
+    #smallcaps[Syllabus · 2026/27]
+  ]
+  #v(1.1em)
   #text(size: 3em, weight: "bold", hyphenate: false)[Дискретная\ математика]
-  #v(0.8em)
-  #text(size: 1.2em, fill: c-soft)[Математический фундамент программиста]
-  #v(2em)
-  #grid(
-    columns: (1fr, 1fr),
-    column-gutter: 10pt,
-    box(
-      width: 100%,
-      fill: p-blue,
-      stroke: 0.6pt + c-accent.lighten(50%),
-      radius: 4pt,
-      inset: (x: 8pt, y: 8pt),
-    )[
-      #set align(center)
-      #set text(hyphenate: false)
-      #emoji.leaf.maple Семестр 1 · 7 сентября --- 27 декабря
-    ],
-    box(
-      width: 100%,
-      fill: p-spring,
-      stroke: 0.6pt + c-spring.lighten(50%),
-      radius: 4pt,
-      inset: (x: 8pt, y: 8pt),
-    )[
-      #set align(center)
-      #set text(hyphenate: false)
-      #emoji.flower.tulip Семестр 2 · 8 февраля --- 30 мая
-    ],
-  )
-  #v(1fr)
-  #grid(
-    columns: (3cm, 3cm, 3cm, 3cm),
-    align: center,
-    ..(
-      ([16], [лекций]),
-      ([10], [практик]),
-      ([4], [контрольные]),
-      ([2], [теормина]),
-    ).map(((n, l)) => (
-      grid.cell[
-        #text(size: 1.4em, weight: "bold", fill: c-accent)[#n]
-        #v(0.5em)
-        #text(size: 0.8em, fill: c-soft)[#l]
-      ]
-    )),
-  )
-  #v(0.5em)
-  #text(size: 0.8em, fill: c-soft)[(в каждом семестре)]
-  #v(1fr)
-  #text(
-    size: 0.8em,
-    fill: c-soft,
-  )[#smallcaps[2 семестра · 144 ак. часа · 4 зачётные единицы]]
+  #v(0.7em)
+  #text(size: 1.15em, fill: muted)[Математический фундамент программиста]
+]
+#v(2em)
+#align(center)[#line(length: 4.5cm, stroke: 1.2pt + accent)]
+#v(2.2em)
+#grid(
+  columns: (1fr, 1fr),
+  column-gutter: 10pt,
+  term-chip(blue, p-blue, [Осенний семестр], [7 сентября --- 27 декабря]),
+  term-chip(spring, p-spring, [Весенний семестр], [8 февраля --- 30 мая]),
+)
+#v(1fr)
+#align(center)[
+  #text(size: small, fill: muted, hyphenate: false)[
+    16 лекций · 10 практик · 4 контрольные · 2 теормина в каждом семестре
+  ]
+  #v(0.45em)
+  #text(size: small, fill: muted, hyphenate: false)[
+    2 семестра · 144 академических часа · 4 зачётные единицы
+  ]
 ]
 
 #pagebreak()
 
-#outline(title: [Содержание], depth: 1)
+#block(above: 0em, below: 1.4em)[
+  #text(size: 2em, weight: "bold", fill: ink, hyphenate: false)[Содержание]
+]
+
+#outline(title: none, depth: 2)
 
 #pagebreak()
 
-= О курсе
+= Курс
 
-Дискретная математика --- язык, на котором описывают алгоритмы, базы данных, криптографию, компиляторы и пределы вычислимого.
+Дискретная математика --- язык, на котором описывают алгоритмы, базы данных, криптографию, компиляторы и границы вычислимого.
 Курс идёт два семестра на первом курсе и даёт математический фундамент программиста.
-Каждая абстракция привязана к реальной системе: SQL, цифровые схемы, регулярные выражения, маршрутизация.
+Абстракции привязаны к реальной системе: SQL, цифровые схемы, регулярные выражения, маршрутизация.
 
-#card(kind: c-accent, title: [Как читать этот документ])[
-  Начните со #link(<structure>)[структуры курса]: там модули и чтение.
-  Дальше посмотрите #link(<points>)[баллы] и #link(<homework>)[домашние задания].
-  #link(<schedule>)[Расписание] и остальные разделы --- справочник: заходите, когда возник вопрос.
-]
+Первый семестр строит язык описания: высказывания и предикаты, множества, отношения, функции, мощность, формальные выводы, булева алгебра, схемы, решатели и коды.
+Второй семестр переходит к вычислениям: графы, конечные автоматы, машина Тьюринга с её пределами и комбинаторика.
 
-= Структура курса <structure>
+== Карта курса
 
-Курс движется от языка к вычислениям.
-В первом семестре студенты учатся описывать объекты и строго рассуждать о них.
-Второй семестр посвящён вычислениям: что из описанного вычислимо, а что принципиально нет.
-
-Ниже карта модулей, а затем подробные карточки с темами и выходом в практику.
-Даты контрольных и теорминов --- в разделе #link(<schedule>)[Расписание].
+Девять модулей: пять в осеннем семестре, четыре в весеннем.
+Номер лекции --- номер пары в семестре.
 
 #align(center)[#course-map]
 
-#card(kind: c-accent, title: [Что читать?])[
-  Основной материал курса --- книга.
-  На каждую лекцию приходится глава.
-  Обязательную главу объявляют после лекции, остальные читают по желанию.
-  Книга шире курса: часть глав выходит за рамки лекций и остаётся дополнительным чтением.
-  Исходники книги, конспекты и слайды лежат в #link("https://github.com/Lipen/discrete-math-course")[репозитории курса].
-  Книга "Гёдель, Эшер, Бах" Хофштадтера не обязательна, но настоятельно рекомендуется для чтения на досуге.
-]
+== Как идёт неделя
 
-#pagebreak()
+*Лекция.* Пара устроена в два прохода.
+Первые двадцать--тридцать слайдов образуют ядро: определения, конструкции и результаты, без которых не решаются практика, домашняя работа, контрольная и теормин.
+Дальше идут детали: примеры, доказательства, граничные случаи и дополнительные темы.
+Ядро проходится на паре целиком, детали читаются самостоятельно и разбираются на консультациях.
 
-== Семестр 1: язык и объекты
+*Практика.* Она идёт по ядру прошлой лекции и нового материала не вводит.
+Она доводит ядро до письменного навыка: разбор задач, счёт, построение вывода, проверка модели.
+Детали на практику не выносятся: они нужны для понимания и бонусов, а не для обязательного минимума.
 
-Семестр начинается с высказываний, множеств, отношений и функций.
-Затем идут формальные правила вывода.
-В конце изучаются булева алгебра, схемы, решатели и коды, которые защищают данные от шума.
+*Суббота.* У каждой недели есть дополнительная пара.
+В обычную неделю это общая консультация, в контрольную суббота отдана контрольной или теормину.
+
+*Дома.* После лекции остаются глава книги и домашняя работа.
+Главу объявляют после лекции, по ней идёт флеш-опросник на следующей паре.
+
+== Что читать
+
+Основной материал курса --- книга.
+На каждую лекцию приходится глава: обязательную объявляют после лекции, остальные читают по желанию.
+Книга шире курса: часть глав выходит за рамки лекций и остаётся дополнительным чтением.
+Четыре блока книги --- язык описания, алгебра и инженерия, счёт и бесконечность, вычисление.
+
+Исходники книги, конспекты и слайды лежат в #link("https://github.com/Lipen/discrete-math-course")[репозитории курса].
+"Гёдель, Эшер, Бах" Хофштадтера не обязателен, но рекомендуется для чтения на досуге.
+
+
+= Семестр 1: язык и объекты
+
+Первый семестр учит описывать объекты и строго рассуждать о них.
+Курс идёт от высказываний к множествам, отношениям и функциям, затем к формальным выводам.
+Заканчивается семестр булевой алгеброй, схемами, решателями и кодами, которые защищают данные от шума.
+
+== Модули
 
 #grid(
   columns: (1fr, 1fr),
   gutter: 8pt,
-  mod-card(
-    c-blue,
+  module-card(
+    blue,
     p-blue,
     [Логика и множества],
     [лекции 1--3 · недели 2--4],
@@ -513,8 +519,8 @@
     ],
     [упрощение условий в коде, assert'ы, инварианты циклов, битовые маски],
   ),
-  mod-card(
-    c-cyan,
+  module-card(
+    cyan,
     p-cyan,
     [Отношения, порядок, функции и счётность],
     [лекции 4--8 · недели 5--9],
@@ -523,9 +529,8 @@
     ],
     [порядок и сортировка, факторизация по эквивалентности, биекция как способ считать],
   ),
-
-  mod-card(
-    c-purple,
+  module-card(
+    purple,
     p-purple,
     [Формальная логика],
     [лекции 9--11 · недели 10--12],
@@ -534,9 +539,8 @@
     ],
     [что значит "следует" --- и как проверять это механически],
   ),
-
-  mod-card(
-    c-green,
+  module-card(
+    green,
     p-green,
     [Булева алгебра, схемы и решатели],
     [лекции 12--15 · недели 13--16],
@@ -545,8 +549,8 @@
     ],
     [синтез схем, проверка эквивалентности, кодирование задач в SAT],
   ),
-  mod-card(
-    c-amber,
+  grid.cell(colspan: 2, module-card(
+    amber,
     p-amber,
     [Коды и информация],
     [лекция 16 · неделя 17],
@@ -554,22 +558,286 @@
       Расстояние Хэмминга и геометрия кода, код Хэмминга, линейные коды над $"GF"(2)$, CRC и Рида --- Соломона обзорно; энтропия, Крафт, Хаффман, арифметическое кодирование, граница Шеннона.
     ],
     [ECC-память, QR-коды, сжатие и защита пакетов],
-  ),
+  )),
 )
 
-#pagebreak()
+== Календарь
 
-== Семестр 2: вычисления
+#align(center)[
+  #semester-timeline(
+    17,
+    (
+      (2, 4, [Логика и множества], blue),
+      (5, 9, [Отношения и функции], cyan),
+      (10, 12, [Формальная логика], purple),
+      (13, 16, [Булева алгебра, схемы], green),
+      (17, 17, [Коды], amber),
+    ),
+    control-marks(1),
+    month-bands(1),
+    timeline-dates(1, 17),
+    unit: 0.96cm,
+  )
+]
+
+#v(0.8em)
+
+#block(breakable: false)[
+  #table(
+    columns: (1fr, 2.4fr, 2.2fr),
+    align: (center, left, left),
+    table.header([*Недели*], [*Модуль*], [*Контроль*]),
+    [2--4], [Логика и множества], [КР1 · неделя 6],
+    [5--9], [Отношения, порядок, функции и счётность], [КР2 · неделя 10],
+    [10--12], [Формальная логика], [ТМ1 · неделя 11 \ КР3 · неделя 13],
+    [13--16], [Булева алгебра, схемы и решатели], [КР4 · неделя 16],
+    [17], [Коды и информация], [ТМ2 · неделя 17],
+  )
+]
+
+== Недели
+
+Первая лекция --- 8--9 сентября, на двух потоках.
+Последние занятия --- 22--23 декабря.
+
+Учебный год начался 3 сентября.
+На вводной неделе лекций не было, поэтому неделя 2 --- это первая лекция, а неделя 17 --- последняя.
+Номера недель совпадают с нумерацией в ИСУ.
+
+#week(1, 2, (
+  witem(
+    [Лекция 1],
+    [Высказывания и связки, таблицы истинности, приоритеты операций, дерево разбора формулы (m01).],
+  ),
+  witem(
+    [Практика],
+    [Таблицы истинности, упрощение формул, переписывание булевых условий в коде.],
+  ),
+  witem(
+    [Чтение],
+    [m01: "Логика высказываний" (высказывания, связки, таблицы), "Семантика: таблицы истинности" (тавтологии).],
+  ),
+))
+#week(1, 3, (
+  witem(
+    [Лекция 2],
+    [Предикаты и кванторы, порядок кванторов, методы доказательств --- индукция, от противного, контрпример (m01, m03).],
+  ),
+  witem(
+    [Практика],
+    [Перевод утверждений на язык предикатов, отрицание кванторов, инварианты циклов, assert'ы.],
+  ),
+  witem(
+    [Чтение],
+    [m03: "Предикаты", "Кванторы", "Отрицание кванторов", m01: "Методы доказательств" (индукция, от противного).],
+  ),
+))
+#week(1, 4, (
+  witem(
+    [Лекция 3],
+    [Множества и операции над ними, законы де Моргана, булеан, декартово произведение (m04).],
+  ),
+  witem(
+    [Практика],
+    [Доказательство равенств множеств через включения, диаграммы Венна, булеан и битовые маски.],
+  ),
+  witem(
+    [Чтение],
+    [m04: "Множество и его элементы", "Операции над множествами", "Булеан", "Декартово произведение".],
+  ),
+))
+#week(1, 5, (
+  witem(
+    [Лекция 4],
+    [Отношения и эквивалентность: свойства, матрица и граф, замыкания, алгоритм Уоршелла, классы эквивалентности, разбиения, фактор-множество, арифметика по модулю (m05).],
+  ),
+  witem(
+    [Практика],
+    [Свойства отношений по матрице и графу, замыкания, классы эквивалентности и разбиения.],
+  ),
+  witem(
+    [Чтение],
+    [m05: "Бинарные отношения", "Свойства отношений", "Замыкания отношений", "Отношение эквивалентности", "Теорема о разбиении".],
+  ),
+))
+#week(1, 6, (
+  witem(
+    [Лекция 5],
+    [Отношение порядка: ЧУМ, диаграмма Хассе, экстремальные элементы, супремум и инфимум, решётки, топологическая сортировка (m08).],
+  ),
+  witem(
+    [КР],
+    tone: accent,
+    [Высказывания, связки, кванторы, методы доказательств, множества. Одна задача --- на свойства бинарных отношений (лекция 4).],
+  ),
+  witem(
+    [Чтение],
+    [m08: "Частичный порядок", "Диаграммы Хассе", "Экстремальные элементы", "Грани, супремум, инфимум", "Решётки", "Топологическая сортировка".],
+  ),
+))
+#week(1, 7, (
+  witem(
+    [Лекция 6],
+    [Функции: инъекция, сюръекция, биекция, композиция, образ и прообраз, характеристическая функция (m06).],
+  ),
+  witem(
+    [Практика],
+    [Подсчёт инъекций и биекций, композиция и обратная функция, пол и потолок.],
+  ),
+  witem(
+    [Чтение],
+    [m06: "Инъекция", "Сюръекция", "Биекция", "Композиция функций", "Алгебра образов и прообразов".],
+  ),
+))
+#week(1, 8, (
+  witem(
+    [Лекция 7],
+    [Счётность и несчётность: равномощность, счётные и несчётные множества, диагональный аргумент, теорема Кантора, краткий обзор ординалов (m07).],
+  ),
+  witem(
+    [Практика],
+    [Диагональная нумерация Кантора, счётность целых и рациональных, биекции интервала и прямой.],
+  ),
+  witem(
+    [Чтение],
+    [m07: "Равномощность", "Счётные и несчётные множества", "Теорема Кантора".],
+  ),
+))
+#week(1, 9, (
+  witem(
+    [Лекция 8],
+    [Трансфинитное: вполне упорядоченные множества и ординалы, кардинальная арифметика, алефы и беты, парадоксы и аксиоматика ZFC --- в контрольные работы не входит.],
+  ),
+  witem(
+    [Практика],
+    [Разбор задач блока: отношения и эквивалентность, порядок, функции, счётность --- сводка перед контрольной 2.],
+  ),
+  witem(
+    [Чтение],
+    [m29: "Ординалы за пределами $omega$", m07: "Кардинальные числа и арифметика", "Две иерархии: алефы и беты". m04: "Парадокс Рассела и аксиоматическая теория множеств", "Аксиоматическая теория множеств" (звёздный раздел).],
+  ),
+))
+#week(1, 10, (
+  witem(
+    [Лекция 9],
+    [Ядро: синтаксис и деревья разбора, семантика, таблицы истинности, эквивалентность, следование и невыполнимость (m01). Детали: структурная индукция, парсер, законы, компактность, схемы.],
+  ),
+  witem([КР], tone: accent, [Отношения, порядок, функции, счётность.]),
+  witem(
+    [Чтение],
+    [m01: "Синтаксис формул", "Семантика: таблицы истинности", "Законы и тождества", "Нормальные формы", "Компактность", "Структурная индукция".],
+  ),
+))
+#week(1, 11, (
+  witem(
+    [Лекция 10],
+    [Ядро: натуральная дедукция, правила введения и устранения связок, нотация Фитча, корректность и полнота (m02). Детали: Гильберт, теорема о дедукции, производные правила, классические законы, Карри --- Ховард, поиск вывода, компактность.],
+  ),
+  witem(
+    [ТМ],
+    tone: purple,
+    [Множества, отношения, порядок, функции, мощности, трансфинитное, логика высказываний, предикаты и натуральная дедукция.],
+  ),
+  witem([Чтение], [m02: "Дедукция и системы вывода", "Натуральная дедукция".]),
+))
+#week(1, 12, (
+  witem(
+    [Лекция 11],
+    [Ядро: термы и формулы, свободные и связанные переменные, интерпретации, истинность, порядок кванторов, отрицание, правила кванторов, ПНФ, силлогизмы (m03). Детали: границы табличного метода, неразрешимость, компактность, Лёвенгейм --- Сколем, резолюция.],
+  ),
+  witem(
+    [Практика],
+    [Правила для кванторов в Фитче, ПНФ, перевод силлогизмов в логику предикатов, модусы Barbara и Celarent.],
+  ),
+  witem(
+    [Чтение],
+    [m03: "Предикаты", "Несколько кванторов", "Семантика: модели и истинность", "Сколемизация", "Силлогистика Аристотеля".],
+  ),
+))
+#week(1, 13, (
+  witem(
+    [Лекция 12],
+    [Ядро: булевы функции как векторы над $"GF"(2)$, ДНФ и КНФ без повторения основ, полином Жегалкина, классы Поста, гиперкуб и код Грея (m10, m11). Детали: формула Мёбиуса, треугольник Паскаля, теорема Стоуна.],
+  ),
+  witem(
+    [КР],
+    tone: accent,
+    [Формальная логика: правила вывода, выводы в нотации Фитча, логика первого порядка.],
+  ),
+  witem(
+    [Чтение],
+    [m10: "Булевы функции", "Полином Жегалкина", "Клоны и замыкание", m11: "Код Грея".],
+  ),
+))
+#week(1, 14, (
+  witem(
+    [Лекция 13],
+    [Ядро: минимизация, карта Карно, простые импликанты, Квайн --- МакКласки, форма Блейка, ROBDD (m10). Детали: Петрик, порядок переменных, нижние оценки BDD.],
+  ),
+  witem(
+    [Практика],
+    [Карта Карно на три и четыре переменные, безразличные наборы, Квайн --- МакКласки, редукция ROBDD.],
+  ),
+  witem(
+    [Чтение],
+    [m10: "Минимизация", "Карты Карно", "Алгоритм Квайна --- МакКласки", "Каноническая форма Блейка", "Диаграммы решений (BDD)".],
+  ),
+))
+#week(1, 15, (
+  witem(
+    [Лекция 14],
+    [Ядро: вентили, сумматоры, АЛУ, память, защёлки и триггеры, регистры, конечные автоматы, код Грея, верификация (m11). Детали: carry-lookahead, схемная сложность, P/poly.],
+  ),
+  witem(
+    [Практика],
+    [Сумматор и компаратор, счётчик, автомат светофора, митер для двух схем.],
+  ),
+  witem(
+    [Чтение],
+    [m11: "Логические вентили и схемы", "Сумматоры", "Почему схеме нужна память", "Код Грея", "Верификация схем через SAT".],
+  ),
+))
+#week(1, 16, (
+  witem(
+    [Лекция 15],
+    [Ядро: SAT, 2-SAT, хорновские формулы, DPLL, CDCL, кодирование задач, SMT, CSP, ASP (m14, m15, m16). Детали: Кук --- Левин, анализ конфликтов, теории SMT, устойчивые модели.],
+  ),
+  witem([КР], tone: accent, [Булева алгебра, минимизация, схемы и SAT.]),
+  witem(
+    [Чтение],
+    [m14: "Задача SAT", "Резолюция", "Кодирование задач в SAT", "От DPLL к CDCL", m15: "SMT", m16: "Логическое программирование".],
+  ),
+))
+#week(1, 17, (
+  witem(
+    [Лекция 16],
+    [Ядро: расстояние Хэмминга, код Хэмминга $(7, 4)$, синдром, линейные коды, CRC, Рид --- Соломон, энтропия, Крафт, Хаффман, граница Шеннона (m13). Детали: арифметическое кодирование, LZ, пропускная способность.],
+  ),
+  witem(
+    [ТМ],
+    tone: purple,
+    [Логика первого порядка, булевы функции, SAT, схемы, коды и информация.],
+  ),
+  witem(
+    [Чтение],
+    [m13: "Расстояние Хэмминга и геометрия кода", "Код Хэмминга $(7, 4)$", "Линейные коды и GF(2)", "Код Хаффмана", "Граница Шеннона", "Циклические коды".],
+  ),
+))
+
+
+= Семестр 2: вычисления
 
 Второй семестр посвящён вычислениям.
-Сначала идут графы, затем конечные автоматы, машина Тьюринга и пределы вычислимого.
-В конце изучаются комбинаторика и подсчёт без перебора.
+Графы описывают связи, автоматы --- поведение программ с конечной памятью, машина Тьюринга --- границу вычислимого.
+Завершает семестр комбинаторика: счёт без перебора.
+
+== Модули
 
 #grid(
   columns: (1fr, 1fr),
   gutter: 8pt,
-  mod-card(
-    c-blue,
+  module-card(
+    blue,
     p-blue,
     [Графы],
     [лекции 1--4],
@@ -578,8 +846,8 @@
     ],
     [маршрутизация, зависимости сборки, расписания],
   ),
-  mod-card(
-    c-cyan,
+  module-card(
+    cyan,
     p-cyan,
     [Конечные автоматы],
     [лекции 5--8],
@@ -589,8 +857,8 @@
     [регулярные выражения и лексеры],
   ),
 
-  mod-card(
-    c-purple,
+  module-card(
+    purple,
     p-purple,
     [Машина Тьюринга и разрешимость],
     [лекции 9--12],
@@ -599,8 +867,8 @@
     ],
     [пределы вычислимого --- и почему часть задач не решается вовсе],
   ),
-  mod-card(
-    c-green,
+  module-card(
+    green,
     p-green,
     [Комбинаторика],
     [лекции 13--16],
@@ -611,166 +879,329 @@
   ),
 )
 
-На лекциях разбирается теория с примерами, на практиках решаются задачи.
-Дома остаётся чтение главы книги и домашнее задание.
+== Календарь
 
-#pagebreak()
+#align(center)[
+  #semester-timeline(
+    16,
+    (
+      (1, 4, [Графы], blue),
+      (5, 8, [Автоматы], cyan),
+      (9, 12, [Машина Тьюринга], purple),
+      (13, 16, [Комбинаторика], green),
+    ),
+    control-marks(2),
+    month-bands(2),
+    timeline-dates(2, 16),
+    unit: 0.96cm,
+  )
+]
 
-= Баллы <points>
+#v(0.8em)
 
-Итог за семестр --- 100 баллов, и складываются они так:
+#block(breakable: false)[
+  #table(
+    columns: (1fr, 2.4fr, 2.2fr),
+    align: (center, left, left),
+    table.header([*Недели*], [*Модуль*], [*Контроль*]),
+    [1--4], [Графы], [КР1 · неделя 4],
+    [5--8],
+    [Конечные автоматы и регулярные языки],
+    [КР2 · неделя 8 \ ТМ3 · неделя 9],
+
+    [9--12], [Машина Тьюринга и разрешимость], [КР3 · неделя 11],
+    [13--16],
+    [Комбинаторика и производящие функции],
+    [КР4 · неделя 15 \ ТМ4 · неделя 16],
+  )
+]
+
+== Недели
+
+Первая лекция --- 9--10 февраля, на двух потоках.
+Последние занятия --- 25--26 мая.
+
+#week(2, 1, (
+  witem(
+    [Лекция 1],
+    [Графы: основные определения, степень вершины, лемма о рукопожатиях, пути, циклы, связность (m09).],
+  ),
+  witem(
+    [Практика],
+    [Лемма о рукопожатиях и её следствия, виды графов, матрица и списки смежности.],
+  ),
+  witem([Чтение], [m09: "Основные определения", "Пути, циклы, связность".]),
+))
+#week(2, 2, (
+  witem(
+    [Лекция 2],
+    [Графы: обходы BFS и DFS, деревья и остовы, топологическая сортировка (m09).],
+  ),
+  witem(
+    [Практика],
+    [BFS по слоям и кратчайшие пути, DFS и классификация рёбер, порядок сборки через топологическую сортировку.],
+  ),
+  witem(
+    [Чтение],
+    [m09: "Обходы графа", "Топологическая сортировка", "Деревья".],
+  ),
+))
+#week(2, 3, (
+  witem(
+    [Лекция 3],
+    [Графы: эйлеровы и гамильтоновы циклы, двудольность, паросочетания, кратчайшие пути и Дейкстра (m09).],
+  ),
+  witem(
+    [Практика],
+    [Критерий эйлеровости, проверка двудольности обходом, теоремы Дирака и Оре, Дейкстра с приоритетной очередью.],
+  ),
+  witem(
+    [Чтение],
+    [m09: "Эйлеровы графы", "Гамильтоновы графы", "Двудольные графы", "Кратчайшие пути".],
+  ),
+))
+#week(2, 4, (
+  witem(
+    [Лекция 4],
+    [Графы: планарность и формула Эйлера, раскраска, сетевые потоки и разрезы (m09).],
+  ),
+  witem([КР], tone: accent, [Графы.]),
+  witem([Чтение], [m09: "Планарность", "Раскраска графов", "Сетевые потоки".]),
+))
+#week(2, 5, (
+  witem(
+    [Лекция 5],
+    [ДКА: конфигурации и язык автомата, диаграмма состояний, замкнутость регулярных языков (m23).],
+  ),
+  witem(
+    [Практика],
+    [Построение ДКА по описанию языка, чтение диаграмм, дополнение языка.],
+  ),
+  witem(
+    [Чтение],
+    [m23: "Алфавит, слова и формальные языки", "Детерминированные конечные автоматы".],
+  ),
+))
+#week(2, 6, (
+  witem(
+    [Лекция 6],
+    [НКА: недетерминизм, эпсилон-переходы, эквивалентность ДКА и НКА, конструкция подмножеств (m23).],
+  ),
+  witem(
+    [Практика],
+    [Эпсилон-замыкание, конструкция подмножеств вручную, НКА по регулярному выражению.],
+  ),
+  witem(
+    [Чтение],
+    [m23: "Недетерминированные конечные автоматы", "Конструкция подмножеств".],
+  ),
+))
+#week(2, 7, (
+  witem(
+    [Лекция 7],
+    [Регулярные выражения и теорема Клини, лемма о накачке, нерегулярность языка $a^n b^n$ (m23).],
+  ),
+  witem(
+    [Практика],
+    [Накачка и доказательства нерегулярности, разбор выражений в автоматы.],
+  ),
+  witem([Чтение], [m23: "Регулярные выражения", "Лемма о накачке".]),
+))
+#week(2, 8, (
+  witem([Лекция 8], [Минимизация ДКА, теорема Майхилла--Нерода (m23).]),
+  witem([КР], tone: accent, [Автоматы и регулярные языки.]),
+  witem([Чтение], [m23: "Минимизация ДКА", "Теорема Майхилла--Нерода".]),
+))
+#week(2, 9, (
+  witem(
+    [Лекция 9],
+    [Машина Тьюринга: устройство и конфигурации, примеры программ --- инкремент, сдвиг, копирование (m25).],
+  ),
+  witem([ТМ], tone: purple, [Графы, конечные автоматы и регулярные языки.]),
+  witem(
+    [Чтение],
+    [m25: "Определение машины Тьюринга", "Примеры машин Тьюринга".],
+  ),
+))
+#week(2, 10, (
+  witem(
+    [Лекция 10],
+    [Универсальная машина, тезис Чёрча--Тьюринга, варианты машин (m25).],
+  ),
+  witem(
+    [Практика],
+    [Кодирование машин и лент, счётность программ, обсуждение тезиса.],
+  ),
+  witem(
+    [Чтение],
+    [m25: "Устойчивость и варианты", "Тезис Чёрча--Тьюринга", "Универсальная машина Тьюринга".],
+  ),
+))
+#week(2, 11, (
+  witem(
+    [Лекция 11],
+    [Проблема остановки, диагональная конструкция, сводимость (m26).],
+  ),
+  witem([КР], tone: accent, [Машина Тьюринга и разрешимость.]),
+  witem([Чтение], [m26: "Проблема остановки", "Сведения".]),
+))
+#week(2, 12, (
+  witem([Лекция 12], [Разрешимость и перечислимость, теорема Райса (m26).]),
+  witem(
+    [Практика],
+    [Перечислители и полуразрешимость, применения теоремы Райса.],
+  ),
+  witem([Чтение], [m26: "Теорема Райса", "За пределами машин Тьюринга".]),
+))
+#week(2, 13, (
+  witem(
+    [Лекция 13],
+    [Комбинаторика: правила суммы и произведения, шары и ящики, принцип Дирихле (m18).],
+  ),
+  witem(
+    [Практика],
+    [Перечисление без дерева вариантов, размещения шаров по ящикам, Дирихле на хешах и интервалах.],
+  ),
+  witem(
+    [Чтение],
+    [m18: "Правила подсчёта", "Шары и ящики", "Принцип Дирихле".],
+  ),
+))
+#week(2, 14, (
+  witem(
+    [Лекция 14],
+    [Комбинаторика: перестановки и сочетания, биномиальные тождества, включение-исключение (m18).],
+  ),
+  witem(
+    [Практика],
+    [Треугольник Паскаля и тождества, включение-исключение, беспорядки.],
+  ),
+  witem(
+    [Чтение],
+    [m18: "Перестановки, размещения, сочетания", "Биномиальные коэффициенты и тождества", "Принцип включений-исключений".],
+  ),
+))
+#week(2, 15, (
+  witem(
+    [Лекция 15],
+    [Рекурренции --- Фибоначчи и Ханой, числа Каталана, Стирлинга и Белла, производящие функции (m18, m21).],
+  ),
+  witem([КР], tone: accent, [Комбинаторика и производящие функции.]),
+  witem(
+    [Чтение],
+    [m18: "Рекуррентные соотношения", "Числа Каталана", "Числа Стирлинга и Белла", m21: "Обычные производящие функции".],
+  ),
+))
+#week(2, 16, (
+  witem(
+    [Лекция 16],
+    [Производящие функции: решение рекурренций, Бёрнсайд, Рамсей (m21, m18).],
+  ),
+  witem(
+    [ТМ],
+    tone: purple,
+    [Машина Тьюринга, вычислимость, комбинаторика и трансфинитное по книге.],
+  ),
+  witem(
+    [Чтение],
+    [m21: "Решение рекуррентных соотношений через ОПФ", "Экспоненциальные производящие функции", m18: "Лемма Бёрнсайда и теория Пойа", "Начала теории Рамсея".],
+  ),
+))
+
+Экзамены проходят в сессию --- в январе и июне.
+Даты задаёт расписание вуза.
+
+
+= Оценивание
+
+Итог за семестр --- 100 баллов.
+Слагаемые и их вес:
+
+#v(0.5em)
 
 #grid(
   columns: (40fr, 20fr, 20fr, 10fr, 10fr),
-  column-gutter: 0.5em,
-  row-gutter: 0.5em,
-  pseg(c-blue, p-blue, [40], [домашка и контрольные]),
-  pseg(c-cyan, p-cyan, [20], [теормины]),
-  pseg(c-purple, p-purple, [20], [экзамен]),
-  pseg(c-green, p-green, [10], [практики]),
-  pseg(c-amber, p-amber, [10], [лекции]),
+  column-gutter: 3pt,
+  row-gutter: 3pt,
+  pcell(blue, p-blue, [40]),
+  pcell(cyan, p-cyan, [20]),
+  pcell(purple, p-purple, [20]),
+  pcell(green, p-green, [10]),
+  pcell(amber, p-amber, [10]),
+
+  pcap([домашка и контрольные]),
+  pcap([теормины]),
+  pcap([экзамен]),
+  pcap([практики]),
+  pcap([лекции]),
 )
 
-#align(center)[
-  #table(
-    columns: (1.9fr, 1.1fr, 2.9fr),
-    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-    align: (left, center, left),
-    inset: (x: 8pt, y: 7.5pt),
-    table.header([*Компонент*], [*Баллы*], [*Что требуется*]),
-    [Домашка и контрольные],
-    [40 ($4 times 10$)],
-    [решить домашку, подтвердить\ контрольной: зачёт по\ меньшему из двух],
+Домашка и контрольные дают сорок баллов: четыре работы, каждая подтверждается контрольной, за модуль засчитывается меньшее из двух.
+Теормины дают двадцать: два устных разговора по десять баллов.
+Экзамен добавляет от двенадцати до двадцати или ноль.
+Практики и лекции дают по десять: работа на десяти парах и десять зачтённых флеш-опросников.
 
-    [Теормины],
-    [20 ($2 times 10$)],
-    [устно ответить на вопросы,\ термины и доказательство],
+Оценка за семестр выставляется по итоговым баллам:
 
-    [Экзамен],
-    [0 или\ 12--20],
-    [пройти комплексную процедуру\ в конце семестра],
+#v(0.5em)
 
-    [Работа на практиках], [10], [балл за каждую\ из десяти практик],
-    [Посещение лекций], [10], [флеш-опросник: нормально\ написал --- балл],
-  )
-]
+#grid(
+  columns: (60fr, 14fr, 16fr, 11fr),
+  column-gutter: 3pt,
+  zone(bad, p-bad, [0--59], [долг]),
+  zone(warn, p-warn, [60--73], [удовл.]),
+  zone(blue, p-blue, [74--89], [хорошо]),
+  zone(good, p-good, [90--100], [отлично]),
+)
 
-Оценка за семестр выставляется автоматически по итоговым баллам $S$:
+#v(0.6em)
 
-#block(width: 100%, above: 1em)[
-  #grid(
-    columns: (60fr, 14fr, 16fr, 11fr),
-    gutter: 2pt,
-    zone(c-bad, p-bad, [0--59], [долг]),
-    zone(c-warn, p-warn, [60--73], [удовл.]),
-    zone(c-blue, p-blue, [74--89], [хорошо]),
-    zone(c-good, p-green, [90--100], [отлично]),
-  )
-]
+Практическая часть --- всё, кроме экзамена: не больше 80 баллов.
+К экзамену допускают при 48 баллах практической части и зачтённых работах: каждый модуль не меньше четырёх баллов, каждый теормин --- не меньше четырёх.
 
-Практическая часть $P$ --- всё, кроме экзамена, поэтому $P <= 80$.
-
-Допуск к экзамену --- $P >= 48$ и все работы зачтены: модуль не меньше четырёх, теормин не меньше четырёх.
-
-== Сценарии
-
-Ниже четыре примера того, как баллы складываются в оценку.
-ДЗ+КР --- это четыре модуля из 40 баллов, за каждый засчитывается меньшее из домашки и контрольной.
-ТМ --- теормины (из 20), Практ. --- практики (из 10), Лек. --- лекции (из 10), Экз. --- экзамен (из 20).
-
-#align(center)[
-  #block(breakable: false)[
-    #table(
-      columns: (2.4fr, 1fr, 0.8fr, 0.8fr, 0.8fr, 0.8fr, 0.8fr, 1.1fr),
-      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-      align: (left, center, center, center, center, center, center, left),
-      inset: (x: 6pt, y: 7pt),
-      table.header(
-        [*Сценарий*],
-        [*ДЗ+КР*],
-        [*ТМ*],
-        [*Практ.*],
-        [*Лек.*],
-        [*Экз.*],
-        [*Итог*],
-        [*Оценка*],
-      ),
-      ["На отлично"], [37], [18], [10], [10], [17], [92], [отлично],
-      ["Всё сдано, без экзамена"],
-      [40],
-      [20],
-      [10],
-      [10],
-      [---],
-      [80],
-      [хорошо],
-
-      ["На удовлетворительно"], [26], [13], [6], [6], [12], [63], [удовл.],
-      ["Провал экзамена"], [30], [10], [3], [5], [0], [48], [долг],
-    )
-  ]
-]
-
-Отлично без экзамена не набрать: практическая часть ограничена 80 баллами, а "отлично" начинается с 90.
-
-#card(kind: c-warn, soft: s-warn, title: [Долг])[
+#card(kind: warn, title: [Долг])[
   Итог ниже 60 баллов считается долгом.
-  Он закрывается в дополнительную сессию в индивидуальном порядке: пересдаются все незачтённые работы и экзамен, итог после пересдачи --- ровно 60 баллов.
+  Долг закрывается в дополнительную сессию в индивидуальном порядке: пересдаются все незачтённые работы и экзамен, итог после пересдачи --- ровно 60 баллов.
 ]
 
-= Домашние задания <homework>
+== Домашние задания
 
-За семестр четыре домашние работы.
-ДЗ1--2 закрывают модули 1--2, ДЗ3 --- формальную логику, ДЗ4 --- булеву алгебру, схемы, решатели и кодирование.
+За семестр четыре домашние работы, по одной на модуль.
+ДЗ1--2 закрывают логику с множествами и отношения с функциями, ДЗ3 --- формальную логику, ДЗ4 --- булеву алгебру, схемы, решатели и кодирование.
 
 В каждой работе около десяти заданий трёх видов:
 
-- *базовые* --- обязательный минимум;
+- *базовые* --- обязательный минимум, мини-задачи в духе практики;
 - *челленджи* --- сложнее, можно пропускать;
 - *бонусные* --- дополнительные баллы, о них в разделе "Бонусы".
 
-#card(kind: c-good, soft: s-good, title: [Бонусные задания])[
-  Бонусные задания полностью отделены от основной части: у них нет дедлайна, их можно сдавать весь семестр.
-
-  + Пришлите решение по ссылке для загрузки.
-    Ссылка появляется вместе с каждой работой в топике "Объявления".
-  + Договоритесь с принимающим практиком или лектором, когда защитить: консультация или онлайн.
-  + Защита нужна так же, как для основной части: рассказать решение и ответить на вопросы.
-
-  Файл, который никто с вами не обсудил, баллов не приносит.
-  К решениям-проектам требования выше: аккуратный код или текст и готовность показать, как это работает.
-]
-
-== Домашка и контрольная: подтверждение баллов
+Каждое сданное задание приносит один балл, всего до десяти.
+Балл за модуль --- меньшее из двух: домашка и контрольная.
 
 #table(
   columns: (26%, 74%),
-  stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   align: (left, left),
-  inset: (x: 8pt, y: 7.5pt),
   table.header([*Что*], [*Как считается*]),
   [Домашка], [каждое сданное задание --- один балл, всего до десяти],
   [Контрольная], [письменный результат по шкале до десяти],
-  [Модуль], [$c = min(d, x)$, где $d$ --- домашка, $x$ --- контрольная],
+  [Модуль], [меньшее из двух: домашка и контрольная],
   [После контрольной],
   [добрать баллы домашкой нельзя, подтверждение идёт только в аудитории],
 )
 
-#card(kind: c-warn, soft: s-warn, title: [Правила зачёта])[
+#card(kind: warn, title: [Правила зачёта])[
   + Пропуск базовых заданий ограничивает баллы за домашку пятью --- в сумме, вместе с челленджами.
   + Досдача после дедлайна --- тоже не выше пяти.
-  + Сданные "челленджи" добавляют баллы к домашке.
-    Бонусные в зачёт десяти не входят --- о них в разделе "Бонусы".
+  + Сданные челленджи добавляют баллы к домашке.
+    Бонусные в зачёт десяти не входят.
   + Контрольную нужно написать в любом случае: неподтверждённая домашка баллов не приносит.
 ]
 
-== Дедлайны
+*Дедлайны.*
 
 #table(
   columns: (26%, 74%),
-  stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   align: (left, left),
-  inset: (x: 8pt, y: 7.5pt),
   table.header([*Что*], [*Правило*]),
   [Срок], [через три--четыре недели после выдачи, ориентировочно конец месяца],
   [Когда именно],
@@ -787,23 +1218,26 @@
 Досданную работу можно показать на защите.
 Повторно загружать файл не обязательно, принимающему так удобнее.
 
-#pagebreak()
-
-== Оформление
+*Сдача.*
 
 + Первую домашнюю работу пишут от руки.
   Фотографии собирают в один PDF и отправляют в Dropbox.
 + Остальные работы можно писать от руки или набирать в TeX, Typst и другом редакторе.
   Формат согласуется с преподавателем практики группы.
++ Решение загружается по ссылке для загрузки своей группы.
+  Ссылки публикуются в топике "Объявления" телеграм-чата курса.
++ На первой странице укажите фамилию, имя и группу.
++ Файлы не в PDF или тяжелее 10 МБ проверяться не будут.
++ Если задание обновилось, укажите версию, по которой вы решали.
 + Искусственный интеллект использовать можно при одном условии: явно указать, что и как было сделано с его помощью.
 
-#card(kind: c-warn, soft: s-warn, title: [Почерк])[
+#card(kind: warn, title: [Почерк])[
   За нечитаемую работу снимается 5 баллов из практической части.
   Правило действует за каждый такой случай.
   Пишите разборчиво: проверяющему нужно понять решение.
 ]
 
-== Насколько подробно объяснять решения
+*Что проверяют.*
 
 + В расчётных задачах проверяется не только ответ, но и вычисления, которые к нему ведут.
 + Программные решения приветствуются.
@@ -813,31 +1247,31 @@
   Основной язык примеров курса --- Rust.
 + Без внятных пояснений засчитывается только явный результат.
 
-== Куда сдавать
-
-+ Решение загружается по ссылке для загрузки своей группы.
-  Ссылки публикуются в топике "Объявления" телеграм-чата курса.
-+ На первой странице укажите фамилию, имя и группу.
-+ Файлы не в PDF или тяжелее 10 МБ проверяться не будут.
-+ Если задание обновилось, укажите версию, по которой вы решали.
-
-== Защита
-
-Защита домашней работы обязательна и проверяет понимание решения целиком.
+*Защита.*
+Защита обязательна и проверяет понимание решения целиком.
 Преподаватель практики может попросить рассказать любое решение и ответить на вопросы.
 Каждое сданное решение нужно уметь объяснить.
-
 Досдача после дедлайна проходит здесь же: приносите работу на ближайшую защиту, балл за неё --- не выше пяти.
 
-= Контрольные работы
 
-Контрольная не приносит баллов: она подтверждает домашнюю работу по правилу $min(d, x)$ из раздела #link(<homework>)[Домашние задания].
+== Контрольные работы
+
+Контрольная не приносит баллов: она подтверждает домашнюю работу по правилу минимума.
+
+Что покрывает каждая:
+
+- *КР1* --- логика и множества: высказывания, связки, кванторы, методы доказательств, множества, свойства бинарных отношений.
+- *КР2* --- отношения, порядок, функции, счётность.
+- *КР3* --- формальная логика: правила вывода, выводы в нотации Фитча, логика первого порядка.
+- *КР4* --- булева алгебра, минимизация, схемы и SAT.
+
+На стыках модулей темы могут немного перекрываться.
+Обсуждать решения во время работы нельзя.
+
 
 #table(
   columns: (24%, 76%),
-  stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   align: (left, left),
-  inset: (x: 8pt, y: 7.5pt),
   table.header([*Что*], [*Как*]),
   [Сколько], [четыре за семестр, по одной на модуль],
   [Когда], [суббота контрольной недели, оба потока одновременно],
@@ -848,22 +1282,17 @@
   [Пересдача], [при результате ниже половины, не больше порога],
 )
 
-На стыках модулей темы могут немного перекрываться: КР1 --- логика и множества, КР2 --- отношения и счётность, КР3 --- формальная логика, КР4 --- булева алгебра, минимизация, схемы и SAT.
-Обсуждать решения во время работы нельзя.
-
-= Теормины
+== Теормины
 
 За семестр два теормина.
-Теормин --- это устный разговор по пройденному материалу: термины, вопросы и небольшое доказательство.
+Теормин --- устный разговор по пройденному материалу: термины, вопросы и небольшое доказательство.
 Принимают все преподаватели курса и менторы.
 Очередь идёт в общей таблице, где можно записаться на примерное время.
 Аудитория работает дольше одной пары.
 
 #table(
-  columns: (0.7fr, 1.1fr, 3.4fr),
-  stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+  columns: (0.8fr, 1.2fr, 3.6fr),
   align: (center, left, left),
-  inset: (x: 8pt, y: 7.5pt),
   table.header([*Теормин*], [*Когда*], [*Материал*]),
   [ТМ1],
   [осень,\ неделя 11],
@@ -882,6 +1311,10 @@
   [машина Тьюринга, вычислимость и неразрешимость, правила счёта, биномиальные тождества, рекурренции и производящие функции, Рамсей. Трансфинитное по книге],
 )
 
+Пропуск по уважительной причине закрывается в ближайшее время на общих основаниях.
+Без причины теормин сдаётся как пересдача и приносит не больше порога.
+Пересдача возможна при результате ниже половины и тоже не поднимается выше порога.
+
 Теормины опираются на следующие главы книги.
 
 - ТМ1: m01, m02, m03 (предикаты и кванторы), m04--m08, m29.
@@ -889,17 +1322,14 @@
 - ТМ3: m09, m23.
 - ТМ4: m18, m21, m25, m26, m29 (по книге).
 
-#card(kind: c-accent, title: [Почему логика возвращается])[
+#card(kind: accent, title: [Почему логика возвращается])[
   Логика идёт волной.
   Сначала появляются высказывания и предикаты, затем доказательства, потом полная логика первого порядка.
   Поэтому ТМ1 проверяет логику высказываний и вывод, а ТМ2 возвращается к логике уже с сигнатурами, моделями, ПНФ и сколемизацией.
-  Это не повтор, а второй проход на другом уровне.
+  Это второй проход на другом уровне, а не повтор.
 ]
 
-Материалы --- лекции, главы книги и домашние работы соответствующего блока.
-
-== Как готовиться к теормину
-
+*Как готовиться.*
 Список терминов и вопросов не выдаётся: его нужно собрать самому.
 
 + Для каждого термина выпишите определение, один пример и один контрпример.
@@ -909,9 +1339,7 @@
 На теормине проверяют не заученные слова, а понимание.
 Вас могут попросить объяснить термин своими словами, привести пример, построить контрпример или доказать небольшое утверждение.
 
-#pagebreak()
-
-= Экзамен
+== Экзамен
 
 Экзамен состоит из трёх частей.
 
@@ -922,31 +1350,26 @@
 Всё происходит в один день: письменная часть пишется в аудитории, устная сдаётся лично.
 Проверка письменной части идёт после экзамена.
 
-#block(breakable: false)[
-  #card(kind: c-good, title: [Можно])[
+#grid(
+  columns: (1fr, 1fr),
+  gutter: 8pt,
+  card(kind: good, title: [Можно])[
     + Пользоваться чем угодно, кроме LLM.
     + Оформлять письменную часть электронно.
-  ]
-  #card(kind: c-warn, soft: s-warn, title: [Нельзя])[
+  ],
+  card(kind: warn, title: [Нельзя])[
     + Списывать.
     + Провалить любой из трёх этапов: неудовлетворительный этап --- ноль за весь экзамен, без утешительных.
-  ]
-]
+  ],
+)
 
 Списки билетов и заданий заранее не публикуются.
-Готовиться стоит по вопросам теорминов и материалу семестра --- неожиданностей не будет.
+Готовиться стоит по вопросам теорминов и материалу семестра, неожиданностей не будет.
 
-#card(kind: c-accent, title: [Оценка за экзамен])[
-  За экзамен --- от 12 до 20 баллов при успешной сдаче и ноль при провале: $E in {0} union [12, 20]$.
-  Экзамен не обязателен: без него итог ограничен 80 баллами практической части.
-  Рекомендуется всем, кто целится выше "хорошо" или хочет подстраховать практику.
-]
+За экзамен дают от 12 до 20 баллов при успешной сдаче и ноль при провале.
+Экзамен не обязателен, но без него итог ограничен 80 баллами практической части: "отлично" начинается с 90.
 
-Удачи на экзамене!
-
-#pagebreak()
-
-= Бонусы
+== Бонусы
 
 Бонусные баллы начисляются за несколько видов работы.
 
@@ -954,32 +1377,35 @@
 - Помощь в подготовке курса.
 - Другую активность, связанную с курсом.
 
-О сдаче бонусных заданий рассказано в разделе #link(<homework>)[Домашние задания].
+Бонусные задания полностью отделены от основной части: у них нет дедлайна, их можно сдавать весь семестр.
+
++ Пришлите решение по ссылке для загрузки.
+  Ссылка появляется вместе с каждой работой в топике "Объявления".
++ Договоритесь с принимающим практиком или лектором, когда защитить: консультация или онлайн.
++ Защита нужна так же, как для основной части: рассказать решение и ответить на вопросы.
+
+Файл, который никто с вами не обсудил, баллов не приносит.
+К решениям-проектам требования выше: аккуратный код или текст и готовность показать, как это работает.
 
 #table(
   columns: (26%, 74%),
-  stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   align: (left, left),
-  inset: (x: 8pt, y: 7.5pt),
   table.header([*Что*], [*Как*]),
   [Когда], [бонусы выставляются до экзамена],
   [Кто решает], [преподаватель, автоматической надбавки нет],
   [Что компенсируют], [потерянные баллы практической части, до 80],
-  [Формула], [$min(P + B, 80) + E$, где $B$ --- бонусы, $E$ --- экзамен],
   [Экзамен], [потери на экзамене бонусами не компенсируются],
 )
 
-= Лекции и практики
+== Лекции и практики
 
-Посещение лекций даёт до 10 баллов.
+Посещение лекций даёт до 10 баллов, работа на практиках --- ещё до 10.
 
-== Флеш-опросники <polls>
+=== Флеш-опросники
 
 #table(
   columns: (26%, 74%),
-  stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   align: (left, left),
-  inset: (x: 8pt, y: 7.5pt),
   table.header([*Что*], [*Как*]),
   [Когда], [первые пять минут лекции],
   [Формат], [именной листочек, вопросы по прошлой лекции и чтению],
@@ -992,7 +1418,7 @@
 Опросник фиксирует посещение: написал, значит пришёл.
 Вопросы проверяют понимание, поэтому зубрёжка определений не спасёт.
 
-== Практики
+=== Практики
 
 Работа на практиках приносит по одному баллу за каждую из десяти практик.
 Практика идёт по ядру прошлой лекции: решают задачи, новый материал не вводят.
@@ -1010,63 +1436,6 @@
 Что именно засчитывать, решает преподаватель практики.
 Он же закрывает редкие исключения.
 
-== Ядро и детали
-
-Лекция устроена в два прохода.
-Первые 20--30 слайдов образуют *ядро*: определения, конструкции и результаты, без которых не решаются практика, домашняя работа, контрольная и теормин.
-Дальше идут *детали*: примеры, доказательства, граничные случаи и дополнительные темы.
-Ядро проходится на паре целиком, детали читаются самостоятельно и разбираются на консультациях.
-
-Практика не повторяет лекцию.
-Она берёт ядро и доводит его до письменного навыка: разбор задач, счёт, построение вывода, проверка модели.
-Детали на практику не выносятся: они нужны для понимания и бонусов, а не для обязательного минимума.
-
-#table(
-  columns: (0.8fr, 2.1fr, 1.7fr, 1.2fr),
-  stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-  align: (center, left, left, left),
-  inset: (x: 6pt, y: 6pt),
-  table.header([*Лекция*], [*Ядро*], [*Детали*], [*Практика*]),
-  [9],
-  [Синтаксис и семантика высказываний, таблицы истинности, эквивалентность, следование],
-  [Структурная индукция, парсер, законы, компактность, схемы],
-  [---],
-
-  [10],
-  [Натуральная дедукция, правила связок, нотация Фитча, корректность и полнота],
-  [Гильберт, дедукция, производные правила, классические законы, поиск вывода],
-  [---],
-
-  [11],
-  [Термы и формулы, интерпретации, кванторы, отрицание, правила кванторов, ПНФ, силлогизмы],
-  [Границы метода, неразрешимость, компактность, Лёвенгейм --- Сколем, резолюция],
-  [Логика предикатов, ПНФ, силлогизмы],
-
-  [12],
-  [Булевы функции как векторы над $"GF"(2)$, полином Жегалкина, классы Поста, гиперкуб и код Грея],
-  [Формула Мёбиуса, треугольник Паскаля, теорема Стоуна],
-  [АНФ, код Грея, свидетели Поста],
-
-  [13],
-  [Минимизация, карта Карно, Квайн --- МакКласки, форма Блейка, ROBDD],
-  [Метод Петрика, порядок переменных, нижние оценки BDD],
-  [Карта Карно, Квайн --- МакКласки, редукция BDD],
-
-  [14],
-  [Вентили, сумматоры, АЛУ, память, триггеры, конечные автоматы, код Грея, верификация],
-  [Carry-lookahead, схемная сложность, P/poly],
-  [Сумматор, счётчик, автомат светофора],
-
-  [15],
-  [SAT, 2-SAT, хорновские формулы, DPLL, CDCL, кодирование задач, SMT, CSP, ASP],
-  [Кук --- Левин, анализ конфликтов, теории SMT, устойчивые модели],
-  [Граф импликаций, судоку, SMT-LIB, CSP и ASP],
-
-  [16],
-  [Расстояние Хэмминга, код $(7, 4)$, синдром, линейные коды, CRC, Рид --- Соломон, энтропия, Крафт, Хаффман, Шеннон],
-  [Границы, арифметическое кодирование, LZ, пропускная способность],
-  [Код Хэмминга, CRC, Хаффман, энтропия],
-)
 
 = Консультации и менторы
 
@@ -1077,9 +1446,7 @@
 
 #table(
   columns: (24%, 76%),
-  stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   align: (left, left),
-  inset: (x: 8pt, y: 7.5pt),
   table.header([*Когда*], [*Что происходит*]),
   [Контрольная неделя],
   [суббота отдана контрольной или теормину, практика недели становится консультацией],
@@ -1092,27 +1459,29 @@
 
 На консультации можно спросить про лекцию, разобрать задачу, досдать домашку.
 Иногда по объявлению проходит пересдача, рассчитывать на неё не стоит.
-За семестр --- шестнадцать консультаций: десять общих суббот и шесть на месте практик контрольных недель.
 Посещение свободное, расписание --- в топике "Объявления".
 
 == Менторы
 
 У курса есть менторы --- старшие студенты, которые прошли его раньше.
-Они --- часть команды курса, но не преподаватели: пар не ведут, баллов не ставят.
+Они часть команды курса, но не преподаватели: пар не ведут, баллов не ставят.
 
-#card(kind: c-good, title: [Что делают])[
-  - Отвечают на вопросы в чате и на консультациях.
-  - Проверяют домашки и показывают, где дыры в решении.
-  - Тренируют перед теорминами и флеш-опросниками.
-  - Помогают практикам на теорминах: очередь, вопросы по терминам.
-]
-
-#card(kind: c-warn, soft: s-warn, title: [Чего не делают])[
-  - Не решают за вас: готовое решение валится на защите.
-  - Не ставят баллов: финальное слово по любой оценке --- у преподавателя.
-  - Не трогают контрольные и экзамен.
-  - Не договариваются за вас о досдачах --- только передают вопрос.
-]
+#grid(
+  columns: (1fr, 1fr),
+  gutter: 8pt,
+  card(kind: good, title: [Что делают])[
+    - Отвечают на вопросы в чате и на консультациях.
+    - Проверяют домашки и показывают, где дыры в решении.
+    - Тренируют перед теорминами и флеш-опросниками.
+    - Помогают практикам на теорминах: очередь, вопросы по терминам.
+  ],
+  card(kind: warn, title: [Чего не делают])[
+    - Не решают за вас: готовое решение валится на защите.
+    - Не ставят баллов: финальное слово по любой оценке --- у преподавателя.
+    - Не трогают контрольные и экзамен.
+    - Не договариваются за вас о досдачах --- только передают вопрос.
+  ],
+)
 
 Формулируйте вопрос так: что уже пробовали и где застряли.
 Тогда ответ придёт точнее.
@@ -1124,453 +1493,3 @@
 Кто ваш ментор и где его искать, написано в топике "Объявления" на первой неделе.
 Кроме менторов команде помогают волонтёры: старшие студенты без закреплённых групп.
 Они отвечают всем и по возможности.
-
-
-
-
-
-
-
-#pagebreak()
-
-= Расписание <schedule>
-
-Ниже приведены карта контроля, понедельные планы и чтение к лекциям обоих семестров.
-
-- Каждая учебная неделя: лекция, практика и дополнительная пара по субботам.
-- Контрольная неделя: суббота отдана контрольной или теормину, практика становится консультацией.
-- Обычная неделя: суббота --- общая консультация.
-- Практики идут по одной, по теме последней лекции.
-- Праздничная неделя: лекция не вводится, материал уплотняется.
-- Резервных недель в сетке нет.
-
-== Семестр 1: 7 сентября --- 27 декабря <sem1>
-
-Первая лекция --- 8--9 сентября, на двух потоках.
-Последние занятия --- 22--23 декабря.
-
-#semester-timeline(
-  17,
-  (
-    (2, 4, [Логика и множества], c-blue),
-    (5, 9, [Отношения и функции], c-cyan),
-    (10, 12, [Формальная логика], c-purple),
-    (13, 16, [Булева алгебра, схемы и решатели], c-green),
-    (17, 17, [Коды и информация], c-amber),
-  ),
-  marks-1,
-  (
-    ([сентябрь], 0, 5),
-    ([октябрь], 5, 9),
-    ([ноябрь], 9, 13),
-    ([декабрь], 13, 17),
-  ),
-  (
-    [],
-    [8--9.9],
-    [15--16.9],
-    [22--23.9],
-    [29--30.9],
-    [6--7.10],
-    [13--14.10],
-    [20--21.10],
-    [27--28.10],
-    [3--4.11],
-    [10--11.11],
-    [17--18.11],
-    [24--25.11],
-    [1--2.12],
-    [8--9.12],
-    [15--16.12],
-    [22--23.12],
-  ),
-)
-
-#block(breakable: false)[
-  #table(
-    columns: (1fr, 2fr, 3fr),
-    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-    align: (center, left, left),
-    inset: (x: 8pt, y: 7.5pt),
-    table.header([*Недели*], [*Модуль*], [*Контроль*]),
-    [2--4], [Логика и множества], [Контрольная 1 (нед. 6): 5--11 октября],
-
-    [5--9],
-    [Отношения, порядок, функции и счётность],
-    [Контрольная 2 (нед. 10): 2--8 ноября],
-
-    [10--12],
-    [Формальная логика],
-    [Теормин 1 (нед. 11): 9--15 ноября,\ Контрольная 3 (нед. 13): 23--29 ноября],
-
-    [13--16],
-    [Булева алгебра, схемы и решатели],
-    [Контрольная 4 (нед. 16): 14--20 декабря],
-
-    [17], [Коды и информация], [Теормин 2 (нед. 17): 21--27 декабря],
-  )
-]
-
-Учёба началась 3 сентября, на вводной неделе лекций ещё не было, поэтому нумерация недель сдвинута на единицу: неделя 2 --- лекция 1, неделя 17 --- последняя.
-Номера недель совпадают с нумерацией в ИСУ.
-
-#week(1, 2)[
-  - _Лекция 1._ Высказывания и связки, таблицы истинности, приоритеты операций, дерево разбора формулы (m01).
-  - _Практика._ Таблицы истинности, упрощение формул, переписывание булевых условий в коде.
-  - _Чтение._ m01: "Логика высказываний" (высказывания, связки, таблицы), "Семантика: таблицы истинности" (тавтологии).
-]
-#week(1, 3)[
-  - _Лекция 2._ Предикаты и кванторы, порядок кванторов, методы доказательств --- индукция, от противного, контрпример (m01, m03).
-  - _Практика._ Перевод утверждений на язык предикатов, отрицание кванторов, инварианты циклов, assert'ы.
-  - _Чтение._ m03: "Предикаты", "Кванторы", "Отрицание кванторов", m01: "Методы доказательств" (индукция, от противного).
-]
-#week(1, 4)[
-  - _Лекция 3._ Множества и операции над ними, законы де Моргана, булеан, декартово произведение (m04).
-  - _Практика._ Доказательство равенств множеств через включения, диаграммы Венна, булеан и битовые маски.
-  - _Чтение._ m04: "Множество и его элементы", "Операции над множествами", "Булеан", "Декартово произведение".
-]
-#week(1, 5)[
-  - _Лекция 4._ Отношения и эквивалентность: свойства, матрица и граф, замыкания, алгоритм Уоршелла, классы эквивалентности, разбиения, фактор-множество, арифметика по модулю (m05).
-  - _Практика._ Свойства отношений по матрице и графу, замыкания, классы эквивалентности и разбиения.
-  - _Чтение._ m05: "Бинарные отношения", "Свойства отношений", "Замыкания отношений", "Отношение эквивалентности", "Теорема о разбиении".
-]
-#week(1, 6)[
-  - _Лекция 5._ Отношение порядка: ЧУМ, диаграмма Хассе, экстремальные элементы, супремум и инфимум, решётки, топологическая сортировка (m08).
-  - _Контрольная 1._ Высказывания, связки, кванторы, методы доказательств, множества.
-    Одна задача --- на свойства бинарных отношений (lec04): простая проверка свойств, до контрольной 2 это умение нигде не подтверждается, а на границе модулей контрольные могут пересекаться.
-  - _Чтение._ m08: "Частичный порядок", "Диаграммы Хассе", "Экстремальные элементы", "Грани, супремум, инфимум", "Решётки", "Топологическая сортировка".
-]
-#week(1, 7)[
-  - _Лекция 6._ Функции: инъекция, сюръекция, биекция, композиция, образ и прообраз, характеристическая функция (m06).
-  - _Практика._ Подсчёт инъекций и биекций, композиция и обратная функция, пол и потолок.
-  - _Чтение._ m06: "Инъекция", "Сюръекция", "Биекция", "Композиция функций", "Алгебра образов и прообразов".
-]
-#week(1, 8)[
-  - _Лекция 7._ Счётность и несчётность: равномощность, счётные и несчётные множества, диагональный аргумент, теорема Кантора, краткий обзор ординалов (m07).
-  - _Практика._ Диагональная нумерация Кантора, счётность целых и рациональных, биекции интервала и прямой.
-  - _Чтение._ m07: "Равномощность", "Счётные и несчётные множества", "Теорема Кантора".
-]
-#week(1, 9)[
-  - _Лекция 8._ Трансфинитное: вполне упорядоченные множества и ординалы, кардинальная арифметика, алефы и беты, парадоксы и аксиоматика ZFC --- в контрольные работы не входит.
-  - _Практика._ Разбор задач блока: отношения и эквивалентность, порядок, функции, счётность --- сводка перед контрольной 2.
-  - _Чтение._ m29: "Ординалы за пределами $omega$". m07: "Кардинальные числа и арифметика", "Две иерархии: алефы и беты". m04: "Парадокс Рассела и аксиоматическая теория множеств", "Аксиоматическая теория множеств" (звёздный раздел).
-]
-#week(1, 10)[
-  - _Лекция 9._ Ядро: синтаксис и деревья разбора, семантика, таблицы истинности, эквивалентность, следование и невыполнимость (m01). Детали: структурная индукция, парсер, законы, компактность, схемы.
-  - _Контрольная 2._ Отношения, порядок, функции, счётность.
-  - _Чтение._ m01: "Синтаксис формул", "Семантика: таблицы истинности", "Законы и тождества", "Нормальные формы", "Компактность", "Структурная индукция".
-]
-#week(1, 11)[
-  - _Лекция 10._ Ядро: натуральная дедукция, правила введения и устранения связок, нотация Фитча, корректность и полнота (m02). Детали: Гильберт, теорема о дедукции, производные правила, классические законы, Карри --- Ховард, поиск вывода, компактность.
-  - _Теормин 1._ Множества, отношения, порядок, функции, мощности, трансфинитное, логика высказываний, предикаты и натуральная дедукция.
-  - _Чтение._ m02: "Дедукция и системы вывода", "Натуральная дедукция".
-]
-#week(1, 12)[
-  - _Лекция 11._ Ядро: термы и формулы, свободные и связанные переменные, интерпретации, истинность, порядок кванторов, отрицание, правила кванторов, ПНФ, силлогизмы (m03). Детали: границы табличного метода, неразрешимость, компактность, Лёвенгейм --- Сколем, резолюция.
-  - _Практика._ Правила для кванторов в Фитче, ПНФ, перевод силлогизмов в логику предикатов, модусы Barbara и Celarent.
-  - _Чтение._ m03: "Предикаты", "Несколько кванторов", "Семантика: модели и истинность", "Сколемизация", "Силлогистика Аристотеля".
-]
-#week(1, 13)[
-  - _Лекция 12._ Ядро: булевы функции как векторы над $"GF"(2)$, ДНФ и КНФ без повторения основ, полином Жегалкина, классы Поста, гиперкуб и код Грея (m10, m11). Детали: формула Мёбиуса, треугольник Паскаля, теорема Стоуна.
-  - _Контрольная 3._ Формальная логика: правила вывода, выводы в нотации Фитча, логика первого порядка.
-  - _Чтение._ m10: "Булевы функции", "Полином Жегалкина", "Клоны и замыкание", m11: "Код Грея".
-]
-#week(1, 14)[
-  - _Лекция 13._ Ядро: минимизация, карта Карно, простые импликанты, Квайн --- МакКласки, форма Блейка, ROBDD (m10). Детали: Петрик, порядок переменных, нижние оценки BDD.
-  - _Практика._ Карта Карно на три и четыре переменные, безразличные наборы, Квайн --- МакКласки, редукция ROBDD.
-  - _Чтение._ m10: "Минимизация", "Карты Карно", "Алгоритм Квайна --- МакКласки", "Каноническая форма Блейка", "Диаграммы решений (BDD)".
-]
-#week(1, 15)[
-  - _Лекция 14._ Ядро: вентили, сумматоры, АЛУ, память, защёлки и триггеры, регистры, конечные автоматы, код Грея, верификация (m11). Детали: carry-lookahead, схемная сложность, P/poly.
-  - _Практика._ Сумматор и компаратор, счётчик, автомат светофора, митер для двух схем.
-  - _Чтение._ m11: "Логические вентили и схемы", "Сумматоры", "Почему схеме нужна память", "Код Грея", "Верификация схем через SAT".
-]
-#week(1, 16)[
-  - _Лекция 15._ Ядро: SAT, 2-SAT, хорновские формулы, DPLL, CDCL, кодирование задач, SMT, CSP, ASP (m14, m15, m16). Детали: Кук --- Левин, анализ конфликтов, теории SMT, устойчивые модели.
-  - _Контрольная 4._ Булева алгебра, минимизация, схемы и SAT.
-  - _Чтение._ m14: "Задача SAT", "Резолюция", "Кодирование задач в SAT", "От DPLL к CDCL", m15: "SMT", m16: "Логическое программирование".
-]
-#week(1, 17)[
-  - _Лекция 16._ Ядро: расстояние Хэмминга, код Хэмминга $(7, 4)$, синдром, линейные коды, CRC, Рид --- Соломон, энтропия, Крафт, Хаффман, граница Шеннона (m13). Детали: арифметическое кодирование, LZ, пропускная способность.
-  - _Теормин 2._ Логика первого порядка, булевы функции, SAT, схемы, коды и информация.
-  - _Чтение._ m13: "Расстояние Хэмминга и геометрия кода", "Код Хэмминга $(7, 4)$", "Линейные коды и GF(2)", "Код Хаффмана", "Граница Шеннона", "Циклические коды".
-]
-
-== Семестр 2: 8 февраля --- 30 мая <sem2>
-
-Первая лекция --- 9--10 февраля, на двух потоках.
-Последние занятия --- 25--26 мая.
-
-#semester-timeline(
-  16,
-  (
-    (1, 4, [Графы], c-blue),
-    (5, 8, [Автоматы], c-cyan),
-    (9, 12, [Машина Тьюринга], c-purple),
-    (13, 16, [Комбинаторика], c-green),
-  ),
-  marks-2,
-  (
-    ([февраль], 0, 3),
-    ([март], 3, 8),
-    ([апрель], 8, 12),
-    ([май], 12, 16),
-  ),
-  (
-    [9--10.2],
-    [16--17.2],
-    [23--24.2],
-    [2--3.3],
-    [9--10.3],
-    [16--17.3],
-    [23--24.3],
-    [30--31.3],
-    [6--7.4],
-    [13--14.4],
-    [20--21.4],
-    [27--28.4],
-    [4--5.5],
-    [11--12.5],
-    [18--19.5],
-    [25--26.5],
-  ),
-)
-
-#block(breakable: false)[
-  #table(
-    columns: (1fr, 2fr, 3fr),
-    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-    align: (center, left, left),
-    inset: (x: 8pt, y: 7.5pt),
-    table.header([*Недели*], [*Модуль*], [*Контроль*]),
-    [1--4], [Графы], [Контрольная 1 (нед. 4): 1--7 марта],
-    [5--8],
-    [Конечные автоматы и регулярные языки],
-    [Контрольная 2 (нед. 8): 29 марта --- 4 апреля,\ Теормин 3 (нед. 9): 5--11 апреля],
-
-    [9--12],
-    [Машина Тьюринга и разрешимость],
-    [Контрольная 3 (нед. 11): 19--25 апреля],
-
-    [13--16],
-    [Комбинаторика и производящие функции],
-    [Контрольная 4 (нед. 15): 17--23 мая,\ Теормин 4 (нед. 16): 24--30 мая],
-  )
-]
-
-#week(2, 1)[
-  - _Лекция 1._ Графы: основные определения, степень вершины, лемма о рукопожатиях, пути, циклы, связность (m09).
-  - _Практика._ Лемма о рукопожатиях и её следствия, виды графов, матрица и списки смежности.
-  - _Чтение._ m09: "Основные определения", "Пути, циклы, связность".
-]
-#week(2, 2)[
-  - _Лекция 2._ Графы: обходы BFS и DFS, деревья и остовы, топологическая сортировка (m09).
-  - _Практика._ BFS по слоям и кратчайшие пути, DFS и классификация рёбер, порядок сборки через топологическую сортировку.
-  - _Чтение._ m09: "Обходы графа", "Топологическая сортировка", "Деревья".
-]
-#week(2, 3)[
-  - _Лекция 3._ Графы: эйлеровы и гамильтоновы циклы, двудольность, паросочетания, кратчайшие пути и Дейкстра (m09).
-  - _Практика._ Критерий эйлеровости, проверка двудольности обходом, теоремы Дирака и Оре, Дейкстра с приоритетной очередью.
-  - _Чтение._ m09: "Эйлеровы графы", "Гамильтоновы графы", "Двудольные графы", "Кратчайшие пути".
-]
-#week(2, 4)[
-  - _Лекция 4._ Графы: планарность и формула Эйлера, раскраска, сетевые потоки и разрезы (m09).
-  - _Контрольная 1._ Графы.
-  - _Чтение._ m09: "Планарность", "Раскраска графов", "Сетевые потоки".
-]
-#week(2, 5)[
-  - _Лекция 5._ ДКА: конфигурации и язык автомата, диаграмма состояний, замкнутость регулярных языков (m23).
-  - _Практика._ Построение ДКА по описанию языка, чтение диаграмм, дополнение языка.
-  - _Чтение._ m23: "Алфавит, слова и формальные языки", "Детерминированные конечные автоматы".
-]
-#week(2, 6)[
-  - _Лекция 6._ НКА: недетерминизм, эпсилон-переходы, эквивалентность ДКА и НКА, конструкция подмножеств (m23).
-  - _Практика._ Эпсилон-замыкание, конструкция подмножеств вручную, НКА по регулярному выражению.
-  - _Чтение._ m23: "Недетерминированные конечные автоматы", "Конструкция подмножеств".
-]
-#week(2, 7)[
-  - _Лекция 7._ Регулярные выражения и теорема Клини, лемма о накачке, нерегулярность языка $a^n b^n$ (m23).
-  - _Практика._ Накачка и доказательства нерегулярности, разбор выражений в автоматы.
-  - _Чтение._ m23: "Регулярные выражения", "Лемма о накачке".
-]
-#week(2, 8)[
-  - _Лекция 8._ Минимизация ДКА, теорема Майхилла--Нерода (m23).
-  - _Контрольная 2._ Автоматы и регулярные языки.
-  - _Чтение._ m23: "Минимизация ДКА", "Теорема Майхилла--Нерода".
-]
-#week(2, 9)[
-  - _Лекция 9._ Машина Тьюринга: устройство и конфигурации, примеры программ --- инкремент, сдвиг, копирование (m25).
-  - _Теормин 3._ Графы, конечные автоматы и регулярные языки.
-  - _Чтение._ m25: "Определение машины Тьюринга", "Примеры машин Тьюринга".
-]
-#week(2, 10)[
-  - _Лекция 10._ Универсальная машина, тезис Чёрча--Тьюринга, варианты машин (m25).
-  - _Практика._ Кодирование машин и лент, счётность программ, обсуждение тезиса.
-  - _Чтение._ m25: "Устойчивость и варианты", "Тезис Чёрча--Тьюринга", "Универсальная машина Тьюринга".
-]
-#week(2, 11)[
-  - _Лекция 11._ Проблема остановки, диагональная конструкция, сводимость (m26).
-  - _Контрольная 3._ Машина Тьюринга и разрешимость.
-  - _Чтение._ m26: "Проблема остановки", "Сведения".
-]
-#week(2, 12)[
-  - _Лекция 12._ Разрешимость и перечислимость, теорема Райса (m26).
-  - _Практика._ Перечислители и полуразрешимость, применения теоремы Райса.
-  - _Чтение._ m26: "Теорема Райса", "За пределами машин Тьюринга".
-]
-#week(2, 13)[
-  - _Лекция 13._ Комбинаторика: правила суммы и произведения, шары и ящики, принцип Дирихле (m18).
-  - _Практика._ Перечисление без дерева вариантов, размещения шаров по ящикам, Дирихле на хешах и интервалах.
-  - _Чтение._ m18: "Правила подсчёта", "Шары и ящики", "Принцип Дирихле".
-]
-#week(2, 14)[
-  - _Лекция 14._ Комбинаторика: перестановки и сочетания, биномиальные тождества, включение-исключение (m18).
-  - _Практика._ Треугольник Паскаля и тождества, включение-исключение, беспорядки.
-  - _Чтение._ m18: "Перестановки, размещения, сочетания", "Биномиальные коэффициенты и тождества", "Принцип включений-исключений".
-]
-#week(2, 15)[
-  - _Лекция 15._ Рекурренции --- Фибоначчи и Ханой, числа Каталана, Стирлинга и Белла, производящие функции (m18, m21).
-  - _Контрольная 4._ Комбинаторика и производящие функции.
-  - _Чтение._ m18: "Рекуррентные соотношения", "Числа Каталана", "Числа Стирлинга и Белла", m21: "Обычные производящие функции".
-]
-#week(2, 16)[
-  - _Лекция 16._ Производящие функции: решение рекурренций, Бёрнсайд, Рамсей (m21, m18).
-  - _Теормин 4._ Машина Тьюринга, вычислимость, комбинаторика и трансфинитное по книге.
-  - _Чтение._ m21: "Решение рекуррентных соотношений через ОПФ", "Экспоненциальные производящие функции", m18: "Лемма Бёрнсайда и теория Пойа", "Начала теории Рамсея".
-]
-
-Экзамены проходят в сессию --- в январе и июне.
-Даты задаёт расписание вуза.
-
-= Шпаргалка
-
-#card(
-  kind: c-accent,
-  title: [Ключевые цифры],
-  brk: true,
-)[
-  #grid(
-    columns: (1fr,) * 4,
-    gutter: 8pt,
-    stat([100], [итог за семестр]),
-    stat([48], [допуск к экзамену]),
-    stat([60], [минимум]),
-    stat([12--20], [баллы за экзамен]),
-  )
-  #v(0.8em)
-  Все правила --- в разделах выше.
-]
-
-= Частые вопросы
-
-#grid(
-  columns: (1fr, 1fr),
-  gutter: 8pt,
-  fcard[Что и когда читать?][
-    Обязательную главу после каждой лекции --- по ней идёт флеш-опросник на следующей лекции.
-    Остальное --- по желанию и по интересу.
-  ],
-  fcard[Как работает флеш-опросник?][
-    В первые пять минут лекции: именной листочек, вопросы по прошлой лекции и чтению.
-    Каждый нормально написанный --- балл.
-    Опоздал или написал пусто --- балла нет.
-  ],
-
-  fcard[Домашка даёт баллы?][
-    Да: до десяти за работу, сорок за семестр.
-    Контрольная их подтверждает --- засчитывается меньшее из двух.
-  ],
-
-  fcard[Что будет, если пропустить базовое задание?][
-    Баллы за домашку --- не выше пяти.
-    Базовые --- мини-задачи в духе практики, рассчитанные на всех.
-  ],
-  fcard[Можно ли сдать домашку после дедлайна?][
-    Можно.
-    Баллы за такую работу --- не выше пяти.
-  ],
-
-  fcard[У бонусных задач есть дедлайн?][
-    Нет: они отделены от основной части и сдаются весь семестр.
-    Схема --- прислать решение по ссылке для загрузки и договориться о защите с принимающим.
-    Подробнее --- в разделе "Бонусы".
-  ],
-
-  fcard[Можно ли пользоваться искусственным интеллектом?][
-    В домашних работах --- да, при раскрытии: напишите, что и как использовали.
-    На контрольных, теорминах и экзамене --- нет.
-  ],
-  fcard[Можно ли сдавать домашки электронно?][
-    Первая --- только от руки.
-    Остальные --- на усмотрение преподавателя практики группы.
-  ],
-
-  fcard[Что спрашивают на защите домашки?][
-    Любое решение --- рассказать и ответить на "почему".
-    Готовьтесь объяснить каждый шаг своего решения.
-  ],
-  fcard[Что входит в контрольную?][
-    Материал своего модуля --- то, что разбиралось на лекциях и практиках этих недель.
-  ],
-
-  fcard[Кто такие менторы?][
-    Старшие студенты, прошедшие курс: отвечают на вопросы, тренируют перед теорминами, проверяют домашки, разбирают задачи на консультациях.
-    Решения за вас не пишут и баллов не ставят.
-  ],
-  fcard[Ментор сказал одно, а преподаватель --- другое?][
-    Слово преподавателя --- последнее.
-    Ментор помогает разобраться и может передать вопрос, но оценки, дедлайны и досдачи --- только у преподавателя практики.
-  ],
-
-  fcard[Что делать, если болел в день контрольной?][
-    Контрольные идут у обоих потоков одновременно, отдельных дней нет.
-    По уважительной причине работа пишется в ближайшее время под личным контролем преподавателя практики.
-  ],
-  fcard[Что делать, если пропустил теормин?][
-    По уважительной причине --- в ближайшее время, на общих основаниях.
-    Без причины --- как пересдача: не больше порога.
-  ],
-
-  fcard[Можно ли переписать контрольную или теормин?][
-    Только при результате ниже половины.
-    Любая пересдача приносит не больше порога --- половины работы.
-  ],
-  fcard[Как набрать баллы за практики?][
-    Работать на паре: доска, разбор, вопросы, помощь соседям, презентация проекта.
-    Любая активность --- балл за практику, всего практик десять.
-  ],
-
-  fcard[Как набрать баллы за лекции?][
-    Через флеш-опросники: один зачтённый опросник --- один балл, до десяти.
-    Опросник и есть посещение: пришёл вовремя, ответил по существу.
-    Идут любые десять зачтённых, остальные --- запас.
-  ],
-  fcard[Что будет, если к экзамену меньше 48 баллов практики?][
-    Допуска нет --- как и при незачтённых работах.
-    Итог останется равным практической части.
-  ],
-
-  fcard[Обязателен ли экзамен?][
-    Нет.
-    Но выше "хорошо" без него не подняться: практическая часть ограничена 80 баллами.
-  ],
-  fcard[Как добрать потерянные баллы?][
-    Бонусные задания, помощь в подготовке курса, активность.
-    Компенсируют практическую часть до 80.
-    Потери на экзамене --- нет.
-  ],
-
-  fcard[Насколько страшен долг?][
-    Ниже 60 --- долг: досдаются все работы и экзамен, итог --- ровно 60.
-    Восстановимо, но ценой дополнительной сессии.
-  ],
-  fcard[Почерк правда важен?][
-    Нечитаемая работа --- минус 5 баллов из практической части, за каждый случай.
-    Пишите разборчиво: проверяющему нужно понять решение.
-  ],
-)
-
-= Ссылки
-
-- Репозиторий курса: книга, конспекты, слайды, домашние задания --- #link("https://github.com/Lipen/discrete-math-course")[github.com/Lipen/discrete-math-course].
-- Ссылки для загрузки решений --- в топике "Объявления" телеграм-чата курса.
