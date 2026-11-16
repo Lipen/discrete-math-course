@@ -18,8 +18,8 @@ files := """
     s1-lec12-boolean-algebra.typ
     s1-lec13-minimization.typ
     s1-lec14-circuits.typ
-    s1-lec15-solvers.typ
-    s1-lec16-information.typ
+    s1-lec15-hamming.typ
+    s1-lec16-huffman.typ
     s2-lec01-graphs.typ
     s2-lec02-traversal.typ
     s2-lec03-matching.typ
