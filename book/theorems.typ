@@ -338,6 +338,7 @@
 #let project-outcome(body) = {
   block(
     above: 0.5em,
+    breakable: false,
     stroke: (top: 0.6pt + project-color),
     inset: (top: 0.5em),
   )[

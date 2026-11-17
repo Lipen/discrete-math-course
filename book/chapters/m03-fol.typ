@@ -224,14 +224,14 @@ $P(x)$ не истинно и не ложно, пока $x$ не заменён 
   - $exists x . thin (phi(x) or psi(x)) equiv (exists x . thin phi(x)) or (exists x . thin psi(x))$.
 
   Если переменная $x$ не свободна в $psi$:
-  - $forall x . thin (phi(x) and psi) equiv forall x . thin phi(x) and psi$.
-  - $forall x . thin (phi(x) or psi) equiv forall x . thin phi(x) or psi$.
-  - $exists x . thin (phi(x) and psi) equiv exists x . thin phi(x) and psi$.
-  - $exists x . thin (phi(x) or psi) equiv exists x . thin phi(x) or psi$.
-  - $forall x . thin (phi(x) -> psi) equiv exists x . thin phi(x) -> psi$.
-  - $exists x . thin (phi(x) -> psi) equiv forall x . thin phi(x) -> psi$.
-  - $forall x . thin (psi -> phi(x)) equiv psi -> forall x . thin phi(x)$.
-  - $exists x . thin (psi -> phi(x)) equiv psi -> exists x . thin phi(x)$.
+  - $forall x . thin (phi(x) and psi) equiv (forall x . thin phi(x)) and psi$.
+  - $forall x . thin (phi(x) or psi) equiv (forall x . thin phi(x)) or psi$.
+  - $exists x . thin (phi(x) and psi) equiv (exists x . thin phi(x)) and psi$.
+  - $exists x . thin (phi(x) or psi) equiv (exists x . thin phi(x)) or psi$.
+  - $forall x . thin (phi(x) -> psi) equiv (exists x . thin phi(x)) -> psi$.
+  - $exists x . thin (phi(x) -> psi) equiv (forall x . thin phi(x)) -> psi$.
+  - $forall x . thin (psi -> phi(x)) equiv psi -> (forall x . thin phi(x))$.
+  - $exists x . thin (psi -> phi(x)) equiv psi -> (exists x . thin phi(x))$.
 ]
 
 #proof-sketch[
@@ -612,7 +612,8 @@ SMT-солвер комбинирует SAT-рассуждение (глава~@
   Поэтому в современной логике подчинение $A -> I$ не общезначимо.
 
   В традиционной логике с экзистенциальным допущением $A$ ложно, если единорогов нет.
-  Тогда $A$ и $I$ оба ложны, и подчинение выполняется только потому, что посылка ложна.
+  Тогда $A$ и $I$ оба ложны, а материальная импликация $A -> I$ истинна только из-за ложной посылки.
+  Как правило вывода подчинение к пустому субъекту здесь не применяется.
   Современная логика отказывается от этого допущения и не выводит $I$ из $A$.
 ]
 
@@ -838,6 +839,19 @@ $
   Значит, совпадают и условия для квантора.
 ]
 
+#lemma[Подстановка][
+  Если терм $t$ свободен для $x$ в формуле $psi$, то
+  $
+    cal(I), nu[x := llbracket t rrbracket^cal(I)_nu] models psi quad <=> quad cal(I), nu models psi(t).
+  $
+]
+
+#proof-sketch[
+  Докажем индукцией по $psi$ одновременно с соответствующим утверждением для термов.
+  Для терма $s$ значение $s[x := t]$ при оценке $nu$ равно значению $s$ при оценке $nu[x := llbracket t rrbracket^cal(I)_nu]$.
+  Связки и кванторы переходят по индукции, а условие свободы подстановки гарантирует, что квантор по $x$ не перехватывает $t$.
+]
+
 Отсюда два сокращения.
 У замкнутого терма переменных нет, поэтому пишут $llbracket t rrbracket^cal(I)$.
 У замкнутой формулы свободных переменных нет, поэтому пишут $cal(I) models A$.
@@ -881,7 +895,7 @@ $
 ]
 
 #example[Общезначима, выполнима, невыполнима][
-  Формула $forall x . thin P(x) -> exists x . thin P(x)$ общезначима: домен непуст, поэтому если $P$ выполнена на всех элементах, то она выполнена хотя бы на одном, и посылка влечёт заключение.
+  Формула $(forall x . thin P(x)) -> (exists x . thin P(x))$ общезначима: домен непуст, поэтому если $P$ выполнена на всех элементах, то она выполнена хотя бы на одном, и посылка влечёт заключение.
   Формула $forall x . thin P(x)$ выполнима, но не общезначима: на домене ${a}$ с $P^cal(I) = {a}$ она истинна, а на том же домене с $P^cal(I) = emptyset$ ложна.
   Формула $forall x . thin (P(x) and not P(x))$ невыполнима: домен непуст, конъюнкция ложна на каждом его элементе, и модели у формулы нет.
 ]
@@ -977,10 +991,12 @@ _Полнота_ (completeness) --- обратное: если $Gamma models phi
   Значение замкнутого терма в этой интерпретации --- его класс: $llbracket t rrbracket^cal(I) = [t]$, что проверяется индукцией по терму.
 
   *Лемма об истинности.*
-  Докажем индукцией по построению замкнутой формулы $psi$, что
+  Докажем индукцией по числу логических символов замкнутой формулы $psi$, что
   $
     cal(I) models psi quad <=> quad psi in T^*.
   $
+  Зафиксируем оценку $nu$.
+  Для замкнутой формулы истинность от неё не зависит по лемме о совпадении.
 
   Для атома $P(t_1, ..., t_n)$ это определение интерпретации.
   Для равенства $t = s$: $cal(I) models t = s$ тогда и только тогда, когда $[t] = [s]$, то есть $T^* proves t = s$, а по дедуктивной замкнутости --- $t = s in T^*$.
@@ -1001,7 +1017,8 @@ _Полнота_ (completeness) --- обратное: если $Gamma models phi
   По индукции это даёт $cal(I) models psi$ и $cal(I) nmodels chi$, то есть $cal(I) nmodels psi -> chi$.
 
   Для $forall x . thin psi(x)$: если $forall x . thin psi(x) in T^*$, то для любого замкнутого терма $t$ универсальное устранение и замкнутость дают $psi(t) in T^*$, и по индукции $cal(I) models psi(t)$.
-  Значит, $cal(I) models forall x . thin psi(x)$.
+  По лемме о подстановке $cal(I) models psi(t)$ даёт $cal(I), nu[x := [t]] models psi$ для любого $t$.
+  Каждый элемент домена имеет вид $[t]$, поэтому $cal(I) models forall x . thin psi(x)$.
   Обратно: если $forall x . thin psi(x) in.not T^*$, то $not forall x . thin psi(x) in T^*$, а с ним и $exists x . thin not psi(x)$.
   Аксиома свидетеля даёт $not psi(c) in T^*$ для некоторой константы $c$, и по индукции $cal(I) nmodels psi(c)$.
   Значит, $cal(I) nmodels forall x . thin psi(x)$.

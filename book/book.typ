@@ -142,8 +142,8 @@
 #include "chapters/m33-modal.typ"
 #include "chapters/m34-intuitionism.typ"
 #include "chapters/m35-fuzzy-sets.typ"
-#include "conclusion.typ"
 #include "chapters/m36-categories.typ"
+#include "conclusion.typ"
 
 // --- Приложение: словарь обозначений ---
 #include "appendix-notation.typ"
