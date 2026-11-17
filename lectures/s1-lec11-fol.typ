@@ -4,12 +4,16 @@
   consequence-ghost, normal-forms-ghost, syllogism-ghost,
   syntax-semantics-ghost,
 )
-#import "@preview/frederic:0.1.0": fitch-premise, fitch-proof, fitch-step
+#import "@preview/frederic:0.1.0": (
+  fitch-assume, fitch-premise, fitch-proof, fitch-step, fitch-subproof,
+)
 #import "diagrams/m03.typ": (
   euler-barbara, euler-celarent, euler-darii, judgment-circles, parse-tree,
   square-of-opposition,
 )
 #let premise-label = [Посылка]
+#let assumption-label = [Допущение]
+#let fitch-left(..args) = align(left, fitch-proof(..args))
 
 #let rule-card(name, rule, condition) = block(
   width: 100%,
@@ -350,6 +354,68 @@ $A$ общезначима тогда и только тогда, когда $no
     $a$ в $D$ не входит.
   ]],
 )
+
+== Введение $forall$
+
+Докажем $forall x . thin (P(x) imply P(x))$ без посылок.
+
+#fitch-left(
+  fitch-subproof(
+    fitch-assume(1, $P(a)$, rule: assumption-label),
+    fitch-step(2, $P(a)$, rule: [R 1]),
+  ),
+  fitch-step(3, $P(a) imply P(a)$, rule: [$imply$I 1-2]),
+  fitch-step(4, $forall x . thin (P(x) imply P(x))$, rule: [$forall$I 3]),
+)
+
+Строка 4 вводит $forall$.
+Допущение $P(a)$ уже снято, поэтому $a$ не входит в открытые гипотезы.
+
+== Удаление $forall$
+
+Из $forall x . thin (P(x) imply Q(x))$ и $P(3)$ выведем $Q(3)$.
+
+#fitch-left(
+  fitch-premise(1, $forall x . thin (P(x) imply Q(x))$, rule: premise-label),
+  fitch-premise(2, $P(3)$, rule: premise-label),
+  fitch-step(3, $P(3) imply Q(3)$, rule: [$forall$E 1]),
+  fitch-step(4, $Q(3)$, rule: [$imply$E 3, 2]),
+)
+
+Строка 3 удаляет $forall$.
+Подстановка $x := 3$ свободна.
+Строка 4 применяет модус поненс.
+
+== Введение $exists$
+
+Из $P(3)$ выведем $exists x . thin (P(x) or Q(x))$.
+
+#fitch-left(
+  fitch-premise(1, $P(3)$, rule: premise-label),
+  fitch-step(2, $P(3) or Q(3)$, rule: [$or$I 1]),
+  fitch-step(3, $exists x . thin (P(x) or Q(x))$, rule: [$exists$I 2]),
+)
+
+Строка 3 вводит $exists$.
+Свидетель --- $3$, и подстановка свободна.
+
+== Удаление $exists$
+
+Из $exists x . thin P(x)$ и $forall x . thin (P(x) imply D)$ выведем $D$.
+
+#fitch-left(
+  fitch-premise(1, $exists x . thin P(x)$, rule: premise-label),
+  fitch-premise(2, $forall x . thin (P(x) imply D)$, rule: premise-label),
+  fitch-subproof(
+    fitch-assume(3, $P(a)$, rule: assumption-label),
+    fitch-step(4, $P(a) imply D$, rule: [$forall$E 2]),
+    fitch-step(5, $D$, rule: [$imply$E 4, 3]),
+  ),
+  fitch-step(6, $D$, rule: [$exists$E 1, 3-5]),
+)
+
+Строка 6 удаляет $exists$.
+Свидетель $a$ временный, в $D$ он не входит.
 
 == Вывод с кванторами
 
