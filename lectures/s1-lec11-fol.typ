@@ -491,40 +491,20 @@ $phi$ общезначима тогда и только тогда, когда $
 
 Свежесть параметра нужна для $forall$I и $exists$E, свобода замены --- для $forall$E и $exists$I.
 
-== Правила в действии
+== Введение $forall$
 
-Каждое правило работает на одном шаге.
+Докажем $forall x . thin (P(x) imply P(x))$ без посылок.
 
 #grid(
   columns: (1fr, 1fr),
   column-gutter: 0.8em,
-  row-gutter: 0.8em,
-  [#example[Введение $forall$][
-    $ frac(P(a) imply P(a), forall x . thin (P(x) imply P(x))) $
-
-    Допущение $P(a)$ снято, $a$ свободно.
-  ]],
-  [#example[Удаление $forall$][
-    $ frac(forall x . thin (P(x) imply P(x)), P(3) imply P(3)) $
-
-    Подстановка $x := 3$ свободна.
-  ]],
-  [#example[Введение $exists$][
-    $ frac(P(3), exists x . thin P(x)) $
-
-    Свидетель $3$.
-  ]],
-  [#example[Удаление $exists$][
-    $ frac(exists x . thin P(x) quad (P(a) tack.r D), D) $
-
-    Из $forall x . thin (P(x) imply D)$ и $P(a)$ получаем $D$.
-    $a$ в $D$ не входит.
-  ]],
+  rule-card[$forall$I][$
+    frac(phi(a), forall x . thin phi(x))
+  $][$a$ --- свежий параметр.],
+  rule-card[Подстановка][$
+    frac(P(a) imply P(a), forall x . thin (P(x) imply P(x)))
+  $][$phi(x) := P(x) imply P(x)$.],
 )
-
-== Введение $forall$
-
-Докажем $forall x . thin (P(x) imply P(x))$ без посылок.
 
 #fitch-left(
   fitch-subproof(
@@ -542,6 +522,17 @@ $phi$ общезначима тогда и только тогда, когда $
 
 Из $forall x . thin (P(x) imply Q(x))$ и $P(3)$ выведем $Q(3)$.
 
+#grid(
+  columns: (1fr, 1fr),
+  column-gutter: 0.8em,
+  rule-card[$forall$E][$
+    frac(forall x . thin phi(x), phi(t))
+  $][Терм $t$ подставляется свободно.],
+  rule-card[Подстановка][$
+    frac(forall x . thin (P(x) imply Q(x)), P(3) imply Q(3))
+  $][$x := 3$.],
+)
+
 #fitch-left(
   fitch-premise(1, $forall x . thin (P(x) imply Q(x))$, rule: premise-label),
   fitch-premise(2, $P(3)$, rule: premise-label),
@@ -557,6 +548,17 @@ $phi$ общезначима тогда и только тогда, когда $
 
 Из $P(3)$ выведем $exists x . thin (P(x) or Q(x))$.
 
+#grid(
+  columns: (1fr, 1fr),
+  column-gutter: 0.8em,
+  rule-card[$exists$I][$
+    frac(phi(t), exists x . thin phi(x))
+  $][Терм $t$ подставляется свободно.],
+  rule-card[Подстановка][$
+    frac(P(3), exists x . thin (P(x) or Q(x)))
+  $][$phi(x) := P(x) or Q(x)$, $t := 3$.],
+)
+
 #fitch-left(
   fitch-premise(1, $P(3)$, rule: premise-label),
   fitch-step(2, $P(3) or Q(3)$, rule: [$or$I 1]),
@@ -570,36 +572,28 @@ $phi$ общезначима тогда и только тогда, когда $
 
 Из $exists x . thin P(x)$ и $forall x . thin (P(x) imply D)$ выведем $D$.
 
-#fitch-left(
-  fitch-premise(1, $exists x . thin P(x)$, rule: premise-label),
-  fitch-premise(2, $forall x . thin (P(x) imply D)$, rule: premise-label),
-  fitch-subproof(
-    fitch-assume(3, $P(a)$, rule: assumption-label),
-    fitch-step(4, $P(a) imply D$, rule: [$forall$E 2]),
-    fitch-step(5, $D$, rule: [$imply$E 4, 3]),
-  ),
-  fitch-step(6, $D$, rule: [$exists$E 1, 3-5]),
+#grid(
+  columns: (1fr, 1fr),
+  column-gutter: 0.8em,
+  rule-card[$exists$E][$
+    frac(exists x . thin phi(x) quad phi(a) tack.r C, C)
+  $][$a$ свежий, в $C$ не входит.],
+  rule-card[Подстановка][$
+    frac(exists x . thin P(x) quad P(a) tack.r D, D)
+  $][$phi(x) := P(x)$, $C := D$.],
 )
 
-Строка 6 удаляет $exists$.
-Свидетель $a$ временный, в $D$ он не входит.
-
-== Вывод с кванторами
-
-#example[
-  Даны посылки "каждый студент курса сдал экзамен" и "Марла учится на курсе".
-  Выведем, что Марла сдала экзамен.
-
-  #fitch-proof(
-    fitch-premise(1, $forall x . thin (S(x) imply P(x))$, rule: premise-label),
-    fitch-premise(2, $S("Марла")$, rule: premise-label),
-    fitch-step(3, $S("Марла") imply P("Марла")$, rule: [$forall$E 1]),
-    fitch-step(4, $P("Марла")$, rule: [$imply$E 3, 2]),
+#text(0.9em)[
+  #fitch-left(
+    fitch-premise(1, $exists x . thin P(x)$, rule: premise-label),
+    fitch-premise(2, $forall x . thin (P(x) imply D)$, rule: premise-label),
+    fitch-subproof(
+      fitch-assume(3, $P(a)$, rule: assumption-label),
+      fitch-step(4, $P(a) imply D$, rule: [$forall$E 2]),
+      fitch-step(5, $D$, rule: [$imply$E 4, 3]),
+    ),
+    fitch-step(6, $D$, rule: [$exists$E 1, 3-5]),
   )
-
-  Строка 3 --- устранение квантора, имя Марлы встало на место $x$.
-  Строку 2 нельзя обобщить до $forall x . thin S(x)$.
-  Имя Марлы встречается в открытой посылке, а $forall$I требует свежего $a$.
 ]
 
 == Силлогистика
