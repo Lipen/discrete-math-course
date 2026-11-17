@@ -42,8 +42,8 @@
     euler-set("I-S", (x - 0.4, 0), 0.65, warm, warm.transparentize(72%))
     euler-set("I-P", (x + 0.5, 0), 0.65, cool, cool.transparentize(72%))
     witness((x + 0.05, 0))
-    mark((x - 0.95, 0.42), $S$)
-    mark((x + 1.05, 0.42), $P$)
+    mark((x - 0.5, 0.22), $S$)
+    mark((x + 0.6, -0.22), $P$)
     mark((x, -1.55), [*$I$*])
   }
   let pair-o(x) = {
