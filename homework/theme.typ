@@ -199,6 +199,21 @@
   #heading(level: 2)[#title]
 ]
 
+// ── Ярлыки правил вывода: буква I или E прямая и без пробела ──
+#let rule-label(sym, letter) = math.class("normal", sym) + math.upright(letter)
+#let andIntro = rule-label($and$, "I")
+#let andElim = rule-label($and$, "E")
+#let orIntro = rule-label($or$, "I")
+#let orElim = rule-label($or$, "E")
+#let notIntro = rule-label($not$, "I")
+#let notElim = rule-label($not$, "E")
+#let implIntro = rule-label($->$, "I")
+#let implElim = rule-label($->$, "E")
+#let forallIntro = rule-label($forall$, "I")
+#let forallElim = rule-label($forall$, "E")
+#let existsIntro = rule-label($exists$, "I")
+#let existsElim = rule-label($exists$, "E")
+
 // ── Цветовые помощники и логические ярлыки ──
 #let Green(x) = text(green.darken(20%), x)
 #let Red(x) = text(red.darken(20%), x)
