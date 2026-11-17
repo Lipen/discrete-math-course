@@ -28,15 +28,18 @@
   #text(size: 0.82em, fill: colors.muted)[#condition]
 ]
 
-#let syllogism(p1, p2, conclusion) = table(
-  columns: 1,
-  inset: 5pt,
-  stroke: none,
-  align: center,
-  p1,
-  p2,
-  table.hline(stroke: 0.8pt),
-  conclusion,
+#let syllogism(p1, p2, conclusion) = block(
+  width: 100%,
+  table(
+    columns: (1fr,),
+    inset: 5pt,
+    stroke: none,
+    align: center,
+    p1,
+    p2,
+    table.hline(stroke: 0.8pt),
+    conclusion,
+  ),
 )
 
 #show: slides.with(
@@ -456,10 +459,12 @@ $A$ общезначима тогда и только тогда, когда $no
 
 == Barbara
 
+Модус $A A A$ первой фигуры.
+
 #grid(
   columns: (1fr, auto),
   column-gutter: 1.6em,
-  align: (left, center),
+  align: (center, center),
   syllogism(
     [Все $M$ суть $P$.],
     [Все $S$ суть $M$.],
@@ -468,10 +473,30 @@ $A$ общезначима тогда и только тогда, когда $no
   euler-barbara,
 )
 
-Фиксируем $a$ и предполагаем $S(a)$.
-Двумя применениями $forall E$ получаем $S(a) imply M(a)$ и $M(a) imply P(a)$.
-Двумя применениями $imply E$ получаем $P(a)$.
-$imply I$ снимает предположение, а $forall I$ обобщает.
+Круг $S$ лежит внутри $M$, а $M$ внутри $P$, поэтому $S$ лежит внутри $P$.
+
+== Доказательство Barbara
+
+Докажем $forall x . thin (S(x) imply P(x))$ из двух посылок.
+
+#text(0.8em)[
+  #fitch-left(
+    fitch-premise(1, $forall x . thin (M(x) imply P(x))$, rule: premise-label),
+    fitch-premise(2, $forall x . thin (S(x) imply M(x))$, rule: premise-label),
+    fitch-subproof(
+      fitch-assume(3, $S(a)$, rule: assumption-label),
+      fitch-step(4, $S(a) imply M(a)$, rule: [$forall$E 2]),
+      fitch-step(5, $M(a)$, rule: [$imply$E 4, 3]),
+      fitch-step(6, $M(a) imply P(a)$, rule: [$forall$E 1]),
+      fitch-step(7, $P(a)$, rule: [$imply$E 6, 5]),
+    ),
+    fitch-step(8, $S(a) imply P(a)$, rule: [$imply$I 3-7]),
+    fitch-step(9, $forall x . thin (S(x) imply P(x))$, rule: [$forall$I 8]),
+  )
+]
+
+Строка 9 обобщает.
+Допущение $S(a)$ снято, и $a$ не входит в открытые гипотезы.
 
 == Пустой субъект
 
@@ -1212,7 +1237,7 @@ $A$ истинно и $O$ ложно, $E$ истинно и $I$ ложно, а �
 #grid(
   columns: (1fr, auto),
   column-gutter: 1.6em,
-  align: (left, center),
+  align: (center, center),
   syllogism(
     [Все $M$ суть $P$.],
     [Все $S$ суть $M$.],
@@ -1237,7 +1262,7 @@ $A$ истинно и $O$ ложно, $E$ истинно и $I$ ложно, а �
 #grid(
   columns: (1fr, auto),
   column-gutter: 1.6em,
-  align: (left, center),
+  align: (center, center),
   syllogism(
     [Ни одно $M$ не есть $P$.],
     [Все $S$ суть $M$.],
@@ -1262,7 +1287,7 @@ $A$ истинно и $O$ ложно, $E$ истинно и $I$ ложно, а �
 #grid(
   columns: (1fr, auto),
   column-gutter: 1.6em,
-  align: (left, center),
+  align: (center, center),
   syllogism(
     [Все $M$ суть $P$.],
     [Некоторые $S$ суть $M$.],
