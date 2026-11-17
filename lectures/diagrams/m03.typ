@@ -117,6 +117,7 @@
   link((0, 3.02), (0, 2.65))
   link((-0.2, 2.22), (-2.25, 1.78))
   link((0.2, 2.22), (2.0, 1.78))
+  link((-2.4, 1.32), (-2.4, 0.98))
   link((2.1, 1.32), (2.1, 0.98))
   link((1.9, 0.56), (0.9, 0.18))
   link((2.35, 0.56), (3.3, 0.18))
@@ -124,11 +125,12 @@
 
   node((0, 3.3), $forall x$, tone: warm)
   node((0, 2.45), $->$, tone: warm)
-  node((-2.4, 1.6), $P (x)$, tone: cool)
+  node((-2.4, 1.6), $P(x)$, tone: cool)
+  node((-2.4, 0.8), $x$, tone: cool)
   node((2.1, 1.6), $exists y$, tone: warm)
-  node((2.1, 0.8), $Q (x, f (y))$, tone: cool)
+  node((2.1, 0.8), $Q(x, f(y))$, tone: cool)
   node((0.8, 0.0), $x$, tone: cool)
-  node((3.4, 0.0), $f (y)$, tone: cool)
+  node((3.4, 0.0), $f(y)$, tone: cool)
   node((3.4, -0.8), $y$, tone: cool)
 
   mark(
@@ -159,14 +161,21 @@
     mark(pos, [*#name*])
   }
 
-  let link(from, to, arrow: false, dashed: false) = {
+  let link(
+    from,
+    to,
+    arrow: false,
+    dashed: false,
+    start: "center",
+    end: "center",
+  ) = {
     let st = if dashed {
       edge-soft
     } else {
       (paint: ink, thickness: 0.8pt, cap: "round")
     }
     let mk = if arrow { (end: (symbol: "stealth", fill: ink)) } else { none }
-    draw.line(from, to, stroke: st, mark: mk)
+    draw.line(from + "." + start, to + "." + end, stroke: st, mark: mk)
   }
 
   canvas({
@@ -175,12 +184,12 @@
     corner((-xh, -yh), "I", warm)
     corner((xh, -yh), "O", warm)
 
-    link("A", "E")
-    link("I", "O")
-    link("A", "I", arrow: true)
-    link("E", "O", arrow: true)
-    link("A", "O", dashed: true)
-    link("E", "I", dashed: true)
+    link("A", "E", start: "east", end: "west")
+    link("I", "O", start: "east", end: "west")
+    link("A", "I", arrow: true, start: "south", end: "north")
+    link("E", "O", arrow: true, start: "south", end: "north")
+    link("A", "O", dashed: true, start: "south-east", end: "north-west")
+    link("E", "I", dashed: true, start: "south-west", end: "north-east")
 
     // Подписи стоят вне линий: сверху, снизу и сбоку от вертикалей.
     draw.content((0, yh + box + 0.3), text(fill: ink)[контрарность])
