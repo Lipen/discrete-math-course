@@ -332,11 +332,11 @@
         )
       } else { [] },
     )
-    #v(0.5em)
+    #v(0.5em, weak: true)
     #grid(
       columns: (6em, 1fr),
       column-gutter: 1em,
-      row-gutter: 0.8em,
+      row-gutter: 1em,
       align: (right + top, left + top),
       ..items.flatten(),
     )
