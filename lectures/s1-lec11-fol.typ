@@ -555,7 +555,7 @@ $phi$ общезначима тогда и только тогда, когда $
     frac(phi(t), exists x . thin phi(x))
   $][Терм $t$ подставляется свободно.],
   rule-card[Подстановка][$
-    frac(P(3), exists x . thin (P(x) or Q(x)))
+    frac(P(3) or Q(3), exists x . thin (P(x) or Q(x)))
   $][$phi(x) := P(x) or Q(x)$, $t := 3$.],
 )
 
