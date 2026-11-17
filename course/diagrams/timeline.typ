@@ -2,10 +2,12 @@
 #import "@preview/cetz:0.5.2": canvas, draw
 
 // ── Палитра ──
-#let c-ink = oklch(45%, 0.02, 265deg)
-#let c-mute = oklch(60%, 0.02, 265deg)
-#let c-kr = oklch(38%, 0.13, 262deg)
-#let c-tm = oklch(38%, 0.13, 320deg)
+#let c-ink = oklch(25%, 0, 0deg)
+#let c-mute = oklch(55%, 0, 0deg)
+#let c-kr = oklch(68%, 0.16, 262deg)
+#let c-tm = oklch(68%, 0.17, 320deg)
+#let c-kr-ink = oklch(45%, 0.13, 262deg)
+#let c-tm-ink = oklch(45%, 0.12, 320deg)
 
 // ── Геометрия (в единицах оси: 1 = неделя) ──
 #let g = (
@@ -15,12 +17,10 @@
   month-top: -0.8, // лента месяца
   month-bot: -1.2,
   legend-y: -1.5, // строка легенды
-  legend-x: 0.5,
-  legend-kr-r: 0.1, // кружок «контрольная»
-  legend-tm-r: 0.15, // ромб «теормин»
-  legend-gap: 0.5, // от конца слова до центра ромба
-  kr-r: 0.17, // точка контрольной
-  tm-r: 0.17, // теормина
+  legend-x: 0.5, // первая точка
+  legend-tm-x: 3.0, // вторая точка
+  legend-r: 0.1, // радиус точки легенды
+  mark-r: 0.17, // радиус точки контроля
   mark-date: 0.15, // зазор дата над точкой
   saturday: 0.25, // метка на 75% недели
   mod-bottom: 0.5, // полоса модуля
@@ -38,7 +38,7 @@
 #let month-band(i, name, x0, x1) = {
   let id = "month-" + str(i)
   let fill = if calc.even(i) {
-    c-mute.transparentize(90%)
+    c-mute.transparentize(92%)
   } else {
     c-mute.transparentize(96%)
   }
@@ -54,23 +54,12 @@
   )
 }
 
-// Точка контроля с номером внутри; имя --- для привязки даты.
+// Точка контроля: круг для КР, ромб для ТМ; общий размер.
 #let mark-point(id, kind, x) = {
   if kind == "kr" {
-    draw.circle(
-      (x, 0),
-      radius: g.kr-r,
-      fill: c-kr,
-      name: id,
-    )
+    draw.circle((x, 0), radius: g.mark-r, fill: c-kr, name: id)
   } else {
-    draw.polygon(
-      (x, 0),
-      4,
-      radius: g.tm-r,
-      fill: c-tm,
-      name: id,
-    )
+    draw.polygon((x, 0), 4, radius: g.mark-r, fill: c-tm, name: id)
   }
 }
 
@@ -82,34 +71,23 @@
   padding: 0.05,
 )
 
-// Легенда: кружок и ромб, подписи пристёгнуты к фигурам.
+// Легенда: те же фигуры, что на оси, подписи справа.
+#let legend-item(x, kind, color, label) = {
+  if kind == "kr" {
+    draw.circle((x, g.legend-y), radius: g.legend-r, fill: color)
+  } else {
+    draw.polygon((x, g.legend-y), 4, radius: g.legend-r, fill: color)
+  }
+  draw.content(
+    (x + g.legend-r + 0.1, g.legend-y),
+    text(size: 6.5pt, weight: "semibold", fill: c-ink)[#label],
+    anchor: "west",
+  )
+}
+
 #let legend() = {
-  draw.circle(
-    (g.legend-x, g.legend-y),
-    radius: g.legend-kr-r,
-    fill: c-kr,
-    name: "leg-kr",
-  )
-  draw.content(
-    "leg-kr.east",
-    text(size: 6.5pt, weight: "semibold", fill: c-ink)[контрольная],
-    anchor: "west",
-    padding: (left: 0.08),
-    name: "leg-kr-lab",
-  )
-  draw.polygon(
-    ("leg-kr-lab.east", g.legend-gap, (12, g.legend-y)),
-    4,
-    radius: g.legend-tm-r,
-    fill: c-tm,
-    name: "leg-tm",
-  )
-  draw.content(
-    "leg-tm.east",
-    text(size: 6.5pt, weight: "semibold", fill: c-ink)[теормин],
-    anchor: "west",
-    padding: (left: 0.09),
-  )
+  legend-item(g.legend-x, "kr", c-kr, [контрольная])
+  legend-item(g.legend-tm-x, "tm", c-tm, [теормин])
 }
 
 // ── Таймлайн семестра ── modules: ((первая-неделя, последняя-неделя, имя, цвет), ...); marks: ((неделя, "kr"|"tm", номер-в-семестре, дата-субботы), ...); months: ((имя, x-начало, x-конец), ...); dates: дни лекций недели, по одной записи на неделю.
@@ -155,13 +133,13 @@
     draw.rect(
       (x0, g.mod-bottom),
       (x1, g.mod-top),
-      fill: color.transparentize(92%),
+      fill: color.transparentize(88%),
       stroke: none,
     )
     draw.line(
       (x0, g.mod-top),
       (x1, g.mod-top),
-      stroke: 2pt + color,
+      stroke: 1.5pt + color,
       cap: "round",
     )
     draw.content(
@@ -173,6 +151,6 @@
   for (w, kind, n, date) in marks {
     let id = "mark-w" + str(w)
     mark-point(id, kind, w - g.saturday)
-    mark-date(id, date, if kind == "kr" { c-kr } else { c-tm })
+    mark-date(id, date, if kind == "kr" { c-kr-ink } else { c-tm-ink })
   }
 })
