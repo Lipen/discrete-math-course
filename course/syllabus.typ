@@ -23,16 +23,16 @@
 #let p-purple = purple.transparentize(90%)
 #let p-green = green.transparentize(90%)
 #let p-amber = amber.transparentize(90%)
-#let p-spring = spring.transparentize(88%)
+#let p-spring = spring.transparentize(90%)
 #let hairline = 0.6pt + accent.lighten(58%)
-#let small = 0.85em
+#let small = 0.8em
 
 // Сегмент диаграммы: тинт, верхняя полоса и вертикальный разделитель.
 #let bar-segment(
   main,
   body,
   first: false,
-  inset: (x: 0.4em, y: 0.55em),
+  inset: (x: 0.5em, y: 0.5em),
 ) = block(
   width: 100%,
   fill: main.transparentize(88%),
@@ -97,18 +97,18 @@
 
 #show heading.where(level: 1): it => block(
   width: 100%,
-  above: 2.2em,
+  above: 2.4em,
   below: 1.2em,
-  inset: (bottom: 0.55em),
+  inset: (bottom: 0.5em),
   stroke: (bottom: hairline),
 )[
   #grid(
     columns: (auto, 1fr),
-    column-gutter: 0.6em,
+    column-gutter: 0.5em,
     align: (center + horizon, left + horizon),
     box(
       fill: accent,
-      width: 0.95cm,
+      width: 1cm,
       inset: (y: 4pt),
       radius: 3pt,
       align(center, text(
@@ -123,16 +123,16 @@
 
 #show heading.where(level: 2): it => block(
   width: 100%,
-  above: 1.9em,
+  above: 1.8em,
   below: 0.8em,
-  text(fill: accent, weight: "semibold", size: 1.05em, it),
+  text(fill: accent, weight: "semibold", size: 1.2em, it),
 )
 
 #show heading.where(level: 3): it => block(
   width: 100%,
-  above: 1.25em,
+  above: 1.2em,
   below: 0.5em,
-  text(fill: ink, weight: "semibold", size: 0.95em, it),
+  text(fill: ink, weight: "semibold", size: 1em, it),
 )
 
 #show heading: set par(justify: false)
@@ -149,8 +149,8 @@
 // Карточка: цветная полоса слева, тинт, без рамки вокруг текста.
 #let card(kind: accent, title: none, body) = block(
   width: 100%,
-  above: 0.9em,
-  below: 0.9em,
+  above: 1em,
+  below: 1em,
   fill: kind.transparentize(92%),
   stroke: (
     left: 2.5pt + kind,
@@ -159,7 +159,7 @@
     right: 0.6pt + kind.lighten(78%),
   ),
   radius: 3pt,
-  inset: (x: 13pt, y: 10pt),
+  inset: (x: 12pt, y: 10pt),
   breakable: false,
 )[
   #set par(justify: false)
@@ -250,9 +250,25 @@
   if row == none { none } else { row.week }
 }
 
+#let control-pill(kind, n) = {
+  let c = if kind == "kr" { accent } else { purple }
+  let label = if kind == "kr" { "КР" } else { "ТМ" }
+  box(
+    fill: c,
+    radius: 1em,
+    inset: (x: 0.5em, y: 0.2em),
+    text(
+      size: small,
+      weight: "semibold",
+      fill: white,
+      hyphenate: false,
+    )[#label #n],
+  )
+}
+
 #let control-cell(sem, kind, n) = {
   let w = control-week(sem, kind, n)
-  [#(if kind == "kr" { "КР" } else { "ТМ" }) #n · неделя #w]
+  [#control-pill(kind, n) #text(size: small, fill: muted)[· неделя #w]]
 }
 
 #let control-marks(sem) = (
@@ -295,17 +311,17 @@
   let col = if sem == 2 { spring } else { accent }
   block(
     width: 100%,
-    above: 1.1em,
-    below: 0.9em,
+    above: 1.2em,
+    below: 1em,
     breakable: false,
   )[
     #set par(justify: false)
     #grid(
-      columns: (5.4em, 1fr, auto),
+      columns: (7em, 1fr, auto),
       column-gutter: 0.5em,
       align: (left + horizon, left + horizon, right + horizon),
       text(
-        size: 1.05em,
+        size: 1.2em,
         weight: "bold",
         fill: col,
         hyphenate: false,
@@ -317,22 +333,10 @@
         hyphenate: false,
       )[#dates],
       if ctl != none {
-        let ctl-color = if ctl.first() == "kr" { accent } else { purple }
-        let ctl-label = if ctl.first() == "kr" { "КР" } else { "ТМ" }
-        box(
-          fill: ctl-color,
-          radius: 1em,
-          inset: (x: 0.5em, y: 0.1em),
-          text(
-            size: small,
-            weight: "semibold",
-            fill: white,
-            hyphenate: false,
-          )[#ctl-label #ctl.last()],
-        )
+        control-pill(ctl.first(), ctl.last())
       } else { [] },
     )
-    #v(0.5em, weak: true)
+    #v(1em, weak: true)
     #grid(
       columns: (6em, 1fr),
       column-gutter: 1em,
@@ -342,8 +346,6 @@
     )
   ]
 }
-
-#let keep(body) = block(breakable: false, body)
 
 #let witem(lab, body, tone: muted) = (
   text(size: small, weight: "semibold", fill: tone, hyphenate: false)[#lab],
@@ -362,7 +364,7 @@
     right: 0.6pt + color.lighten(74%),
   ),
   radius: 3pt,
-  inset: (x: 11pt, y: 9pt),
+  inset: (x: 12pt, y: 10pt),
   breakable: false,
 )[
   #set par(justify: false)
@@ -371,9 +373,9 @@
     #text(weight: "bold")[#title] \
     #text(size: small, fill: muted)[#meta]
   ]
-  #v(0.55em)
+  #v(0.5em, weak: true)
   #text(hyphenate: true)[#keywords]
-  #v(0.55em)
+  #v(0.5em, weak: true)
   #text(hyphenate: true, fill: color)[#sym.arrow.r #hook]
 ]
 
@@ -400,19 +402,19 @@
   )
 ]
 
-#v(2.6cm)
+#v(2.4cm)
 #align(center)[
   #text(size: small, weight: "semibold", fill: accent)[
     УНИВЕРСИТЕТ ИТМО · 2026/27
   ]
-  #v(1.1em)
+  #v(1.2em)
   #text(size: 3em, weight: "bold", hyphenate: false)[Дискретная\ математика]
-  #v(0.7em)
-  #text(size: 1.15em, fill: muted)[Математический фундамент программиста]
+  #v(0.8em)
+  #text(size: 1.2em, fill: muted)[Математический фундамент программиста]
 ]
 #v(2em)
 #align(center)[#line(length: 4.5cm, stroke: 1.2pt + accent)]
-#v(2.2em)
+#v(2.4em)
 #grid(
   columns: (1fr, 1fr),
   column-gutter: 1em,
@@ -428,15 +430,15 @@
       c,
       [
         #set par(justify: false)
-        #text(size: 1.1em, weight: "bold", fill: c, hyphenate: false)[#verb]
-        #v(0.3em)
+        #text(size: 1.2em, weight: "bold", fill: c, hyphenate: false)[#verb]
+        #v(0.5em)
         #for (i, w) in words.enumerate() [
           #text(size: small, fill: muted, hyphenate: false)[#w]
           #if i < words.len() - 1 [\ ]
         ]
       ],
       first: first,
-      inset: (x: 0.7em, y: 0.55em),
+      inset: (x: 0.5em, y: 0.5em),
     )
     #grid(
       columns: (1fr, 1fr, 1fr, 1fr),
@@ -447,7 +449,7 @@
       zone(green, "Вычислить", ("графы", "автоматы", "машины")),
     )
   ]
-  #v(0.9em)
+  #v(1em)
   #align(center)[
     #text(
       size: small,
@@ -588,7 +590,7 @@
       #text(size: 0.8em, fill: muted, hyphenate: false)[#label]
     ],
     first: first,
-    inset: (x: 0.2em, y: 0.55em),
+    inset: (x: 0.5em, y: 0.5em),
   )
   #grid(
     columns: (60fr, 14fr, 16fr, 11fr),
@@ -1251,7 +1253,7 @@
     blue,
     p-blue,
     [Графы],
-    [лекции 1--4],
+    [лекции 1--4 · недели 1--4],
     [
       Обходы BFS и DFS, топологическая сортировка, деревья и остовы, эйлеровы и гамильтоновы циклы, двудольность и паросочетания, планарность, раскраска, кратчайшие пути, сетевые потоки.
     ],
@@ -1261,7 +1263,7 @@
     cyan,
     p-cyan,
     [Конечные автоматы],
-    [лекции 5--8],
+    [лекции 5--8 · недели 5--8],
     [
       ДКА и НКА, эпсилон-переходы, конструкция подмножеств, регулярные выражения и теорема Клини, лемма о накачке, минимизация по Майхиллу--Нероду.
     ],
@@ -1272,7 +1274,7 @@
     purple,
     p-purple,
     [Машина Тьюринга и разрешимость],
-    [лекции 9--12],
+    [лекции 9--12 · недели 9--12],
     [
       Машина Тьюринга и её программы, универсальная машина, тезис Чёрча--Тьюринга, проблема остановки, сводимость, диагональный аргумент, разрешимость и перечислимость, теорема Райса.
     ],
@@ -1282,7 +1284,7 @@
     green,
     p-green,
     [Комбинаторика],
-    [лекции 13--16],
+    [лекции 13--16 · недели 13--16],
     [
       Правила счёта, принцип Дирихле, перестановки и сочетания, биномиальные тождества, включение-исключение, рекурренции, числа Каталана, Стирлинга и Белла, производящие функции, лемма Бёрнсайда.
     ],
