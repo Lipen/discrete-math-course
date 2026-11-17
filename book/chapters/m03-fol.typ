@@ -1059,8 +1059,8 @@ _Полнота_ (completeness) --- обратное: если $Gamma models phi
 Компактность и построение модели по термам вместе отвечают на вопрос, о котором язык умалчивает: какого размера бывают модели одной и той же теории.
 
 #corollary[Лёвенгейм --- Сколем#footnote[
-    L. Löwenheim. "Über Möglichkeiten im Relativkalkül". Mathematische Annalen, 1915.
-    T. Skolem. "Logisch-kombinatorische Untersuchungen über die Erfüllbarkeit oder Beweisbarkeit mathematischer Sätze". Videnskapsselskapets Skrifter, 1920.
+    L. Löwenheim. "Über Möglichkeiten im Relativkalkül". Mathematische Annalen, 1915;
+    T. Skolem. "Logisch-kombinatorische Untersuchungen über die Erfüllbarkeit oder Beweisbarkeit mathematischer Sätze". Videnskapsselskapets Skrifter, 1920;
     Восходящая часть добавлена А. Мальцевым: A. Malcev. "Untersuchungen aus dem Gebiete der mathematischen Logik". Mathematische Annalen, 1936.
   ]][
   Пусть $T$ --- теория в счётном языке, имеющая бесконечную модель.
@@ -1072,7 +1072,11 @@ _Полнота_ (completeness) --- обратное: если $Gamma models phi
   Докажем части по отдельности: нисходящую --- устройством модели из доказательства полноты, восходящую --- компактностью.
 
   *Нисходящая часть.* Доменом модели, построенной при доказательстве полноты, служат классы эквивалентности термов по доказуемому равенству.
-  Термов в счётном языке счётно много, поэтому и модель выходит счётной.
+  Термов в счётном языке счётно много, поэтому терм-модель не более чем счётна.
+  Чтобы исключить конечную модель, добавим к языку счётный набор новых констант $c_n$ и аксиомы $c_n != c_m$ для всех $n != m$.
+  Бесконечная модель $T$ размещает эти константы попарно различно, поэтому расширенная теория выполнима.
+  Её терм-модель не более чем счётна, а попарная различность констант делает её бесконечной.
+  Значит, эта модель счётна.
   Ничто в этой конструкции не требует запаса объектов, большего запаса имён: модель подстраивается под то, о чём язык способен спросить.
 
   *Восходящая часть.* Чтобы получить модель мощности $kappa$, добавим в язык $kappa$ новых констант $c_alpha$ и аксиомы $c_alpha != c_beta$ для всех различных пар.
@@ -1129,7 +1133,7 @@ _Полнота_ (completeness) --- обратное: если $Gamma models phi
   Алгебра $L_T$ нетривиальна.
   Теорема Расевы --- Сикорского о представлении полиадических алгебр даёт максимальный фильтр $U$, согласованный с операциями $E_x$.
   В канонической модели это согласование обеспечивает кванторные случаи леммы об истинности.#footnote[
-    H. Rasiowa, R. Sikorski. "The Mathematics of Metamathematics". PWN, 1963. C. C. Chang, H. J. Keisler. "Model Theory". North-Holland, 1973.
+    H. Rasiowa, R. Sikorski. "The Mathematics of Metamathematics". PWN, 1963; C. C. Chang, H. J. Keisler. "Model Theory". North-Holland, 1973.
   ]
 
   Выберем $U$ так, чтобы он содержал классы всех формул $T$.
