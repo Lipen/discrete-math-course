@@ -469,12 +469,10 @@
     Для остальных приведите одну правку, меняющую значение формулы.
 
 
-  + #block(breakable: false)[
-      Найдите конечную модель или докажите, что её нет:
-      $
-        {forall x exists y . thin S(x, y), quad forall x forall y . thin (S(x, y) -> S(y, x)), quad exists x . thin not S(x, x)}
-      $
-    ]
+  + Найдите конечную модель или докажите, что её нет:
+    $
+      {forall x exists y . thin S(x, y), quad forall x forall y . thin (S(x, y) -> S(y, x)), quad exists x . thin not S(x, x)}
+    $
 
   + В своде записаны четыре правила об узлах станции, где $I(x)$ означает "узел $x$ исправен", $K(x)$ --- "узел $x$ калиброван".
     "Или" понимается как включающая дизъюнкция.
