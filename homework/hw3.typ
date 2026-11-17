@@ -45,7 +45,7 @@
   set par(justify: false)
   set text(size: 0.9em)
   place(
-    left + horizon,
+    left + top,
     dx: -1em,
     box(
       radius: 50%,
