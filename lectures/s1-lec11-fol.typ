@@ -1639,9 +1639,9 @@ $A$ истинно и $O$ ложно, $E$ истинно и $I$ ложно, а �
   Свидетель один на всех, зависимости нет, поэтому остаётся константа.
   $ forall x . thin L(x, c) $
 
-  $forall x exists y forall z exists w . thin S(x, y, z, w)$.
+  $forall x exists y forall z exists w . thin U(x, y, z, w)$.
   Две зависимости, у второй два аргумента.
-  $ forall x forall z . thin S(x, f(x), z, g(x, z)) $
+  $ forall x forall z . thin U(x, f(x), z, g(x, z)) $
 ]
 
 == Универсальная форма
