@@ -319,6 +319,37 @@ $A$ общезначима тогда и только тогда, когда $no
 
 Свежесть имени требуется для $forall I$ и $exists E$, свобода подстановки --- для $forall E$ и $exists I$.
 
+== Правила в действии
+
+Каждое правило работает на одном шаге.
+
+#grid(
+  columns: (1fr, 1fr),
+  column-gutter: 0.8em,
+  row-gutter: 0.8em,
+  [#example[Введение $forall$][
+    $ frac(P(a) imply P(a), forall x . thin (P(x) imply P(x))) $
+
+    Допущение $P(a)$ снято, $a$ свободно.
+  ]],
+  [#example[Удаление $forall$][
+    $ frac(forall x . thin (P(x) imply P(x)), P(3) imply P(3)) $
+
+    Подстановка $x := 3$ свободна.
+  ]],
+  [#example[Введение $exists$][
+    $ frac(P(3), exists x . thin P(x)) $
+
+    Свидетель $3$.
+  ]],
+  [#example[Удаление $exists$][
+    $ frac(exists x . thin P(x) quad (P(a) tack.r D), D) $
+
+    Из $forall x . thin (P(x) imply D)$ и $P(a)$ получаем $D$.
+    $a$ в $D$ не входит.
+  ]],
+)
+
 == Вывод с кванторами
 
 #example[
