@@ -322,7 +322,7 @@
         box(
           fill: ctl-color,
           radius: 1em,
-          inset: (x: 0.55em, y: 0.13em),
+          inset: (x: 0.5em, y: 0.1em),
           text(
             size: small,
             weight: "semibold",
@@ -332,11 +332,11 @@
         )
       } else { [] },
     )
-    #v(0.35em)
+    #v(0.5em)
     #grid(
       columns: (6em, 1fr),
       column-gutter: 1em,
-      row-gutter: 0.65em,
+      row-gutter: 0.8em,
       align: (right + top, left + top),
       ..items.flatten(),
     )
