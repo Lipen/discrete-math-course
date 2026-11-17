@@ -812,7 +812,9 @@ $S_5$ --- стандартная логика знания: агент полн�
 $
   square (square p -> p) -> square p.
 $
-Она полна относительно конечных транзитивных иррефлексивных фреймов.
+Она полна относительно конечных транзитивных иррефлексивных фреймов.#footnote[
+  K. Segerberg. "An Essay in Classical Modal Logic". Filosofiska Studier, 1971.
+]
 Пусть
 $
   Gamma = {diamond^n top mid(|) n in NN}.
