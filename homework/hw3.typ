@@ -196,8 +196,8 @@
       Постройте выводы, указывая правило на каждом шаге.
 
       + $proves A -> (B -> (A and B))$
-      + $P or Q, quad not P proves Q$
-      + $P -> R, quad Q -> R, quad P or Q proves R$
+      + $P or Q, quad not P quad proves quad Q$
+      + $P -> R, quad Q -> R, quad P or Q quad proves quad R$
     ]
 
     Какие из трёх выводов обходятся без классических правил?
