@@ -597,6 +597,56 @@ $phi$ общезначима тогда и только тогда, когда $
   Справа $exists x . thin S(x)$ истинна, поэтому импликация тоже ложна.
 ]
 
+== Интерпретатор формул
+
+#text(0.85em)[
+  ```rust
+  type Env<'a> = Vec<(&'a str, &'a str)>;
+  const D: [&str; 3] = ["a", "b", "c"];
+  const E: [(&str, &str); 3] = [("a", "b"), ("b", "c"), ("c", "a")];
+  enum F<'a> {
+      Edge(&'a str, &'a str),
+      And(&'a F<'a>, &'a F<'a>),
+      Exists(&'a str, &'a F<'a>),
+      Forall(&'a str, &'a F<'a>),
+  }
+  fn ev<'a>(f: &F<'a>, s: &Env<'a>) -> bool {
+      let v = |x: &'a str| s.iter().rev().find(|(k, _)| *k == x).map_or(x, |(_, d)| *d);
+      let sub = |x: &'a str, d: &'a str| { let mut t = s.clone(); t.push((x, d)); t };
+      match f {
+          F::Edge(x, y) => E.contains(&(v(x), v(y))),
+          F::And(p, q) => ev(p, s) && ev(q, s),
+          F::Exists(x, p) => D.iter().any(|&d| ev(p, &sub(x, d))),
+          F::Forall(x, p) => D.iter().all(|&d| ev(p, &sub(x, d))),
+      }
+  }
+  ```
+]
+
+== Кванторы как свёртка
+
+$exists$ --- `any`, $forall$ --- `all`, свёртка домена с остановкой на первом свидетеле.
+
+#example[Те же свёртки отдельными функциями][
+  #text(0.8em)[
+    ```rust
+    fn exists<'a>(x: &'a str, p: &F<'a>, s: &Env<'a>) -> bool {
+        D.iter().any(|&d| { let mut t = s.clone(); t.push((x, d)); ev(p, &t) })
+    }
+    fn forall<'a>(x: &'a str, p: &F<'a>, s: &Env<'a>) -> bool {
+        D.iter().all(|&d| { let mut t = s.clone(); t.push((x, d)); ev(p, &t) })
+    }
+    ```
+  ]
+]
+
+#example[Трасса для $forall x exists y . thin E(x, y)$][
+  Домен $D = {a, b, c}$, рёбра $E = {(a, b), (b, c), (c, a)}$.
+
+  Для $x = a$ свидетель $b$, для $x = b$ --- $c$, для $x = c$ --- $a$.
+  Все три проверки истинны, поэтому формула истинна в этой интерпретации.
+]
+
 = Метатеория
 #focus-slide(
   ghost: consequence-ghost,
