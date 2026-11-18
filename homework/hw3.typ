@@ -44,16 +44,13 @@
 #let syllogism(num, premise-a, premise-b, conclusion) = block(breakable: false, {
   set par(justify: false)
   set text(size: 0.9em)
-  place(
-    left + top,
-    dx: -1em,
-    box(
-      radius: 50%,
-      inset: (x: 0.42em, y: 0.12em),
-      stroke: 0.6pt + luma(60%),
-      text(size: 0.85em, fill: luma(45%))[#num],
-    ),
-  )
+  align(center, box(
+    radius: 3.5pt,
+    inset: (x: 0.6em, y: 0.42em),
+    stroke: 0.6pt + luma(60%),
+    text(size: 0.85em, fill: luma(45%))[#num],
+  ))
+  v(0.4em, weak: true)
   table(
     columns: (auto,),
     align: left,
@@ -363,9 +360,9 @@
   #block(breakable: false)[
     Из свода уцелели три максимы.
 
-    #pad(left: 11pt, grid(
+    #grid(
       columns: (auto, auto, auto),
-      column-gutter: 1.2em,
+      column-gutter: 1.4em,
       syllogism(
         [(а)],
         [Все зонды --- сканеры.],
@@ -384,7 +381,7 @@
         [Все реле стары.],
         [Некоторые старые --- годны.],
       ),
-    ))
+    )
   ]
 ]
 
