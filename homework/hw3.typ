@@ -207,14 +207,13 @@
       #fitch-proof(
         fitch-subproof(
           fitch-assume(1, $A$, rule: [Допущение]),
-          fitch-step(2, $A or B$, rule: [$or$I 1]),
+          fitch-subproof(
+            fitch-assume(2, $B$, rule: [Допущение]),
+            fitch-step(3, $A$, rule: [R 1]),
+          ),
+          fitch-step(4, $B -> A$, rule: [$->$I 1-3]),
         ),
-        fitch-step(3, $A -> (A or B)$, rule: [$->$I 1-2]),
-        fitch-subproof(
-          fitch-assume(4, $A$, rule: [Допущение]),
-          fitch-step(5, $A or B$, rule: [R 2]),
-        ),
-        fitch-step(6, $A -> (A or B)$, rule: [$->$I 4-5]),
+        fitch-step(5, $A -> (B -> A)$, rule: [$->$I 1-4]),
       )
     ]
 
