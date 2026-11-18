@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Лаборатории · первый семестр</title>
+<link rel="stylesheet" href="lab.css">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+</head>
+<body class="hub-page">
+<header class="hub-hero">
+  <div>
+    <p class="eyebrow">Дискретная математика · осень 2026</p>
+    <h1>Стенд на весь первый семестр</h1>
+    <p class="lead">
+      Шестнадцать лекций, восемнадцать интерактивных лабораторий.
+      Каждая страница это модель: меняйте данные, смотрите, как перестраивается структура, и проверяйте утверждения на конкретных примерах.
+    </p>
+    <div class="hub-actions">
+      <a class="btn btn-primary" href="statements.html">Начать с лекции 01</a>
+      <a class="btn" href="#map">Карта семестра</a>
+      <a class="btn hidden" id="continue-link" href="#">Продолжить</a>
+    </div>
+    <div class="hub-stats" style="margin-top:30px">
+      <div class="hub-stat"><b>16</b><span>лекций</span></div>
+      <div class="hub-stat"><b>18</b><span>лабораторий</span></div>
+      <div class="hub-stat"><b>5</b><span>модулей</span></div>
+    </div>
+  </div>
+</header>
+
+<main class="lab-main">
+  <section class="card" id="map">
+    <div class="section-head">
+      <div>
+        <h2>Карта семестра</h2>
+        <p>Шестнадцать лекций по порядку. Цвет означает модуль, число внутри это номер лекции.</p>
+      </div>
+    </div>
+    <div class="semester-map" id="semester-map"></div>
+  </section>
+
+  <section id="labs" style="margin-top:26px">
+    <div class="section-head">
+      <div>
+        <h2>Лаборатории по модулям</h2>
+        <p>Одна лекция может открывать две лаборатории. Начните с той, которая ближе к текущей теме.</p>
+      </div>
+      <div class="filters" id="filters"></div>
+    </div>
+    <div id="module-list"></div>
+  </section>
+</main>
+
+<footer class="footer">
+  Лаборатории первого семестра. Дискретная математика, 2026/27.
+</footer>
+
+<script src="catalog.js"></script>
+<script src="lab-site.js"></script>
+<script>
+(function () {
+  "use strict";
+  const catalog = window.LAB_CATALOG;
+  const mapNode = document.getElementById("semester-map");
+  const listNode = document.getElementById("module-list");
+  const filtersNode = document.getElementById("filters");
+
+  function moduleVars(module) {
+    return "--m:" + module.accent + ";--m-soft:" + module.soft;
+  }
+
+  for (const lecture of catalog.lectures) {
+    const moduleInfo = catalog.moduleOf(lecture.module);
+    const lab = catalog.byId.get(lecture.labs[0]);
+    if (!lab) continue;
+    const node = document.createElement("a");
+    node.className = "lecture-node";
+    node.href = lab.file;
+    node.style.cssText = moduleVars(moduleInfo);
+    node.title = lecture.title + " · " + lecture.week;
+    const count = lecture.labs.length > 1 ? lecture.labs.length + " лабы" : "лаборатория";
+    node.innerHTML = `
+      <span class="dot"></span>
+      <span class="num">${String(lecture.num).padStart(2, "0")}</span>
+      <span class="ttl">${lecture.title}</span>
+      <span class="labs">${count}</span>
+    `;
+    mapNode.appendChild(node);
+  }
+
+  for (const moduleInfo of catalog.modules) {
+    const block = document.createElement("section");
+    block.className = "module-block";
+    block.dataset.module = moduleInfo.id;
+    block.style.cssText = moduleVars(moduleInfo);
+    block.innerHTML = `
+      <div class="module-head">
+        <div>
+          <h3>${moduleInfo.name}</h3>
+          <p>${moduleInfo.blurb}</p>
+        </div>
+      </div>
+      <div class="module-grid"></div>
+    `;
+    const grid = block.querySelector(".module-grid");
+    for (const lecture of catalog.lecturesOf(moduleInfo.id)) {
+      for (const labId of lecture.labs) {
+        const lab = catalog.byId.get(labId);
+        if (!lab) continue;
+        const card = document.createElement("a");
+        card.className = "lab-card";
+        card.href = lab.file;
+        card.style.cssText = moduleVars(moduleInfo);
+        card.innerHTML = `
+          <div class="mark">${lab.mark}</div>
+          <span class="lecture">Лекция ${String(lecture.num).padStart(2, "0")} · ${lecture.week}</span>
+          <h2>${lab.title}</h2>
+          <p>${lab.blurb}</p>
+          <div class="tags">${lab.tags.map((tag) => `<span class="tag">${tag}</span>`).join("")}</div>
+          <span class="go">Открыть →</span>
+        `;
+        grid.appendChild(card);
+      }
+    }
+    listNode.appendChild(block);
+  }
+
+  const allButton = document.createElement("button");
+  allButton.className = "filter active";
+  allButton.type = "button";
+  allButton.textContent = "Все";
+  allButton.dataset.module = "all";
+  filtersNode.appendChild(allButton);
+  for (const moduleInfo of catalog.modules) {
+    const button = document.createElement("button");
+    button.className = "filter";
+    button.type = "button";
+    button.dataset.module = moduleInfo.id;
+    button.textContent = moduleInfo.short;
+    filtersNode.appendChild(button);
+  }
+
+  filtersNode.addEventListener("click", (event) => {
+    const button = event.target.closest(".filter");
+    if (!button) return;
+    for (const item of filtersNode.querySelectorAll(".filter")) item.classList.toggle("active", item === button);
+    const wanted = button.dataset.module;
+    for (const block of listNode.querySelectorAll(".module-block")) {
+      block.classList.toggle("is-hidden", wanted !== "all" && block.dataset.module !== wanted);
+    }
+  });
+
+  try {
+    const seen = new Set(JSON.parse(localStorage.getItem("dm-lab-visited-v1") || "[]"));
+    const last = catalog.labs.filter((lab) => seen.has(lab.id)).pop();
+    if (last) {
+      const link = document.getElementById("continue-link");
+      link.href = last.file;
+      link.textContent = "Продолжить: " + last.title;
+      link.classList.remove("hidden");
+    }
+  } catch (error) {
+    /* no saved progress */
+  }
+})();
+</script>
+</body>
+</html>

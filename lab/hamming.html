@@ -3,18 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Хэмминг (7,4) · стенд</title>
+<title>Хэмминг (7,4) · лаборатория</title>
 <link rel="stylesheet" href="lab.css">
 <link rel="stylesheet" href="vendor/katex/katex.min.css">
 </head>
 <body>
 <header class="lab-header">
   <nav class="lab-nav">
-    <a href="index.html">← Все стенды</a>
+    <a href="index.html">← Все лаборатории</a>
     <span class="sep">/</span>
     <span class="here">Коды Хэмминга</span>
   </nav>
-  <p class="eyebrow">Стенд 06 · лекция 15</p>
+  <p class="eyebrow">Лекция 15 · 15–16 декабря</p>
   <h1>Синдром знает позицию</h1>
   <p class="lead">
     Соберите кодовое слово из четырёх информационных битов.
@@ -41,16 +41,25 @@
       <div>
         <h3>Кодовое слово</h3>
         <div class="anf" id="formulas"></div>
-        <p class="hint">Проверочные биты стоят на позициях 1, 2, 4; информационные на 3, 5, 6, 7.</p>
 
-        <div class="bit-row" id="c-row" style="margin-top:8px"></div>
-        <div class="bit-row" id="r-row" style="margin-top:8px"></div>
-        <div class="bit-row" id="fix-row" style="margin-top:8px"></div>
-        <p class="hint">
-          Верхняя строка это переданное слово c.
-          Средняя это принятое r, клик по позиции переворачивает бит.
-          Нижняя это слово после декодера.
-        </p>
+        <div class="word-table">
+          <div class="word-row head">
+            <span class="word-label"></span>
+            <div class="word-cells" id="word-head"></div>
+          </div>
+          <div class="word-row">
+            <span class="word-label"><span class="lname" data-tex="c"></span><small>передано</small></span>
+            <div class="word-cells" id="c-row"></div>
+          </div>
+          <div class="word-row received">
+            <span class="word-label"><span class="lname" data-tex="r"></span><small>принято · клик</small></span>
+            <div class="word-cells" id="r-row"></div>
+          </div>
+          <div class="word-row">
+            <span class="word-label"><span class="lname" data-tex="\hat c"></span><small>после декодера</small></span>
+            <div class="word-cells" id="fix-row"></div>
+          </div>
+        </div>
       </div>
       <div>
         <h3>Синдром</h3>
@@ -103,10 +112,12 @@
   </section>
 </main>
 
-<footer class="footer">Стенд 06 · код Хэмминга (7,4), синдром и исправление одной ошибки.</footer>
+<footer class="footer">Лаборатория 15 · код Хэмминга (7,4), синдром и исправление одной ошибки.</footer>
 <script src="vendor/katex/katex.min.js"></script>
 <script src="lab-core.js"></script>
 <script src="lab-math.js"></script>
+<script src="catalog.js"></script>
+<script src="lab-site.js"></script>
 <script>
 (function () {
   "use strict";
@@ -120,6 +131,7 @@
   const cRow = $("#c-row");
   const rRow = $("#r-row");
   const fixRow = $("#fix-row");
+  const wordHead = $("#word-head");
   const syndromeBits = $("#syndrome-bits");
   const syndromeStatus = $("#syndrome-status");
   const dataResult = $("#data-result");
@@ -166,11 +178,17 @@
     const role = roleOf(pos);
     const cell = el("div", {
       class: "pos " + role.cls + (options.error ? " error" : "") + (options.corrected ? " corrected" : ""),
-      title: options.title || "",
+      title: options.title || role.label,
     });
-    cell.appendChild(el("div", { class: "pnum", text: "поз. " + pos }));
     cell.appendChild(el("div", { class: "pbit", text: String(bit) }));
-    cell.appendChild(el("div", { class: "prole", text: role.label }));
+    return cell;
+  }
+
+  function headCell(pos) {
+    const role = roleOf(pos);
+    const cell = el("div", { class: "pos head " + role.cls });
+    cell.appendChild(el("span", { class: "pnum", text: String(pos) }));
+    cell.appendChild(el("span", { class: "prole", text: role.label }));
     return cell;
   }
 
@@ -199,6 +217,8 @@
   }
 
   function renderWords(c, r, fix, s, actualErrors) {
+    clear(wordHead);
+    for (let pos = 1; pos <= 7; pos++) wordHead.appendChild(headCell(pos));
     clear(cRow);
     clear(rRow);
     clear(fixRow);

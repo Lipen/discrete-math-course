@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Натуральная дедукция · лаборатория</title>
+<link rel="stylesheet" href="lab.css">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+</head>
+<body>
+<header class="lab-header">
+  <nav class="lab-nav">
+    <a href="index.html">← Все лаборатории</a>
+    <span class="sep">/</span>
+    <span class="here">Натуральная дедукция</span>
+  </nav>
+  <p class="eyebrow">Лекция 10 · 10–11 ноября</p>
+  <h1>Соберите вывод в стиле Фитча</h1>
+  <p class="lead">
+    Посылки и цель фиксированы.
+    Добавляйте строки, выбирайте правило и ссылайтесь на предыдущие номера.
+    Стенд проверяет каждую строку и следит за глубиной подвывода.
+  </p>
+  <div class="lab-meta">
+    <span class="pill info">Фитч</span>
+    <span class="pill">правила</span>
+    <span class="pill">подвывод</span>
+  </div>
+</header>
+
+<main class="lab-main">
+  <section class="card">
+    <div class="toolbar">
+      <label class="field grow">Упражнение
+        <select id="exercise"></select>
+      </label>
+    </div>
+    <div class="formula-box" id="goal"></div>
+
+    <div class="proof-table-wrap" style="margin-top:14px">
+      <table class="proof-table" id="proof"></table>
+    </div>
+    <div class="status" id="status" style="margin-top:10px"></div>
+    <div class="btn-row" style="margin-top:8px">
+      <button id="check" class="active">Проверить</button>
+      <button id="undo">Удалить последнюю</button>
+      <button id="reset">Сброс</button>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Добавить строку</h2>
+    <div class="toolbar">
+      <label class="field">Глубина
+        <select id="depth">
+          <option value="0">0 · основной</option>
+          <option value="1">1 · подвывод</option>
+          <option value="2">2 · вложенный</option>
+        </select>
+      </label>
+      <label class="field grow">Формула
+        <input id="formula" class="formula-input" placeholder="например, A → B" spellcheck="false" autocomplete="off">
+      </label>
+      <label class="field">Правило
+        <select id="rule"></select>
+      </label>
+      <label class="field">Ссылки
+        <input id="refs" class="formula-input" placeholder="1,2 или 3-5" style="width:130px" spellcheck="false" autocomplete="off">
+      </label>
+      <button id="add" class="active">Добавить</button>
+    </div>
+    <p class="hint">
+      Для <b>→I</b>, <b>¬I</b> и <b>RAA</b> в ссылках указывается диапазон подвывода, например <span class="kbd">3-5</span>.
+      Допущение открывает подвывод, его глубина на единицу больше глубины вывода.
+      В этой версии поддержаны <b>∧I/E</b>, <b>∨I</b>, <b>→I/E</b>, <b>¬I/E</b>, <b>⊥E</b>, <b>↔E</b> и <b>RAA</b>.
+      <b>∨E</b> и <b>↔I</b> требуют двух подвыводов и оставлены для письменной работы.
+    </p>
+  </section>
+
+  <section class="card">
+    <h2>Что здесь показано</h2>
+    <div class="theory-grid">
+      <div>
+        <h3>Введение и устранение</h3>
+        <p>Каждая связка имеет правила введения и устранения.
+        Например, <span data-tex="\land I"></span> собирает конъюнкцию, а <span data-tex="\land E"></span> достаёт из неё часть.</p>
+      </div>
+      <div>
+        <h3>Подвывод</h3>
+        <p>Допущение открывает подвывод.
+        Стрелка вводится, когда из допущения <span data-tex="\varphi"></span> получено <span data-tex="\psi"></span>.</p>
+      </div>
+      <div>
+        <h3>Отрицание</h3>
+        <p>Противоречие <span data-tex="\bot"></span> закрывает ветку.
+        Из противоречия можно вывести что угодно, а из допущения, ведущего к противоречию, получается отрицание.</p>
+      </div>
+      <div>
+        <h3>Проверка</h3>
+        <p>Стенд проверяет каждую добавленную строку по схеме правила.
+        Цель достигнута, когда на глубине 0 появилась её формула.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">Лаборатория 10 · натуральная дедукция и проверка вывода.</footer>
+
+<script src="vendor/katex/katex.min.js"></script>
+<script src="lab-core.js"></script>
+<script src="lab-math.js"></script>
+<script src="logic.js"></script>
+<script src="catalog.js"></script>
+<script src="lab-site.js"></script>
+<script>
+(function () {
+  "use strict";
+  const { $, el, clear } = Lab;
+
+  const exercises = [
+    { title: "modus ponens", premises: ["A → B", "A"], goal: "B" },
+    { title: "конъюнкция", premises: ["A ∧ B"], goal: "B ∧ A" },
+    { title: "тождество", premises: [], goal: "A → A" },
+    { title: "modus tollens", premises: ["A → B", "¬B"], goal: "¬A" },
+    { title: "дизъюнкция", premises: ["A"], goal: "A ∨ B" },
+    { title: "цепочка", premises: ["A → B", "B → C"], goal: "A → C" },
+    { title: "RAA", premises: ["¬A → B", "¬A → ¬B"], goal: "A" },
+  ];
+
+  const rules = [
+    { id: "assumption", label: "допущение" },
+    { id: "reiterate", label: "повтор" },
+    { id: "andi", label: "∧I" },
+    { id: "ande", label: "∧E" },
+    { id: "ori", label: "∨I" },
+    { id: "implE", label: "→E" },
+    { id: "implI", label: "→I" },
+    { id: "notE", label: "¬E" },
+    { id: "notI", label: "¬I" },
+    { id: "botE", label: "⊥E" },
+    { id: "iffE", label: "↔E" },
+    { id: "raa", label: "RAA" },
+  ];
+
+  let current = null;
+  let lines = [];
+
+  const exerciseSelect = $("#exercise");
+  const goalNode = $("#goal");
+  const proofNode = $("#proof");
+  const statusNode = $("#status");
+  const depthSelect = $("#depth");
+  const formulaInput = $("#formula");
+  const ruleSelect = $("#rule");
+  const refsInput = $("#refs");
+
+  exercises.forEach((exercise, index) => exerciseSelect.appendChild(el("option", { value: String(index), text: exercise.title + "   ⊢ " + exercise.goal })));
+  rules.forEach((rule) => ruleSelect.appendChild(el("option", { value: rule.id, text: rule.label })));
+
+  function parse(text) {
+    return Logic.parse(text);
+  }
+
+  function same(a, b) {
+    return JSON.stringify(a) === JSON.stringify(b);
+  }
+
+  function lineAst(line) {
+    return line.ast;
+  }
+
+  function texOf(line) {
+    return Logic.toTex(line.ast);
+  }
+
+  function renderGoal() {
+    const parts = current.premises.map((text) => Logic.toTex(parse(text)));
+    goalNode.replaceChildren(Lab.math((parts.length ? parts.join(",\\; ") + "\\;\\vdash\\; " : "\\vdash\\; ") + Logic.toTex(parse(current.goal)), false));
+  }
+
+  function renderProof(marks) {
+    clear(proofNode);
+    const head = el("tr");
+    head.appendChild(el("th", { text: "#" }));
+    head.appendChild(el("th", { text: "формула" }));
+    head.appendChild(el("th", { text: "правило" }));
+    head.appendChild(el("th", { text: "ссылки" }));
+    const thead = el("thead");
+    thead.appendChild(head);
+    proofNode.appendChild(thead);
+    const body = el("tbody");
+    lines.forEach((line, index) => {
+      const tr = el("tr", { class: line.rule === "assumption" ? "assumption" : "" });
+      tr.appendChild(el("td", { class: "num", text: String(index + 1) }));
+      const formulaCell = el("td", { style: "padding-left:" + (10 + line.depth * 18) + "px" });
+      formulaCell.appendChild(Lab.math(texOf(line), false));
+      tr.appendChild(formulaCell);
+      const ruleLabel = line.rule === "premise" ? "посылка" : (rules.find((rule) => rule.id === line.rule)?.label || line.rule);
+      tr.appendChild(el("td", { text: ruleLabel }));
+      tr.appendChild(el("td", { class: "mono", text: line.refsText || "" }));
+      if (marks && marks[index] === false) tr.classList.add("invalid");
+      body.appendChild(tr);
+    });
+    proofNode.appendChild(body);
+  }
+
+  function expandRefs(text) {
+    const out = [];
+    for (const token of String(text || "").split(",").map((item) => item.trim()).filter(Boolean)) {
+      if (token.includes("-")) {
+        const [a, b] = token.split("-").map(Number);
+        if (!Number.isInteger(a) || !Number.isInteger(b) || a > b || a < 1) throw new Error("Плохой диапазон ссылок: " + token);
+        for (let i = a; i <= b; i++) out.push(i);
+      } else {
+        const value = Number(token);
+        if (!Number.isInteger(value) || value < 1) throw new Error("Плохая ссылка: " + token);
+        out.push(value);
+      }
+    }
+    return out;
+  }
+
+  function parseRefs(text, count) {
+    const out = expandRefs(text);
+    if (out.length !== count) throw new Error("Нужно ссылок: " + count + ".");
+    return out;
+  }
+
+  function validate(candidate, previous) {
+    const ast = parse(candidate.formula);
+    const depth = Number(candidate.depth);
+    const refsText = candidate.refsText || "";
+    if (candidate.rule === "assumption") {
+      if (refsText.trim()) throw new Error("У допущения не бывает ссылок.");
+      if (depth < 1) throw new Error("Допущение должно быть в подвыводе, глубина хотя бы 1.");
+      return { ast };
+    }
+    if (candidate.rule === "reiterate") {
+      const [ref] = parseRefs(refsText, 1);
+      if (ref > previous.length) throw new Error("Ссылка на несуществующую строку.");
+      if (depth < previous[ref - 1].depth) throw new Error("Повтор нельзя вынести из подвывода.");
+      if (!same(lineAst(previous[ref - 1]), ast)) throw new Error("Повтор должен совпадать с указанной формулой.");
+      return { ast };
+    }
+    if (candidate.rule === "andi") {
+      const [a, b] = parseRefs(refsText, 2);
+      const left = previous[a - 1], right = previous[b - 1];
+      if (!left || !right) throw new Error("Ссылка на несуществующую строку.");
+      if (!same(ast, { type: "and", a: left.ast, b: right.ast })) throw new Error("Заключение должно быть конъюнкцией указанных формул.");
+      return { ast };
+    }
+    if (candidate.rule === "ande") {
+      const [ref] = parseRefs(refsText, 1);
+      const source = previous[ref - 1];
+      if (!source || source.ast.type !== "and") throw new Error("Нужна ссылка на конъюнкцию.");
+      if (!same(ast, source.ast.a) && !same(ast, source.ast.b)) throw new Error("Из конъюнкции выводится только её часть.");
+      return { ast };
+    }
+    if (candidate.rule === "ori") {
+      const [ref] = parseRefs(refsText, 1);
+      const source = previous[ref - 1];
+      if (!source) throw new Error("Ссылка на несуществующую строку.");
+      const ok = ast.type === "or" && (same(source.ast, ast.a) || same(source.ast, ast.b));
+      if (!ok) throw new Error("Заключение должно быть дизъюнкцией с указанной формулой.");
+      return { ast };
+    }
+    if (candidate.rule === "implE") {
+      const [a, b] = parseRefs(refsText, 2);
+      const one = previous[a - 1], two = previous[b - 1];
+      if (!one || !two) throw new Error("Ссылка на несуществующую строку.");
+      let impl = null, antecedent = null;
+      if (one.ast.type === "impl" && same(two.ast, one.ast.a)) { impl = one.ast; antecedent = two.ast; }
+      if (two.ast.type === "impl" && same(one.ast, two.ast.a)) { impl = two.ast; antecedent = one.ast; }
+      if (!impl) throw new Error("Нужны импликация и её посылка.");
+      if (!same(ast, impl.b)) throw new Error("Заключение должно быть следствием импликации.");
+      return { ast };
+    }
+    if (candidate.rule === "notE") {
+      const [a, b] = parseRefs(refsText, 2);
+      const one = previous[a - 1], two = previous[b - 1];
+      if (!one || !two) throw new Error("Ссылка на несуществующую строку.");
+      const contradiction = ast.type === "const" && ast.value === false;
+      if (!contradiction) throw new Error("¬E даёт ⊥.");
+      const neg = one.ast.type === "not" ? one.ast : (two.ast.type === "not" ? two.ast : null);
+      const other = neg === (one.ast) ? two.ast : one.ast;
+      if (!neg || !same(neg.a, other)) throw new Error("Нужны формула и её отрицание.");
+      return { ast };
+    }
+    if (candidate.rule === "botE") {
+      const [ref] = parseRefs(refsText, 1);
+      const source = previous[ref - 1];
+      if (!source || source.ast.type !== "const" || source.ast.value !== false) throw new Error("⊥E требует ⊥.");
+      return { ast };
+    }
+    if (candidate.rule === "iffE") {
+      const [ref] = parseRefs(refsText, 1);
+      const source = previous[ref - 1];
+      if (!source || source.ast.type !== "iff") throw new Error("↔E требует ссылку на эквивалентность.");
+      const ok = ast.type === "impl" && ((same(ast.a, source.ast.a) && same(ast.b, source.ast.b)) || (same(ast.a, source.ast.b) && same(ast.b, source.ast.a)));
+      if (!ok) throw new Error("Из φ↔ψ выводится φ→ψ или ψ→φ.");
+      return { ast };
+    }
+    if (candidate.rule === "implI" || candidate.rule === "notI" || candidate.rule === "raa") {
+      const refs = expandRefs(refsText);
+      if (!refs.length) throw new Error("Укажите диапазон подвывода, например 3-5.");
+      const firstRef = refs[0];
+      const lastRef = refs[refs.length - 1];
+      if (firstRef > lastRef) throw new Error("Диапазон ссылок перевёрнут.");
+      const start = previous[firstRef - 1];
+      const end = previous[lastRef - 1];
+      if (!start || !end) throw new Error("Ссылка на несуществующую строку.");
+      if (start.rule !== "assumption") throw new Error("Подвывод должен начинаться с допущения.");
+      if (start.depth !== depth + 1 || end.depth !== depth + 1) throw new Error("Глубина подвывода не совпадает.");
+      for (let i = firstRef; i <= lastRef; i++) {
+        if (!previous[i - 1] || previous[i - 1].depth < depth + 1) throw new Error("Подвывод выходит за свою глубину.");
+      }
+      if (candidate.rule === "implI") {
+        if (ast.type !== "impl" || !same(ast.a, start.ast) || !same(ast.b, end.ast)) throw new Error("→I: из допущения φ и вывода ψ получается φ → ψ.");
+      } else if (candidate.rule === "notI") {
+        if (ast.type !== "not" || !same(ast.a, start.ast)) throw new Error("¬I: из допущения φ и ⊥ получается ¬φ.");
+        if (end.ast.type !== "const" || end.ast.value !== false) throw new Error("¬I требует ⊥ в конце подвывода.");
+      } else {
+        if (start.ast.type !== "not" || !same(start.ast.a, ast)) throw new Error("RAA: из допущения ¬φ и ⊥ получается φ.");
+        if (end.ast.type !== "const" || end.ast.value !== false) throw new Error("RAA требует ⊥ в конце подвывода.");
+      }
+      return { ast };
+    }
+    throw new Error("Неизвестное правило.");
+  }
+
+  function addLine() {
+    if (!current) return;
+    const candidate = {
+      formula: formulaInput.value,
+      rule: ruleSelect.value,
+      refsText: refsInput.value,
+      depth: Number(depthSelect.value),
+    };
+    if (!candidate.formula.trim()) {
+      Lab.status(statusNode, "Введите формулу.", "bad");
+      return;
+    }
+    try {
+      const { ast } = validate(candidate, lines);
+      lines.push({ ast, formula: candidate.formula, rule: candidate.rule, refsText: candidate.refsText, depth: candidate.depth });
+      formulaInput.value = "";
+      refsInput.value = "";
+      renderProof();
+      checkProof();
+    } catch (error) {
+      Lab.status(statusNode, error.message, "bad");
+    }
+  }
+
+  function checkProof() {
+    const goalAst = parse(current.goal);
+    const reached = lines.some((line) => line.depth === 0 && same(line.ast, goalAst));
+    renderProof();
+    Lab.status(statusNode, reached
+      ? "Цель достигнута: нужная формула выведена на глубине 0."
+      : "Цель пока не достигнута. Строк в выводе: " + lines.length + ".", reached ? "ok" : "warn");
+  }
+
+  function loadExercise() {
+    current = exercises[Number(exerciseSelect.value)];
+    lines = current.premises.map((text) => ({
+      ast: parse(text), formula: text, rule: "premise", refsText: "", depth: 0,
+    }));
+    formulaInput.value = "";
+    refsInput.value = "";
+    depthSelect.value = "0";
+    ruleSelect.value = "implE";
+    renderGoal();
+    renderProof();
+    checkProof();
+  }
+
+  ruleSelect.addEventListener("change", () => {
+    if (ruleSelect.value === "assumption" && depthSelect.value === "0") depthSelect.value = "1";
+    if (["implI", "notI", "raa"].includes(ruleSelect.value)) depthSelect.value = "0";
+  });
+
+  exerciseSelect.addEventListener("change", loadExercise);
+  $("#add").addEventListener("click", addLine);
+  formulaInput.addEventListener("keydown", (event) => { if (event.key === "Enter") addLine(); });
+  $("#check").addEventListener("click", checkProof);
+  $("#undo").addEventListener("click", () => {
+    if (lines.length <= current.premises.length) return;
+    lines.pop();
+    renderProof();
+    checkProof();
+  });
+  $("#reset").addEventListener("click", loadExercise);
+
+  loadExercise();
+})();
+</script>
+</body>
+</html>

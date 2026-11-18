@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Счётность и бесконечность · лаборатория</title>
+<link rel="stylesheet" href="lab.css">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+</head>
+<body>
+<header class="lab-header">
+  <nav class="lab-nav">
+    <a href="index.html">← Все лаборатории</a>
+    <span class="sep">/</span>
+    <span class="here">Счётность и бесконечность</span>
+  </nav>
+  <p class="eyebrow">Лекция 07 · 20–21 октября</p>
+  <h1>Бесконечность, которую можно пересчитать</h1>
+  <p class="lead">
+    Отель Гильберта, целые числа, пары натуральных и диагональ Кантора.
+    Четыре модели показывают, где биекция находится, а где её принципиально не может быть.
+  </p>
+  <div class="lab-meta">
+    <span class="pill info">биекция</span>
+    <span class="pill">N × N</span>
+    <span class="pill">диагональ</span>
+  </div>
+</header>
+
+<main class="lab-main">
+  <section class="card">
+    <div class="tabs" id="tabs">
+      <button data-tab="hotel" class="active">Отель</button>
+      <button data-tab="integers">Целые</button>
+      <button data-tab="pairs">Пары</button>
+      <button data-tab="diagonal">Диагональ</button>
+    </div>
+
+    <div class="tab-panel" id="tab-hotel">
+      <div class="split-wide-left">
+        <div>
+          <h3>Отель Гильберта</h3>
+          <p class="hint">Все комнаты заняты. Новый гость всё равно помещается: каждый жилец переезжает на одну комнату дальше.</p>
+          <div class="btn-row">
+            <button id="hotel-shift" class="active">Поселить ещё одного</button>
+            <button id="hotel-reset">Сброс</button>
+          </div>
+          <div id="hotel-rooms" style="margin-top:14px"></div>
+          <div class="formula-box" id="hotel-formula" style="margin-top:12px"></div>
+          <div class="status" id="hotel-status" style="margin-top:8px"></div>
+        </div>
+        <div>
+          <h3>Почему это работает</h3>
+          <p>Отображение <span data-tex="n \mapsto n+1"></span> сдвигает всех жильцов и освобождает комнату 1.</p>
+          <p>Это инъекция из натуральных в натуральные, но не сюръекция: комната 1 остаётся свободной.</p>
+          <p>Для нового гостя этого достаточно. Для бесконечной группы понадобится сдвиг на бесконечность, например <span data-tex="n \mapsto 2n"></span>.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-panel hidden" id="tab-integers">
+      <div class="split-wide-left">
+        <div>
+          <h3>Целые числа</h3>
+          <p class="hint">Натуральные и целые равномощны: каждому целому можно выдать натуральный номер.</p>
+          <div class="btn-row">
+            <button id="integers-add" class="active">Добавить пару</button>
+            <button id="integers-reset">Сброс</button>
+          </div>
+          <div id="integers-list" style="margin-top:14px"></div>
+        </div>
+        <div>
+          <h3>Формула</h3>
+          <div class="formula-box" id="integers-formula"></div>
+          <p class="hint">Чётные номера дают отрицательные числа, нечётные положительные. Ноль стоит отдельно.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-panel hidden" id="tab-pairs">
+      <div class="split-wide-left">
+        <div>
+          <h3>Пары натуральных</h3>
+          <p class="hint">Клик по клетке показывает номер пары и её диагональ. Диагональ это фиксированная сумма i+j.</p>
+          <div class="tt-wrap" id="pairs-table"></div>
+        </div>
+        <div>
+          <h3>Номер пары</h3>
+          <div class="formula-box" id="pairs-formula"></div>
+          <div class="status" id="pairs-status" style="margin-top:8px"></div>
+          <p class="hint">Диагонали конечны, поэтому их можно обходить по очереди. Каждая пара получит конечный номер.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-panel hidden" id="tab-diagonal">
+      <div class="split-wide-left">
+        <div>
+          <h3>Диагональ Кантора</h3>
+          <p class="hint">Строки это гипотетический список всех двоичных последовательностей. Диагональ даёт новую последовательность.</p>
+          <div class="btn-row">
+            <button id="diagonal-random" class="active">Пересчитать таблицу</button>
+          </div>
+          <div class="tt-wrap" id="diagonal-table" style="margin-top:12px"></div>
+        </div>
+        <div>
+          <h3>Почему новой строки нет в списке</h3>
+          <div class="formula-box" id="diagonal-formula"></div>
+          <div class="status" id="diagonal-status" style="margin-top:8px"></div>
+          <p class="hint">Строка d отличается от строки i хотя бы в позиции i. Значит она не равна ни одной строке списка.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Что здесь показано</h2>
+    <div class="theory-grid">
+      <div>
+        <h3>Равномощность</h3>
+        <p>Два множества равномощны, если между ними есть биекция.
+        Для бесконечных множеств это определение, а не количество элементов.</p>
+      </div>
+      <div>
+        <h3>Счётность</h3>
+        <p>Множество счётно, если его можно занумеровать натуральными.
+        Целые и пары натуральных счётны: формулы дают конкретную нумерацию.</p>
+      </div>
+      <div>
+        <h3>Диагональ</h3>
+        <p>Кантор строит последовательность, которой нет в предложенном списке.
+        Поэтому множество всех двоичных последовательностей несчётно.</p>
+      </div>
+      <div>
+        <h3>Иерархия</h3>
+        <p>Мощность множества подмножеств строго больше мощности исходного множества.
+        Так появляются разные бесконечности.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">Лаборатория 07 · счётность, нумерации и диагональ Кантора.</footer>
+
+<script src="vendor/katex/katex.min.js"></script>
+<script src="lab-core.js"></script>
+<script src="lab-math.js"></script>
+<script src="catalog.js"></script>
+<script src="lab-site.js"></script>
+<script>
+(function () {
+  "use strict";
+  const { $, el, clear } = Lab;
+
+  let hotelShifted = false;
+  let integerSteps = 10;
+  let selectedPair = null;
+  let diagonalTable = [];
+
+  const tabs = $("#tabs");
+  const hotelRooms = $("#hotel-rooms");
+  const hotelFormula = $("#hotel-formula");
+  const hotelStatus = $("#hotel-status");
+  const integersList = $("#integers-list");
+  const integersFormula = $("#integers-formula");
+  const pairsTable = $("#pairs-table");
+  const pairsFormula = $("#pairs-formula");
+  const pairsStatus = $("#pairs-status");
+  const diagonalTableNode = $("#diagonal-table");
+  const diagonalFormula = $("#diagonal-formula");
+  const diagonalStatus = $("#diagonal-status");
+
+  function showTab(name) {
+    for (const button of tabs.querySelectorAll("button")) button.classList.toggle("active", button.dataset.tab === name);
+    for (const panel of document.querySelectorAll(".tab-panel")) panel.classList.toggle("hidden", panel.id !== "tab-" + name);
+  }
+
+  tabs.addEventListener("click", (event) => {
+    const button = event.target.closest("button[data-tab]");
+    if (button) showTab(button.dataset.tab);
+  });
+
+  function renderHotel() {
+    clear(hotelRooms);
+    const strip = el("div", { class: "room-strip" });
+    for (let room = 1; room <= 8; room++) {
+      const guest = hotelShifted ? (room === 1 ? "новый" : "гость " + (room - 1)) : "гость " + room;
+      strip.appendChild(el("div", { class: "room" + (room === 1 && hotelShifted ? " new" : "") }, [
+        el("span", { class: "room-num", text: "комната " + room }),
+        el("span", { class: "room-guest", text: guest }),
+      ]));
+    }
+    strip.appendChild(el("div", { class: "room ellipsis", text: "…" }));
+    hotelRooms.appendChild(strip);
+    hotelFormula.replaceChildren(Lab.math("g(n) = n + 1", false));
+    Lab.status(hotelStatus, hotelShifted
+      ? "Новый гость в комнате 1. Гость 8 переехал в комнату 9, окно сдвинулось."
+      : "Все комнаты заняты. Нажмите кнопку, чтобы сдвинуть жильцов.", hotelShifted ? "ok" : "warn");
+  }
+
+  function integerOf(n) {
+    if (n === 0) return 0;
+    return n % 2 === 1 ? (n + 1) / 2 : -n / 2;
+  }
+
+  function renderIntegers() {
+    clear(integersList);
+    const wrap = el("div", { class: "seq" });
+    for (let n = 0; n <= integerSteps; n++) {
+      wrap.appendChild(el("span", { class: "seq-item" }, [
+        el("small", { text: "n=" + n }),
+        el("b", { text: String(integerOf(n)) }),
+      ]));
+    }
+    integersList.appendChild(wrap);
+    integersFormula.replaceChildren(Lab.math("f(n) = \\begin{cases} 0, & n = 0 \\\\ (n+1)/2, & n \\text{ нечётно} \\\\ -n/2, & n \\text{ чётно} \\end{cases}", true));
+  }
+
+  function pairIndex(i, j) {
+    const s = i + j;
+    return (s * (s + 1)) / 2 + j;
+  }
+
+  function renderPairs() {
+    clear(pairsTable);
+    const table = el("table", { class: "data" });
+    const head = el("tr");
+    head.appendChild(el("th", { text: "i \\ j" }));
+    for (let j = 0; j < 5; j++) head.appendChild(el("th", { text: String(j) }));
+    const thead = el("thead");
+    thead.appendChild(head);
+    table.appendChild(thead);
+    const body = el("tbody");
+    for (let i = 0; i < 5; i++) {
+      const tr = el("tr");
+      tr.appendChild(el("th", { text: String(i) }));
+      for (let j = 0; j < 5; j++) {
+        const td = el("td", { class: "mono" });
+        const button = el("button", {
+          class: "cantor-cell" + (selectedPair && selectedPair.i === i && selectedPair.j === j ? " on" : ""),
+          type: "button",
+          text: String(pairIndex(i, j)),
+        });
+        button.addEventListener("click", () => { selectedPair = { i, j }; renderPairs(); });
+        td.appendChild(button);
+        tr.appendChild(td);
+      }
+      body.appendChild(tr);
+    }
+    table.appendChild(body);
+    pairsTable.appendChild(table);
+    pairsFormula.replaceChildren(Lab.math("\\pi(i,j) = \\frac{(i+j)(i+j+1)}{2} + j", false));
+    if (selectedPair) {
+      const sum = selectedPair.i + selectedPair.j;
+      Lab.status(pairsStatus, "Пара (" + selectedPair.i + ", " + selectedPair.j + ") получает номер " + pairIndex(selectedPair.i, selectedPair.j) + ". Диагональ i+j = " + sum + ".", "ok");
+      for (const cell of pairsTable.querySelectorAll(".cantor-cell")) {
+        const index = Array.from(pairsTable.querySelectorAll(".cantor-cell")).indexOf(cell);
+        const i = Math.floor(index / 5);
+        const j = index % 5;
+        cell.classList.toggle("diag", i + j === sum);
+      }
+    } else {
+      Lab.status(pairsStatus, "Клик по клетке покажет номер пары.", "warn");
+    }
+  }
+
+  function makeDiagonal() {
+    diagonalTable = [];
+    for (let i = 0; i < 5; i++) {
+      const row = [];
+      for (let j = 0; j < 6; j++) row.push(Math.random() < 0.5 ? 0 : 1);
+      diagonalTable.push(row);
+    }
+  }
+
+  function renderDiagonal() {
+    clear(diagonalTableNode);
+    const table = el("table", { class: "data" });
+    const head = el("tr");
+    head.appendChild(el("th", { text: "строка" }));
+    for (let j = 0; j < 6; j++) head.appendChild(el("th", { text: String(j + 1) }));
+    const thead = el("thead");
+    thead.appendChild(head);
+    table.appendChild(thead);
+    const body = el("tbody");
+    for (let i = 0; i < 5; i++) {
+      const tr = el("tr");
+      tr.appendChild(el("th", { text: "s" + (i + 1) }));
+      for (let j = 0; j < 6; j++) {
+        const td = el("td", { class: "mono" + (i === j ? " diag" : ""), text: String(diagonalTable[i][j]) });
+        tr.appendChild(td);
+      }
+      body.appendChild(tr);
+    }
+    const dRow = el("tr", { class: "hl" });
+    dRow.appendChild(el("th", { text: "d" }));
+    for (let j = 0; j < 5; j++) dRow.appendChild(el("td", { class: "mono diag", text: String(1 - diagonalTable[j][j]) }));
+    dRow.appendChild(el("td", { class: "muted", text: "…" }));
+    body.appendChild(dRow);
+    table.appendChild(body);
+    diagonalTableNode.appendChild(table);
+    diagonalFormula.replaceChildren(Lab.math("d_i = 1 - b_{ii}", false));
+    Lab.status(diagonalStatus, "Строка d отличается от каждой строки списка в её диагональной позиции. Значит списка всех последовательностей нет.", "ok");
+  }
+
+  $("#hotel-shift").addEventListener("click", () => { hotelShifted = true; renderHotel(); });
+  $("#hotel-reset").addEventListener("click", () => { hotelShifted = false; renderHotel(); });
+  $("#integers-add").addEventListener("click", () => { integerSteps += 4; renderIntegers(); });
+  $("#integers-reset").addEventListener("click", () => { integerSteps = 10; renderIntegers(); });
+  $("#diagonal-random").addEventListener("click", () => { makeDiagonal(); renderDiagonal(); });
+
+  makeDiagonal();
+  renderHotel();
+  renderIntegers();
+  renderPairs();
+  renderDiagonal();
+  showTab("hotel");
+})();
+</script>
+</body>
+</html>
