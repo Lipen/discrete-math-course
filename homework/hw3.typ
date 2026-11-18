@@ -64,6 +64,28 @@
 })
 
 
+// ── Правило вывода деревом: посылки над чертой, имя справа от черты ──
+#let subtree(top, bottom) = stack(
+  spacing: 0.1em,
+  align(center, top),
+  $dots.v$,
+  align(center, bottom),
+)
+
+#let ndrule(name, top, bottom) = context {
+  let w = calc.max(measure(top).width, measure(bottom).width) + 10pt
+  grid(
+    columns: (w, auto),
+    column-gutter: 0.4em,
+    row-gutter: 0.1em,
+    align: (center + horizon, left + horizon),
+    top, [],
+    line(length: 100%, stroke: 0.55pt + luma(35%)), text(0.75em, fill: luma(40%))[#name],
+    bottom, [],
+  )
+}
+
+
 #Box[
   "Логика --- это наука о наиболее общих законах истины."
   #align(right)[--- Готлоб Фреге]
@@ -180,26 +202,49 @@
 Регулятор принимает вывод, только если каждый шаг подтверждён правилом.
 
 #Given[
-  Вывод в нотации Фитча --- колонка пронумерованных строк.
   Запись $phi_1, ..., phi_n proves psi$ означает, что $psi$ выводится из посылок $phi_i$, а запись $proves psi$ --- что $psi$ выводится без посылок.
-  Допущение открывает поддоказательство, снятие гипотезы закрывает.
+
   #block(breakable: false)[
-    #table(
-      columns: (auto, 1fr, 1fr),
-      align: left,
-      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-      table.header([*Символ*], [*Введение*], [*Устранение*]),
-      [$and$], [из $A$ и $B$ --- $A and B$], [из $A and B$ --- $A$ или $B$],
-      [$or$], [из $A$ --- $A or B$, из $B$ --- $A or B$], [из $A or B$, $A proves C$ и $B proves C$ --- $C$],
-      [$->$], [из $A proves B$ --- $A -> B$], [из $A -> B$ и $A$ --- $B$],
-      [$not$], [из $A proves bot$ --- $not A$], [из $A$ и $not A$ --- $bot$],
-      [$bot$], [---], [из $bot$ --- любая формула],
-      [R], [---], [строка из открытой области],
-    )
+    #text(size: 0.86em, grid(
+      columns: (1fr, 1fr, 1fr, 1fr),
+      column-gutter: 0.9em,
+      row-gutter: 0.7em,
+      align: center + horizon,
+      ndrule($and "I"$, $A quad B$, $A and B$),
+      ndrule($and "E"_1$, $A and B$, $A$),
+      ndrule($and "E"_2$, $A and B$, $B$),
+      ndrule($or "I"_1$, $A$, $A or B$),
+      ndrule($or "I"_2$, $B$, $A or B$),
+      ndrule($or "E"$, stack(dir: ltr, spacing: 0.5em, align(bottom, $A or B$), subtree($[A]^1$, $C$), subtree($[B]^1$, $C$)), $C$),
+      ndrule($-> "I"_1$, subtree($[A]^1$, $B$), $A -> B$),
+      ndrule($-> "E"$, $A -> B quad A$, $B$),
+      ndrule($not "I"_1$, subtree($[A]^1$, $bot$), $not A$),
+      ndrule($not "E"$, $A quad not A$, $bot$),
+      ndrule($bot "E"$, $bot$, $C$),
+      ndrule("R", $A$, $A$),
+    ))
   ]
 
-  _Классическая логика_ добавляет три равносильных принципа: IP (из $not A proves bot$ выводится $A$), DNE (из $not not A$ --- $A$) и LEM ($A or not A$ без посылок).
-  Разбор случаев по LEM --- это $or$E над $A or not A$: из $A$ и из $not A$ по отдельности выведено одно и то же $C$.
+  _Классическая логика_ добавляет три равносильных принципа.
+
+  #block(breakable: false)[
+    #text(size: 0.86em, grid(
+      columns: (1fr, 1fr, 1fr),
+      column-gutter: 0.9em,
+      row-gutter: 0.7em,
+      align: center + horizon,
+      ndrule("IP", subtree($[not A]^1$, $bot$), $A$),
+      ndrule("DNE", $not not A$, $A$),
+      grid(
+        columns: (auto, auto),
+        column-gutter: 0.4em,
+        align: horizon,
+        $A or not A$, text(0.75em, fill: luma(40%))[LEM],
+      ),
+    ))
+  ]
+
+  Разбор случаев по LEM --- это $or$E над $A or not A$.
 
   Формула _общезначима_, если истинна при всякой оценке.
 ]
@@ -219,13 +264,10 @@
 
   + Выведите $proves (A -> B) or (B -> A)$.
 
-  + #block(sticky: true)[
-      Формула $phi = (A -> (B or C)) -> ((A -> B) or (A -> C))$ верна, хотя из одной импликации в ней берётся дизъюнкция двух.
-    ]
+  + Докажите, что формула $phi = (A -> (B or C)) -> ((A -> B) or (A -> C))$ общезначима, двумя способами:
 
-    + Постройте вывод $proves phi$.
-    + Отметьте шаг, на котором тратится классическое правило.
-    + Объясните, почему ложной оценки у формулы нет.
+    + постройте вывод $proves phi$ и отметьте строку, где применено классическое правило
+    + покажите перебором оценок, что $phi$ истинна при всякой оценке
 ]
 
 
