@@ -1,15 +1,9 @@
 // s1, лекция 11 --- Логика первого порядка (неделя 16--22 ноября).
 #import "theme.typ": *
-#import "diagrams/ghosts.typ": (
-  consequence-ghost, normal-forms-ghost, syllogism-ghost,
-  syntax-semantics-ghost,
-)
-#import "@preview/frederic:0.1.0": (
-  fitch-assume, fitch-premise, fitch-proof, fitch-step, fitch-subproof,
-)
+#import "diagrams/ghosts.typ": consequence-ghost, normal-forms-ghost, syllogism-ghost, syntax-semantics-ghost
+#import "@preview/frederic:0.1.0": fitch-assume, fitch-premise, fitch-proof, fitch-step, fitch-subproof
 #import "diagrams/m03.typ": (
-  euler-barbara, euler-celarent, euler-darii, judgment-circles, parse-tree,
-  square-of-opposition,
+  euler-barbara, euler-celarent, euler-darii, judgment-circles, parse-tree, square-of-opposition,
 )
 #let premise-label = [Посылка]
 #let assumption-label = [Допущение]
@@ -109,6 +103,7 @@
 
 #example[Переменная и константа][
   В сигнатуре арифметики $0$ --- константа, а $x$ --- переменная.
+
   $0$ входит в сигнатуру, $x$ --- нет.
 ]
 
@@ -173,6 +168,7 @@
 
 #example[Одна переменная в двух ролях][
   В $P(x) and forall x . thin Q(x)$ первое вхождение $x$ свободно, второе связано.
+
   Подстановка $x := c$ даёт $P(c) and forall x . thin Q(x)$.
 ]
 
@@ -214,6 +210,7 @@
 
 #example[Проверка одной формулы][
   $forall x . thin (x <= +(x, 1))$ утверждает, что каждое число не больше следующего.
+
   Правый терм равен $x + 1$, а неравенство $x <= x + 1$ истинно при любом $x$.
 ]
 
@@ -243,8 +240,8 @@
 == Интерпретация и оценка
 
 #table(
-  columns: (auto, 1fr, 1fr),
-  align: (left, left, left),
+  columns: 3,
+  align: left,
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*Что*], [*Интерпретация*], [*Оценка*]),
   [Задаёт], [символы сигнатуры], [переменные],
@@ -364,6 +361,7 @@ $phi$ общезначима тогда и только тогда, когда $
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*Формула*], [*Общезначима*], [*Выполнима*], [*Где смотреть*]),
   [$(forall x . thin P(x)) imply exists x . thin P(x)$], [да], [да], [любой непустой домен],
+
   [$forall x . thin P(x)$], [нет], [да], [$D = {0}$, $P = D$],
   [$forall x . thin P(x) and exists x . thin not P(x)$], [нет], [нет], [противоречие],
 )
@@ -414,10 +412,10 @@ $phi$ общезначима тогда и только тогда, когда $
 #theorem[Перенос квантора][
   Если $x$ не свободна в $psi$, то
   $
-    forall x . thin (phi(x) or psi) & equiv (forall x . thin phi(x)) or psi \
+     forall x . thin (phi(x) or psi) & equiv (forall x . thin phi(x)) or psi \
     exists x . thin (phi(x) and psi) & equiv (exists x . thin phi(x)) and psi \
     forall x . thin (phi(x) and psi) & equiv (forall x . thin phi(x)) and psi \
-    exists x . thin (phi(x) or psi) & equiv (exists x . thin phi(x)) or psi
+     exists x . thin (phi(x) or psi) & equiv (exists x . thin phi(x)) or psi
   $
 ]
 
@@ -608,8 +606,11 @@ $phi$ общезначима тогда и только тогда, когда $
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*Тип*], [*Форма*], [*Имя*], [*Современная запись*]),
   [$A$], [Все $S$ суть $P$], [общеутвердительное], [$forall x . thin (S(x) imply P(x))$],
+
   [$E$], [Ни одно $S$ не есть $P$], [общеотрицательное], [$forall x . thin (S(x) imply not P(x))$],
+
   [$I$], [Некоторые $S$ суть $P$], [частноутвердительное], [$exists x . thin (S(x) and P(x))$],
+
   [$O$], [Некоторые $S$ не суть $P$], [частноотрицательное], [$exists x . thin (S(x) and not P(x))$],
 )
 
@@ -683,6 +684,7 @@ $Gamma proves phi$ означает, что $phi$ выводится из $Gamma
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*Свойство*], [*Утверждение*], [*Что означает*]),
   [Корректность], [$Gamma proves phi arrow.double.r Gamma models phi$], [вывод не доказывает ложь],
+
   [Полнота], [$Gamma models phi arrow.double.r Gamma proves phi$], [вывод находит все следствия],
 )
 
@@ -986,6 +988,7 @@ $
   table.header([*Задача*], [*Где читать*]),
   [Язык: термы, атомы, формулы], [m03, раздел "Термы и формулы"],
   [Семантика: структуры и истинность], [m03, раздел "Семантика: модели и истинность"],
+
   [Законы кванторов], [m03, раздел "Распределение и перенос кванторов"],
   [Метатеоремы], [m03, раздел "Полнота и компактность"],
   [Силлогистика], [m03, раздел "Силлогистика Аристотеля"],
@@ -1035,7 +1038,8 @@ $
 Сигнатура задаёт словарь языка, имена символов и их арности.
 
 #example[
-  Для арифметики $Sigma_"arith" = ({0, 1}, {+}, {<=})$, где $+$ и $<=$ имеют арность $2$.\
+  Для арифметики $Sigma_"arith" = ({0, 1}, {+}, {<=})$, где $+$ и $<=$ имеют арность $2$.
+
   Для графа $Sigma_"graph" = (emptyset, emptyset, {E})$, где $E$ имеет арность $2$.
 ]
 
@@ -1560,14 +1564,10 @@ $ not (forall x in A . thin P(x)) equiv exists x in A . thin not P(x) $
     table.header([*Запись*], [*Значение*], [*Причина*]),
     [$forall x . thin (x in A imply P(x))$], [истинна], [вне $A$ посылка ложна],
 
-    [$forall x . thin (x in A and P(x))$],
-    [ложна],
-    [элемент $3$ не лежит в $A$ и нарушает конъюнкцию],
+    [$forall x . thin (x in A and P(x))$], [ложна], [элемент $3$ не лежит в $A$ и нарушает конъюнкцию],
 
     [$exists x . thin (x in A and P(x))$], [истинна], [свидетель $1 in A$],
-    [$exists x . thin (x in A imply P(x))$],
-    [истинна],
-    [свидетель $3$ лежит вне $A$],
+    [$exists x . thin (x in A imply P(x))$], [истинна], [свидетель $3$ лежит вне $A$],
   )
 
   Импликация в $forall$ отводит элементы вне $A$.
@@ -1650,11 +1650,9 @@ $ not (forall x in A . thin P(x)) equiv exists x in A . thin not P(x) $
   columns: 2,
   column-gutter: 1em,
   row-gutter: 0.4em,
-  [*Противоречие* ($A$--$O$, $E$--$I$): ровно одно истинно.],
-  [*Контрарность* ($A$--$E$): не оба истинны.],
+  [*Противоречие* ($A$--$O$, $E$--$I$): ровно одно истинно.], [*Контрарность* ($A$--$E$): не оба истинны.],
 
-  [*Субконтрарность* ($I$--$O$): не оба ложны.],
-  [*Подчинение* ($A$ к $I$, $E$ к $O$): общее влечёт частное.],
+  [*Субконтрарность* ($I$--$O$): не оба ложны.], [*Подчинение* ($A$ к $I$, $E$ к $O$): общее влечёт частное.],
 )
 
 == Что выживает при пустом субъекте?
