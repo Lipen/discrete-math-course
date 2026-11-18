@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Хэмминг (7,4) · стенд</title>
 <link rel="stylesheet" href="lab.css">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
 </head>
 <body>
 <header class="lab-header">
@@ -81,29 +82,31 @@
       <div>
         <h3>Кодовое слово</h3>
         <p>Синие позиции проверочные, янтарные информационные.
-        Проверочные биты p<sub>1</sub>, p<sub>2</sub>, p<sub>4</sub> считаются по формулам на карточке, затем собирается слово c.</p>
+        Проверочные биты <span data-tex="p_1"></span>, <span data-tex="p_2"></span>, <span data-tex="p_4"></span> считаются по формулам на карточке, затем собирается слово <span data-tex="c"></span>.</p>
       </div>
       <div>
         <h3>Синдром</h3>
-        <p>Принятое слово r даёт три проверки s<sub>1</sub>, s<sub>2</sub>, s<sub>4</sub>.
-        Синдром (s<sub>4</sub>s<sub>2</sub>s<sub>1</sub>)<sub>2</sub> равен номеру позиции ошибки.</p>
+        <p>Принятое слово <span data-tex="r"></span> даёт три проверки <span data-tex="s_1"></span>, <span data-tex="s_2"></span>, <span data-tex="s_4"></span>.
+        Синдром <span data-tex="(s_4 s_2 s_1)_2"></span> равен номеру позиции ошибки.</p>
       </div>
       <div>
         <h3>Матрица</h3>
-        <p>Столбец j матрицы H это двоичная запись j.
+        <p>Столбец <span data-tex="j"></span> матрицы <span data-tex="H"></span> это двоичная запись <span data-tex="j"></span>.
         Поэтому синдром одной ошибки совпадает со столбцом её позиции.</p>
       </div>
       <div>
         <h3>Исправление</h3>
-        <p>Декодер переворачивает бит с номером s.
-        При s = 0 ошибки нет, и информационные биты остаются как были.</p>
+        <p>Декодер переворачивает бит с номером <span data-tex="s"></span>.
+        При <span data-tex="s = 0"></span> ошибки нет, и информационные биты остаются как были.</p>
       </div>
     </div>
   </section>
 </main>
 
 <footer class="footer">Стенд 06 · код Хэмминга (7,4), синдром и исправление одной ошибки.</footer>
+<script src="vendor/katex/katex.min.js"></script>
 <script src="lab-core.js"></script>
+<script src="lab-math.js"></script>
 <script>
 (function () {
   "use strict";
@@ -190,7 +193,9 @@
     const p1 = d[0] ^ d[1] ^ d[3];
     const p2 = d[0] ^ d[2] ^ d[3];
     const p4 = d[1] ^ d[2] ^ d[3];
-    formulasNode.textContent = "p1 = d1 ⊕ d2 ⊕ d4 = " + p1 + "   ·   p2 = d1 ⊕ d3 ⊕ d4 = " + p2 + "   ·   p4 = d2 ⊕ d3 ⊕ d4 = " + p4;
+    const tex = "\\begin{aligned} p_1 &= d_1 \\oplus d_2 \\oplus d_4 = " + p1 + " \\\\ p_2 &= d_1 \\oplus d_3 \\oplus d_4 = " + p2 + " \\\\ p_4 &= d_2 \\oplus d_3 \\oplus d_4 = " + p4 + " \\end{aligned}";
+    clear(formulasNode);
+    formulasNode.appendChild(Lab.math(tex, true));
   }
 
   function renderWords(c, r, fix, s, actualErrors) {
@@ -222,10 +227,14 @@
 
   function renderSyndrome(r, s) {
     clear(syndromeBits);
-    syndromeBits.appendChild(el("span", { class: "sbit", text: "s1 = " + s.s1 }));
-    syndromeBits.appendChild(el("span", { class: "sbit", text: "s2 = " + s.s2 }));
-    syndromeBits.appendChild(el("span", { class: "sbit", text: "s4 = " + s.s4 }));
-    syndromeBits.appendChild(el("span", { class: "sbit", text: "s = " + s.value + " (s4s2s1)" }));
+    for (const [tex] of [["s_1 = " + s.s1], ["s_2 = " + s.s2], ["s_4 = " + s.s4]]) {
+      const chip = el("span", { class: "sbit" });
+      chip.appendChild(Lab.math(tex));
+      syndromeBits.appendChild(chip);
+    }
+    const total = el("span", { class: "sbit" });
+    total.appendChild(Lab.math("s = (s_4 s_2 s_1)_2 = (" + s.s4 + s.s2 + s.s1 + ")_2 = " + s.value));
+    syndromeBits.appendChild(total);
   }
 
   function renderHMatrix(s) {
@@ -238,10 +247,12 @@
     thead.appendChild(head);
     table.appendChild(thead);
     const tbody = el("tbody");
-    const rows = [["s4", 4], ["s2", 2], ["s1", 1]];
+    const rows = [["s_4", 4], ["s_2", 2], ["s_1", 1]];
     for (const [name, mask] of rows) {
       const row = el("tr");
-      row.appendChild(el("td", { class: "left mono", text: name }));
+      const first = el("td", { class: "left" });
+      first.appendChild(Lab.math(name));
+      row.appendChild(first);
       for (let pos = 1; pos <= 7; pos++) {
         const bit = (pos & mask) ? 1 : 0;
         row.appendChild(el("td", { class: "mono" + (s === pos ? " sel" : ""), text: String(bit) }));

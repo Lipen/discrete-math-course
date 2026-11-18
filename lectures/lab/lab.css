@@ -568,3 +568,9 @@ pre.code {
 .bdd-terminal.neighbor rect { stroke-width: 3; }
 
 table.data td.selected, table.data th.selected { background: var(--accent-soft); font-weight: 600; }
+
+.math-inline { white-space: nowrap; }
+.math-display { overflow-x: auto; overflow-y: hidden; padding: 2px 0; }
+.math-display .katex-display { margin: 0; }
+.status .katex-display { margin: 0; overflow-x: auto; }
+.sbit .math-inline, .pill .math-inline { margin-right: 2px; }

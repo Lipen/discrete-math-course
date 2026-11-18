@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>SAT · стенд</title>
 <link rel="stylesheet" href="lab.css">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
 </head>
 <body>
 <header class="lab-header">
@@ -83,14 +84,16 @@
       </div>
       <div>
         <h3>Картина пресета</h3>
-        <p>Голубятни показывают сетку птиц и дырок, раскраска даёт граф и два цвета, случайная 3-SAT показывает отношение m/n и порог 4.26.</p>
+        <p>Голубятни показывают сетку птиц и дырок, раскраска даёт граф и два цвета, случайная 3-SAT показывает отношение <span data-tex="m/n"></span> и порог <span data-tex="4.26"></span>.</p>
       </div>
     </div>
   </section>
 </main>
 
 <footer class="footer">Стенд 05 · DPLL, CNF и трасса поиска.</footer>
+<script src="vendor/katex/katex.min.js"></script>
 <script src="lab-core.js"></script>
+<script src="lab-math.js"></script>
 <script>
 (function () {
   "use strict";

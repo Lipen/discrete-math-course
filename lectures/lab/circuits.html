@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Схемы · стенд</title>
 <link rel="stylesheet" href="lab.css">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
 </head>
 <body>
 <header class="lab-header">
@@ -87,7 +88,7 @@
       </div>
       <div>
         <h3>Проверка</h3>
-        <p>Кнопка сравнивает выбранный выход с эталоном на всех 2<sup><i>n</i></sup> наборах.
+        <p>Кнопка сравнивает выбранный выход с эталоном на всех <span data-tex="2^n"></span> наборах.
         При расхождении показывается первый контрпример.</p>
       </div>
     </div>
@@ -95,7 +96,9 @@
 </main>
 
 <footer class="footer">Стенд 04 · вентили, таблица истинности и проверка эквивалентности.</footer>
+<script src="vendor/katex/katex.min.js"></script>
 <script src="lab-core.js"></script>
+<script src="lab-math.js"></script>
 <script>
 (function () {
   "use strict";
@@ -126,9 +129,9 @@
     mux: {
       inputs: ["a", "b", "s"],
       gates: [
-        { id: "ns", op: "NOT", args: ["s"], label: "¬s" },
-        { id: "na", op: "AND", args: ["a", "ns"], label: "a∧¬s" },
-        { id: "bs", op: "AND", args: ["b", "s"], label: "b∧s" },
+        { id: "ns", op: "NOT", args: ["s"], label: "¬s", tex: "\\neg s" },
+        { id: "na", op: "AND", args: ["a", "ns"], label: "a∧¬s", tex: "a \\land \\neg s" },
+        { id: "bs", op: "AND", args: ["b", "s"], label: "b∧s", tex: "b \\land s" },
         { id: "out", op: "OR", args: ["na", "bs"], label: "f" },
       ],
       ref: "out",
@@ -373,7 +376,11 @@
     for (const name of current.inputs) headRow.appendChild(el("th", { text: name }));
     for (const gate of current.gates) {
       const th = el("th", { class: gate.id === selected ? "selected" : "" });
-      th.appendChild(el("span", { text: gate.label + (gate.id === current.ref ? " *" : "") }));
+      const labelSpan = el("span");
+      if (gate.tex) labelSpan.appendChild(Lab.math(gate.tex));
+      else labelSpan.textContent = gate.label;
+      if (gate.id === current.ref) labelSpan.appendChild(document.createTextNode(" *"));
+      th.appendChild(labelSpan);
       th.appendChild(el("br"));
       th.appendChild(el("span", { class: "small muted", text: gate.op }));
       headRow.appendChild(th);

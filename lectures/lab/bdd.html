@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ROBDD · стенд</title>
 <link rel="stylesheet" href="lab.css">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
 </head>
 <body>
 <header class="lab-header">
@@ -79,7 +80,9 @@
 </main>
 
 <footer class="footer">Стенд 03 · ROBDD, склейка поддиаграмм и порядок переменных.</footer>
+<script src="vendor/katex/katex.min.js"></script>
 <script src="lab-core.js"></script>
+<script src="lab-math.js"></script>
 <script>
 (function () {
   "use strict";
@@ -89,31 +92,31 @@
     pairs3: {
       n: 6,
       names: ["x1", "x2", "x3", "x4", "x5", "x6"],
-      formula: "(x1 ∧ x2) ∨ (x3 ∧ x4) ∨ (x5 ∧ x6)",
+      formula: "(x_1 \\land x_2) \\lor (x_3 \\land x_4) \\lor (x_5 \\land x_6)",
       values: (m) => Boolean((m & 1 && m & 2) || (m & 4 && m & 8) || (m & 16 && m & 32)),
     },
     maj3: {
       n: 3,
       names: ["x1", "x2", "x3"],
-      formula: "медиана x1, x2, x3",
+      formula: "\\operatorname{maj}(x_1, x_2, x_3)",
       values: (m) => popcount(m) >= 2,
     },
     xor4: {
       n: 4,
       names: ["x1", "x2", "x3", "x4"],
-      formula: "x1 ⊕ x2 ⊕ x3 ⊕ x4",
+      formula: "x_1 \\oplus x_2 \\oplus x_3 \\oplus x_4",
       values: (m) => (popcount(m) % 2) === 1,
     },
     mux: {
       n: 3,
       names: ["a", "b", "s"],
-      formula: "если s, то b, иначе a",
+      formula: "(s \\land b) \\lor (\\neg s \\land a)",
       values: (m) => ((m >> 2) & 1 ? ((m >> 1) & 1 ? 1 : 0) : (m & 1 ? 1 : 0)) === 1,
     },
     eq4: {
       n: 4,
       names: ["a1", "a2", "b1", "b2"],
-      formula: "(a1 = b1) ∧ (a2 = b2)",
+      formula: "(a_1 = b_1) \\land (a_2 = b_2)",
       values: (m) => {
         const a1 = m & 1, a2 = (m >> 1) & 1, b1 = (m >> 2) & 1, b2 = (m >> 3) & 1;
         return a1 === b1 && a2 === b2;
@@ -144,7 +147,7 @@
     for (let m = 0; m < (1 << n); m++) values.push(p.values(m) ? 1 : 0);
     order = [];
     for (let i = 0; i < n; i++) order.push(i);
-    formulaNode.textContent = p.formula;
+    formulaNode.replaceChildren(Lab.math(p.formula));
     presetNode.value = name;
     renderAll();
   }
@@ -273,14 +276,22 @@
         stroke: "#7b7366",
         "stroke-width": 1.5,
       }));
-      group.appendChild(svg("text", {
+      const label = svg("text", {
         x: p.x, y: p.y + 5,
         "text-anchor": "middle",
         "font-family": "var(--mono)",
         "font-size": 12,
         "font-weight": 650,
         fill: "#1d2733",
-      }, names[node.v]));
+      });
+      const nameMatch = names[node.v].match(/^([A-Za-z]+)(\d+)$/);
+      if (nameMatch) {
+        label.appendChild(document.createTextNode(nameMatch[1]));
+        label.appendChild(svg("tspan", { "baseline-shift": "sub", "font-size": "9" }, nameMatch[2]));
+      } else {
+        label.appendChild(document.createTextNode(names[node.v]));
+      }
+      group.appendChild(label);
       root.appendChild(group);
     }
 
@@ -349,10 +360,15 @@
     ]));
   }
 
+  function nameTex(name) {
+    const match = name.match(/^([A-Za-z]+)(\d+)$/);
+    return match ? match[1] + "_" + match[2] : name;
+  }
+
   function renderOrder() {
     clear(orderNode);
     order.forEach((v, index) => {
-      const chip = el("span", { class: "chip" }, [el("span", { text: names[v] })]);
+      const chip = el("span", { class: "chip" }, Lab.math(nameTex(names[v])));
       const up = el("button", { class: "up", text: "↑", title: "Выше", disabled: index === 0 ? "" : undefined });
       const down = el("button", { class: "down", text: "↓", title: "Ниже", disabled: index === order.length - 1 ? "" : undefined });
       up.addEventListener("click", () => {
@@ -380,7 +396,7 @@
   }
 
   function orderTitle(orderToShow) {
-    return orderToShow.map((v) => names[v]).join(" < ");
+    return orderToShow.map((v) => nameTex(names[v])).join(" < ");
   }
 
   function renderCompare() {
@@ -419,7 +435,9 @@
       seen.add(sig);
       const isCurrent = candidate.arr.every((v, i) => v === order[i]);
       const row = el("tr", { class: isCurrent ? "current" : "" });
-      row.appendChild(el("td", { class: "left mono", text: orderTitle(candidate.arr) }));
+      const orderCell = el("td", { class: "left" });
+      orderCell.appendChild(Lab.math(orderTitle(candidate.arr)));
+      row.appendChild(orderCell);
       row.appendChild(el("td", { class: "mono", text: String(countFor(candidate.arr)) }));
       tbody.appendChild(row);
     }

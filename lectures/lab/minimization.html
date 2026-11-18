@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Минимизация · стенд</title>
 <link rel="stylesheet" href="lab.css">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
 </head>
 <body>
 <header class="lab-header">
@@ -96,14 +97,16 @@
       <div>
         <h3>Минимум</h3>
         <p>Стенд выбирает покрытие с наименьшим числом термов, затем литералов.
-        Для n ≤ 4 он перебирает подмножества простых импликант, поэтому минимум точный.</p>
+        Для <span data-tex="n \le 4"></span> он перебирает подмножества простых импликант, поэтому минимум точный.</p>
       </div>
     </div>
   </section>
 </main>
 
 <footer class="footer">Стенд 02 · карта Карно, простые импликанты и минимальная ДНФ.</footer>
+<script src="vendor/katex/katex.min.js"></script>
 <script src="lab-core.js"></script>
+<script src="lab-math.js"></script>
 <script>
 (function () {
   "use strict";
@@ -144,10 +147,10 @@
     for (let bit = 0; bit < n; bit++) {
       if (prime.fixedMask & (1 << bit)) {
         const name = vars[n - 1 - bit];
-        parts.push((prime.value & (1 << bit)) ? name : "¬" + name);
+        parts.push((prime.value & (1 << bit)) ? name : "\\neg " + name);
       }
     }
-    return parts.join("·");
+    return parts.join(" \\cdot ");
   }
 
   function coveredMinterms(prime) {
@@ -253,7 +256,7 @@
     if (!best) return { selected: [], terms: 0, literals: 0, expression: "0", essentials };
     const selected = [];
     for (let i = 0; i < primes.length; i++) if (best.mask & (1 << i)) selected.push(i);
-    const expression = selected.map((i) => termText(primes[i])).join(" ∨ ");
+    const expression = selected.map((i) => termText(primes[i])).join(" \\lor ");
     return { selected, terms: best.terms, literals: best.literals, expression, essentials };
   }
 
@@ -321,12 +324,12 @@
       const selected = result.selected.includes(i);
       const essential = result.essentials.has(i);
       const row = el("tr", { "data-prime": String(i) });
-      row.appendChild(el("td", { class: "left mono" }, [
-        el("span", {
-          style: "display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:7px;background:" + colors[i % colors.length],
-        }),
-        termText(p),
-      ]));
+      const termCell = el("td", { class: "left" });
+      termCell.appendChild(el("span", {
+        style: "display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:7px;background:" + colors[i % colors.length],
+      }));
+      termCell.appendChild(Lab.math(termText(p)));
+      row.appendChild(termCell);
       row.appendChild(el("td", { class: "left mono small", text: p.covers.join(", ") }));
       row.appendChild(el("td", { class: "mono", text: String(Lab.popcount(p.fixedMask)) }));
       const statusCell = el("td", { class: "left" });
@@ -344,11 +347,9 @@
 
   function renderResult() {
     const result = computeMinimum();
-    if (result.terms === 0) {
-      Lab.status(resultNode, "f = 0", "warn");
-    } else {
-      Lab.status(resultNode, "f = " + result.expression, "ok");
-    }
+    const tex = result.terms === 0 ? "f = 0" : "f = " + result.expression;
+    resultNode.className = "status " + (result.terms === 0 ? "warn" : "ok");
+    resultNode.replaceChildren(Lab.math(tex, tex.length > 60));
     metricsNode.innerHTML = "";
     metricsNode.appendChild(el("div", { class: "metric" }, [
       el("span", { class: "k", text: "термов" }), el("span", { class: "v", text: String(result.terms) }),

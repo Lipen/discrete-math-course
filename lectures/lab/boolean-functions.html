@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Булевы функции · стенд</title>
 <link rel="stylesheet" href="lab.css">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
 </head>
 <body>
 <header class="lab-header">
@@ -109,7 +110,7 @@
       </div>
       <div>
         <h3>Классы Поста</h3>
-        <p>Пять меток показывают, лежит ли функция в T<sub>0</sub>, T<sub>1</sub>, S, M и L.
+        <p>Пять меток показывают, лежит ли функция в <span data-tex="T_0"></span>, <span data-tex="T_1"></span>, <span data-tex="S"></span>, <span data-tex="M"></span> и <span data-tex="L"></span>.
         Вердикт использует критерий Поста: набор полон, если выходит из каждого класса.</p>
       </div>
       <div>
@@ -123,7 +124,9 @@
 </main>
 
 <footer class="footer">Стенд 01 · булевы функции и классы Поста.</footer>
+<script src="vendor/katex/katex.min.js"></script>
 <script src="lab-core.js"></script>
+<script src="lab-math.js"></script>
 <script>
 (function () {
   "use strict";
@@ -182,7 +185,7 @@
     for (let bit = 0; bit < n; bit++) {
       if (mask & (1 << bit)) parts.push(vars[n - 1 - bit]);
     }
-    return parts.join("·");
+    return parts.join(" \\cdot ");
   }
 
   function renderTable() {
@@ -255,21 +258,23 @@
   function renderPost() {
     const post = checkPost();
     const rows = [
-      ["T0", post.t0, "сохраняет 0"],
-      ["T1", post.t1, "сохраняет 1"],
-      ["S", post.selfDual, "самодвойственна"],
-      ["M", post.monotone, "монотонна"],
-      ["L", post.linear, "линейна"],
+      ["T_0", "T0", post.t0, "сохраняет 0"],
+      ["T_1", "T1", post.t1, "сохраняет 1"],
+      ["S", "S", post.selfDual, "самодвойственна"],
+      ["M", "M", post.monotone, "монотонна"],
+      ["L", "L", post.linear, "линейна"],
     ];
     clear(postNode);
-    for (const [name, ok, title] of rows) {
-      postNode.appendChild(el("span", {
+    for (const [tex, name, ok, title] of rows) {
+      const badge = el("span", {
         class: "pill " + (ok ? "ok" : "no"),
         title,
-        text: name + (ok ? " ✓" : " ✗"),
-      }));
+      });
+      badge.appendChild(Lab.math(tex));
+      badge.appendChild(document.createTextNode(ok ? " ✓" : " ✗"));
+      postNode.appendChild(badge);
     }
-    const outside = rows.filter(([, ok]) => !ok).map(([name]) => name);
+    const outside = rows.filter(([, , ok]) => !ok).map(([, name]) => name);
     if (outside.length === 5) {
       Lab.status(verdictNode, "Функция вне всех пяти классов. Одна эта функция образует полный базис.", "ok");
     } else {
@@ -283,7 +288,9 @@
     const terms = [];
     for (let mask = 0; mask < coeff.length; mask++) if (coeff[mask]) terms.push(mask);
     terms.sort((a, b) => popcount(a) - popcount(b) || a - b);
-    anfNode.textContent = terms.length ? terms.map(monomialText).join(" ⊕ ") : "0";
+    const tex = terms.length ? terms.map(monomialText).join(" \\oplus ") : "0";
+    clear(anfNode);
+    anfNode.appendChild(Lab.math(tex));
     const minterms = values.reduce((s, v) => s + v, 0);
     metricsNode.appendChild(el("div", { class: "metric" }, [
       el("span", { class: "k", text: "термов СДНФ" }), el("span", { class: "v", text: String(minterms) }),

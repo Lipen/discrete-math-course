@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Хаффман · стенд</title>
 <link rel="stylesheet" href="lab.css">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
 </head>
 <body>
 <header class="lab-header">
@@ -61,8 +62,8 @@
     <h2>Цена</h2>
     <div class="metric-row" id="cost"></div>
     <p class="hint">
-      L это средняя длина кода, H это энтропия источника.
-      Запас L − H показывает, насколько код дальше от теоретического минимума.
+      <span data-tex="L"></span> это средняя длина кода, <span data-tex="H"></span> это энтропия источника.
+      Запас <span data-tex="L - H"></span> показывает, насколько код дальше от теоретического минимума.
     </p>
   </section>
 
@@ -86,15 +87,17 @@
       </div>
       <div>
         <h3>Цена</h3>
-        <p>Средняя длина L = ∑ p<sub>i</sub> ℓ<sub>i</sub>, энтропия H = −∑ p<sub>i</sub> log<sub>2</sub> p<sub>i</sub>.
-        Блок «Цена» показывает L, H и запас L − H для текущих частот.</p>
+        <p>Средняя длина <span data-tex="L = \sum_i p_i \ell_i"></span>, энтропия <span data-tex="H = -\sum_i p_i \log_2 p_i"></span>.
+        Блок «Цена» показывает <span data-tex="L"></span>, <span data-tex="H"></span> и запас <span data-tex="L - H"></span> для текущих частот.</p>
       </div>
     </div>
   </section>
 </main>
 
 <footer class="footer">Стенд 07 · жадное дерево Хаффмана, коды и цена.</footer>
+<script src="vendor/katex/katex.min.js"></script>
 <script src="lab-core.js"></script>
+<script src="lab-math.js"></script>
 <script>
 (function () {
   "use strict";
@@ -330,15 +333,15 @@
   function renderCost() {
     clear(costNode);
     if (!stats) return;
-    costNode.appendChild(el("div", { class: "metric" }, [
-      el("span", { class: "k", text: "L, средняя длина" }), el("span", { class: "v", text: Lab.fmt(stats.L, 3) }),
-    ]));
-    costNode.appendChild(el("div", { class: "metric" }, [
-      el("span", { class: "k", text: "H, энтропия" }), el("span", { class: "v", text: Lab.fmt(stats.H, 3) }),
-    ]));
-    costNode.appendChild(el("div", { class: "metric" }, [
-      el("span", { class: "k", text: "L − H" }), el("span", { class: "v", text: Lab.fmt(stats.gap, 3) }),
-    ]));
+    function metric(tex, suffix, value) {
+      const label = el("span", { class: "k" });
+      label.appendChild(Lab.math(tex));
+      if (suffix) label.appendChild(document.createTextNode(suffix));
+      return el("div", { class: "metric" }, [label, el("span", { class: "v", text: value })]);
+    }
+    costNode.appendChild(metric("L", ", средняя длина", Lab.fmt(stats.L, 3)));
+    costNode.appendChild(metric("H", ", энтропия", Lab.fmt(stats.H, 3)));
+    costNode.appendChild(metric("L - H", "", Lab.fmt(stats.gap, 3)));
     costNode.appendChild(el("div", { class: "metric" }, [
       el("span", { class: "k", text: "символов" }), el("span", { class: "v", text: String(entries.length) }),
     ]));
