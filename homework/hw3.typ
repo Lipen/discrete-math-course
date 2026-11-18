@@ -256,8 +256,8 @@
 #tasklist("t6")[
   + Постройте в нотации Фитча выводы, указывая правило на каждом шаге.
 
-    + $forall x . thin (P(x) -> Q(x)), quad forall x . thin P(x) proves forall x . thin Q(x)$
-    + $forall x . thin (P(x) -> Q(x)) proves (exists x . thin P(x)) -> (exists x . thin Q(x))$
+    + $forall x . thin (P(x) -> Q(x)), quad forall x . thin P(x) quad proves quad forall x . thin Q(x)$
+    + $forall x . thin (P(x) -> Q(x)) quad proves quad (exists x . thin P(x)) -> (exists x . thin Q(x))$
 
   + #block(breakable: false)[
       В протоколе ошибка: найдите первую недопустимую строку и нарушенное условие.
