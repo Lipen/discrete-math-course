@@ -103,6 +103,7 @@
 #let leq = sym.lt.eq
 #let geq = sym.gt.eq
 #let models = sym.tack.rr
+#let nmodels = math.class("relation", sym.tack.rr.not)
 #let proves = sym.tack.r
 #let notin = sym.in.not
 #let setminus = sym.without
