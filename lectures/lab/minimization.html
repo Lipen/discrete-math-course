@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Минимизация · стенд</title>
+<link rel="stylesheet" href="lab.css">
+</head>
+<body>
+<header class="lab-header">
+  <nav class="lab-nav">
+    <a href="index.html">← Все стенды</a>
+    <span class="sep">/</span>
+    <span class="here">Минимизация</span>
+  </nav>
+  <p class="eyebrow">Стенд 02 · лекция 13</p>
+  <h1>Карта Карно и точный минимум</h1>
+  <p class="lead">
+    Расставьте единицы и безразличные наборы.
+    Стенд перечислит простые импликанты, отметит обязательные и найдёт покрытие с наименьшим числом термов, а при равенстве с наименьшим числом литералов.
+  </p>
+</header>
+
+<main class="lab-main">
+  <section class="card">
+    <div class="controls">
+      <label>Переменных
+        <select id="arity">
+          <option value="2">2</option>
+          <option value="3" selected>3</option>
+          <option value="4">4</option>
+        </select>
+      </label>
+      <label>Готовая функция
+        <select id="preset">
+          <option value="custom">своя</option>
+          <option value="maj3" selected>медиана трёх</option>
+          <option value="sum3">Σm(0,1,2,5,6,7)</option>
+          <option value="odd4">нечётность четырёх</option>
+          <option value="even4">чётность четырёх</option>
+        </select>
+      </label>
+      <div class="btn-row">
+        <button id="zero">Все нули</button>
+        <button id="fill">Все единицы</button>
+      </div>
+    </div>
+
+    <p class="hint">
+      Клик по клетке меняет состояние: 0 → 1 → X → 0.
+      X это безразличный набор: его можно покрывать, но не обязательно.
+    </p>
+
+    <div class="split-wide-right">
+      <div>
+        <h3>Простые импликанты</h3>
+        <div id="primes"></div>
+      </div>
+      <div>
+        <h3>Карта</h3>
+        <div class="map-wrap">
+          <div class="map" id="map"></div>
+          <div class="map-note" id="map-note"></div>
+        </div>
+        <div class="legend" style="margin-top:8px">
+          <span><span class="sw" style="background:#e8f0fb;border-color:#a9c1e4"></span>1</span>
+          <span><span class="sw" style="background:#fbf0dc;border-color:#d7b26e"></span>X</span>
+          <span><span class="sw" style="background:#fff;border-color:#cfc7b8"></span>0</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Результат</h2>
+    <div class="status" id="result"></div>
+    <div class="metric-row" id="metrics"></div>
+    <p class="hint">Минимум точный: стенд перебирает подмножества простых импликант, а не применяет эвристику.</p>
+  </section>
+
+  <section class="card">
+    <h2>Что здесь показано</h2>
+    <div class="theory-grid">
+      <div>
+        <h3>Клетки и склейки</h3>
+        <p>Клетка это минтерм, соседние клетки отличаются одной переменной.
+        Подсветка группы задаёт один терм, наведение на строку показывает покрытые клетки.
+        X можно включить в группу, но не обязательно покрывать.</p>
+      </div>
+      <div>
+        <h3>Простые импликанты</h3>
+        <p>Список показывает простые импликанты и покрытые единицы.
+        Обязательная импликанта покрывает единицу, которую не покрывает больше никто.
+        Свободная в текущий минимум не входит.</p>
+      </div>
+      <div>
+        <h3>Минимум</h3>
+        <p>Стенд выбирает покрытие с наименьшим числом термов, затем литералов.
+        Для n ≤ 4 он перебирает подмножества простых импликант, поэтому минимум точный.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">Стенд 02 · карта Карно, простые импликанты и минимальная ДНФ.</footer>
+<script src="lab-core.js"></script>
+<script>
+(function () {
+  "use strict";
+  const { $, el, clear, bitsOf, mapLayout, mintermOf } = Lab;
+  const vars = ["A", "B", "C", "D"];
+  const colors = ["#2d5fa8", "#2f7d5c", "#a76a12", "#6a4c93", "#b03a3a", "#0f766e", "#7c3aed", "#b45309"];
+
+  const presets = {
+    maj3: { n: 3, ones: [3, 5, 6, 7], x: [] },
+    sum3: { n: 3, ones: [0, 1, 2, 5, 6, 7], x: [] },
+    odd4: { n: 4, ones: [1, 2, 4, 7, 8, 11, 13, 14], x: [] },
+    even4: { n: 4, ones: [0, 3, 5, 6, 9, 10, 12, 15], x: [] },
+  };
+
+  let n = 3;
+  let state = new Array(1 << n).fill(0);
+  let primes = [];
+
+  const arity = $("#arity");
+  const preset = $("#preset");
+  const mapNode = $("#map");
+  const mapNote = $("#map-note");
+  const primesNode = $("#primes");
+  const resultNode = $("#result");
+  const metricsNode = $("#metrics");
+
+  function markCustom() { preset.value = "custom"; }
+
+  function applyState(ones, xs) {
+    state = new Array(1 << n).fill(0);
+    for (const m of ones) state[m] = 1;
+    for (const m of xs) state[m] = 2;
+  }
+
+  function termText(prime) {
+    if (prime.fixedMask === 0) return "1";
+    const parts = [];
+    for (let bit = 0; bit < n; bit++) {
+      if (prime.fixedMask & (1 << bit)) {
+        const name = vars[n - 1 - bit];
+        parts.push((prime.value & (1 << bit)) ? name : "¬" + name);
+      }
+    }
+    return parts.join("·");
+  }
+
+  function coveredMinterms(prime) {
+    const out = [];
+    for (let m = 0; m < (1 << n); m++) {
+      if ((m & prime.fixedMask) === prime.value) out.push(m);
+    }
+    return out;
+  }
+
+  function cubeKey(fixedMask, value) { return fixedMask + ":" + value; }
+
+  function findPrimes() {
+    const cubes = [];
+    const seen = new Set();
+
+    function rec(bit, fixedMask, value) {
+      if (bit === n) {
+        const key = cubeKey(fixedMask, value);
+        if (!seen.has(key)) {
+          seen.add(key);
+          cubes.push({ fixedMask, value });
+        }
+        return;
+      }
+      rec(bit + 1, fixedMask, value);
+      rec(bit + 1, fixedMask | (1 << bit), value);
+      rec(bit + 1, fixedMask | (1 << bit), value | (1 << bit));
+    }
+    rec(0, 0, 0);
+
+    const valid = [];
+    for (const cube of cubes) {
+      let ok = true;
+      let hasOne = false;
+      for (let m = 0; m < (1 << n); m++) {
+        if ((m & cube.fixedMask) !== cube.value) continue;
+        if (state[m] === 0) { ok = false; break; }
+        if (state[m] === 1) hasOne = true;
+      }
+      if (ok && hasOne) {
+        cube.covers = coveredMinterms(cube);
+        valid.push(cube);
+      }
+    }
+
+    const validKeys = new Set(valid.map((c) => cubeKey(c.fixedMask, c.value)));
+    const out = [];
+    for (const cube of valid) {
+      let isPrime = true;
+      for (let bit = 0; bit < n; bit++) {
+        if (!(cube.fixedMask & (1 << bit))) continue;
+        const key = cubeKey(cube.fixedMask & ~(1 << bit), cube.value & ~(1 << bit));
+        if (validKeys.has(key)) { isPrime = false; break; }
+      }
+      if (isPrime) out.push(cube);
+    }
+    out.sort((a, b) => a.covers.length - b.covers.length || a.fixedMask - b.fixedMask || a.value - b.value);
+    return out;
+  }
+
+  function computeMinimum() {
+    const ones = [];
+    for (let m = 0; m < (1 << n); m++) if (state[m] === 1) ones.push(m);
+    if (ones.length === 0) return { selected: [], terms: 0, literals: 0, expression: "0", essentials: new Set() };
+    if (primes.length === 0) return { selected: [], terms: 0, literals: 0, expression: "0", essentials: new Set() };
+
+    const essentials = new Set();
+    for (const m of ones) {
+      const covering = [];
+      for (let i = 0; i < primes.length; i++) {
+        if (primes[i].covers.includes(m)) covering.push(i);
+      }
+      if (covering.length === 1) essentials.add(covering[0]);
+    }
+
+    let best = null;
+    const total = 1 << primes.length;
+    for (let mask = 1; mask < total; mask++) {
+      let coversAll = true;
+      for (const m of ones) {
+        let hit = false;
+        for (let i = 0; i < primes.length; i++) {
+          if ((mask & (1 << i)) && primes[i].covers.includes(m)) { hit = true; break; }
+        }
+        if (!hit) { coversAll = false; break; }
+      }
+      if (!coversAll) continue;
+      let terms = 0;
+      let literals = 0;
+      for (let i = 0; i < primes.length; i++) {
+        if (mask & (1 << i)) {
+          terms++;
+          literals += Lab.popcount(primes[i].fixedMask);
+        }
+      }
+      const candidate = { terms, literals, mask };
+      if (!best || terms < best.terms || (terms === best.terms && literals < best.literals)) {
+        best = candidate;
+      }
+    }
+
+    if (!best) return { selected: [], terms: 0, literals: 0, expression: "0", essentials };
+    const selected = [];
+    for (let i = 0; i < primes.length; i++) if (best.mask & (1 << i)) selected.push(i);
+    const expression = selected.map((i) => termText(primes[i])).join(" ∨ ");
+    return { selected, terms: best.terms, literals: best.literals, expression, essentials };
+  }
+
+  function renderMap() {
+    clear(mapNode);
+    const layout = mapLayout(n);
+    const cols = layout.cols.length;
+    mapNode.style.gridTemplateColumns = "64px repeat(" + cols + ", 64px)";
+    mapNode.appendChild(el("div", { class: "map-corner" }));
+    for (const c of layout.cols) {
+      mapNode.appendChild(el("div", { class: "map-head", text: bitsOf(c, layout.colBits).join("") }));
+    }
+    for (const r of layout.rows) {
+      mapNode.appendChild(el("div", { class: "map-rowhead", text: bitsOf(r, layout.rowBits).join("") }));
+      for (const c of layout.cols) {
+        const m = mintermOf(r, c, layout.colBits);
+        const value = state[m];
+        const cls = value === 1 ? " v1" : (value === 2 ? " vx" : "");
+        const cell = el("div", {
+          class: "map-cell" + cls,
+          "data-m": String(m),
+          "aria-label": "минтерм " + m + ", значение " + (value === 2 ? "X" : value),
+        });
+        cell.appendChild(el("span", { class: "idx", text: String(m) }));
+        cell.appendChild(el("span", { class: "val", text: value === 2 ? "X" : String(value) }));
+        cell.addEventListener("click", () => {
+          state[m] = state[m] === 0 ? 1 : (state[m] === 1 ? 2 : 0);
+          markCustom();
+          renderAll();
+        });
+        mapNode.appendChild(cell);
+      }
+    }
+    mapNote.textContent = n === 4
+      ? "Карта замкнута в тор: верхний край соседний с нижним, левый с правым."
+      : "Соседние клетки, включая противоположные края, отличаются одной переменной.";
+  }
+
+  function highlightPrime(index, on) {
+    if (!primes[index]) return;
+    for (const m of primes[index].covers) {
+      const cell = mapNode.querySelector('[data-m="' + m + '"]');
+      if (cell) cell.classList.toggle("hl", on);
+    }
+  }
+
+  function renderPrimes(result) {
+    clear(primesNode);
+    if (primes.length === 0) {
+      primesNode.appendChild(el("p", { class: "muted", text: "Простых импликант нет: функция равна нулю." }));
+      return;
+    }
+    const table = el("table", { class: "data" });
+    const thead = el("thead");
+    thead.appendChild(el("tr", {}, [
+      el("th", { class: "left", text: "терм" }),
+      el("th", { class: "left", text: "покрывает" }),
+      el("th", { text: "лит." }),
+      el("th", { class: "left", text: "статус" }),
+    ]));
+    table.appendChild(thead);
+    const tbody = el("tbody");
+    for (let i = 0; i < primes.length; i++) {
+      const p = primes[i];
+      const selected = result.selected.includes(i);
+      const essential = result.essentials.has(i);
+      const row = el("tr", { "data-prime": String(i) });
+      row.appendChild(el("td", { class: "left mono" }, [
+        el("span", {
+          style: "display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:7px;background:" + colors[i % colors.length],
+        }),
+        termText(p),
+      ]));
+      row.appendChild(el("td", { class: "left mono small", text: p.covers.join(", ") }));
+      row.appendChild(el("td", { class: "mono", text: String(Lab.popcount(p.fixedMask)) }));
+      const statusCell = el("td", { class: "left" });
+      if (essential) statusCell.appendChild(el("span", { class: "pill warn", text: "обязательная" }));
+      if (selected) statusCell.appendChild(el("span", { class: "pill ok", text: "в минимуме" }));
+      if (!essential && !selected) statusCell.appendChild(el("span", { class: "pill", text: "свободная" }));
+      row.appendChild(statusCell);
+      row.addEventListener("mouseenter", () => highlightPrime(i, true));
+      row.addEventListener("mouseleave", () => highlightPrime(i, false));
+      tbody.appendChild(row);
+    }
+    table.appendChild(tbody);
+    primesNode.appendChild(table);
+  }
+
+  function renderResult() {
+    const result = computeMinimum();
+    if (result.terms === 0) {
+      Lab.status(resultNode, "f = 0", "warn");
+    } else {
+      Lab.status(resultNode, "f = " + result.expression, "ok");
+    }
+    metricsNode.innerHTML = "";
+    metricsNode.appendChild(el("div", { class: "metric" }, [
+      el("span", { class: "k", text: "термов" }), el("span", { class: "v", text: String(result.terms) }),
+    ]));
+    metricsNode.appendChild(el("div", { class: "metric" }, [
+      el("span", { class: "k", text: "литералов" }), el("span", { class: "v", text: String(result.literals) }),
+    ]));
+    metricsNode.appendChild(el("div", { class: "metric" }, [
+      el("span", { class: "k", text: "простых" }), el("span", { class: "v", text: String(primes.length) }),
+    ]));
+    return result;
+  }
+
+  function renderAll() {
+    primes = findPrimes();
+    renderMap();
+    const result = renderResult();
+    renderPrimes(result);
+  }
+
+  function applyPreset(name) {
+    const p = presets[name];
+    if (!p) return;
+    n = p.n;
+    arity.value = String(n);
+    applyState(p.ones, p.x);
+    preset.value = name;
+    renderAll();
+  }
+
+  arity.addEventListener("change", () => {
+    n = Number(arity.value);
+    state = new Array(1 << n).fill(0);
+    markCustom();
+    renderAll();
+  });
+
+  preset.addEventListener("change", () => {
+    if (preset.value !== "custom") applyPreset(preset.value);
+  });
+
+  $("#zero").addEventListener("click", () => {
+    state = state.map(() => 0);
+    markCustom();
+    renderAll();
+  });
+
+  $("#fill").addEventListener("click", () => {
+    state = state.map(() => 1);
+    markCustom();
+    renderAll();
+  });
+
+  applyPreset("maj3");
+})();
+</script>
+</body>
+</html>

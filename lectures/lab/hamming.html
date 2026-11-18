@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Хэмминг (7,4) · стенд</title>
+<link rel="stylesheet" href="lab.css">
+</head>
+<body>
+<header class="lab-header">
+  <nav class="lab-nav">
+    <a href="index.html">← Все стенды</a>
+    <span class="sep">/</span>
+    <span class="here">Коды Хэмминга</span>
+  </nav>
+  <p class="eyebrow">Стенд 06 · лекция 15</p>
+  <h1>Синдром знает позицию</h1>
+  <p class="lead">
+    Соберите кодовое слово из четырёх информационных битов.
+    Затем переверните любой бит принятого слова и посмотрите, как три проверки дают номер ошибки.
+    Две ошибки стенд тоже покажет, но декодер Хэмминга их не исправляет.
+  </p>
+</header>
+
+<main class="lab-main">
+  <section class="card">
+    <div class="controls">
+      <label>Данные
+        <span id="data-bits" class="bit-row"></span>
+      </label>
+      <div class="btn-row">
+        <button id="random-error">Случайная ошибка</button>
+        <button id="clear-errors">Сбросить ошибки</button>
+        <button id="preset-1011">Данные 1011</button>
+        <button id="preset-zero">Данные 0000</button>
+      </div>
+    </div>
+
+    <div class="split-wide-left">
+      <div>
+        <h3>Кодовое слово</h3>
+        <div class="anf" id="formulas"></div>
+        <p class="hint">Проверочные биты стоят на позициях 1, 2, 4; информационные на 3, 5, 6, 7.</p>
+
+        <div class="bit-row" id="c-row" style="margin-top:8px"></div>
+        <div class="bit-row" id="r-row" style="margin-top:8px"></div>
+        <div class="bit-row" id="fix-row" style="margin-top:8px"></div>
+        <p class="hint">
+          Верхняя строка это переданное слово c.
+          Средняя это принятое r, клик по позиции переворачивает бит.
+          Нижняя это слово после декодера.
+        </p>
+      </div>
+      <div>
+        <h3>Синдром</h3>
+        <div class="syndrome-bits" id="syndrome-bits"></div>
+        <div class="status" id="syndrome-status"></div>
+        <div class="anf" id="data-result" style="margin-top:10px"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Проверочная матрица</h2>
+    <div class="split-wide-left">
+      <div>
+        <div class="tt-wrap" id="hmatrix"></div>
+      </div>
+      <div>
+        <p class="hint">
+          Столбец j это двоичная запись номера j.
+          Синдром одной ошибки совпадает со столбцом её позиции, поэтому декодер знает, какой бит переворачивать.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Что здесь показано</h2>
+    <div class="theory-grid">
+      <div>
+        <h3>Кодовое слово</h3>
+        <p>Синие позиции проверочные, янтарные информационные.
+        Проверочные биты p<sub>1</sub>, p<sub>2</sub>, p<sub>4</sub> считаются по формулам на карточке, затем собирается слово c.</p>
+      </div>
+      <div>
+        <h3>Синдром</h3>
+        <p>Принятое слово r даёт три проверки s<sub>1</sub>, s<sub>2</sub>, s<sub>4</sub>.
+        Синдром (s<sub>4</sub>s<sub>2</sub>s<sub>1</sub>)<sub>2</sub> равен номеру позиции ошибки.</p>
+      </div>
+      <div>
+        <h3>Матрица</h3>
+        <p>Столбец j матрицы H это двоичная запись j.
+        Поэтому синдром одной ошибки совпадает со столбцом её позиции.</p>
+      </div>
+      <div>
+        <h3>Исправление</h3>
+        <p>Декодер переворачивает бит с номером s.
+        При s = 0 ошибки нет, и информационные биты остаются как были.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">Стенд 06 · код Хэмминга (7,4), синдром и исправление одной ошибки.</footer>
+<script src="lab-core.js"></script>
+<script>
+(function () {
+  "use strict";
+  const { $, el, clear, popcount } = Lab;
+
+  let data = [1, 0, 1, 1];
+  let errorMask = 0;
+
+  const dataBitsNode = $("#data-bits");
+  const formulasNode = $("#formulas");
+  const cRow = $("#c-row");
+  const rRow = $("#r-row");
+  const fixRow = $("#fix-row");
+  const syndromeBits = $("#syndrome-bits");
+  const syndromeStatus = $("#syndrome-status");
+  const dataResult = $("#data-result");
+  const hmatrixNode = $("#hmatrix");
+
+  function xor(a, b) { return a ^ b; }
+
+  function codeword() {
+    const d1 = data[0], d2 = data[1], d3 = data[2], d4 = data[3];
+    const p1 = d1 ^ d2 ^ d4;
+    const p2 = d1 ^ d3 ^ d4;
+    const p4 = d2 ^ d3 ^ d4;
+    return [p1, p2, d1, p4, d2, d3, d4];
+  }
+
+  function received(c) {
+    const r = c.slice();
+    for (let i = 0; i < 7; i++) if (errorMask & (1 << i)) r[i] ^= 1;
+    return r;
+  }
+
+  function syndrome(r) {
+    const s1 = r[0] ^ r[2] ^ r[4] ^ r[6];
+    const s2 = r[1] ^ r[2] ^ r[5] ^ r[6];
+    const s4 = r[3] ^ r[4] ^ r[5] ^ r[6];
+    return { s1, s2, s4, value: s4 * 4 + s2 * 2 + s1 };
+  }
+
+  function corrected(r, s) {
+    const out = r.slice();
+    if (s >= 1 && s <= 7) out[s - 1] ^= 1;
+    return out;
+  }
+
+  function roleOf(pos) {
+    if (pos === 1 || pos === 2 || pos === 4) return { cls: "parity", label: "p" + pos };
+    if (pos === 3) return { cls: "data", label: "d1" };
+    if (pos === 5) return { cls: "data", label: "d2" };
+    if (pos === 6) return { cls: "data", label: "d3" };
+    return { cls: "data", label: "d4" };
+  }
+
+  function positionCell(pos, bit, options) {
+    const role = roleOf(pos);
+    const cell = el("div", {
+      class: "pos " + role.cls + (options.error ? " error" : "") + (options.corrected ? " corrected" : ""),
+      title: options.title || "",
+    });
+    cell.appendChild(el("div", { class: "pnum", text: "поз. " + pos }));
+    cell.appendChild(el("div", { class: "pbit", text: String(bit) }));
+    cell.appendChild(el("div", { class: "prole", text: role.label }));
+    return cell;
+  }
+
+  function renderDataBits() {
+    clear(dataBitsNode);
+    data.forEach((bit, i) => {
+      const button = el("button", { class: "bit" + (bit ? " on" : ""), text: String(bit), title: "d" + (i + 1) });
+      button.addEventListener("click", () => {
+        data[i] ^= 1;
+        errorMask = 0;
+        renderAll();
+      });
+      dataBitsNode.appendChild(button);
+      dataBitsNode.appendChild(el("span", { class: "small muted", text: "d" + (i + 1) }));
+    });
+  }
+
+  function renderFormulas() {
+    const d = data;
+    const p1 = d[0] ^ d[1] ^ d[3];
+    const p2 = d[0] ^ d[2] ^ d[3];
+    const p4 = d[1] ^ d[2] ^ d[3];
+    formulasNode.textContent = "p1 = d1 ⊕ d2 ⊕ d4 = " + p1 + "   ·   p2 = d1 ⊕ d3 ⊕ d4 = " + p2 + "   ·   p4 = d2 ⊕ d3 ⊕ d4 = " + p4;
+  }
+
+  function renderWords(c, r, fix, s, actualErrors) {
+    clear(cRow);
+    clear(rRow);
+    clear(fixRow);
+    for (let pos = 1; pos <= 7; pos++) {
+      cRow.appendChild(positionCell(pos, c[pos - 1], { title: "Передано" }));
+    }
+    for (let pos = 1; pos <= 7; pos++) {
+      const cell = positionCell(pos, r[pos - 1], {
+        error: Boolean(errorMask & (1 << (pos - 1))),
+        title: "Принято, клик переворачивает",
+      });
+      cell.addEventListener("click", () => {
+        errorMask ^= 1 << (pos - 1);
+        renderAll();
+      });
+      rRow.appendChild(cell);
+    }
+    for (let pos = 1; pos <= 7; pos++) {
+      const isCorrected = actualErrors === 1 && s === pos;
+      fixRow.appendChild(positionCell(pos, fix[pos - 1], {
+        corrected: isCorrected,
+        title: "После декодера",
+      }));
+    }
+  }
+
+  function renderSyndrome(r, s) {
+    clear(syndromeBits);
+    syndromeBits.appendChild(el("span", { class: "sbit", text: "s1 = " + s.s1 }));
+    syndromeBits.appendChild(el("span", { class: "sbit", text: "s2 = " + s.s2 }));
+    syndromeBits.appendChild(el("span", { class: "sbit", text: "s4 = " + s.s4 }));
+    syndromeBits.appendChild(el("span", { class: "sbit", text: "s = " + s.value + " (s4s2s1)" }));
+  }
+
+  function renderHMatrix(s) {
+    clear(hmatrixNode);
+    const table = el("table", { class: "data hmatrix" });
+    const thead = el("thead");
+    const head = el("tr");
+    head.appendChild(el("th", { class: "left", text: "H" }));
+    for (let pos = 1; pos <= 7; pos++) head.appendChild(el("th", { text: String(pos) }));
+    thead.appendChild(head);
+    table.appendChild(thead);
+    const tbody = el("tbody");
+    const rows = [["s4", 4], ["s2", 2], ["s1", 1]];
+    for (const [name, mask] of rows) {
+      const row = el("tr");
+      row.appendChild(el("td", { class: "left mono", text: name }));
+      for (let pos = 1; pos <= 7; pos++) {
+        const bit = (pos & mask) ? 1 : 0;
+        row.appendChild(el("td", { class: "mono" + (s === pos ? " sel" : ""), text: String(bit) }));
+      }
+      tbody.appendChild(row);
+    }
+    table.appendChild(tbody);
+    hmatrixNode.appendChild(table);
+  }
+
+  function renderAll() {
+    const c = codeword();
+    const r = received(c);
+    const s = syndrome(r);
+    const fix = corrected(r, s.value);
+    const actualErrors = popcount(errorMask);
+    renderDataBits();
+    renderFormulas();
+    renderWords(c, r, fix, s.value, actualErrors);
+    renderSyndrome(r, s);
+    renderHMatrix(s.value);
+
+    if (actualErrors === 0 && s.value === 0) {
+      Lab.status(syndromeStatus, "Ошибки нет: синдром 0.", "ok");
+    } else if (actualErrors === 1) {
+      Lab.status(syndromeStatus, "Одна ошибка. Синдром указывает на позицию " + s.value + "; декодер переворачивает её.", "ok");
+    } else if (actualErrors >= 2) {
+      Lab.status(syndromeStatus, "Фактических ошибок: " + actualErrors + ". Декодер переворачивает позицию " + (s.value === 0 ? "0, то есть не исправляет" : s.value) + ". При двух и более ошибках это может быть неверно.", "warn");
+    } else {
+      Lab.status(syndromeStatus, "Синдром " + s.value + ", ошибок не внесено. Проверьте слово.", "warn");
+    }
+
+    const correctedData = [fix[2], fix[4], fix[5], fix[6]].join("");
+    const originalData = data.join("");
+    dataResult.textContent = "Информационные биты: " + originalData + " → после декодера " + correctedData;
+  }
+
+  $("#random-error").addEventListener("click", () => {
+    errorMask ^= 1 << Math.floor(Math.random() * 7);
+    renderAll();
+  });
+
+  $("#clear-errors").addEventListener("click", () => {
+    errorMask = 0;
+    renderAll();
+  });
+
+  $("#preset-1011").addEventListener("click", () => {
+    data = [1, 0, 1, 1];
+    errorMask = 0;
+    renderAll();
+  });
+
+  $("#preset-zero").addEventListener("click", () => {
+    data = [0, 0, 0, 0];
+    errorMask = 0;
+    renderAll();
+  });
+
+  renderAll();
+})();
+</script>
+</body>
+</html>
