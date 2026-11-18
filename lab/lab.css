@@ -362,6 +362,7 @@ button.bit.x { background: var(--amber-soft); border-color: #d7b26e; color: #7c5
 svg { display: block; max-width: 100%; height: auto; }
 
 .map {
+  position: relative;
   display: grid;
   gap: 4px;
   width: max-content;
@@ -622,7 +623,7 @@ pre.code {
 .bdd-node circle { transition: fill .12s, stroke .12s; }
 .bdd-node.hl circle { fill: var(--red-soft); stroke: var(--red); stroke-width: 3; }
 .bdd-node.neighbor circle { stroke: var(--accent); stroke-width: 2.5; }
-.bdd-edge { transition: stroke .12s, stroke-width .12s; }
+.bdd-edge { fill: none; stroke: #7b7366; stroke-width: 1.4; stroke-linecap: round; transition: stroke .12s, stroke-width .12s; }
 .bdd-edge.lo { stroke-dasharray: 5 4; }
 .bdd-edge.hl { stroke: var(--red); stroke-width: 2.5; }
 .bdd-terminal.neighbor rect { stroke-width: 3; }
@@ -1461,4 +1462,20 @@ button, .btn { border-radius: 9px; font-size: 13px; padding: 7px 12px; }
   .card { padding: 18px 15px; }
   .module-index { font-size: 40px; top: -10px; }
   .sitebar-mark { width: 34px; height: 34px; }
+}
+
+.k-map-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.k-map-overlay path {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }

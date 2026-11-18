@@ -254,6 +254,7 @@
         const path = svg("path", {
           d: "M " + from.x + " " + from.y + " C " + from.x + " " + midY + ", " + to.x + " " + midY + ", " + to.x + " " + to.y,
           class: "bdd-edge " + which,
+          fill: "none",
           "data-from": String(node.id),
           "data-to": String(target),
         });

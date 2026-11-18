@@ -126,6 +126,7 @@
   let n = 3;
   let state = new Array(1 << n).fill(0);
   let primes = [];
+  let lastResult = null;
 
   const arity = $("#arity");
   const preset = $("#preset");
@@ -305,6 +306,110 @@
     }
   }
 
+  function cyclicSegments(indices, total) {
+    if (indices.size === total) return [[0, total - 1]];
+    let start = -1;
+    for (let i = 0; i < total; i++) {
+      if (!indices.has(i) && indices.has((i + 1) % total)) { start = (i + 1) % total; break; }
+    }
+    if (start < 0) return [[0, total - 1]];
+    const sequence = [];
+    let cursor = start;
+    while (indices.has(cursor)) {
+      sequence.push(cursor);
+      cursor = (cursor + 1) % total;
+      if (sequence.length > total) break;
+    }
+    const runs = [];
+    let first = sequence[0];
+    let previous = sequence[0];
+    for (let i = 1; i < sequence.length; i++) {
+      if (sequence[i] !== (previous + 1) % total) {
+        runs.push([first, previous]);
+        first = sequence[i];
+      }
+      previous = sequence[i];
+    }
+    runs.push([first, previous]);
+    const out = [];
+    for (const [a, b] of runs) {
+      if (a <= b) out.push([a, b]);
+      else { out.push([a, total - 1]); out.push([0, b]); }
+    }
+    return out;
+  }
+
+  function drawFrame(root, left, top, right, bottom, open, color, label) {
+    const gap = 5;
+    const d = [];
+    const segment = (x1, y1, x2, y2) => d.push("M " + x1 + " " + y1 + " L " + x2 + " " + y2);
+    if (!open.top) segment(left + (open.left ? gap : 0), top, right - (open.right ? gap : 0), top);
+    if (!open.bottom) segment(left + (open.left ? gap : 0), bottom, right - (open.right ? gap : 0), bottom);
+    if (!open.left) segment(left, top + (open.top ? gap : 0), left, bottom - (open.bottom ? gap : 0));
+    if (!open.right) segment(right, top + (open.top ? gap : 0), right, bottom - (open.bottom ? gap : 0));
+    if (!d.length) return;
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path.setAttribute("d", d.join(" "));
+    path.setAttribute("stroke", color);
+    path.setAttribute("stroke-width", "2.4");
+    path.setAttribute("opacity", "0.92");
+    path.setAttribute("data-prime", label);
+    root.appendChild(path);
+  }
+
+  function renderFrames(result) {
+    const old = mapNode.querySelector(".k-map-overlay");
+    if (old) old.remove();
+    if (!result || !result.selected.length) return;
+    const layout = mapLayout(n);
+    const rowAt = new Map(layout.rows.map((code, index) => [code, index]));
+    const colAt = new Map(layout.cols.map((code, index) => [code, index]));
+    const cells = new Map();
+    for (const cell of mapNode.querySelectorAll(".map-cell")) cells.set(Number(cell.dataset.m), cell);
+    const width = mapNode.clientWidth;
+    const height = mapNode.clientHeight;
+    if (!width || !height) return;
+    const root = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    root.classList.add("k-map-overlay");
+    root.setAttribute("viewBox", "0 0 " + width + " " + height);
+    root.setAttribute("aria-hidden", "true");
+
+    for (const primeIndex of result.selected) {
+      const prime = primes[primeIndex];
+      const rows = new Set();
+      const cols = new Set();
+      for (const m of prime.covers) {
+        const rowCode = m >> layout.colBits;
+        const colCode = m & ((1 << layout.colBits) - 1);
+        if (rowAt.has(rowCode)) rows.add(rowAt.get(rowCode));
+        if (colAt.has(colCode)) cols.add(colAt.get(colCode));
+      }
+      const rowSegments = cyclicSegments(rows, layout.rows.length);
+      const colSegments = cyclicSegments(cols, layout.cols.length);
+      const rowWrap = rowSegments.length > 1;
+      const colWrap = colSegments.length > 1;
+      const inset = 2 + (primeIndex % 4) * 1.5;
+      for (const [r0, r1] of rowSegments) {
+        for (const [c0, c1] of colSegments) {
+          const first = cells.get(mintermOf(layout.rows[r0], layout.cols[c0], layout.colBits));
+          const last = cells.get(mintermOf(layout.rows[r1], layout.cols[c1], layout.colBits));
+          if (!first || !last) continue;
+          const left = first.offsetLeft + inset;
+          const top = first.offsetTop + inset;
+          const right = last.offsetLeft + last.offsetWidth - inset;
+          const bottom = last.offsetTop + last.offsetHeight - inset;
+          drawFrame(root, left, top, right, bottom, {
+            top: rowWrap && r0 === 0,
+            bottom: rowWrap && r1 === layout.rows.length - 1,
+            left: colWrap && c0 === 0,
+            right: colWrap && c1 === layout.cols.length - 1,
+          }, colors[primeIndex % colors.length], String(primeIndex));
+        }
+      }
+    }
+    mapNode.appendChild(root);
+  }
+
   function renderPrimes(result) {
     clear(primesNode);
     if (primes.length === 0) {
@@ -370,6 +475,8 @@
     renderMap();
     const result = renderResult();
     renderPrimes(result);
+    renderFrames(result);
+    lastResult = result;
   }
 
   function applyPreset(name) {
@@ -403,6 +510,10 @@
     state = state.map(() => 1);
     markCustom();
     renderAll();
+  });
+
+  window.addEventListener("resize", () => {
+    if (lastResult && mapNode.querySelector(".map-cell")) renderFrames(lastResult);
   });
 
   applyPreset("maj3");
