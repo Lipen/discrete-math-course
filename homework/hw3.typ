@@ -189,13 +189,11 @@
 ]
 
 #tasklist("t4")[
-  + #block(breakable: false)[
-      Постройте выводы, указывая правило на каждом шаге.
+  + Постройте выводы, указывая правило на каждом шаге.
 
-      + $proves A -> (B -> (A and B))$
-      + $P or Q, quad not P quad proves quad Q$
-      + $P -> R, quad Q -> R, quad P or Q quad proves quad R$
-    ]
+    + $proves A -> (B -> (A and B))$
+    + $P or Q, quad not P quad proves quad Q$
+    + $P -> R, quad Q -> R, quad P or Q quad proves quad R$
 
     Какие из трёх выводов обходятся без классических правил?
 
@@ -260,21 +258,17 @@
 
   Гипотеза _открыта_, пока не закрыто поддоказательство с ней.
 
-  #block(breakable: false)[
-    - $forall$E: из $forall x . thin phi(x)$ следует $phi(t)$ при свободной подстановке.
-    - $forall$I: из $phi(a)$ следует $forall x . thin phi(x)$, если $a$ не свободна в открытых гипотезах.
-    - $exists$I: из $phi(t)$ следует $exists x . thin phi(x)$ при свободной подстановке.
-    - $exists$E: из $exists x . thin phi(x)$ и $phi(a) proves C$ следует $C$, если $a$ не свободна в $C$ и открытых гипотезах, кроме $phi(a)$.
-  ]
+  - $forall$E: из $forall x . thin phi(x)$ следует $phi(t)$ при свободной подстановке.
+  - $forall$I: из $phi(a)$ следует $forall x . thin phi(x)$, если $a$ не свободна в открытых гипотезах.
+  - $exists$I: из $phi(t)$ следует $exists x . thin phi(x)$ при свободной подстановке.
+  - $exists$E: из $exists x . thin phi(x)$ и $phi(a) proves C$ следует $C$, если $a$ не свободна в $C$ и открытых гипотезах, кроме $phi(a)$.
 ]
 
 #tasklist("t6")[
-  + #block(breakable: false)[
-      Постройте выводы, указывая правило на каждом шаге.
+  + Постройте выводы, указывая правило на каждом шаге.
 
-      + $forall x . thin (P(x) -> Q(x)), quad forall x . thin P(x) proves forall x . thin Q(x)$
-      + $forall x . thin (P(x) -> Q(x)) proves (exists x . thin P(x)) -> (exists x . thin Q(x))$
-    ]
+    + $forall x . thin (P(x) -> Q(x)), quad forall x . thin P(x) proves forall x . thin Q(x)$
+    + $forall x . thin (P(x) -> Q(x)) proves (exists x . thin P(x)) -> (exists x . thin Q(x))$
 
   + #block(breakable: false)[
       В протоколе ошибка: найдите первую недопустимую строку и нарушенное условие.
@@ -408,10 +402,8 @@
 #Given[
   _Предварённая нормальная форма_ (ПНФ) --- запись формулы, в которой все кванторы вынесены в начало и она имеет вид $Q_1 x_1 . thin dots . thin Q_k x_k . thin psi$, где каждый $Q_i$ --- $forall$ или $exists$, а $psi$ кванторов не содержит.
 
-  #block(breakable: false)[
-    #text(hyphenate: false)[_Сколемизация_ --- замена каждого квантора существования новой сколемовской функцией от переменных, связанных охватывающими его кванторами всеобщности, а при их отсутствии --- новой константой.]
-    Например, $forall x exists y forall z . thin T(x, y, z)$ даёт $forall x forall z . thin T(x, f(x), z)$.
-  ]
+  _Сколемизация_ --- замена каждого квантора существования новой сколемовской функцией от переменных, связанных охватывающими его кванторами всеобщности, а при их отсутствии --- новой константой.
+  Например, $forall x exists y forall z . thin T(x, y, z)$ даёт $forall x forall z . thin T(x, f(x), z)$.
 ]
 
 #tasklist("t9")[
@@ -437,7 +429,7 @@
 #task-heading([Задача 10: Модели и контрмодели], [#TagChallenge])
 
 #block(sticky: true)[
-  Каталог проверяет запросы моделями, и один контрпример закрывает вопрос об общезначимости.
+  Один контрпример закрывает вопрос об общезначимости.
 ]
 
 #Given[
@@ -476,7 +468,7 @@
 ]
 
 
-#v(1.5em)
+#pagebreak()
 
 #align(center)[
   #text(1.2em, weight: "bold", fill: accent)[Необязательные бонусные задачи]
