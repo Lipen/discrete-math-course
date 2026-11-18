@@ -196,16 +196,13 @@
       Постройте выводы, указывая правило на каждом шаге.
 
       + $proves A -> (B -> (A and B))$
-      + $P -> Q, quad Q -> R, quad P proves R$
       + $P or Q, quad not P proves Q$
       + $P -> R, quad Q -> R, quad P or Q proves R$
     ]
 
-    Какие из четырёх выводов обходятся без классических правил?
+    Какие из трёх выводов обходятся без классических правил?
 
   + Выведите $proves not (A or B) -> (not A and not B)$ и $proves (A -> B) -> (not B -> not A)$ без IP и DNE.
-
-  + Выведите $proves not (A and B) -> (not A or not B)$.
 
   + Выведите $proves (A -> B) or (B -> A)$.
     Почему без классических правил этот вывод не проходит?
@@ -280,7 +277,6 @@
       Постройте выводы, указывая правило на каждом шаге.
 
       + $forall x . thin (P(x) -> Q(x)), quad forall x . thin P(x) proves forall x . thin Q(x)$
-      + $exists x . thin (P(x) and Q(x)) proves exists x . thin P(x)$
       + $forall x . thin (P(x) -> Q(x)) proves (exists x . thin P(x)) -> (exists x . thin Q(x))$
     ]
 
@@ -340,15 +336,6 @@
 
       Какая передаёт смысл?
       Постройте модель, где другая ложна, а фраза верна.
-    ]
-
-  + #block(breakable: false)[
-      Фразу с оговоркой перевели так же: "Стоит открывать только те сектора, к которым получил доступ Контур".
-      - *A:* $forall x . thin (W(x) -> (S(x) and V(k, x)))$
-      - *B:* $forall x . thin ((S(x) and V(k, x)) -> W(x))$
-
-      Какая передаёт смысл?
-      Постройте модель, где другая истинна, а фраза ложна.
     ]
 
   + Запишите утверждение "к каждому сектору имеет доступ ровно один техник".
