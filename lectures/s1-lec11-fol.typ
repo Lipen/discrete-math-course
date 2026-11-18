@@ -532,7 +532,7 @@ $phi$ общезначима тогда и только тогда, когда $
 == Три сорта формул
 
 #table(
-  columns: (1fr, auto, auto, 1fr),
+  columns: 4,
   align: (left, center, center, left),
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*Формула*], [*Общезначима*], [*Выполнима*], [*Где смотреть*]),
