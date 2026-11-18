@@ -549,18 +549,7 @@ $phi$ общезначима тогда и только тогда, когда $
   $forall x . thin (P(x) or Q(x))$ истинна, её распределение $(forall x . thin P(x)) or (forall x . thin Q(x))$ ложно.
 
   $exists x . thin (P(x) and Q(x))$ ложна, а $(exists x . thin P(x)) and (exists x . thin Q(x))$ истинна.
-]
-
-== Контрпример к зеркальным парам
-
-На домене из двух элементов обе зеркальные пары дают разные значения.
-
-#example[Зеркальные пары][
-  Домен $D = {0, 1}$, предикаты $P^cal(I) = {0}$ и $Q^cal(I) = {1}$.
-
-  $forall x . thin (P(x) or Q(x))$ истинна, её распределение $(forall x . thin P(x)) or (forall x . thin Q(x))$ ложно.
-
-  $exists x . thin (P(x) and Q(x))$ ложна, а $(exists x . thin P(x)) and (exists x . thin Q(x))$ истинна, свидетели разные.
+  Свидетели разные, $P$ выполняется при $x = 0$, а $Q$ --- при $x = 1$.
 ]
 
 == Перенос квантора
