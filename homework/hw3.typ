@@ -196,8 +196,8 @@
       Постройте выводы, указывая правило на каждом шаге.
 
       + $proves A -> (B -> (A and B))$
-      + $P or Q, quad not P proves Q$
-      + $P -> R, quad Q -> R, quad P or Q proves R$
+      + $P or Q, quad not P quad proves quad Q$
+      + $P -> R, quad Q -> R, quad P or Q quad proves quad R$
     ]
 
     Какие из трёх выводов обходятся без классических правил?
@@ -205,7 +205,6 @@
   + Выведите $proves not (A or B) -> (not A and not B)$ и $proves (A -> B) -> (not B -> not A)$ без IP и DNE.
 
   + Выведите $proves (A -> B) or (B -> A)$.
-    Почему без классических правил этот вывод не проходит?
 
   + #block(breakable: false)[
       Найдите первую строку с ошибкой и объясните, что сломано.
