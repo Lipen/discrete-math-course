@@ -65,13 +65,6 @@
 
 
 // ── Правило вывода деревом: посылки над чертой, имя справа от черты ──
-#let subtree(top, bottom) = stack(
-  spacing: 0.1em,
-  align(center, top),
-  $dots.v$,
-  align(center, bottom),
-)
-
 #let ndrule(name, top, bottom) = context {
   let w = calc.max(measure(top).width, measure(bottom).width) + 10pt
   grid(
@@ -215,10 +208,10 @@
       ndrule($and "E"_2$, $A and B$, $B$),
       ndrule($or "I"_1$, $A$, $A or B$),
       ndrule($or "I"_2$, $B$, $A or B$),
-      ndrule($or "E"$, stack(dir: ltr, spacing: 0.5em, align(bottom, $A or B$), subtree($[A]^1$, $C$), subtree($[B]^1$, $C$)), $C$),
-      ndrule($-> "I"_1$, subtree($[A]^1$, $B$), $A -> B$),
+      ndrule($or "E"$, stack(spacing: 0.2em, align(center, $A or B$), align(center, $A proves C quad B proves C$)), $C$),
+      ndrule($-> "I"$, $A proves B$, $A -> B$),
       ndrule($-> "E"$, $A -> B quad A$, $B$),
-      ndrule($not "I"_1$, subtree($[A]^1$, $bot$), $not A$),
+      ndrule($not "I"$, $A proves bot$, $not A$),
       ndrule($not "E"$, $A quad not A$, $bot$),
       ndrule($bot "E"$, $bot$, $C$),
       ndrule("R", $A$, $A$),
@@ -233,7 +226,7 @@
       column-gutter: 0.9em,
       row-gutter: 0.7em,
       align: center + horizon,
-      ndrule("IP", subtree($[not A]^1$, $bot$), $A$),
+      ndrule("IP", $not A proves bot$, $A$),
       ndrule("DNE", $not not A$, $A$),
       grid(
         columns: (auto, auto),
