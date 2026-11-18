@@ -240,8 +240,8 @@
 == Интерпретация и оценка
 
 #table(
-  columns: 3,
-  align: left,
+  columns: (auto, 1fr, 1fr),
+  align: (left, left, left),
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*Что*], [*Интерпретация*], [*Оценка*]),
   [Задаёт], [символы сигнатуры], [переменные],
