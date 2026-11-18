@@ -73,7 +73,7 @@
     row-gutter: 0.1em,
     align: (center + horizon, left + horizon),
     top, [],
-    line(length: 100%, stroke: 0.55pt + luma(35%)), text(0.75em, fill: luma(40%))[#name],
+    line(length: 100%, stroke: 0.55pt + luma(35%)), box(text(0.75em, fill: luma(40%))[#name]),
     bottom, [],
   )
 }
@@ -232,7 +232,7 @@
         columns: (auto, auto),
         column-gutter: 0.4em,
         align: horizon,
-        $A or not A$, text(0.75em, fill: luma(40%))[LEM],
+        $A or not A$, box(text(0.75em, fill: luma(40%))[LEM]),
       ),
     ))
   ]
