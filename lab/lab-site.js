@@ -114,5 +114,43 @@
       badge.dataset.withModule = "1";
       badge.textContent = badge.textContent + " · " + moduleInfo.name;
     }
+
+    const header = document.querySelector(".lab-header");
+    if (header && !header.querySelector(".lab-watermark")) {
+      const number = catalog.labs.indexOf(currentLab) + 1;
+      const watermark = document.createElement("div");
+      watermark.className = "lab-watermark";
+      watermark.setAttribute("aria-hidden", "true");
+      const mark = document.createElement("span");
+      mark.className = "wm-mark";
+      mark.textContent = currentLab.mark;
+      const lecture = document.createElement("em");
+      lecture.className = "wm-no";
+      lecture.textContent = String(currentLab.lecture).padStart(2, "0");
+      watermark.append(mark, lecture);
+      header.prepend(watermark);
+
+      let meta = header.querySelector(".lab-meta");
+      const hadMeta = Boolean(meta);
+      if (!meta) {
+        meta = document.createElement("div");
+        meta.className = "lab-meta";
+        const lead = header.querySelector(".lead");
+        if (lead && lead.parentNode) lead.parentNode.insertBefore(meta, lead.nextSibling);
+        else header.appendChild(meta);
+      }
+      const chip = document.createElement("span");
+      chip.className = "pill lab-index-pill";
+      chip.textContent = "лаборатория " + String(number).padStart(2, "0") + " / " + total;
+      meta.prepend(chip);
+      if (!hadMeta) {
+        for (const tag of currentLab.tags) {
+          const pill = document.createElement("span");
+          pill.className = "pill";
+          pill.textContent = tag;
+          meta.appendChild(pill);
+        }
+      }
+    }
   }
 })();

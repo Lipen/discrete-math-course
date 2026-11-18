@@ -21,11 +21,13 @@
       <a class="btn" href="#map">Карта семестра</a>
       <a class="btn hidden" id="continue-link" href="#">Продолжить</a>
     </div>
-    <div class="hub-stats" style="margin-top:30px">
-      <div class="hub-stat"><b>16</b><span>лекций</span></div>
-      <div class="hub-stat"><b>18</b><span>лабораторий</span></div>
-      <div class="hub-stat"><b>5</b><span>модулей</span></div>
-    </div>
+  </div>
+  <div class="hero-poster" aria-hidden="true">
+    <div class="poster-top"><span>осень 2026</span><span>ДМ</span></div>
+    <div class="poster-big">16</div>
+    <div class="poster-caption">лекций<br><b>18 лабораторий</b></div>
+    <div class="poster-rule"></div>
+    <div class="poster-modules" id="poster-modules"></div>
   </div>
 </header>
 
@@ -70,6 +72,15 @@
     return "--m:" + module.accent + ";--m-soft:" + module.soft;
   }
 
+  const posterModules = document.getElementById("poster-modules");
+  for (const moduleInfo of catalog.modules) {
+    const row = document.createElement("span");
+    row.className = "poster-module";
+    row.style.cssText = moduleVars(moduleInfo);
+    row.innerHTML = `<i></i><span>${moduleInfo.short}</span>`;
+    posterModules.appendChild(row);
+  }
+
   for (const lecture of catalog.lectures) {
     const moduleInfo = catalog.moduleOf(lecture.module);
     const lab = catalog.byId.get(lecture.labs[0]);
@@ -89,13 +100,14 @@
     mapNode.appendChild(node);
   }
 
-  for (const moduleInfo of catalog.modules) {
+  catalog.modules.forEach((moduleInfo, moduleIndex) => {
     const block = document.createElement("section");
     block.className = "module-block";
     block.dataset.module = moduleInfo.id;
     block.style.cssText = moduleVars(moduleInfo);
     block.innerHTML = `
       <div class="module-head">
+        <span class="module-index">${String(moduleIndex + 1).padStart(2, "0")}</span>
         <div>
           <h3>${moduleInfo.name}</h3>
           <p>${moduleInfo.blurb}</p>
@@ -112,7 +124,9 @@
         card.className = "lab-card";
         card.href = lab.file;
         card.style.cssText = moduleVars(moduleInfo);
+        const order = catalog.labs.indexOf(lab) + 1;
         card.innerHTML = `
+          <span class="lab-order">${String(order).padStart(2, "0")} / ${catalog.labs.length}</span>
           <div class="mark">${lab.mark}</div>
           <span class="lecture">Лекция ${String(lecture.num).padStart(2, "0")} · ${lecture.week}</span>
           <h2>${lab.title}</h2>
@@ -124,7 +138,7 @@
       }
     }
     listNode.appendChild(block);
-  }
+  });
 
   const allButton = document.createElement("button");
   allButton.className = "filter active";
