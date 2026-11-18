@@ -207,7 +207,8 @@
 
   + Выведите $proves not (A or B) -> (not A and not B)$ без IP и DNE.
 
-  + Выведите $proves not (A and B) -> (not A or not B)$ и укажите классический шаг.
+  + Выведите $proves not (A and B) -> (not A or not B)$.
+    Какое правило понадобилось в этом выводе, но не в предыдущем?
 
   + #block(breakable: false)[
       Найдите первую строку с ошибкой и объясните, что сломано.
