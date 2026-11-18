@@ -8,8 +8,6 @@
 #let premise-label = [Посылка]
 #let assumption-label = [Допущение]
 #let fitch-left(..args) = align(left, fitch-proof(..args))
-#let llbracket = $[|$
-#let rrbracket = $|]$
 #let tequiv = $scripts(equiv)_T$
 
 #let rule-card(name, rule, condition) = block(
@@ -258,12 +256,12 @@
 Символы берут значения из $cal(I)$, переменные из $nu$.
 
 #definition[Значение терма][
-  *Значение терма* $t$ при интерпретации $cal(I)$ и оценке $nu$ обозначается $llbracket t rrbracket^cal(I)_nu$ и задаётся рекурсией.
+  *Значение терма* $t$ при интерпретации $cal(I)$ и оценке $nu$ обозначается $[| t |]^cal(I)_nu$ и задаётся рекурсией.
 
-  + $llbracket x rrbracket^cal(I)_nu = nu(x)$ и $llbracket c rrbracket^cal(I)_nu = c^cal(I)$
+  + $[| x |]^cal(I)_nu = nu(x)$ и $[| c |]^cal(I)_nu = c^cal(I)$
   + если $f$ имеет арность $n$, то
     $
-      llbracket f(t_1, ..., t_n) rrbracket^cal(I)_nu = f^cal(I) (llbracket t_1 rrbracket^cal(I)_nu, ..., llbracket t_n rrbracket^cal(I)_nu).
+      [| f(t_1, ..., t_n) |]^cal(I)_nu = f^cal(I) ([| t_1 |]^cal(I)_nu, ..., [| t_n |]^cal(I)_nu).
     $
 ]
 
@@ -274,10 +272,10 @@
 #example[Вычисление терма][
   Возьмём арифметическую интерпретацию $cal(I)$ и оценку $nu$ с $nu(x) = 5$ и $nu(y) = 2$.
 
-  - $llbracket x rrbracket^cal(I)_nu = 5$;
-  - $llbracket 1 rrbracket^cal(I)_nu = 1$;
-  - $llbracket +(x, 1) rrbracket^cal(I)_nu = 5 + 1 = 6$;
-  - $llbracket +(+(x, 1), y) rrbracket^cal(I)_nu = 6 + 2 = 8$.
+  - $[| x |]^cal(I)_nu = 5$;
+  - $[| 1 |]^cal(I)_nu = 1$;
+  - $[| +(x, 1) |]^cal(I)_nu = 5 + 1 = 6$;
+  - $[| +(+(x, 1), y) |]^cal(I)_nu = 6 + 2 = 8$.
 ]
 
 == Истинность формулы
@@ -288,9 +286,9 @@
 #definition[Истинность формулы][
   - $cal(I), nu models P(t_1, ..., t_n)$ тогда и только тогда, когда
     $
-      (llbracket t_1 rrbracket^cal(I)_nu, ..., llbracket t_n rrbracket^cal(I)_nu) in P^cal(I);
+      ([| t_1 |]^cal(I)_nu, ..., [| t_n |]^cal(I)_nu) in P^cal(I);
     $
-  - $cal(I), nu models t_1 = t_2 iff llbracket t_1 rrbracket^cal(I)_nu = llbracket t_2 rrbracket^cal(I)_nu$;
+  - $cal(I), nu models t_1 = t_2 iff [| t_1 |]^cal(I)_nu = [| t_2 |]^cal(I)_nu$;
   - связки --- как в логике высказываний
   - $cal(I), nu models forall x . thin phi iff forall d in D . thin cal(I), nu[x := d] models phi$;
   - $cal(I), nu models exists x . thin phi iff exists d in D . thin cal(I), nu[x := d] models phi$.
@@ -1235,12 +1233,12 @@ $
 Символы берут значения из $cal(I)$, переменные из $nu$.
 
 #definition[Значение терма][
-  *Значение терма* $t$ при интерпретации $cal(I)$ и оценке $nu$ обозначается $llbracket t rrbracket^cal(I)_nu$ и задаётся рекурсией.
+  *Значение терма* $t$ при интерпретации $cal(I)$ и оценке $nu$ обозначается $[| t |]^cal(I)_nu$ и задаётся рекурсией.
 
-  + $llbracket x rrbracket^cal(I)_nu = nu(x)$ и $llbracket c rrbracket^cal(I)_nu = c^cal(I)$
+  + $[| x |]^cal(I)_nu = nu(x)$ и $[| c |]^cal(I)_nu = c^cal(I)$
   + если $f$ имеет арность $n$, то
     $
-      llbracket f(t_1, ..., t_n) rrbracket^cal(I)_nu = f^cal(I) (llbracket t_1 rrbracket^cal(I)_nu, ..., llbracket t_n rrbracket^cal(I)_nu).
+      [| f(t_1, ..., t_n) |]^cal(I)_nu = f^cal(I) ([| t_1 |]^cal(I)_nu, ..., [| t_n |]^cal(I)_nu).
     $
 ]
 
@@ -1257,9 +1255,9 @@ $
 #definition[Истинность формулы][
   - $cal(I), nu models P(t_1, ..., t_n)$ тогда и только тогда, когда
     $
-      (llbracket t_1 rrbracket^cal(I)_nu, ..., llbracket t_n rrbracket^cal(I)_nu) in P^cal(I);
+      ([| t_1 |]^cal(I)_nu, ..., [| t_n |]^cal(I)_nu) in P^cal(I);
     $
-  - $cal(I), nu models t_1 = t_2 iff llbracket t_1 rrbracket^cal(I)_nu = llbracket t_2 rrbracket^cal(I)_nu$;
+  - $cal(I), nu models t_1 = t_2 iff [| t_1 |]^cal(I)_nu = [| t_2 |]^cal(I)_nu$;
   - связки --- как в логике высказываний
   - $cal(I), nu models forall x . thin phi iff forall d in D . thin cal(I), nu[x := d] models phi$;
   - $cal(I), nu models exists x . thin phi iff exists d in D . thin cal(I), nu[x := d] models phi$.
@@ -1272,7 +1270,7 @@ $
 Значение зависит не от всей оценки, а только от значений переменных, входящих в терм или свободных в формуле.
 
 #theorem[Совпадение][
-  Если оценки $nu$ и $nu'$ совпадают на переменных терма $t$, то $llbracket t rrbracket^cal(I)_nu = llbracket t rrbracket^cal(I)_(nu')$.
+  Если оценки $nu$ и $nu'$ совпадают на переменных терма $t$, то $[| t |]^cal(I)_nu = [| t |]^cal(I)_(nu')$.
   Если они совпадают на свободных переменных формулы $phi$, то $cal(I), nu models phi$ равносильно $cal(I), nu' models phi$.
 ]
 
@@ -1298,7 +1296,7 @@ $
 У теории все формулы замкнуты, поэтому запись $cal(I) models Gamma$ обходится без неё.
 
 #important[
-  У замкнутого терма переменных нет, поэтому пишут $llbracket t rrbracket^cal(I)$.
+  У замкнутого терма переменных нет, поэтому пишут $[| t |]^cal(I)$.
   У замкнутой формулы свободных переменных нет, поэтому пишут $cal(I) models phi$.
 ]
 
