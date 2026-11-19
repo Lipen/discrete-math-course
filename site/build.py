@@ -277,33 +277,6 @@ def homework_section(content: dict) -> str:
     )
 
 
-def labs_section(content: dict) -> str:
-    cards = "".join(
-        '<a class="mini" href="lab/{file}">'
-        '<span class="mini-n">{topic}</span>'
-        '<span class="mini-t">{title}</span>'
-        '<span class="pill-fmt">LAB</span></a>'.format(
-            file=escape(lab["file"]),
-            topic=escape(lab["topic"]),
-            title=escape(lab["title"]),
-        )
-        for lab in content.get("labs") or []
-    )
-    if not cards:
-        return ""
-    cards += (
-        '<a class="mini" href="lab/">'
-        '<span class="mini-n">Каталог</span>'
-        '<span class="mini-t">Все лаборатории</span>'
-        '<span class="pill-fmt">LAB</span></a>'
-    )
-    return (
-        '<section class="sem" id="labs">\n  <h2>Лаборатории</h2>\n  '
-        '<p class="labs-lead">Интерактивные инструменты: меняйте объект и сразу смотрите результат.</p>\n  '
-        f'<div class="mini-grid">{cards}</div>\n</section>'
-    )
-
-
 def cheatsheets_section(content: dict) -> str:
     rows = "".join(
         '<li><a class="sheet" href="tex/{file}" target="_blank" rel="noopener">'
@@ -539,6 +512,7 @@ def main() -> int:
     tabs.append('<a href="#cheatsheets">Шпаргалки</a>')
     if content.get("legacy"):
         tabs.append('<a href="#legacy">Старые лекции</a>')
+    tabs.append('<a href="lab/">Лаборатории</a>')
 
     body = f"""<main id="main">
 <header class="hero">
@@ -554,7 +528,6 @@ def main() -> int:
 </nav>
 {chr(10).join(sections)}
 {homework_section(content)}
-{labs_section(content)}
 {cheatsheets_section(content)}
 {legacy_section(content)}
 </main>"""
