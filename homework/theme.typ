@@ -32,7 +32,7 @@
 
   // Заголовки задач: цвет, размер и волосяная линейка снизу.
   show heading.where(level: 2): set text(
-    size: 1.2em,
+    size: 13pt,
     weight: "bold",
     fill: accent,
   )
