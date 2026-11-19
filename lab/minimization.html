@@ -50,7 +50,8 @@
 
     <p class="hint">
       Клик по клетке переключает 0 и 1.
-      Shift+клик ставит X или возвращает 0.
+      Shift+клик ставит X и запоминает прежнее значение.
+      Повторный Shift+клик на X возвращает это значение.
       X это безразличный набор: его можно покрывать, но не обязательно.
     </p>
 
@@ -74,7 +75,7 @@
           <div class="truth-wrap">
             <table class="data truth-table" id="truth-table"></table>
           </div>
-          <p class="hint">Значения в последнем столбце можно менять кликом и Shift+кликом.</p>
+          <p class="hint">Клик переключает 0 и 1. Shift+клик ставит X и возвращает прежнее значение.</p>
         </div>
         <div class="legend" style="margin-top:8px">
           <span><span class="sw" style="background:#e8f0fb;border-color:#a9c1e4"></span>1</span>
@@ -147,6 +148,7 @@
 
   let n = 3;
   let state = new Array(1 << n).fill(0);
+  let xMemory = new Array(1 << n).fill(0);
   let primes = [];
   let lastResult = null;
   let form = "dnf";
@@ -172,6 +174,7 @@
 
   function applyState(ones, xs) {
     state = new Array(1 << n).fill(0);
+    xMemory = new Array(1 << n).fill(0);
     for (const m of ones) state[m] = 1;
     for (const m of xs) state[m] = 2;
   }
@@ -215,7 +218,16 @@
 
   function toggleMinterm(m, shift) {
     const value = state[m];
-    state[m] = shift ? (value === 2 ? 0 : 2) : (value === 1 ? 0 : 1);
+    if (shift) {
+      if (value === 2) state[m] = xMemory[m] === 1 ? 1 : 0;
+      else {
+        xMemory[m] = value;
+        state[m] = 2;
+      }
+    } else {
+      state[m] = value === 1 ? 0 : 1;
+      xMemory[m] = 0;
+    }
     markCustom();
     solutionIndex = 0;
     renderAll();
@@ -757,6 +769,7 @@
   arity.addEventListener("change", () => {
     n = Number(arity.value);
     state = new Array(1 << n).fill(0);
+    xMemory = new Array(1 << n).fill(0);
     markCustom();
     renderAll();
   });
@@ -777,12 +790,14 @@
 
   $("#zero").addEventListener("click", () => {
     state = state.map(() => 0);
+    xMemory = state.map(() => 0);
     markCustom();
     renderAll();
   });
 
   $("#fill").addEventListener("click", () => {
     state = state.map(() => 1);
+    xMemory = state.map(() => 0);
     markCustom();
     renderAll();
   });
