@@ -8,14 +8,14 @@
     if (!cave) return;
     var r = cave.getBoundingClientRect();
     torch.style.setProperty("--mx", (r.left + r.width * 0.75) + "px");
-    torch.style.setProperty("--my", (r.top + r.height * 0.54) + "px");
+    torch.style.setProperty("--my", (r.top + r.height * 0.55) + "px");
     if (copy) {
       var c = copy.getBoundingClientRect();
       torch.style.setProperty("--cx", (c.left + c.width / 2) + "px");
       torch.style.setProperty("--cy", (c.top + c.height / 2) + "px");
     }
     torch.style.setProperty("--lx", (r.left + r.width * 0.25) + "px");
-    torch.style.setProperty("--ly", (r.top + r.height * 0.55) + "px");
+    torch.style.setProperty("--ly", (r.top + r.height * 0.60) + "px");
   }
   function move(e) {
     if (raf) return;

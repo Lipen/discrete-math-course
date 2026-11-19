@@ -347,8 +347,9 @@ CAVE_SCENE = """<svg class="cave-scene" viewBox="0 0 600 600" aria-hidden="true"
     <circle cx="482" cy="390" r="1.4" opacity=".3"/>
     <circle cx="522" cy="342" r="1.8" opacity=".35"/>
   </g>
-  <rect x="350" y="220" width="200" height="210" rx="6" fill="none" stroke="#eef1f6" stroke-opacity=".3" stroke-width="1.4" stroke-dasharray="7 7"/>
-  <text x="450" y="338" text-anchor="middle" font-family="ui-serif, Georgia, serif" font-size="38" fill="#f0b45a">404</text>
+  <text x="450" y="365" text-anchor="middle" font-family="Iowan Old Style, Palatino Linotype, Book Antiqua, Georgia, serif" font-size="96" font-weight="400" letter-spacing="-1" fill="#f0b45a">404</text>
+  <line x1="402" y1="386" x2="498" y2="386" stroke="#f0b45a" stroke-opacity=".35" stroke-width="1.2"/>
+  <text x="450" y="410" text-anchor="middle" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif" font-size="12" font-weight="600" letter-spacing="2.6" fill="#f0b45a" opacity=".68">СТРАНИЦА НЕ НАЙДЕНА</text>
   <circle cx="150" cy="360" r="90" fill="url(#glow)" class="lamp-glow"/>
   <path d="M80 230 C80 170 220 170 220 230" fill="none" stroke="#f0b45a" stroke-opacity=".55" stroke-width="4" stroke-linecap="round"/>
   <path d="M60 230 H240 L225 260 H75 Z" fill="#1a1e26" stroke="#f0b45a" stroke-opacity=".8" stroke-width="2.5" stroke-linejoin="round"/>
@@ -373,7 +374,7 @@ def not_found() -> str:
         <div class="cave" aria-hidden="true">{CAVE_SCENE}</div>
       </div>
       <div class="copy">
-        <h1>Диоген искал человека</h1>
+        <h1>Диоген искал <em>человека</em></h1>
         <p class="sub">Мы искали страницу. Ни человека, ни страницы.</p>
         <div class="actions">
           <a class="btn primary" href="index.html">{HOME_ICON} На главную</a>

@@ -1,6 +1,6 @@
 /* 404: Diogenes cave. Loaded only by 404.html. */
 
-:root { --serif: ui-serif, Georgia, "Times New Roman", serif; }
+:root { --serif: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", "URW Palladio L", Georgia, serif; }
 
 main.di { max-width: none; margin: 0; padding: 0; }
 .torch {
@@ -46,35 +46,44 @@ main.di { max-width: none; margin: 0; padding: 0; }
 }
 .di .inner { width: min(100% - 2.5rem, 60rem); margin: 0 auto; }
 .di h1 {
-  margin: 0 0 0.8rem;
+  margin: 0 0 0.9rem;
   font-family: var(--serif);
-  font-weight: 500;
-  font-size: clamp(2.2rem, 4.6vw, 3.6rem);
-  line-height: 1.04;
-  letter-spacing: -0.02em;
-  max-width: 20ch;
+  font-weight: 400;
+  font-size: clamp(2.5rem, 4.6vw, 3.6rem);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  max-width: 19ch;
 }
-.di .sub { margin: 0; font-size: 1.08rem; opacity: 0.72; max-width: 38rem; }
+.di h1 em {
+  display: block;
+  margin-left: 1.2ch;
+  font-style: italic;
+  font-weight: 400;
+  color: #a86f24;
+}
+:root[data-theme="dark"] .di h1 em { color: #e0b36a; }
+.di .sub { margin: 1.05rem 0 0; font-size: 1.1rem; line-height: 1.6; color: var(--fg-soft); max-width: 32rem; text-wrap: pretty; }
 
-.actions { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.6rem; }
+.actions { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.8rem; }
 .btn {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.65rem 1rem;
+  padding: 0.72rem 1.15rem;
   border: 1px solid var(--line-strong);
-  border-radius: 9px;
-  background: var(--bg-card);
+  border-radius: 999px;
+  background: transparent;
   color: var(--fg);
-  font: 600 0.95rem/1 var(--sans);
+  font: 600 0.92rem/1 var(--sans);
+  letter-spacing: 0.01em;
   cursor: pointer;
-  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
 }
 .btn svg { width: 1rem; height: 1rem; flex: none; }
-.btn:hover { border-color: var(--accent); color: var(--accent); }
-.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-fg); }
+.btn:not(.primary):hover { border-color: var(--accent); color: var(--accent); background: color-mix(in oklab, var(--accent) 7%, transparent); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-fg); box-shadow: 0 10px 24px -14px color-mix(in oklab, var(--accent) 70%, transparent); }
 .btn.primary:hover { background: color-mix(in oklab, var(--accent) 87%, var(--fg)); border-color: var(--accent); color: var(--accent-fg); }
-.btn:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+.btn:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
 
 .d1 .scene { padding: clamp(2rem, 5vw, 4rem) 0; }
 .d1 .grid {
@@ -88,10 +97,11 @@ main.di { max-width: none; margin: 0; padding: 0; }
   width: 100%;
   max-width: 30rem;
   aspect-ratio: 1;
-  border: 1px solid var(--line);
-  border-radius: 14px;
+  border: 1px solid color-mix(in oklab, #f0b45a 22%, var(--line));
+  border-radius: 16px;
   overflow: hidden;
   background: #0e1116;
+  box-shadow: 0 30px 60px -34px rgb(20 15 5 / 55%), inset 0 1px 0 rgb(255 255 255 / 6%);
 }
 .d1 .cave svg { display: block; width: 100%; height: 100%; position: relative; z-index: 0; }
 .d1 .lamp-glow { transform-box: view-box; transform-origin: 150px 360px; animation: lamp-pulse 4.2s ease-in-out infinite; }
