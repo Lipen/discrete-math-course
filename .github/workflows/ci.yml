@@ -9,8 +9,6 @@ on:
       - .gitignore
       - README*
       - LICENSE
-      - .github/**
-      - "!.github/workflows/ci.yml"
   workflow_dispatch:
 
 jobs:
