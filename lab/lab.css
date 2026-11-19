@@ -2426,3 +2426,5 @@ button, .btn { border-radius: 9px; font-size: 13px; padding: 7px 12px; }
   .fitch-refs-cell { grid-area: refs; padding: 0 4px 1px; }
   .fitch-actions { grid-area: actions; margin: 0; padding: 8px 0 0; }
 }
+
+.hotel-legend { margin: 8px 0 0; }

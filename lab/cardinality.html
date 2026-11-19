@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Счётность и бесконечность · лаборатория</title>
-<link rel="stylesheet" href="lab.css">
+<link rel="stylesheet" href="lab.css?v=5">
 <link rel="stylesheet" href="vendor/katex/katex.min.css">
 </head>
 <body>
@@ -64,6 +64,11 @@
           </div>
           <div class="hotel-steps" id="hotel-steps" aria-label="Шаги сценария"></div>
           <div class="hotel-stage" id="hotel-stage"></div>
+          <p class="hint hotel-legend">
+            Гости находятся внутри комнат.
+            Стрелка ведёт из старой комнаты в новую.
+            «Вход» означает место снаружи, откуда гость попадает в отель.
+          </p>
           <div class="status" id="hotel-status" style="margin-top:10px"></div>
           <div class="formula-box" id="hotel-formula" style="margin-top:10px"></div>
         </div>
@@ -218,6 +223,7 @@
     const rooms = roomList(ROOM_COUNT);
     let sources = [];
     let mapping = [];
+    let arrows = [];
     let note = "";
     let localHint = "";
     let equationTex = "";
@@ -227,8 +233,7 @@
 
     if (s === "one") {
       maxStep = 2;
-      sources = Array.from({ length: 5 }, (_, i) => ({ row: "old", label: "G" + (i + 1) }));
-      sources.push({ row: "new", label: "новый" });
+      sources = currentStep === 2 ? [] : [{ row: "new", label: "новый" }];
       localHint = "Все комнаты заняты. Сдвиг освобождает первую комнату.";
       if (currentStep === 0) {
         note = "Комнат и гостей одинаково много. Свободных комнат нет.";
@@ -237,14 +242,17 @@
       } else {
         rooms[0] = { guest: "", kind: currentStep === 1 ? "free" : "new" };
         for (let i = 1; i < ROOM_COUNT; i++) rooms[i] = { guest: "G" + i, kind: "old" };
-        for (let i = 1; i <= 5; i++) mapping.push({ row: "old", label: "G" + i, room: i + 1, kind: "old" });
+        for (let i = 1; i < ROOM_COUNT; i++) mapping.push({ row: "old", label: "G" + i, fromRoom: i, room: i + 1, kind: "old" });
         if (currentStep === 1) {
-          note = "Каждый жилец переезжает на одну комнату вправо. Комната 1 пуста.";
+          arrows = mapping.slice();
+          note = "Каждый жилец переезжает на одну комнату вправо. Комната 1 пуста, новый гость ждёт снаружи.";
           equationTex = "\\left|\\mathbb{N}\\right| + 1 = \\left|\\mathbb{N}\\right|";
           formulaTex = "g(n) = n + 1";
         } else {
           rooms[0] = { guest: "новый", kind: "new" };
-          mapping.push({ row: "new", label: "новый", room: 1, kind: "new" });
+          const newGuest = { row: "new", label: "новый", fromIndex: 0, room: 1, kind: "new" };
+          mapping.push(newGuest);
+          arrows = [newGuest];
           note = "Новый гость занимает комнату 1. Никто не потерян: старый гость n теперь в комнате n+1.";
           equationTex = "\\left|\\mathbb{N}\\right| + 1 = \\left|\\mathbb{N}\\right|";
           formulaTex = "G_n \\mapsto n + 1, \\quad \\text{новый} \\mapsto 1";
@@ -254,27 +262,39 @@
     } else if (s === "group") {
       maxStep = 2;
       const k = groupSize;
-      sources = Array.from({ length: 4 }, (_, i) => ({ row: "old", label: "G" + (i + 1) }));
-      sources = sources.concat(Array.from({ length: k }, (_, i) => ({ row: "new", label: "N" + (i + 1) })));
+      sources = currentStep < 2 ? Array.from({ length: k }, (_, i) => ({ row: "new", label: "N" + (i + 1) })) : [];
       localHint = "Сдвиг освобождает начало ряда.";
       if (currentStep === 0) {
         note = "Все комнаты заняты. Снаружи ждут " + k + " новых гостей.";
         equationTex = "\\left|\\mathbb{N}\\right| + " + k + " = \\left|\\mathbb{N}\\right|";
         formulaTex = "g(n) = n + " + k;
+      } else if (currentStep === 1) {
+        for (let i = 0; i < k; i++) rooms[i] = { guest: "", kind: "free" };
+        for (let i = k; i < ROOM_COUNT; i++) rooms[i] = { guest: "G" + (i - k + 1), kind: "old" };
+        for (let i = 1; i <= ROOM_COUNT - k; i++) mapping.push({ row: "old", label: "G" + i, fromRoom: i, room: i + k, kind: "old" });
+        arrows = mapping.slice();
+        note = "Жильцы сдвигаются вправо. Первые " + k + " комнат свободны, новые гости ждут снаружи.";
+        equationTex = "\\left|\\mathbb{N}\\right| + " + k + " = \\left|\\mathbb{N}\\right|";
+        formulaTex = "g(n) = n + " + k;
       } else {
         for (let i = 0; i < k; i++) rooms[i] = { guest: "N" + (i + 1), kind: "new" };
         for (let i = k; i < ROOM_COUNT; i++) rooms[i] = { guest: "G" + (i - k + 1), kind: "old" };
-        for (let i = 1; i <= 4; i++) mapping.push({ row: "old", label: "G" + i, room: i + k, kind: "old" });
-        for (let i = 1; i <= k; i++) mapping.push({ row: "new", label: "N" + i, room: i, kind: "new" });
-        note = "Жильцы сдвигаются вправо, новые гости занимают начало ряда.";
+        for (let i = 1; i <= ROOM_COUNT - k; i++) mapping.push({ row: "old", label: "G" + i, fromRoom: i, room: i + k, kind: "old" });
+        const arrivals = [];
+        for (let i = 1; i <= k; i++) {
+          const guest = { row: "new", label: "N" + i, fromIndex: i - 1, room: i, kind: "new" };
+          mapping.push(guest);
+          arrivals.push(guest);
+        }
+        arrows = arrivals;
+        note = "Новые гости занимают первые " + k + " комнат. Жильцы остаются в сдвинутых комнатах.";
         equationTex = "\\left|\\mathbb{N}\\right| + " + k + " = \\left|\\mathbb{N}\\right|";
         formulaTex = "G_n \\mapsto n + " + k + ", \\quad N_j \\mapsto j";
       }
       calloutText = "Сдвиг на конечное k ничего не меняет: натуральный ряд сдвигом на k снова покрывает всё, кроме первых k мест, а эти места заняли новые гости.";
     } else if (s === "bus") {
       maxStep = 1;
-      sources = Array.from({ length: 5 }, (_, i) => ({ row: "old", label: "G" + (i + 1) }));
-      sources = sources.concat(Array.from({ length: 5 }, (_, i) => ({ row: "bus", label: "B" + (i + 1) })));
+      sources = currentStep === 0 ? Array.from({ length: 5 }, (_, i) => ({ row: "bus", label: "B" + (i + 1) })) : [];
       localHint = "Бесконечный автобус: каждому пассажиру нужна комната.";
       if (currentStep === 0) {
         note = "В отеле заняты все комнаты. У автобуса бесконечно много пассажиров.";
@@ -284,9 +304,10 @@
         for (let i = 1; i <= 5; i++) {
           rooms[2 * i - 1] = { guest: "G" + i, kind: "old" };
           rooms[2 * i - 2] = { guest: "B" + i, kind: "bus" };
-          mapping.push({ row: "old", label: "G" + i, room: 2 * i, kind: "old" });
-          mapping.push({ row: "bus", label: "B" + i, room: 2 * i - 1, kind: "bus" });
+          mapping.push({ row: "old", label: "G" + i, fromRoom: i, room: 2 * i, kind: "old" });
+          mapping.push({ row: "bus", label: "B" + i, fromIndex: i - 1, room: 2 * i - 1, kind: "bus" });
         }
+        arrows = mapping.slice();
         note = "Старые жильцы идут в чётные комнаты, пассажиры автобуса в нечётные. Обе последовательности не пересекаются и покрывают все комнаты.";
         equationTex = "\\left|\\mathbb{N}\\right| + \\left|\\mathbb{N}\\right| = \\left|\\mathbb{N}\\right|";
         formulaTex = "G_n \\mapsto 2n, \\quad B_n \\mapsto 2n - 1";
@@ -313,11 +334,11 @@
       calloutText = "Старых жильцов можно отправить в чётные комнаты, а пары (автобус, место) в нечётные. Счётное объединение счётных множеств счётно: диагональная нумерация превращает двумерную таблицу в один список.";
     }
 
-    return { rooms, sources, mapping, note, localHint, equationTex, formulaTex, calloutText, maxStep, currentStep };
+    return { rooms, sources, mapping, arrows, note, localHint, equationTex, formulaTex, calloutText, maxStep, currentStep };
   }
 
   function sourceY(row) {
-    return row === "old" ? 174 : 244;
+    return row === "bus" ? 268 : 222;
   }
 
   function sourceX(index) {
@@ -330,7 +351,7 @@
 
   function hotelSvg(state) {
     const parts = [];
-    parts.push('<svg class="hotel-svg" viewBox="0 0 920 316" role="img" aria-label="Схема переезда гостей в отеле">');
+    parts.push('<svg class="hotel-svg" viewBox="0 0 920 360" role="img" aria-label="Схема переезда гостей в отеле">');
     parts.push('<defs>');
     for (const kind of ["old", "new", "bus"]) {
       parts.push('<marker id="arrow-' + kind + '" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="' + COLORS[kind] + '"></path></marker>');
@@ -346,41 +367,69 @@
       parts.push('<g class="h-room">');
       parts.push('<rect x="' + x + '" y="28" width="74" height="58" rx="9" fill="' + fill + '" stroke="' + stroke + '" stroke-width="1.4"' + (isFree ? ' stroke-dasharray="5 4"' : '') + '></rect>');
       parts.push('<text x="' + (x + 37) + '" y="45" text-anchor="middle" font-size="9" fill="#5e6a75">комната ' + (i + 1) + '</text>');
-      parts.push('<text x="' + (x + 37) + '" y="68" text-anchor="middle" font-size="12" font-weight="700" fill="' + (isFree ? COLORS.free : '#18222d') + '">' + (isFree ? "свободна" : room.guest) + '</text>');
+      parts.push('<text x="' + (x + 37) + '" y="68" text-anchor="middle" font-size="12" font-weight="700" fill="' + (isFree ? COLORS.free : '#18222d') + '">' + (isFree ? "пусто" : room.guest) + '</text>');
       parts.push('</g>');
     }
 
     const rows = {};
-    const sourceParts = [];
-    const arrowParts = [];
     for (const source of state.sources) {
       if (!rows[source.row]) rows[source.row] = [];
       rows[source.row].push(source);
     }
 
-    for (const rowName of Object.keys(rows)) {
+    const externalRows = new Set(state.sources.map((source) => source.row));
+    const entryKeys = new Set();
+    for (const arrow of state.arrows) {
+      if (arrow.fromRoom) continue;
+      externalRows.add(arrow.row);
+      const rowSources = rows[arrow.row] || [];
+      let fromIndex = arrow.fromIndex;
+      if (fromIndex === undefined) fromIndex = rowSources.findIndex((source) => source.label === arrow.label);
+      if (fromIndex >= 0 && !rowSources[fromIndex]) entryKeys.add(arrow.row + ":" + fromIndex);
+    }
+
+    const sourceParts = [];
+    for (const rowName of externalRows) {
       const y = sourceY(rowName);
-      const label = rowName === "old" ? "жильцы" : (rowName === "new" ? "новые" : "автобус");
+      const label = rowName === "bus" ? "автобус" : "снаружи";
       sourceParts.push('<text x="14" y="' + (y + 21) + '" font-size="10" fill="#5e6a75">' + label + '</text>');
-      rows[rowName].forEach((source, index) => {
+      (rows[rowName] || []).forEach((source, index) => {
         const x = sourceX(index);
-        const fill = rowName === "old" ? "#e6eefb" : (rowName === "new" ? "#e3f2eb" : "#faeed9");
+        const fill = rowName === "bus" ? "#faeed9" : "#e3f2eb";
         const stroke = COLORS[rowName];
         sourceParts.push('<rect x="' + x + '" y="' + y + '" width="72" height="34" rx="7" fill="' + fill + '" stroke="' + stroke + '" stroke-width="1.1"></rect>');
         sourceParts.push('<text x="' + (x + 36) + '" y="' + (y + 21) + '" text-anchor="middle" font-size="11" font-weight="700" fill="#18222d">' + source.label + '</text>');
       });
+      for (const key of entryKeys) {
+        if (!key.startsWith(rowName + ":")) continue;
+        const index = Number(key.split(":")[1]);
+        const x = sourceX(index);
+        sourceParts.push('<rect x="' + x + '" y="' + y + '" width="72" height="34" rx="7" fill="#fff" stroke="' + COLORS[rowName] + '" stroke-width="1" stroke-dasharray="4 4" opacity=".55"></rect>');
+        sourceParts.push('<text x="' + (x + 36) + '" y="' + (y + 21) + '" text-anchor="middle" font-size="10" fill="#5e6a75">вход</text>');
+      }
     }
 
-    for (const arrow of state.mapping) {
-      const rowSources = rows[arrow.row] || [];
-      const fromIndex = rowSources.findIndex((source) => source.label === arrow.label);
-      if (fromIndex < 0) continue;
-      const x1 = sourceX(fromIndex) + 36;
-      const y1 = sourceY(arrow.row) - 3;
-      const x2 = roomX(arrow.room - 1) + 37;
-      const y2 = 91;
-      const mid = (y1 + y2) / 2;
-      const path = 'M ' + x1 + ' ' + y1 + ' C ' + x1 + ' ' + mid + ', ' + x2 + ' ' + mid + ', ' + x2 + ' ' + y2;
+    const arrowParts = [];
+    for (const arrow of state.arrows) {
+      let x1, y1, x2, y2, path;
+      if (arrow.fromRoom) {
+        x1 = roomX(arrow.fromRoom - 1) + 37;
+        x2 = roomX(arrow.room - 1) + 37;
+        y1 = y2 = 88;
+        const drop = Math.min(70, 14 + Math.abs(x2 - x1) * 0.32);
+        path = 'M ' + x1 + ' ' + y1 + ' C ' + x1 + ' ' + (y1 + drop) + ', ' + x2 + ' ' + (y2 + drop) + ', ' + x2 + ' ' + y2;
+      } else {
+        const rowSources = rows[arrow.row] || [];
+        let fromIndex = arrow.fromIndex;
+        if (fromIndex === undefined) fromIndex = rowSources.findIndex((source) => source.label === arrow.label);
+        if (fromIndex < 0) continue;
+        x1 = sourceX(fromIndex) + 36;
+        y1 = sourceY(arrow.row) + 17;
+        x2 = roomX(arrow.room - 1) + 37;
+        y2 = 88;
+        const mid = (y1 + y2) / 2;
+        path = 'M ' + x1 + ' ' + y1 + ' C ' + x1 + ' ' + mid + ', ' + x2 + ' ' + mid + ', ' + x2 + ' ' + y2;
+      }
       arrowParts.push('<path class="hotel-arrow" d="' + path + '" stroke="' + COLORS[arrow.kind] + '" marker-end="url(#arrow-' + arrow.kind + ')"></path>');
       if (!reduceMotion) {
         const tokenText = arrow.label === "новый" ? "N" : arrow.label;
@@ -473,7 +522,7 @@
       ]));
     }
     if (scenario === "one" && step > 0) {
-      movesNode.appendChild(el("p", { class: "hint", text: "Стрелки показывают первых пять жильцов. Остальные сдвигаются по той же схеме: G6 → 7, …, G9 → 10." }));
+      movesNode.appendChild(el("p", { class: "hint", text: "G10 уезжает в комнату 11 и дальше, за пределы окна." }));
     }
   }
 
