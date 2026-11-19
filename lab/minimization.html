@@ -251,6 +251,28 @@
     return runs;
   }
 
+  function renderKeepingPosition(m) {
+    const x = window.scrollX;
+    const y = window.scrollY;
+    const root = document.documentElement;
+    const previousBehavior = root.style.scrollBehavior;
+    root.style.scrollBehavior = "auto";
+    renderAll();
+    const selector = currentView === "truth"
+      ? '#truth-table .truth-bit[data-m="' + m + '"]'
+      : '.map-cell[data-m="' + m + '"]';
+    const next = document.querySelector(selector);
+    if (next) {
+      try { next.focus({ preventScroll: true }); } catch (error) { next.focus(); }
+    }
+    window.scrollTo(x, y);
+    requestAnimationFrame(() => {
+      window.scrollTo(x, y);
+      if (previousBehavior) root.style.scrollBehavior = previousBehavior;
+      else root.style.scrollBehavior = "";
+    });
+  }
+
   function toggleMinterm(m, shift) {
     const value = state[m];
     if (shift) {
@@ -265,7 +287,7 @@
     }
     markCustom();
     solutionIndex = 0;
-    renderAll();
+    renderKeepingPosition(m);
   }
 
   function coveredMinterms(prime) {
