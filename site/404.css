@@ -47,10 +47,10 @@ main.di { max-width: none; margin: 0; padding: 0; }
   animation: lamp-breathe 2.6s ease-in-out infinite;
 }
 @keyframes lamp-breathe {
-  0%, 100% { transform: scale(1); opacity: 0.78; }
-  22% { transform: scale(1.08); opacity: 1; }
-  47% { transform: scale(0.96); opacity: 0.68; }
-  68% { transform: scale(1.05); opacity: 0.9; }
+  0%, 100% { transform: scale(1); opacity: 0.85; }
+  22% { transform: scale(1.04); opacity: 1; }
+  47% { transform: scale(0.98); opacity: 0.78; }
+  68% { transform: scale(1.02); opacity: 0.92; }
 }
 @supports not ((mask-image: radial-gradient(#000, transparent)) or (-webkit-mask-image: radial-gradient(#000, transparent))) {
   .torch { display: none; }
@@ -132,21 +132,21 @@ main.di { max-width: none; margin: 0; padding: 0; }
   animation: flame-core 1.7s ease-in-out infinite;
 }
 @keyframes beam-breathe {
-  0%, 100% { opacity: 0.8; }
+  0%, 100% { opacity: 0.86; }
   22% { opacity: 1; }
-  47% { opacity: 0.72; }
+  47% { opacity: 0.82; }
   68% { opacity: 0.92; }
 }
 @keyframes flame-flicker {
   0%, 100% { transform: scale(1) translate(0, 0); opacity: 0.9; }
-  22% { transform: scale(1.06, 1.08) translate(1.2px, -1.8px); opacity: 0.98; }
-  47% { transform: scale(0.95, 0.98) translate(-1px, 0); opacity: 0.82; }
-  68% { transform: scale(1.04, 1.05) translate(0.6px, -1px); opacity: 0.96; }
+  22% { transform: scale(1.03, 1.04) translate(0.6px, -1px); opacity: 0.95; }
+  47% { transform: scale(0.98, 0.99) translate(-0.5px, 0); opacity: 0.87; }
+  68% { transform: scale(1.02, 1.03) translate(0.3px, -0.5px); opacity: 0.92; }
 }
 @keyframes flame-core {
   0%, 100% { transform: scale(1) translate(0, 0); opacity: 0.85; }
-  35% { transform: scale(0.9, 1.06) translate(-0.6px, -1px); opacity: 0.97; }
-  63% { transform: scale(1.06, 0.96) translate(0.8px, 0); opacity: 0.76; }
+  35% { transform: scale(0.95, 1.03) translate(-0.3px, -0.5px); opacity: 0.92; }
+  63% { transform: scale(1.03, 0.98) translate(0.4px, 0); opacity: 0.82; }
 }
 .d1 .mote {
   transform-box: fill-box;
