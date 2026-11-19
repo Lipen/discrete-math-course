@@ -225,6 +225,7 @@
     }
     if (depth > 0) {
       if (candidate.rule === "assumption") {
+        if (hasOpenAssumption(depth)) throw new Error("Подвывод этой глубины уже открыт. Закройте его или выберите большую глубину.");
         if (depth > 1 && !hasOpenAssumption(depth - 1)) throw new Error("Сначала откройте внешний подвывод.");
       } else if (!hasOpenAssumption(depth)) {
         throw new Error("На глубине " + depth + " нет открытого допущения.");
