@@ -9,6 +9,7 @@
   } catch (error) {
     pref = "auto";
   }
+  if (pref !== "auto" && pref !== "light" && pref !== "dark") pref = "auto";
 
   var media = window.matchMedia("(prefers-color-scheme: dark)");
 
