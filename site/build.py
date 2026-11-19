@@ -513,7 +513,6 @@ def main() -> int:
     tabs.append('<a href="#cheatsheets">Шпаргалки</a>')
     if content.get("legacy"):
         tabs.append('<a href="#legacy">Старые лекции</a>')
-    tabs.append('<a href="lab/">Лаборатории</a>')
 
     body = f"""<main id="main">
 <header class="hero">
