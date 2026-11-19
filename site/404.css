@@ -41,12 +41,12 @@ main.di { max-width: none; margin: 0; padding: 0; }
 .torch-lamp {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle 110px at var(--lx) var(--ly), rgba(255, 200, 120, 0.22), rgba(255, 190, 100, 0.07) 45%, transparent 75%);
+  background: radial-gradient(circle 110px at var(--lx) var(--ly), rgba(255, 200, 120, 0.32), rgba(255, 190, 100, 0.11) 45%, transparent 75%);
   mix-blend-mode: screen;
   animation: lamp-ambient 4.2s ease-in-out infinite;
 }
 @keyframes lamp-ambient {
-  0%, 100% { opacity: 0.85; }
+  0%, 100% { opacity: 0.7; }
   50% { opacity: 1; }
 }
 @supports not ((mask-image: radial-gradient(#000, transparent)) or (-webkit-mask-image: radial-gradient(#000, transparent))) {
@@ -132,14 +132,14 @@ main.di { max-width: none; margin: 0; padding: 0; }
 @keyframes beam-pulse { 0%, 100% { opacity: 0.88; } 50% { opacity: 1; } }
 @keyframes flame-flicker {
   0%, 100% { transform: scale(1) translate(0, 0); opacity: 0.9; }
-  22% { transform: scale(1.03, 1.05) translate(0.6px, -1px); opacity: 0.97; }
-  47% { transform: scale(0.98, 1.01) translate(-0.5px, 0); opacity: 0.86; }
-  68% { transform: scale(1.02, 1.03) translate(0.3px, -0.5px); opacity: 0.94; }
+  22% { transform: scale(1.06, 1.08) translate(1.2px, -1.8px); opacity: 0.98; }
+  47% { transform: scale(0.95, 0.98) translate(-1px, 0); opacity: 0.82; }
+  68% { transform: scale(1.04, 1.05) translate(0.6px, -1px); opacity: 0.96; }
 }
 @keyframes flame-core {
   0%, 100% { transform: scale(1) translate(0, 0); opacity: 0.85; }
-  35% { transform: scale(0.94, 1.04) translate(-0.3px, -0.5px); opacity: 0.95; }
-  63% { transform: scale(1.04, 0.98) translate(0.4px, 0); opacity: 0.8; }
+  35% { transform: scale(0.9, 1.06) translate(-0.6px, -1px); opacity: 0.97; }
+  63% { transform: scale(1.06, 0.96) translate(0.8px, 0); opacity: 0.76; }
 }
 .d1 .mote {
   transform-box: fill-box;
@@ -154,17 +154,17 @@ main.di { max-width: none; margin: 0; padding: 0; }
 .d1 .mote:nth-child(6) { animation-duration: 8s; animation-delay: -5s; }
 .d1 .mote:nth-child(7) { animation-duration: 13s; animation-delay: -1s; }
 @keyframes mote-drift {
-  0% { transform: translate(0, 0); opacity: 0.2; }
-  50% { transform: translate(6px, -4px); opacity: 0.55; }
-  100% { transform: translate(-2px, -8px); opacity: 0.3; }
+  0% { transform: translate(0, 0); opacity: 0.15; }
+  50% { transform: translate(11px, -7px); opacity: 0.7; }
+  100% { transform: translate(-4px, -13px); opacity: 0.4; }
 }
 .d1 .relic {
   animation: relic-breathe 6.8s ease-in-out infinite;
 }
 @keyframes relic-breathe {
   0%, 100% { filter: drop-shadow(0 0 0 rgba(240, 180, 90, 0)); }
-  38% { filter: drop-shadow(0 0 13px rgba(240, 180, 90, 0.2)); }
-  64% { filter: drop-shadow(0 0 7px rgba(240, 180, 90, 0.12)); }
+  38% { filter: drop-shadow(0 0 18px rgba(240, 180, 90, 0.32)); }
+  64% { filter: drop-shadow(0 0 10px rgba(240, 180, 90, 0.2)); }
 }
 @media (prefers-reduced-motion: reduce) {
   .torch-lamp, .d1 .lamp-glow, .d1 .lamp-beam, .d1 .lamp-core, .d1 .lamp-flame, .d1 .lamp-flame-core, .d1 .mote, .d1 .relic { animation: none; }
