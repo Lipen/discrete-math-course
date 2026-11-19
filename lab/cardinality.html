@@ -49,7 +49,8 @@
           <h3 id="hotel-title">Один гость</h3>
           <p class="hint" id="hotel-hint"></p>
           <div class="hotel-controls">
-            <button id="hotel-next" class="active">Следующий шаг</button>
+            <button id="hotel-prev">Назад</button>
+            <button id="hotel-next" class="active">Дальше</button>
             <button id="hotel-auto">Авто</button>
             <button id="hotel-reset">Сброс</button>
             <label class="inline-field" id="group-wrap">Группа
@@ -61,6 +62,7 @@
               </select>
             </label>
           </div>
+          <div class="hotel-steps" id="hotel-steps" aria-label="Шаги сценария"></div>
           <div class="hotel-stage" id="hotel-stage"></div>
           <div class="status" id="hotel-status" style="margin-top:10px"></div>
           <div class="formula-box" id="hotel-formula" style="margin-top:10px"></div>
@@ -69,6 +71,8 @@
         <aside class="hotel-aside">
           <h3>Ход</h3>
           <ol class="hotel-log" id="hotel-log"></ol>
+          <h3 class="hotel-subhead">Кто куда</h3>
+          <div class="hotel-moves" id="hotel-moves"></div>
           <div class="hotel-equation" id="hotel-equation"></div>
           <div class="hotel-callout" id="hotel-callout"></div>
         </aside>
@@ -179,7 +183,11 @@
   const groupWrap = $("#group-wrap");
   const groupSelect = $("#group-size");
   const nextButton = $("#hotel-next");
+  const prevButton = $("#hotel-prev");
   const autoButton = $("#hotel-auto");
+  const stepsNode = $("#hotel-steps");
+  const movesNode = $("#hotel-moves");
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   function showTab(name) {
     for (const button of tabs.querySelectorAll("button")) button.classList.toggle("active", button.dataset.tab === name);
@@ -372,7 +380,12 @@
       const x2 = roomX(arrow.room - 1) + 37;
       const y2 = 91;
       const mid = (y1 + y2) / 2;
-      arrowParts.push('<path class="hotel-arrow" d="M ' + x1 + ' ' + y1 + ' C ' + x1 + ' ' + mid + ', ' + x2 + ' ' + mid + ', ' + x2 + ' ' + y2 + '" stroke="' + COLORS[arrow.kind] + '" marker-end="url(#arrow-' + arrow.kind + ')"></path>');
+      const path = 'M ' + x1 + ' ' + y1 + ' C ' + x1 + ' ' + mid + ', ' + x2 + ' ' + mid + ', ' + x2 + ' ' + y2;
+      arrowParts.push('<path class="hotel-arrow" d="' + path + '" stroke="' + COLORS[arrow.kind] + '" marker-end="url(#arrow-' + arrow.kind + ')"></path>');
+      if (!reduceMotion) {
+        const tokenText = arrow.label === "новый" ? "N" : arrow.label;
+        arrowParts.push('<g class="hotel-token" aria-hidden="true"><circle r="8" fill="' + COLORS[arrow.kind] + '"></circle><text x="0" y="3" text-anchor="middle" font-size="8" font-weight="700" fill="#fff">' + tokenText + '</text><animateMotion dur="0.95s" begin="0s" fill="freeze" path="' + path + '"></animateMotion><animate attributeName="opacity" values="1;1;0" keyTimes="0;0.9;1" dur="1.05s" fill="freeze"></animate></g>');
+      }
     }
 
     parts.push('<text x="900" y="64" text-anchor="middle" font-size="20" fill="#5e6a75">…</text>');
@@ -434,12 +447,43 @@
     stage.appendChild(roomLane);
   }
 
+  function renderMoves(state) {
+    clear(movesNode);
+    let moves = state.mapping.slice();
+    if (scenario === "buses" && step > 0) {
+      const diagonal = step - 1;
+      moves = [];
+      for (let bus = 0; bus < BUS_ROWS; bus++) {
+        for (let seat = 1; seat <= BUS_SEATS; seat++) {
+          if (bus + seat - 1 === diagonal) {
+            moves.push({ label: "B" + bus + "·" + seat, room: busRoom(bus, seat), kind: "bus" });
+          }
+        }
+      }
+    }
+    if (!moves.length) {
+      movesNode.appendChild(el("p", { class: "hint", text: "Пока никто не двигался." }));
+      return;
+    }
+    for (const move of moves) {
+      movesNode.appendChild(el("div", { class: "move-row " + move.kind }, [
+        el("span", { class: "move-from", text: move.label }),
+        el("span", { class: "move-arrow", text: "→" }),
+        el("span", { class: "move-to", text: "комната " + move.room }),
+      ]));
+    }
+    if (scenario === "one" && step > 0) {
+      movesNode.appendChild(el("p", { class: "hint", text: "Стрелки показывают первых пять жильцов. Остальные сдвигаются по той же схеме: G6 → 7, …, G9 → 10." }));
+    }
+  }
+
   function renderHotel() {
     const state = stateFor(scenario, step);
     groupWrap.classList.toggle("hidden", scenario !== "group");
     title.textContent = scenario === "one" ? "Один гость" : (scenario === "group" ? "Конечная группа" : (scenario === "bus" ? "Бесконечный автобус" : "Бесконечно много автобусов"));
     hint.textContent = state.localHint;
     clear(log);
+    clear(stepsNode);
     const descriptions = scenario === "one"
       ? ["Комнаты заняты", "Жильцы сдвигаются на одну", "Новый гость в комнате 1"]
       : scenario === "group"
@@ -449,7 +493,17 @@
           : Array.from({ length: state.maxStep + 1 }, (_, i) => i === 0 ? "Ничего не размещено" : "Диагональ " + (i - 1));
     for (let i = 0; i <= state.maxStep; i++) {
       const li = el("li", { class: i === step ? "current" : "", text: descriptions[i] || "" });
+      li.title = "Перейти к шагу " + i;
+      li.addEventListener("click", () => { stopAuto(); step = i; renderHotel(); });
       log.appendChild(li);
+      const chip = el("button", {
+        class: "hotel-step" + (i === step ? " active" : "") + (i < step ? " done" : ""),
+        type: "button",
+        text: scenario === "buses" ? (i === 0 ? "S" : String(i - 1)) : String(i),
+        title: descriptions[i] || "",
+      });
+      chip.addEventListener("click", () => { stopAuto(); step = i; renderHotel(); });
+      stepsNode.appendChild(chip);
     }
 
     if (scenario === "buses") {
@@ -465,8 +519,11 @@
     formula.replaceChildren(math(state.formulaTex, true));
     equation.replaceChildren(math(state.equationTex, true));
     callout.textContent = state.calloutText;
+    renderMoves(state);
     nextButton.disabled = step >= state.maxStep;
-    nextButton.textContent = step >= state.maxStep ? "Готово" : "Следующий шаг";
+    prevButton.disabled = step <= 0;
+    autoButton.disabled = step >= state.maxStep;
+    nextButton.textContent = "Дальше";
   }
 
   function setScenario(name) {
@@ -482,7 +539,15 @@
     if (button) setScenario(button.dataset.scenario);
   });
 
+  prevButton.addEventListener("click", () => {
+    stopAuto();
+    if (step <= 0) return;
+    step -= 1;
+    renderHotel();
+  });
+
   nextButton.addEventListener("click", () => {
+    stopAuto();
     const max = stateFor(scenario, step).maxStep;
     if (step >= max) return;
     step += 1;

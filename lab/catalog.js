@@ -61,7 +61,7 @@
       tags: ["Хассе", "границы", "цепи"],
     },
     {
-      id: "cardinality", file: "cardinality.html?v=3", module: "infinity", mark: "ℵ₀",
+      id: "cardinality", file: "cardinality.html?v=4", module: "infinity", mark: "ℵ₀",
       topic: "Мощность",
       title: "Рассели бесконечность",
       blurb: "Переселяйте гостей, запускайте бесконечные автобусы, нумеруйте целые и ловите диагональ Кантора.",

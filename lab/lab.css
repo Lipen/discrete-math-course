@@ -1843,3 +1843,76 @@ button, .btn { border-radius: 9px; font-size: 13px; padding: 7px 12px; }
 }
 
 .finite-room.waiting { border-style: dashed; border-color: var(--red); background: var(--red-soft); }
+
+/* Stable hotel controls, step rail and movement list. */
+.hotel-controls button { min-width: 82px; justify-content: center; }
+#hotel-prev { min-width: 82px; }
+#hotel-next { min-width: 92px; }
+#hotel-auto { min-width: 70px; }
+#hotel-reset { min-width: 70px; }
+
+.hotel-steps {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+  min-height: 36px;
+  margin: 8px 0 10px;
+}
+
+.hotel-step {
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border-radius: 50%;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted);
+  background: #fff;
+}
+
+.hotel-step.done { background: var(--green-soft); border-color: #b9d8c9; color: var(--green); }
+.hotel-step.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+.hotel-step:hover { border-color: var(--accent); }
+
+#hotel-status { min-height: 58px; }
+#hotel-formula { min-height: 54px; }
+.hotel-equation { min-height: 54px; }
+
+.hotel-subhead { margin-top: 16px !important; }
+
+.hotel-moves {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px 8px;
+  margin-bottom: 14px;
+}
+
+.move-row {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  padding: 4px 6px;
+  border-left: 3px solid var(--line);
+  border-radius: 4px;
+  background: #fbfaf7;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.move-row.old { border-left-color: var(--accent); }
+.move-row.new { border-left-color: var(--green); }
+.move-row.bus { border-left-color: var(--amber); }
+.move-from { font-family: var(--mono); font-weight: 700; }
+.move-arrow { color: var(--muted); }
+.move-to { color: var(--muted); }
+.hotel-token { pointer-events: none; }
+
+@media (max-width: 700px) {
+  .hotel-moves { grid-template-columns: 1fr; }
+  .hotel-controls button { min-width: 72px; }
+  #hotel-next { min-width: 82px; }
+}
+
+.hotel-moves .hint { grid-column: 1 / -1; margin: 4px 0 0; }
