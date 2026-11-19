@@ -47,6 +47,7 @@
       <div class="btn-row">
         <button id="zero">Все нули</button>
         <button id="fill">Все единицы</button>
+        <button id="reset" type="button">Сброс</button>
       </div>
     </div>
 
@@ -55,6 +56,8 @@
       Shift+клик ставит X и запоминает прежнее значение.
       Повторный Shift+клик на X возвращает это значение.
       X это безразличный набор: его можно покрывать, но не обязательно.
+      Состояние карты сохраняется до закрытия вкладки.
+      Сброс возвращает медиану трёх.
     </p>
 
     <div class="kmap-layout">
@@ -142,6 +145,8 @@
   const { $, el, clear, bitsOf, graySeq, mapLayout, mintermOf } = Lab;
   const vars = ["A", "B", "C", "D", "E"];
   const colors = ["#2d5fa8", "#2f7d5c", "#a76a12", "#6a4c93", "#b03a3a", "#0f766e", "#7c3aed", "#b45309"];
+  const STORAGE_KEY = "dm-lab:minimization:v1";
+  const STORAGE_TTL = 8 * 60 * 60 * 1000;
 
   const presets = {
     maj3: { n: 3, ones: [3, 5, 6, 7], x: [] },
@@ -176,6 +181,51 @@
   const formSwitch = $("#form-switch");
 
   function markCustom() { preset.value = "custom"; }
+
+  function syncFormSwitch() {
+    for (const button of formSwitch.querySelectorAll("button")) {
+      button.classList.toggle("active", button.dataset.form === form);
+    }
+  }
+
+  function saveSession() {
+    try {
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify({
+        v: 1,
+        n,
+        state,
+        xMemory,
+        form,
+        view: currentView,
+        preset: preset.value,
+        solutionIndex,
+        savedAt: Date.now(),
+      }));
+    } catch (error) {}
+  }
+
+  function readSession() {
+    try {
+      const raw = sessionStorage.getItem(STORAGE_KEY);
+      if (!raw) return null;
+      const data = JSON.parse(raw);
+      if (!data || data.v !== 1) return null;
+      if (!Number.isFinite(data.savedAt) || Date.now() - data.savedAt > STORAGE_TTL) return null;
+      if (![2, 3, 4, 5].includes(data.n)) return null;
+      const size = 1 << data.n;
+      if (!Array.isArray(data.state) || data.state.length !== size) return null;
+      if (!data.state.every((value) => value === 0 || value === 1 || value === 2)) return null;
+      if (!Array.isArray(data.xMemory) || data.xMemory.length !== size || !data.xMemory.every((value) => value === 0 || value === 1)) {
+        data.xMemory = new Array(size).fill(0);
+      }
+      if (data.form !== "dnf" && data.form !== "cnf") data.form = "dnf";
+      if (data.view !== "map" && data.view !== "truth") data.view = "map";
+      if (!Number.isInteger(data.solutionIndex) || data.solutionIndex < 0) data.solutionIndex = 0;
+      return data;
+    } catch (error) {
+      return null;
+    }
+  }
 
   function applyState(ones, xs) {
     state = new Array(1 << n).fill(0);
@@ -994,6 +1044,7 @@
     renderSolutions(result);
     renderFrames(result);
     lastResult = result;
+    saveSession();
   }
 
   function setView(view) {
@@ -1009,12 +1060,13 @@
     } else {
       renderTruth();
     }
+    saveSession();
   }
 
   function setForm(next) {
     form = next;
     solutionIndex = 0;
-    for (const button of formSwitch.querySelectorAll("button")) button.classList.toggle("active", button.dataset.form === form);
+    syncFormSwitch();
     renderAll();
   }
 
@@ -1064,14 +1116,41 @@
     renderAll();
   });
 
+  $("#reset").addEventListener("click", () => {
+    try { sessionStorage.removeItem(STORAGE_KEY); } catch (error) {}
+    n = 3;
+    arity.value = "3";
+    form = "dnf";
+    syncFormSwitch();
+    solutionIndex = 0;
+    applyPreset("maj3");
+    setView("map");
+  });
+
   window.addEventListener("resize", () => {
     if (!lastResult || !mapNode.querySelector(".map-cell")) return;
     refreshAxisBars();
     renderFrames(lastResult);
   });
 
-  setView("map");
-  applyPreset("maj3");
+  const saved = readSession();
+  if (saved) {
+    n = saved.n;
+    arity.value = String(n);
+    form = saved.form;
+    syncFormSwitch();
+    state = saved.state.slice();
+    xMemory = saved.xMemory.slice();
+    solutionIndex = saved.solutionIndex;
+    preset.value = Array.from(preset.options).some((option) => option.value === saved.preset)
+      ? saved.preset
+      : "custom";
+    renderAll(true);
+    setView(saved.view);
+  } else {
+    setView("map");
+    applyPreset("maj3");
+  }
 })();
 </script>
 </body>
