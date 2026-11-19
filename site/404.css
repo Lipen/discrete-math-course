@@ -117,12 +117,57 @@ main.di { max-width: none; margin: 0; padding: 0; }
 .d1 .cave svg { display: block; width: 100%; height: 100%; position: relative; z-index: 0; }
 .d1 .lamp-glow { transform-box: view-box; transform-origin: 150px 360px; animation: lamp-pulse 4.2s ease-in-out infinite; }
 .d1 .lamp-beam, .d1 .lamp-core { animation: beam-pulse 4.2s ease-in-out infinite; }
-.d1 .lamp-flame { transform-box: fill-box; transform-origin: center bottom; animation: flame-pulse 3.1s ease-in-out infinite; }
+.d1 .lamp-flame {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  filter: drop-shadow(0 0 6px rgba(255, 170, 80, 0.35));
+  animation: flame-flicker 2.6s ease-in-out infinite;
+}
+.d1 .lamp-flame-core {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: flame-core 1.7s ease-in-out infinite;
+}
 @keyframes lamp-pulse { 0%, 100% { opacity: 0.82; transform: scale(1); } 50% { opacity: 1; transform: scale(1.06); } }
 @keyframes beam-pulse { 0%, 100% { opacity: 0.88; } 50% { opacity: 1; } }
-@keyframes flame-pulse { 0%, 100% { opacity: 0.9; transform: scaleY(1); } 50% { opacity: 1; transform: scaleY(1.04); } }
+@keyframes flame-flicker {
+  0%, 100% { transform: scale(1) translate(0, 0); opacity: 0.9; }
+  22% { transform: scale(1.03, 1.05) translate(0.6px, -1px); opacity: 0.97; }
+  47% { transform: scale(0.98, 1.01) translate(-0.5px, 0); opacity: 0.86; }
+  68% { transform: scale(1.02, 1.03) translate(0.3px, -0.5px); opacity: 0.94; }
+}
+@keyframes flame-core {
+  0%, 100% { transform: scale(1) translate(0, 0); opacity: 0.85; }
+  35% { transform: scale(0.94, 1.04) translate(-0.3px, -0.5px); opacity: 0.95; }
+  63% { transform: scale(1.04, 0.98) translate(0.4px, 0); opacity: 0.8; }
+}
+.d1 .mote {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: mote-drift 9s ease-in-out infinite alternate;
+}
+.d1 .mote:nth-child(1) { animation-duration: 9s; animation-delay: -1s; }
+.d1 .mote:nth-child(2) { animation-duration: 12s; animation-delay: -4s; }
+.d1 .mote:nth-child(3) { animation-duration: 10s; animation-delay: -2s; }
+.d1 .mote:nth-child(4) { animation-duration: 14s; animation-delay: -6s; }
+.d1 .mote:nth-child(5) { animation-duration: 11s; animation-delay: -3s; }
+.d1 .mote:nth-child(6) { animation-duration: 8s; animation-delay: -5s; }
+.d1 .mote:nth-child(7) { animation-duration: 13s; animation-delay: -1s; }
+@keyframes mote-drift {
+  0% { transform: translate(0, 0); opacity: 0.2; }
+  50% { transform: translate(6px, -4px); opacity: 0.55; }
+  100% { transform: translate(-2px, -8px); opacity: 0.3; }
+}
+.d1 .relic {
+  animation: relic-breathe 6.8s ease-in-out infinite;
+}
+@keyframes relic-breathe {
+  0%, 100% { filter: drop-shadow(0 0 0 rgba(240, 180, 90, 0)); }
+  38% { filter: drop-shadow(0 0 13px rgba(240, 180, 90, 0.2)); }
+  64% { filter: drop-shadow(0 0 7px rgba(240, 180, 90, 0.12)); }
+}
 @media (prefers-reduced-motion: reduce) {
-  .torch-lamp, .d1 .lamp-glow, .d1 .lamp-beam, .d1 .lamp-core, .d1 .lamp-flame { animation: none; }
+  .torch-lamp, .d1 .lamp-glow, .d1 .lamp-beam, .d1 .lamp-core, .d1 .lamp-flame, .d1 .lamp-flame-core, .d1 .mote, .d1 .relic { animation: none; }
 }
 .d1 .copy { min-width: 0; }
 

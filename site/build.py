@@ -339,15 +339,15 @@ CAVE_SCENE = """<svg class="cave-scene" viewBox="0 0 600 600" aria-hidden="true"
   <polygon points="150,360 600,60 600,580" fill="url(#beam)" filter="url(#soft)" class="lamp-beam"/>
   <polygon points="150,360 600,270 600,450" fill="url(#core)" filter="url(#softcore)" class="lamp-core"/>
   <g fill="#ffd28a">
-    <circle cx="250" cy="340" r="2" opacity=".35"/>
-    <circle cx="292" cy="382" r="1.5" opacity=".3"/>
-    <circle cx="332" cy="320" r="2" opacity=".4"/>
-    <circle cx="382" cy="362" r="1.6" opacity=".32"/>
-    <circle cx="432" cy="330" r="2.2" opacity=".38"/>
-    <circle cx="482" cy="390" r="1.4" opacity=".3"/>
-    <circle cx="522" cy="342" r="1.8" opacity=".35"/>
+    <circle class="mote" cx="250" cy="340" r="2" opacity=".35"/>
+    <circle class="mote" cx="292" cy="382" r="1.5" opacity=".3"/>
+    <circle class="mote" cx="332" cy="320" r="2" opacity=".4"/>
+    <circle class="mote" cx="382" cy="362" r="1.6" opacity=".32"/>
+    <circle class="mote" cx="432" cy="330" r="2.2" opacity=".38"/>
+    <circle class="mote" cx="482" cy="390" r="1.4" opacity=".3"/>
+    <circle class="mote" cx="522" cy="342" r="1.8" opacity=".35"/>
   </g>
-  <text x="450" y="365" text-anchor="middle" font-family="Iowan Old Style, Palatino Linotype, Book Antiqua, Georgia, serif" font-size="96" font-weight="400" letter-spacing="-1" fill="#f0b45a">404</text>
+  <text x="450" y="365" class="relic" text-anchor="middle" font-family="Iowan Old Style, Palatino Linotype, Book Antiqua, Georgia, serif" font-size="96" font-weight="400" letter-spacing="-1" fill="#f0b45a">404</text>
   <line x1="402" y1="386" x2="498" y2="386" stroke="#f0b45a" stroke-opacity=".35" stroke-width="1.2"/>
   <text x="450" y="410" text-anchor="middle" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif" font-size="12" font-weight="600" letter-spacing="2.6" fill="#f0b45a" opacity=".68">СТРАНИЦА НЕ НАЙДЕНА</text>
   <circle cx="150" cy="360" r="90" fill="url(#glow)" class="lamp-glow"/>
