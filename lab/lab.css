@@ -362,6 +362,7 @@ button.bit.x { background: var(--amber-soft); border-color: #d7b26e; color: #7c5
 svg { display: block; max-width: 100%; height: auto; }
 
 .map {
+  --map-cell: 64px;
   position: relative;
   display: grid;
   gap: 4px;
@@ -371,7 +372,7 @@ svg { display: block; max-width: 100%; height: auto; }
 
 .map-cell {
   position: relative;
-  width: 64px;
+  width: var(--map-cell);
   height: 52px;
   border: 1px solid #cfc7b8;
   border-radius: 7px;
@@ -392,7 +393,7 @@ svg { display: block; max-width: 100%; height: auto; }
 .map-cell.vx { background: var(--amber-soft); border-color: #d7b26e; }
 .map-cell.hl { box-shadow: 0 0 0 2px var(--red) inset; border-color: var(--red); }
 
-.map-corner { width: 64px; height: 32px; }
+.map-corner { width: var(--map-cell); height: 32px; }
 .map-head {
   display: flex;
   align-items: center;
@@ -406,13 +407,17 @@ svg { display: block; max-width: 100%; height: auto; }
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 64px;
+  width: var(--map-cell);
   font-family: var(--mono);
   font-size: 12px;
   color: var(--muted);
 }
 
 .map-note { text-align: center; font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+.map-layers { display: flex; flex-direction: column; gap: 16px; margin: 6px 0; }
+.map-layer-label { margin: 0 0 3px; color: var(--muted); font-family: var(--mono); font-size: 11px; font-weight: 650; letter-spacing: .02em; }
+.map-layer .map { margin: 0; }
 
 .chips { display: flex; flex-wrap: wrap; gap: 6px; }
 
@@ -613,8 +618,8 @@ pre.code {
 @media (max-width: 620px) {
   .lab-header, .lab-main, .footer { padding-left: 14px; padding-right: 14px; }
   .card { padding: 16px 14px; }
-  .map-cell { width: 50px; height: 44px; }
-  .map-rowhead, .map-corner { width: 50px; }
+  .map { --map-cell: 50px; }
+  .map-cell { height: 44px; }
   .map-head { font-size: 10px; }
   .pos { width: 44px; }
 }

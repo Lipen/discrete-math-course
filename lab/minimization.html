@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Минимизация · лаборатория</title>
-<link rel="stylesheet" href="lab.css?v=7">
+<link rel="stylesheet" href="lab.css?v=8">
 <link rel="stylesheet" href="vendor/katex/katex.min.css">
 </head>
 <body>
@@ -31,6 +31,7 @@
           <option value="2">2</option>
           <option value="3" selected>3</option>
           <option value="4">4</option>
+          <option value="5">5</option>
         </select>
       </label>
       <label>Готовая функция
@@ -40,6 +41,7 @@
           <option value="sum3">Σm(0,1,2,5,6,7)</option>
           <option value="odd4">нечётность четырёх</option>
           <option value="even4">чётность четырёх</option>
+          <option value="maj5">медиана пяти</option>
         </select>
       </label>
       <div class="btn-row">
@@ -120,7 +122,7 @@
       <div>
         <h3>Минимум</h3>
         <p>Выбирается покрытие с наименьшим числом термов, затем литералов.
-        Для <span data-tex="n \le 4"></span> он перебирает подмножества простых импликант, поэтому минимум точный.</p>
+        Для <span data-tex="n \le 5"></span> он перебирает покрытия с отсечением по числу термов и литералов, поэтому минимум точный.</p>
       </div>
     </div>
   </section>
@@ -135,8 +137,8 @@
 <script>
 (function () {
   "use strict";
-  const { $, el, clear, bitsOf, mapLayout, mintermOf } = Lab;
-  const vars = ["A", "B", "C", "D"];
+  const { $, el, clear, bitsOf, graySeq, mapLayout, mintermOf } = Lab;
+  const vars = ["A", "B", "C", "D", "E"];
   const colors = ["#2d5fa8", "#2f7d5c", "#a76a12", "#6a4c93", "#b03a3a", "#0f766e", "#7c3aed", "#b45309"];
 
   const presets = {
@@ -144,6 +146,7 @@
     sum3: { n: 3, ones: [0, 1, 2, 5, 6, 7], x: [] },
     odd4: { n: 4, ones: [1, 2, 4, 7, 8, 11, 13, 14], x: [] },
     even4: { n: 4, ones: [0, 3, 5, 6, 9, 10, 12, 15], x: [] },
+    maj5: { n: 5, ones: Array.from({ length: 32 }, (_, m) => m).filter((m) => Lab.popcount(m) >= 3), x: [] },
   };
 
   let n = 3;
@@ -207,13 +210,23 @@
     return literals.length > 1 ? "\\left( " + body + " \\right)" : body;
   }
 
+  function gridLayout() {
+    if (n === 5) return { n, rowBits: 2, colBits: 2, rows: graySeq(2), cols: graySeq(2) };
+    return mapLayout(n);
+  }
+
   function axisVars() {
-    const layout = mapLayout(n);
+    if (n === 5) return { row: ["A", "B"], col: ["C", "D"], layer: "E" };
+    const layout = gridLayout();
     const row = [];
     const col = [];
     for (let bit = n - 1; bit >= layout.colBits; bit--) row.push(vars[n - 1 - bit]);
     for (let bit = layout.colBits - 1; bit >= 0; bit--) col.push(vars[n - 1 - bit]);
-    return { row, col };
+    return { row, col, layer: null };
+  }
+
+  function fullMinterm(inner, layer) {
+    return n === 5 ? ((inner << 1) | layer) : inner;
   }
 
   function toggleMinterm(m, shift) {
@@ -293,6 +306,10 @@
     return out;
   }
 
+  function solutionKey(selected) {
+    return selected.slice().sort((a, b) => a - b).join(",");
+  }
+
   function computeMinimum() {
     const target = targetValue();
     const needed = [];
@@ -308,87 +325,180 @@
       return { selected: [], terms: 0, literals: 0, expression: solution.expression, solutions: [solution], solutionIndex: 0, essentials: new Set() };
     }
 
-    const essentials = new Set();
+    const limit = 1 << n;
+    const coverMask = primes.map((prime) => {
+      let mask = 0;
+      for (const m of prime.covers) mask |= 1 << m;
+      return mask;
+    });
+    const literalCount = primes.map((prime) => Lab.popcount(prime.fixedMask));
+    const neededMask = needed.reduce((mask, m) => mask | (1 << m), 0);
+    const byMinterm = new Map();
     for (const m of needed) {
       const covering = [];
       for (let i = 0; i < primes.length; i++) {
-        if (primes[i].covers.includes(m)) covering.push(i);
+        if (coverMask[i] & (1 << m)) covering.push(i);
       }
+      byMinterm.set(m, covering);
+    }
+
+    const essentials = new Set();
+    for (const m of needed) {
+      const covering = byMinterm.get(m) || [];
       if (covering.length === 1) essentials.add(covering[0]);
     }
+    const forced = Array.from(essentials).sort((a, b) => a - b);
+    let baseCovered = 0;
+    let baseLiterals = 0;
+    for (const i of forced) {
+      baseCovered |= coverMask[i];
+      baseLiterals += literalCount[i];
+    }
+    const baseTerms = forced.length;
 
     let bestTerms = Infinity;
     let bestLiterals = Infinity;
-    let bestMasks = [];
-    const total = 1 << primes.length;
-    for (let mask = 1; mask < total; mask++) {
-      let coversAll = true;
-      for (const m of needed) {
-        let hit = false;
-        for (let i = 0; i < primes.length; i++) {
-          if ((mask & (1 << i)) && primes[i].covers.includes(m)) { hit = true; break; }
-        }
-        if (!hit) { coversAll = false; break; }
-      }
-      if (!coversAll) continue;
-      let terms = 0;
+    let bestKeys = [];
+    const bestSet = new Set();
+
+    function expressionOf(selected) {
+      return selected
+        .map((index) => form === "dnf" ? termText(primes[index]) : clauseText(primes[index]))
+        .join(form === "dnf" ? " \\lor " : " \\land ");
+    }
+
+    function packed(selected) {
+      let mask = 0;
+      for (const i of selected) mask |= 1 << i;
+      return mask;
+    }
+
+    function record(selected) {
+      const terms = selected.length;
       let literals = 0;
-      for (let i = 0; i < primes.length; i++) {
-        if (mask & (1 << i)) {
-          terms++;
-          literals += Lab.popcount(primes[i].fixedMask);
-        }
-      }
+      for (const i of selected) literals += literalCount[i];
+      const key = solutionKey(selected);
       if (terms < bestTerms || (terms === bestTerms && literals < bestLiterals)) {
         bestTerms = terms;
         bestLiterals = literals;
-        bestMasks = [mask];
-      } else if (terms === bestTerms && literals === bestLiterals) {
-        bestMasks.push(mask);
+        bestKeys = [key];
+        bestSet.clear();
+        bestSet.add(key);
+      } else if (terms === bestTerms && literals === bestLiterals && !bestSet.has(key)) {
+        bestKeys.push(key);
+        bestSet.add(key);
       }
     }
 
-    if (!bestMasks.length) {
+    function greedy() {
+      let covered = baseCovered;
+      const selected = forced.slice();
+      const chosen = new Set(selected);
+      let remaining = neededMask & ~covered;
+      while (remaining) {
+        let pick = -1;
+        let pickGain = 0;
+        let pickLiterals = Infinity;
+        for (let i = 0; i < primes.length; i++) {
+          if (chosen.has(i)) continue;
+          const gain = Lab.popcount((coverMask[i] & remaining) >>> 0);
+          if (gain > pickGain || (gain === pickGain && literalCount[i] < pickLiterals)) {
+            pick = i;
+            pickGain = gain;
+            pickLiterals = literalCount[i];
+          }
+        }
+        if (pick < 0 || pickGain === 0) return;
+        selected.push(pick);
+        chosen.add(pick);
+        covered |= coverMask[pick];
+        remaining = neededMask & ~covered;
+      }
+      record(selected);
+    }
+
+    const memo = new Map();
+
+    function dfs(covered, selected, chosen, terms, literals) {
+      const remaining = neededMask & ~covered;
+      if (!remaining) {
+        record(selected);
+        return;
+      }
+      if (terms >= bestTerms) return;
+      const previous = memo.get(covered);
+      if (previous && (previous.terms < terms || (previous.terms === terms && previous.literals < literals))) return;
+      if (!previous || terms < previous.terms || (terms === previous.terms && literals < previous.literals)) {
+        memo.set(covered, { terms, literals });
+      }
+
+      let pickList = null;
+      for (let m = 0; m < limit; m++) {
+        if (!(remaining & (1 << m))) continue;
+        const candidates = (byMinterm.get(m) || []).filter((i) => !chosen.has(i));
+        if (!candidates.length) return;
+        if (!pickList || candidates.length < pickList.length) pickList = candidates;
+      }
+      if (!pickList) return;
+      pickList.sort((a, b) => {
+        const ga = Lab.popcount((coverMask[a] & remaining) >>> 0);
+        const gb = Lab.popcount((coverMask[b] & remaining) >>> 0);
+        return gb - ga || literalCount[a] - literalCount[b] || a - b;
+      });
+      for (const i of pickList) {
+        selected.push(i);
+        chosen.add(i);
+        dfs(covered | coverMask[i], selected, chosen, terms + 1, literals + literalCount[i]);
+        selected.pop();
+        chosen.delete(i);
+      }
+    }
+
+    greedy();
+    const startSelected = forced.slice();
+    dfs(baseCovered, startSelected, new Set(startSelected), baseTerms, baseLiterals);
+
+    if (!bestKeys.length) {
       const solution = { selected: [], terms: 0, literals: 0, mask: 0, expression: form === "dnf" ? "0" : "1" };
       return { selected: [], terms: 0, literals: 0, expression: solution.expression, solutions: [solution], solutionIndex: 0, essentials };
     }
 
-    const solutions = bestMasks.map((mask) => {
-      const selected = [];
-      for (let i = 0; i < primes.length; i++) if (mask & (1 << i)) selected.push(i);
-      const expression = selected
-        .map((index) => form === "dnf" ? termText(primes[index]) : clauseText(primes[index]))
-        .join(form === "dnf" ? " \\lor " : " \\land ");
-      return { selected, terms: bestTerms, literals: bestLiterals, mask, expression };
+    const solutions = bestKeys.map((key) => {
+      const selected = key ? key.split(",").map(Number) : [];
+      return {
+        selected,
+        terms: selected.length,
+        literals: bestLiterals,
+        mask: packed(selected),
+        expression: expressionOf(selected),
+      };
     });
     const index = Math.min(solutionIndex, solutions.length - 1);
-    const chosen = solutions[index];
-    return { ...chosen, solutions, solutionIndex: index, essentials };
+    return { ...solutions[index], solutions, solutionIndex: index, essentials };
   }
 
-  function renderMap() {
-    clear(mapNode);
-    const layout = mapLayout(n);
+  function buildGrid(grid, layer) {
+    const layout = gridLayout();
     const axis = axisVars();
     const cols = layout.cols.length;
-    mapAxis.textContent = "Столбцы: " + axis.col.join("") + " · строки: " + axis.row.join("");
-    mapNode.style.gridTemplateColumns = "64px repeat(" + cols + ", 64px)";
+    grid.style.gridTemplateColumns = "var(--map-cell) repeat(" + cols + ", var(--map-cell))";
     const corner = el("div", { class: "map-corner", text: axis.row.join("") + " / " + axis.col.join("") });
     corner.title = "Строки: " + axis.row.join("") + ", столбцы: " + axis.col.join("");
-    mapNode.appendChild(corner);
+    grid.appendChild(corner);
     for (const c of layout.cols) {
       const bits = bitsOf(c, layout.colBits);
       const head = el("div", { class: "map-head", text: bits.join("") });
       head.title = axis.col.map((name, index) => name + "=" + bits[index]).join(", ");
-      mapNode.appendChild(head);
+      grid.appendChild(head);
     }
     for (const r of layout.rows) {
       const bits = bitsOf(r, layout.rowBits);
       const head = el("div", { class: "map-rowhead", text: bits.join("") });
       head.title = axis.row.map((name, index) => name + "=" + bits[index]).join(", ");
-      mapNode.appendChild(head);
+      grid.appendChild(head);
       for (const c of layout.cols) {
-        const m = mintermOf(r, c, layout.colBits);
+        const inner = mintermOf(r, c, layout.colBits);
+        const m = fullMinterm(inner, layer);
         const value = state[m];
         const cls = value === 1 ? " v1" : (value === 2 ? " vx" : "");
         const cell = el("div", {
@@ -396,7 +506,7 @@
           "data-m": String(m),
           role: "button",
           tabindex: "0",
-          "aria-label": "минтерм " + m + ", значение " + (value === 2 ? "X" : value),
+          "aria-label": "минтерм " + m + (layer === null ? "" : ", слой E=" + layer) + ", значение " + (value === 2 ? "X" : value),
         });
         cell.appendChild(el("span", { class: "idx", text: String(m) }));
         cell.appendChild(el("span", { class: "val", text: value === 2 ? "X" : String(value) }));
@@ -407,14 +517,42 @@
             toggleMinterm(m, event.shiftKey);
           }
         });
-        mapNode.appendChild(cell);
+        grid.appendChild(cell);
       }
     }
+  }
+
+  function renderMap() {
+    clear(mapNode);
+    const isLayer = n === 5;
+    mapNode.className = isLayer ? "map-layers" : "map";
+    mapNode.style.gridTemplateColumns = "";
+    if (isLayer) {
+      mapAxis.textContent = "Слои: E · Столбцы: CD · строки: AB";
+      for (const layer of [0, 1]) {
+        const box = el("div", { class: "map-layer" });
+        box.appendChild(el("div", { class: "map-layer-label", text: "E = " + layer }));
+        const grid = el("div", { class: "map map-grid" });
+        grid.dataset.layer = String(layer);
+        buildGrid(grid, layer);
+        box.appendChild(grid);
+        mapNode.appendChild(box);
+      }
+    } else {
+      const axis = axisVars();
+      mapAxis.textContent = "Столбцы: " + axis.col.join("") + " · строки: " + axis.row.join("");
+      buildGrid(mapNode, null);
+    }
     const grouping = form === "dnf" ? "единицы" : "нули";
-    mapNote.textContent = (n === 4
-      ? "Карта замкнута в тор: верхний край соседний с нижним, левый с правым."
-      : "Соседние клетки, включая противоположные края, отличаются одной переменной.")
-      + " Для " + (form === "dnf" ? "ДНФ" : "КНФ") + " группируются " + grouping + ".";
+    let note;
+    if (n === 5) {
+      note = "Два слоя по E. Внутри слоя карта замкнута в тор: верхний край соседний с нижним, левый с правым. Одинаковые клетки слоёв отличаются только переменной E.";
+    } else if (n === 4) {
+      note = "Карта замкнута в тор: верхний край соседний с нижним, левый с правым.";
+    } else {
+      note = "Соседние клетки, включая противоположные края, отличаются одной переменной.";
+    }
+    mapNote.textContent = note + " Для " + (form === "dnf" ? "ДНФ" : "КНФ") + " группируются " + grouping + ".";
   }
 
   function renderTruth() {
@@ -457,9 +595,7 @@
   }
 
   function highlightFrames(index, on) {
-    const root = mapNode.querySelector(".k-map-overlay");
-    if (!root) return;
-    const frames = Array.from(root.querySelectorAll(".k-frame"));
+    const frames = Array.from(mapNode.querySelectorAll(".k-map-overlay .k-frame"));
     const has = frames.some((frame) => frame.getAttribute("data-prime") === String(index));
     if (!has) return;
     for (const frame of frames) {
@@ -537,56 +673,69 @@
   }
 
   function renderFrames(result) {
-    const old = mapNode.querySelector(".k-map-overlay");
-    if (old) old.remove();
+    const grids = n === 5 ? Array.from(mapNode.querySelectorAll(".map-grid")) : [mapNode];
+    for (const grid of grids) {
+      const old = grid.querySelector(".k-map-overlay");
+      if (old) old.remove();
+    }
     if (!result || !result.selected.length) return;
-    const layout = mapLayout(n);
+
+    const layout = gridLayout();
     const rowAt = new Map(layout.rows.map((code, index) => [code, index]));
     const colAt = new Map(layout.cols.map((code, index) => [code, index]));
-    const cells = new Map();
-    for (const cell of mapNode.querySelectorAll(".map-cell")) cells.set(Number(cell.dataset.m), cell);
-    const width = mapNode.clientWidth;
-    const height = mapNode.clientHeight;
-    if (!width || !height) return;
-    const root = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    root.classList.add("k-map-overlay");
-    root.setAttribute("viewBox", "0 0 " + width + " " + height);
-    root.setAttribute("aria-hidden", "true");
 
-    for (const primeIndex of result.selected) {
-      const prime = primes[primeIndex];
-      const rows = new Set();
-      const cols = new Set();
-      for (const m of prime.covers) {
-        const rowCode = m >> layout.colBits;
-        const colCode = m & ((1 << layout.colBits) - 1);
-        if (rowAt.has(rowCode)) rows.add(rowAt.get(rowCode));
-        if (colAt.has(colCode)) cols.add(colAt.get(colCode));
-      }
-      const rowSegments = cyclicSegments(rows, layout.rows.length);
-      const colSegments = cyclicSegments(cols, layout.cols.length);
-      const rowWrap = rowSegments.length > 1;
-      const colWrap = colSegments.length > 1;
-      const inset = 2 + (primeIndex % 4) * 1.5;
-      for (const [r0, r1] of rowSegments) {
-        for (const [c0, c1] of colSegments) {
-          const first = cells.get(mintermOf(layout.rows[r0], layout.cols[c0], layout.colBits));
-          const last = cells.get(mintermOf(layout.rows[r1], layout.cols[c1], layout.colBits));
-          if (!first || !last) continue;
-          const left = first.offsetLeft + inset;
-          const top = first.offsetTop + inset;
-          const right = last.offsetLeft + last.offsetWidth - inset;
-          const bottom = last.offsetTop + last.offsetHeight - inset;
-          drawFrame(root, left, top, right, bottom, {
-            top: rowWrap && r0 === 0,
-            bottom: rowWrap && r1 === layout.rows.length - 1,
-            left: colWrap && c0 === 0,
-            right: colWrap && c1 === layout.cols.length - 1,
-          }, colors[primeIndex % colors.length], String(primeIndex));
+    for (const grid of grids) {
+      const layer = n === 5 ? Number(grid.dataset.layer) : null;
+      const cells = new Map();
+      for (const cell of grid.querySelectorAll(".map-cell")) cells.set(Number(cell.dataset.m), cell);
+      const width = grid.clientWidth;
+      const height = grid.clientHeight;
+      if (!width || !height) continue;
+      const root = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      root.classList.add("k-map-overlay");
+      root.setAttribute("viewBox", "0 0 " + width + " " + height);
+      root.setAttribute("aria-hidden", "true");
+
+      for (const primeIndex of result.selected) {
+        const prime = primes[primeIndex];
+        const covers = layer === null ? prime.covers : prime.covers.filter((m) => (m & 1) === layer);
+        if (!covers.length) continue;
+        const rows = new Set();
+        const cols = new Set();
+        for (const m of covers) {
+          const inner = layer === null ? m : (m >> 1);
+          const rowCode = inner >> layout.colBits;
+          const colCode = inner & ((1 << layout.colBits) - 1);
+          if (rowAt.has(rowCode)) rows.add(rowAt.get(rowCode));
+          if (colAt.has(colCode)) cols.add(colAt.get(colCode));
+        }
+        const rowSegments = cyclicSegments(rows, layout.rows.length);
+        const colSegments = cyclicSegments(cols, layout.cols.length);
+        const rowWrap = rowSegments.length > 1;
+        const colWrap = colSegments.length > 1;
+        const inset = 2 + (primeIndex % 4) * 1.5;
+        for (const [r0, r1] of rowSegments) {
+          for (const [c0, c1] of colSegments) {
+            const firstInner = mintermOf(layout.rows[r0], layout.cols[c0], layout.colBits);
+            const lastInner = mintermOf(layout.rows[r1], layout.cols[c1], layout.colBits);
+            const first = cells.get(fullMinterm(firstInner, layer));
+            const last = cells.get(fullMinterm(lastInner, layer));
+            if (!first || !last) continue;
+            const left = first.offsetLeft + inset;
+            const top = first.offsetTop + inset;
+            const right = last.offsetLeft + last.offsetWidth - inset;
+            const bottom = last.offsetTop + last.offsetHeight - inset;
+            drawFrame(root, left, top, right, bottom, {
+              top: rowWrap && r0 === 0,
+              bottom: rowWrap && r1 === layout.rows.length - 1,
+              left: colWrap && c0 === 0,
+              right: colWrap && c1 === layout.cols.length - 1,
+            }, colors[primeIndex % colors.length], String(primeIndex));
+          }
         }
       }
+      grid.appendChild(root);
     }
-    mapNode.appendChild(root);
   }
 
   function renderPrimes(result) {
