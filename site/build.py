@@ -53,6 +53,7 @@ MONTHS = {
 
 BOOK_ICON = """<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6.6C10.4 5 8.3 4.2 5.8 4.2H3.5v13.4h2.3c2.5 0 4.6.8 6.2 2.4 1.6-1.6 3.7-2.4 6.2-2.4h2.3V4.2h-2.3c-2.5 0-4.6.8-6.2 2.4z"/><path d="M12 6.6V20"/></svg>"""
 RULES_ICON = """<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4.6" width="14" height="16.2" rx="2.4"/><path d="M9.2 2.6h5.6v3.8H9.2z"/><path d="M8.7 13.4l2.1 2.1 4.5-4.5"/></svg>"""
+HOME_ICON = """<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7"/><path d="M6 10v9h12v-9"/></svg>"""
 
 ICONS = """
 <svg class="i-auto" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg>
@@ -311,36 +312,114 @@ def legacy_section(content: dict) -> str:
     )
 
 
+CAVE_SCENE = """<svg class="cave-scene" viewBox="0 0 600 600" aria-hidden="true">
+  <defs>
+    <linearGradient id="beam" x1="150" y1="360" x2="600" y2="360" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffce8a" stop-opacity=".65"/>
+      <stop offset=".45" stop-color="#f0b45a" stop-opacity=".22"/>
+      <stop offset="1" stop-color="#f0b45a" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="core" x1="150" y1="360" x2="600" y2="360" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff0c0" stop-opacity=".7"/>
+      <stop offset=".5" stop-color="#ffd28a" stop-opacity=".18"/>
+      <stop offset="1" stop-color="#ffd28a" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="150" cy="360" r="90" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffd28a" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#ffd28a" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="vig" cx="300" cy="300" r="380" gradientUnits="userSpaceOnUse">
+      <stop offset=".45" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000" stop-opacity=".55"/>
+    </radialGradient>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="9"/></filter>
+    <filter id="softcore" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="3"/></filter>
+  </defs>
+  <rect width="600" height="600" fill="#0e1116"/>
+  <polygon points="150,360 600,60 600,580" fill="url(#beam)" filter="url(#soft)" class="lamp-beam"/>
+  <polygon points="150,360 600,270 600,450" fill="url(#core)" filter="url(#softcore)" class="lamp-core"/>
+  <g fill="#ffd28a">
+    <circle cx="250" cy="340" r="2" opacity=".35"/>
+    <circle cx="292" cy="382" r="1.5" opacity=".3"/>
+    <circle cx="332" cy="320" r="2" opacity=".4"/>
+    <circle cx="382" cy="362" r="1.6" opacity=".32"/>
+    <circle cx="432" cy="330" r="2.2" opacity=".38"/>
+    <circle cx="482" cy="390" r="1.4" opacity=".3"/>
+    <circle cx="522" cy="342" r="1.8" opacity=".35"/>
+  </g>
+  <rect x="350" y="220" width="200" height="210" rx="6" fill="none" stroke="#eef1f6" stroke-opacity=".3" stroke-width="1.4" stroke-dasharray="7 7"/>
+  <text x="450" y="338" text-anchor="middle" font-family="ui-serif, Georgia, serif" font-size="38" fill="#f0b45a">404</text>
+  <circle cx="150" cy="360" r="90" fill="url(#glow)" class="lamp-glow"/>
+  <path d="M80 230 C80 170 220 170 220 230" fill="none" stroke="#f0b45a" stroke-opacity=".55" stroke-width="4" stroke-linecap="round"/>
+  <path d="M60 230 H240 L225 260 H75 Z" fill="#1a1e26" stroke="#f0b45a" stroke-opacity=".8" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M95 260 H205 L225 470 H75 Z" fill="#ffce8a" fill-opacity=".05" stroke="#f0b45a" stroke-opacity=".8" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M120 260 L105 470 M180 260 L195 470" stroke="#f0b45a" stroke-opacity=".35" stroke-width="1.5"/>
+  <path d="M108 270 L95 455" stroke="#fff0c0" stroke-opacity=".18" stroke-width="3"/>
+  <path d="M55 470 H245 L260 510 H40 Z" fill="#1a1e26" stroke="#f0b45a" stroke-opacity=".8" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M150 310 C168 336 168 366 150 382 C132 366 132 336 150 310 Z" fill="#ffd28a" class="lamp-flame"/>
+  <path d="M150 330 C158 344 158 362 150 372 C142 362 142 344 150 330 Z" fill="#fff0c0" class="lamp-flame-core"/>
+  <path d="M0 520 H600" stroke="#eef1f6" stroke-opacity=".05" stroke-width="1"/>
+  <rect width="600" height="600" fill="url(#vig)"/>
+</svg>"""
+
+
 def not_found() -> str:
-    body = """<main id="main">
-<header class="hero">
-  <p class="kicker">Ошибка 404</p>
-  <h1>Такой страницы нет</h1>
-  <p class="lede">Адрес устарел или в нём опечатка. Материалы курса собраны на главной.</p>
-  <p class="actions"><a class="btn primary" href="index.html">На главную</a></p>
-</header>
+    # GitHub Pages serves 404.html at the missing URL's depth, so assets need the site base.
+    body = f"""<div class="torch" aria-hidden="true"></div>
+<main id="main" class="di d1">
+  <section class="scene">
+    <div class="inner grid">
+      <div class="art">
+        <div class="cave" aria-hidden="true">{CAVE_SCENE}</div>
+      </div>
+      <div class="copy">
+        <h1>Диоген искал человека</h1>
+        <p class="sub">Мы искали страницу. Ни человека, ни страницы.</p>
+        <div class="actions">
+          <a class="btn primary" href="index.html">{HOME_ICON} На главную</a>
+          <a class="btn" href="book.pdf">{BOOK_ICON} Открыть книгу</a>
+        </div>
+      </div>
+    </div>
+  </section>
 </main>"""
-    return page("Страница не найдена", body)
+    return page(
+        "Страница не найдена",
+        body,
+        brand="Дискретная математика",
+        base="/discrete-math-course/",
+        head='<link rel="stylesheet" href="404.css"><script src="404.js" defer></script>',
+    )
 
 
-def page(title: str, body: str) -> str:
+def page(
+    title: str,
+    body: str,
+    *,
+    brand: str | None = None,
+    base: str | None = None,
+    head: str = "",
+) -> str:
+    brand = brand or title
+    base_tag = f'<base href="{escape(base)}">\n' if base else ""
     return f"""<!doctype html>
 <html lang="ru">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="color-scheme" content="light dark">
+{base_tag}<meta name="color-scheme" content="light dark">
 <title>{escape(title)}</title>
 <script>{THEME_INIT}</script>
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="theme.css">
+{head}
 </head>
 <body>
 <a class="skip" href="#main">К содержанию</a>
 <header class="top">
   <a class="brand" href="index.html">
     <svg class="brand-mark" viewBox="0 0 100 100" aria-hidden="true" fill="none"><path d="M50 7 L93 29.5 V70.5 L68 87 H32 L7 70.5 V29.5 Z" stroke="currentColor" stroke-width="6" stroke-linejoin="round"/><path d="M23 71 L36.5 31 L50 71 Z M31.9 62 L36.5 50.6 L41.1 62 Z" fill="currentColor" fill-rule="evenodd"/><path d="M52 71 V31 L63.5 49 L75 31 V71 H68.5 V53 L63.5 60.5 L58.5 53 V71 Z" fill="currentColor"/></svg>
-    {escape(title)}
+    {escape(brand)}
   </a>
   <div class="top-actions">
     <a class="gh" href="https://github.com/Lipen/discrete-math-course" target="_blank" rel="noopener"
@@ -399,7 +478,7 @@ def main() -> int:
         for path in legacy:
             os.symlink(path, DIST / "typst" / path.name)
             linked += 1
-    for name in ("theme.css", "ui.js", "icon.svg"):
+    for name in ("theme.css", "ui.js", "icon.svg", "404.css", "404.js"):
         shutil.copy2(SITE / name, DIST / name)
     lab_source = ROOT / "lab"
     if lab_source.is_dir():
