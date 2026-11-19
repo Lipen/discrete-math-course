@@ -11,6 +11,10 @@ materials:
   - title: Правила курса
     href: syllabus.pdf
     icon: rules
+  - title: Интерактивная лаборатория
+    href: lab/
+    icon: lab
+    fmt: WEB
 semesters:
   - name: Осенний семестр
     tab: Осень
@@ -205,34 +209,6 @@ homework:
   - number: 8
     semester: 2
     title: Комбинаторика
-labs:
-  - file: relations.html?v=2
-    topic: Отношения
-    title: Замкни отношение
-  - file: order.html
-    topic: Порядок
-    title: Построй диаграмму Хассе
-  - file: cardinality.html?v=6
-    topic: Мощность
-    title: Рассели бесконечность
-  - file: deduction.html?v=7
-    topic: Натуральная дедукция
-    title: Собери вывод
-  - file: sat.html?v=2
-    topic: SAT
-    title: Прокрути DPLL
-  - file: minimization.html?v=8
-    topic: Минимизация
-    title: Сожми карту Карно
-  - file: bdd.html
-    topic: Диаграммы решений
-    title: Сравни порядки ROBDD
-  - file: hamming.html
-    topic: Коды Хэмминга
-    title: Поймай ошибку Хэмминга
-  - file: huffman.html?v=2
-    topic: Сжатие
-    title: Построй дерево Хаффмана
 legacy:
   - file: lec-set-theory.pdf
     title: Теория множеств
