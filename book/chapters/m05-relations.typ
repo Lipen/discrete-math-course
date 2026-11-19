@@ -173,7 +173,7 @@
 #definition[Симметричность][#idx("Симметричность")
   $R$ называется *симметричным*, если
   $
-    a rel(R) b imply b rel(R) a.
+    forall a, b in A . thin a rel(R) b imply b rel(R) a.
   $
 ]
 
@@ -183,14 +183,14 @@
 #definition[Антисимметричность][#idx("Антисимметричность")
   $R$ называется *антисимметричным*, если
   $
-    (a rel(R) b and b rel(R) a) imply a = b.
+    forall a, b in A . thin (a rel(R) b and b rel(R) a) imply a = b.
   $
 ]
 
 #definition[Асимметричность][#idx("Асимметричность")
   $R$ называется *асимметричным*, если
   $
-    a rel(R) b imply b nrel(R) a.
+    forall a, b in A . thin a rel(R) b imply b nrel(R) a.
   $
 ]
 
@@ -218,7 +218,7 @@
 #definition[Транзитивность][#idx("Транзитивность")
   $R$ называется *транзитивным*, если
   $
-    (a rel(R) b and b rel(R) c) -> a rel(R) c.
+    forall a, b, c in A . thin (a rel(R) b and b rel(R) c) -> a rel(R) c.
   $
 ]
 
@@ -228,7 +228,7 @@
 #definition[Связность][#idx("Связность")
   $R$ называется *связным*, если
   $
-    a != b -> (a rel(R) b or b rel(R) a).
+    forall a, b in A . thin a != b -> (a rel(R) b or b rel(R) a).
   $
 ]
 
@@ -237,7 +237,7 @@
 #definition[Сильная связность][#idx("Сильная связность")
   $R$ называется *сильно связным*, если
   $
-    a rel(R) b or b rel(R) a.
+    forall a, b in A . thin a rel(R) b or b rel(R) a.
   $
 ]
 
