@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Минимизация · лаборатория</title>
-<link rel="stylesheet" href="lab.css?v=8">
+<link rel="stylesheet" href="lab.css?v=9">
 <link rel="stylesheet" href="vendor/katex/katex.min.css">
 </head>
 <body>
@@ -109,6 +109,8 @@
       <div>
         <h3>Клетки и склейки</h3>
         <p>Клетка это минтерм, соседние клетки отличаются одной переменной.
+        Линии у края показывают, где переменная равна 1.
+        При разрыве каждая часть линии подписана отдельно.
         Подсветка группы задаёт один терм, наведение на строку показывает покрытые клетки.
         Переключатель ДНФ и КНФ решает, что группировать: единицы или нули.
         X можно включить в группу, но не обязательно покрывать.</p>
@@ -227,6 +229,26 @@
 
   function fullMinterm(inner, layer) {
     return n === 5 ? ((inner << 1) | layer) : inner;
+  }
+
+  function positiveRuns(codes, bit, width) {
+    const indices = [];
+    for (let i = 0; i < codes.length; i++) {
+      if ((codes[i] >> (width - 1 - bit)) & 1) indices.push(i);
+    }
+    if (!indices.length) return [];
+    const runs = [];
+    let first = indices[0];
+    let previous = indices[0];
+    for (let i = 1; i < indices.length; i++) {
+      if (indices[i] !== previous + 1) {
+        runs.push([first, previous]);
+        first = indices[i];
+      }
+      previous = indices[i];
+    }
+    runs.push([first, previous]);
+    return runs;
   }
 
   function toggleMinterm(m, shift) {
@@ -522,26 +544,89 @@
     }
   }
 
+  function makeSheet(layer) {
+    const sheet = el("div", { class: "map-sheet" });
+    const top = el("div", { class: "map-anno map-anno-top" });
+    const left = el("div", { class: "map-anno map-anno-left" });
+    const grid = el("div", { class: "map map-grid" });
+    if (layer !== null) grid.dataset.layer = String(layer);
+    buildGrid(grid, layer);
+    sheet.append(top, left, grid);
+    return { sheet, top, left, grid };
+  }
+
+  function renderAxisBars(sheet, top, left, grid) {
+    const layout = gridLayout();
+    const axis = axisVars();
+    const track = 18;
+    const gap = 4;
+    sheet.style.gridTemplateColumns = (axis.row.length * track + gap) + "px auto";
+    sheet.style.gridTemplateRows = (axis.col.length * track + gap) + "px auto";
+    const colHeads = Array.from(grid.querySelectorAll(".map-head"));
+    const rowHeads = Array.from(grid.querySelectorAll(".map-rowhead"));
+    for (let j = 0; j < axis.col.length; j++) {
+      const runs = positiveRuns(layout.cols, j, layout.colBits);
+      for (const [a, b] of runs) {
+        const first = colHeads[a];
+        const last = colHeads[b];
+        if (!first || !last) continue;
+        const bar = el("div", { class: "axis-bar axis-bar-top" });
+        bar.style.left = first.offsetLeft + "px";
+        bar.style.width = (last.offsetLeft + last.offsetWidth - first.offsetLeft) + "px";
+        bar.style.top = (j * track) + "px";
+        bar.appendChild(el("span", { class: "axis-bar-label", text: axis.col[j] }));
+        top.appendChild(bar);
+      }
+    }
+    for (let j = 0; j < axis.row.length; j++) {
+      const runs = positiveRuns(layout.rows, j, layout.rowBits);
+      for (const [a, b] of runs) {
+        const first = rowHeads[a];
+        const last = rowHeads[b];
+        if (!first || !last) continue;
+        const bar = el("div", { class: "axis-bar axis-bar-left" });
+        bar.style.top = first.offsetTop + "px";
+        bar.style.height = (last.offsetTop + last.offsetHeight - first.offsetTop) + "px";
+        bar.style.left = (j * track) + "px";
+        bar.appendChild(el("span", { class: "axis-bar-label", text: axis.row[j] }));
+        left.appendChild(bar);
+      }
+    }
+  }
+
+  function refreshAxisBars() {
+    for (const sheet of mapNode.querySelectorAll(".map-sheet")) {
+      const top = sheet.querySelector(".map-anno-top");
+      const left = sheet.querySelector(".map-anno-left");
+      const grid = sheet.querySelector(".map-grid");
+      if (!top || !left || !grid) continue;
+      clear(top);
+      clear(left);
+      renderAxisBars(sheet, top, left, grid);
+    }
+  }
+
   function renderMap() {
     clear(mapNode);
     const isLayer = n === 5;
-    mapNode.className = isLayer ? "map-layers" : "map";
+    mapNode.className = isLayer ? "map-layers" : "map-stage";
     mapNode.style.gridTemplateColumns = "";
     if (isLayer) {
       mapAxis.textContent = "Слои: E · Столбцы: CD · строки: AB";
       for (const layer of [0, 1]) {
         const box = el("div", { class: "map-layer" });
         box.appendChild(el("div", { class: "map-layer-label", text: "E = " + layer }));
-        const grid = el("div", { class: "map map-grid" });
-        grid.dataset.layer = String(layer);
-        buildGrid(grid, layer);
-        box.appendChild(grid);
+        const parts = makeSheet(layer);
+        box.appendChild(parts.sheet);
         mapNode.appendChild(box);
+        renderAxisBars(parts.sheet, parts.top, parts.left, parts.grid);
       }
     } else {
       const axis = axisVars();
       mapAxis.textContent = "Столбцы: " + axis.col.join("") + " · строки: " + axis.row.join("");
-      buildGrid(mapNode, null);
+      const parts = makeSheet(null);
+      mapNode.appendChild(parts.sheet);
+      renderAxisBars(parts.sheet, parts.top, parts.left, parts.grid);
     }
     const grouping = form === "dnf" ? "единицы" : "нули";
     let note;
@@ -673,7 +758,7 @@
   }
 
   function renderFrames(result) {
-    const grids = n === 5 ? Array.from(mapNode.querySelectorAll(".map-grid")) : [mapNode];
+    const grids = Array.from(mapNode.querySelectorAll(".map-grid"));
     for (const grid of grids) {
       const old = grid.querySelector(".k-map-overlay");
       if (old) old.remove();
@@ -892,7 +977,10 @@
     $("#map-view").classList.toggle("hidden", view !== "map");
     $("#truth-view").classList.toggle("hidden", view !== "truth");
     if (view === "map") {
-      requestAnimationFrame(() => { if (lastResult) renderFrames(lastResult); });
+      requestAnimationFrame(() => {
+        refreshAxisBars();
+        if (lastResult) renderFrames(lastResult);
+      });
     } else {
       renderTruth();
     }
@@ -952,7 +1040,9 @@
   });
 
   window.addEventListener("resize", () => {
-    if (lastResult && mapNode.querySelector(".map-cell")) renderFrames(lastResult);
+    if (!lastResult || !mapNode.querySelector(".map-cell")) return;
+    refreshAxisBars();
+    renderFrames(lastResult);
   });
 
   setView("map");

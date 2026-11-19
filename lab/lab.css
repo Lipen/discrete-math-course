@@ -419,6 +419,20 @@ svg { display: block; max-width: 100%; height: auto; }
 .map-layer-label { margin: 0 0 3px; color: var(--muted); font-family: var(--mono); font-size: 11px; font-weight: 650; letter-spacing: .02em; }
 .map-layer .map { margin: 0; }
 
+.map-stage { width: max-content; }
+.map-sheet { display: grid; gap: 2px 4px; width: max-content; margin: 4px 0; }
+.map-sheet .map { margin: 0; }
+.map-anno { position: relative; }
+.map-anno-top { grid-column: 2; grid-row: 1; }
+.map-anno-left { grid-column: 1; grid-row: 2; }
+.map-sheet .map-grid { grid-column: 2; grid-row: 2; }
+.axis-bar { position: absolute; color: var(--muted); }
+.axis-bar-top { height: 18px; border-bottom: 1px solid var(--line-soft); }
+.axis-bar-left { width: 18px; border-right: 1px solid var(--line-soft); }
+.axis-bar-label { position: absolute; font-family: var(--mono); font-size: 11px; line-height: 1; color: var(--muted); }
+.axis-bar-top .axis-bar-label { left: 50%; bottom: 2px; transform: translateX(-50%); }
+.axis-bar-left .axis-bar-label { right: 2px; top: 50%; transform: translateY(-50%); }
+
 .chips { display: flex; flex-wrap: wrap; gap: 6px; }
 
 .chip {
