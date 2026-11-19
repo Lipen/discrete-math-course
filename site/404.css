@@ -40,10 +40,13 @@ main.di { max-width: none; margin: 0; padding: 0; }
 }
 .torch-lamp {
   position: absolute;
-  inset: 0;
-  background: radial-gradient(circle 106px at var(--lx) var(--ly), rgba(255, 200, 120, 0.45), rgba(255, 190, 100, 0.18) 45%, transparent 75%);
+  left: calc(var(--lx) - 160px);
+  top: calc(var(--ly) - 160px);
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle 106px at 50% 50%, rgba(255, 200, 120, 0.45), rgba(255, 190, 100, 0.18) 45%, transparent 75%);
   mix-blend-mode: screen;
-  transform-origin: var(--lx) var(--ly);
+  transform-origin: center;
   animation: lamp-breathe 2.6s ease-in-out infinite;
 }
 @keyframes lamp-breathe {
