@@ -43,11 +43,14 @@ main.di { max-width: none; margin: 0; padding: 0; }
   inset: 0;
   background: radial-gradient(circle 110px at var(--lx) var(--ly), rgba(255, 200, 120, 0.45), rgba(255, 190, 100, 0.18) 45%, transparent 75%);
   mix-blend-mode: screen;
-  animation: lamp-ambient 4.2s ease-in-out infinite;
+  transform-origin: var(--lx) var(--ly);
+  animation: lamp-breathe 2.6s ease-in-out infinite;
 }
-@keyframes lamp-ambient {
-  0%, 100% { opacity: 0.7; }
-  50% { opacity: 1; }
+@keyframes lamp-breathe {
+  0%, 100% { transform: scale(1); opacity: 0.78; }
+  22% { transform: scale(1.08); opacity: 1; }
+  47% { transform: scale(0.96); opacity: 0.68; }
+  68% { transform: scale(1.05); opacity: 0.9; }
 }
 @supports not ((mask-image: radial-gradient(#000, transparent)) or (-webkit-mask-image: radial-gradient(#000, transparent))) {
   .torch { display: none; }
@@ -115,8 +118,8 @@ main.di { max-width: none; margin: 0; padding: 0; }
   box-shadow: 0 30px 60px -34px rgb(20 15 5 / 55%), inset 0 1px 0 rgb(255 255 255 / 6%);
 }
 .d1 .cave svg { display: block; width: 100%; height: 100%; position: relative; z-index: 0; }
-.d1 .lamp-glow { transform-box: view-box; transform-origin: 150px 360px; animation: lamp-pulse 4.2s ease-in-out infinite; }
-.d1 .lamp-beam, .d1 .lamp-core { animation: beam-pulse 4.2s ease-in-out infinite; }
+.d1 .lamp-glow { transform-box: view-box; transform-origin: 150px 360px; animation: lamp-breathe 2.6s ease-in-out infinite; }
+.d1 .lamp-beam, .d1 .lamp-core { animation: beam-breathe 2.6s ease-in-out infinite; }
 .d1 .lamp-flame {
   transform-box: fill-box;
   transform-origin: center bottom;
@@ -128,8 +131,12 @@ main.di { max-width: none; margin: 0; padding: 0; }
   transform-origin: center bottom;
   animation: flame-core 1.7s ease-in-out infinite;
 }
-@keyframes lamp-pulse { 0%, 100% { opacity: 0.82; transform: scale(1); } 50% { opacity: 1; transform: scale(1.06); } }
-@keyframes beam-pulse { 0%, 100% { opacity: 0.88; } 50% { opacity: 1; } }
+@keyframes beam-breathe {
+  0%, 100% { opacity: 0.8; }
+  22% { opacity: 1; }
+  47% { opacity: 0.72; }
+  68% { opacity: 0.92; }
+}
 @keyframes flame-flicker {
   0%, 100% { transform: scale(1) translate(0, 0); opacity: 0.9; }
   22% { transform: scale(1.06, 1.08) translate(1.2px, -1.8px); opacity: 0.98; }
