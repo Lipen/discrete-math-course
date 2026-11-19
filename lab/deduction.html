@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Натуральная дедукция · лаборатория</title>
-<link rel="stylesheet" href="lab.css?v=4">
+<link rel="stylesheet" href="lab.css?v=6">
 <link rel="stylesheet" href="vendor/katex/katex.min.css">
 </head>
 <body class="fitch-page">
@@ -17,7 +17,7 @@
   <h1>Соберите вывод в стиле Фитча</h1>
   <p class="lead">
     Посылки и цель фиксированы.
-    Наведите на строку, чтобы вставить новую строку выше или ниже, открыть лемму, изменить строку или удалить её.
+    Наведите на строку, чтобы открыть действия под ней: вставка строки, подвывод, изменение и удаление.
     Проверка идёт сразу, пока вы заполняете строку.
   </p>
 </header>
@@ -32,9 +32,8 @@
     </div>
     <div class="goal-strip" id="goal"></div>
     <p class="proof-help">
-      Наведите на строку или откройте меню строки справа.
-      Кнопка <b>Лемма</b> открывает именованный подвывод.
-      Закрывайте его строкой на уровень выше с правилом <b>→I</b>, <b>¬I</b> или <b>RAA</b>.
+      Наведите на строку или нажмите на неё. Действия появятся под строкой, не закрывая ссылки.
+      Кнопки <b>Открыть подвывод</b> и <b>Закрыть подвывод</b> задают вложенность, стрелки слева меняют уровень строки.
       Поддержаны <b>∧I/E</b>, <b>∨I</b>, <b>→I/E</b>, <b>¬I/E</b>, <b>⊥E</b>, <b>↔E</b> и <b>RAA</b>.
       <b>∨E</b> и <b>↔I</b> остаются письменной работой.
     </p>
@@ -42,7 +41,7 @@
     <div class="status" id="status" role="status" aria-live="polite" style="margin-top:10px"></div>
     <div class="proof-footer">
       <button id="add-row" class="active">Добавить строку</button>
-      <button id="add-lemma">Добавить лемму</button>
+      <button id="add-subproof">Открыть подвывод</button>
       <span class="proof-footer-spacer"></span>
       <button id="undo" disabled>Отменить</button>
       <button id="reset">Сброс</button>
@@ -63,9 +62,9 @@
         Строки внутри остаются на его глубине, а закрывающая строка возвращается на уровень выше.</p>
       </div>
       <div>
-        <h3>Леммы</h3>
-        <p>Лемма открывает именованный подвывод.
-        Она помогает разбить длинное рассуждение на независимые куски, не меняя номера строк.</p>
+        <h3>Подвыводы</h3>
+        <p>Подвывод открывается допущением и закрывается строкой на уровень выше.
+        Стрелки уровня позволяют поправить вложенность прямо у строки.</p>
       </div>
       <div>
         <h3>Проверка</h3>
@@ -119,7 +118,6 @@
   let lines = [];
   let history = [];
   let composer = null;
-  let openMenu = null;
 
   const exerciseSelect = $("#exercise");
   const goalNode = $("#goal");
@@ -363,10 +361,35 @@
     });
   }
 
-  function menuIcon() {
-    return svg("svg", { viewBox: "0 0 16 16", width: "16", height: "16", "aria-hidden": "true", focusable: "false" }, [
-      svg("path", { d: "M3 5.5h10M3 8h10M3 10.5h10", fill: "none", stroke: "currentColor", "stroke-width": "1.4", "stroke-linecap": "round" }),
-    ]);
+  function levelCell(line, index) {
+    const box = el("div", { class: "fitch-level" });
+    if (line.rule === "premise") {
+      box.appendChild(el("span", { class: "fitch-level-value", text: "0", "aria-label": "Уровень 0" }));
+      return box;
+    }
+    const less = el("button", {
+      class: "fitch-level-btn",
+      type: "button",
+      "data-level": "-1",
+      "data-index": String(index),
+      "aria-label": "Уменьшить уровень строки " + (index + 1),
+      title: "Уровень меньше",
+      text: "←",
+      disabled: line.depth <= 0 ? "disabled" : undefined,
+    });
+    const more = el("button", {
+      class: "fitch-level-btn",
+      type: "button",
+      "data-level": "1",
+      "data-index": String(index),
+      "aria-label": "Увеличить уровень строки " + (index + 1),
+      title: "Уровень больше",
+      text: "→",
+    });
+    box.appendChild(less);
+    box.appendChild(el("span", { class: "fitch-level-value", text: String(line.depth), "aria-label": "Уровень " + line.depth }));
+    box.appendChild(more);
+    return box;
   }
 
   function lineActions(line, index) {
@@ -374,13 +397,13 @@
     if (line.rule !== "premise") {
       box.appendChild(actionButton("Выше", "above", index));
       box.appendChild(actionButton("Ниже", "below", index));
-      box.appendChild(actionButton("Лемма", "lemma", index));
+      box.appendChild(actionButton("Открыть подвывод", "subproof", index));
       box.appendChild(actionButton("Изменить", "edit", index));
-      if (line.rule === "assumption") box.appendChild(actionButton("Закрыть", "close", index));
+      if (line.rule === "assumption") box.appendChild(actionButton("Закрыть подвывод", "close", index));
       box.appendChild(actionButton("Удалить", "delete", index, "danger"));
     } else {
       box.appendChild(actionButton("Ниже", "below", index));
-      box.appendChild(actionButton("Лемма", "lemma", index));
+      box.appendChild(actionButton("Открыть подвывод", "subproof", index));
     }
     return box;
   }
@@ -389,9 +412,11 @@
     const row = el("div", {
       class: "fitch-row" + (line.rule === "premise" ? " premise" : "") + (line.lemmaTitle ? " lemma" : "") + (validity.ok ? "" : " invalid") + (composer && composer.mode === "edit" && composer.index === index ? " editing" : ""),
       role: "group",
+      tabindex: "0",
       "aria-label": "Строка " + (index + 1),
       "data-index": String(index),
     });
+    row.appendChild(levelCell(line, index));
     row.appendChild(el("div", { class: "fitch-no", text: String(index + 1) }));
 
     const formulaCell = el("div", { class: "fitch-formula-cell" });
@@ -399,7 +424,7 @@
     const formulaBox = el("div", { class: "fitch-formula-wrap" });
     const formula = el("div", { class: "fitch-formula" });
     formula.appendChild(Lab.math(texOf(line), false));
-    if (line.lemmaTitle) formula.appendChild(el("span", { class: "fitch-lemma-tag", text: "лемма · " + line.lemmaTitle }));
+    if (line.lemmaTitle) formula.appendChild(el("span", { class: "fitch-lemma-tag", text: "подвывод · " + line.lemmaTitle }));
     formulaBox.appendChild(formula);
     if (!validity.ok) formulaBox.appendChild(el("div", { class: "fitch-error", text: validity.error }));
     formulaCell.appendChild(formulaBox);
@@ -410,54 +435,28 @@
     row.appendChild(ruleCell);
 
     row.appendChild(el("div", { class: "fitch-refs-cell", title: line.refs.length ? "Ссылки" : "Ссылок нет" }, [el("span", { class: "fitch-refs", text: refsLabel(line.refs) })]));
-
-    const menu = el("button", {
-      class: "fitch-menu",
-      type: "button",
-      "aria-label": "Действия со строкой " + (index + 1),
-      "aria-haspopup": "true",
-      "aria-expanded": openMenu === index ? "true" : "false",
-      title: "Действия со строкой",
-    });
-    menu.appendChild(menuIcon());
-    menu.addEventListener("click", (event) => {
-      event.stopPropagation();
-      const opening = openMenu !== index;
-      openMenu = opening ? index : null;
-      row.classList.toggle("menu-open", opening);
-      menu.setAttribute("aria-expanded", opening ? "true" : "false");
-      proofNode.querySelectorAll(".fitch-row.menu-open").forEach((other) => {
-        if (other !== row) {
-          other.classList.remove("menu-open");
-          const button = other.querySelector(".fitch-menu");
-          if (button) button.setAttribute("aria-expanded", "false");
-        }
-      });
-    });
-    row.appendChild(el("div", { class: "fitch-menu-cell" }, [menu]));
     row.appendChild(lineActions(line, index));
+    row.addEventListener("click", (event) => {
+      if (event.target.closest("button, input, select, a")) return;
+      row.focus({ preventScroll: true });
+    });
     return row;
   }
 
   function composerTitle() {
     if (!composer) return "";
     if (composer.mode === "edit") return "Изменить строку " + (composer.index + 1);
-    if (composer.mode === "lemma") return "Новая лемма";
+    if (composer.mode === "subproof") return "Новый подвывод";
     if (composer.mode === "close") return "Закрыть подвывод";
     return composer.at >= lines.length ? "Новая строка в конце" : "Новая строка перед строкой " + (composer.at + 1);
   }
 
-  function depthOptions(selected) {
-    const max = Math.max(5, Number(selected) || 0, ...lines.map((line) => line.depth + 1));
-    return Array.from({ length: max + 1 }, (_, depth) => el("option", { value: String(depth), text: depth + " · " + (depth === 0 ? "основной" : "глубина " + depth), selected: depth === selected ? "selected" : undefined }));
-  }
-
   function renderComposer() {
     if (!composer) return null;
-    const isLemma = composer.mode === "lemma";
+    const isSubproof = composer.mode === "subproof";
     const isClose = composer.mode === "close";
     const isEdit = composer.mode === "edit";
-    const showTitle = isLemma || (isEdit && composer.title !== undefined);
+    const showTitle = isSubproof || (isEdit && composer.title !== undefined);
     const box = el("form", { class: "fitch-composer", "data-mode": composer.mode, novalidate: "" });
     const head = el("div", { class: "composer-head" }, [
       el("div", { class: "composer-title", text: composerTitle() }),
@@ -466,23 +465,18 @@
     box.appendChild(head);
 
     const grid = el("div", { class: "composer-grid" });
-    if (isLemma) {
-      grid.appendChild(el("div", { class: "composer-fixed" }, [
-        el("span", { text: "Глубина" }),
-        el("b", { text: String(composer.depth) + " · внутри подвывода" }),
-      ]));
+    grid.appendChild(el("div", { class: "composer-fixed" }, [
+      el("span", { text: "Уровень" }),
+      el("b", { text: String(composer.depth) }),
+    ]));
+    if (isSubproof) {
       grid.appendChild(el("div", { class: "composer-fixed" }, [el("span", { text: "Правило" }), el("b", { text: "допущение" })]));
-    } else {
-      const depthField = el("label", { class: "composer-field" }, [el("span", { text: "Глубина" })]);
-      const depth = el("select", { "data-field": "depth" }, depthOptions(Number(composer.depth)));
-      depthField.appendChild(depth);
-      grid.appendChild(depthField);
     }
-    const formulaField = el("label", { class: "composer-field composer-formula" }, [el("span", { text: isLemma ? "Допущение леммы" : "Формула" })]);
-    formulaField.appendChild(el("input", { "data-field": "formula", class: "formula-input", value: composer.formula || "", placeholder: isLemma ? "например, A" : "например, A → B", spellcheck: "false", autocomplete: "off" }));
+    const formulaField = el("label", { class: "composer-field composer-formula" }, [el("span", { text: isSubproof ? "Допущение подвывода" : "Формула" })]);
+    formulaField.appendChild(el("input", { "data-field": "formula", class: "formula-input", value: composer.formula || "", placeholder: isSubproof ? "например, A" : "например, A → B", spellcheck: "false", autocomplete: "off" }));
     grid.appendChild(formulaField);
 
-    if (!isLemma) {
+    if (!isSubproof) {
       const ruleField = el("label", { class: "composer-field" }, [el("span", { text: "Правило" })]);
       const rule = el("select", { "data-field": "rule" });
       for (const item of rules) {
@@ -493,14 +487,14 @@
       grid.appendChild(ruleField);
     }
 
-    if (!isLemma) {
+    if (!isSubproof) {
       const refsField = el("label", { class: "composer-field" }, [el("span", { text: "Ссылки" })]);
       refsField.appendChild(el("input", { "data-field": "refs", class: "formula-input", value: composer.refsText || "", placeholder: "1,2 или 3-5", spellcheck: "false", autocomplete: "off" }));
       grid.appendChild(refsField);
     }
 
     if (showTitle) {
-      const titleField = el("label", { class: "composer-field wide" }, [el("span", { text: "Название леммы" })]);
+      const titleField = el("label", { class: "composer-field wide" }, [el("span", { text: "Название подвывода" })]);
       titleField.appendChild(el("input", { "data-field": "title", class: "formula-input", value: composer.title || "", placeholder: "например, вспомогательный факт", autocomplete: "off" }));
       grid.appendChild(titleField);
     }
@@ -510,7 +504,7 @@
 
     const preview = el("div", { class: "composer-preview", "data-role": "preview" });
     const message = el("span", { class: "composer-msg", "data-role": "message" });
-    const submit = el("button", { class: "active", type: "submit", "data-role": "submit", text: isEdit ? "Сохранить" : (isLemma ? "Открыть лемму" : "Добавить") });
+    const submit = el("button", { class: "active", type: "submit", "data-role": "submit", text: isEdit ? "Сохранить" : (isSubproof ? "Открыть подвывод" : "Добавить") });
     const foot = el("div", { class: "composer-foot" }, [
       preview,
       message,
@@ -523,20 +517,19 @@
 
   function renderProof(validity) {
     const checked = validity || analyzeLines();
-    openMenu = null;
     clear(proofNode);
     const head = el("div", { class: "fitch-head", "aria-hidden": "true" }, [
+      el("span", { text: "ур." }),
       el("span", { text: "#" }),
       el("span", { text: "формула" }),
       el("span", { text: "правило" }),
       el("span", { text: "ссылки" }),
-      el("span", { text: "" }),
     ]);
     proofNode.appendChild(head);
     if (!lines.length && !composer) {
       proofNode.appendChild(el("div", { class: "fitch-empty" }, [
         el("b", { text: "Пока пусто." }),
-        el("span", { text: "Добавьте строку или начните с леммы, чтобы открыть подвывод." }),
+        el("span", { text: "Добавьте строку или откройте подвывод, чтобы начать рассуждение." }),
       ]));
     }
     let inserted = false;
@@ -582,9 +575,8 @@
   }
 
   function openComposer(mode, options) {
-    openMenu = null;
     composer = { mode, at: options.at, depth: options.depth, formula: options.formula || "", rule: options.rule || "implE", refsText: options.refsText || "", title: options.title, index: options.index };
-    if (mode === "lemma" && !composer.title) composer.title = "№" + (lines.filter((line) => line.lemmaTitle).length + 1);
+    if (mode === "subproof" && !composer.title) composer.title = "№" + (lines.filter((line) => line.lemmaTitle).length + 1);
     renderState("Заполните строку: проверка появится сразу.", "info");
     focusComposer();
   }
@@ -604,10 +596,10 @@
     if (!box) return null;
     const field = (name) => box.querySelector("[data-field=" + name + "]");
     return {
-      depth: composer.mode === "lemma" ? composer.depth : Number(field("depth")?.value),
+      depth: composer.depth,
       formula: field("formula")?.value || "",
-      rule: composer.mode === "lemma" ? "assumption" : (field("rule")?.value || "implE"),
-      refsText: composer.mode === "lemma" ? "" : (field("refs")?.value || ""),
+      rule: composer.mode === "subproof" ? "assumption" : (field("rule")?.value || "implE"),
+      refsText: composer.mode === "subproof" ? "" : (field("refs")?.value || ""),
       title: field("title")?.value || composer.title || "",
     };
   }
@@ -641,9 +633,9 @@
     preview.appendChild(Lab.math(Logic.toTex(ast), false));
     let refs = [];
     try {
-      if (composer.mode !== "lemma") refs = parseRefs(values.refsText);
+      if (composer.mode !== "subproof") refs = parseRefs(values.refsText);
       const previous = lines.slice(0, composer.mode === "edit" ? composer.index : composer.at);
-      const rule = composer.mode === "lemma" ? "assumption" : values.rule;
+      const rule = composer.mode === "subproof" ? "assumption" : values.rule;
       validate({ formula: values.formula, rule, refs, depth: values.depth }, previous);
       message.textContent = "Проверено.";
       message.classList.add("ok");
@@ -689,7 +681,7 @@
     if (!composer.draft) return;
     const draft = composer.draft;
     pushHistory();
-    const lemmaTitle = (composer.mode === "lemma" || (composer.mode === "edit" && composer.title !== undefined)) ? (draft.title || "").trim() || undefined : undefined;
+    const lemmaTitle = (composer.mode === "subproof" || (composer.mode === "edit" && composer.title !== undefined)) ? (draft.title || "").trim() || undefined : undefined;
     if (composer.mode === "edit") {
       lines[composer.index] = {
         ast: draft.ast,
@@ -751,6 +743,34 @@
     renderState("Строка удалена.", "info");
   }
 
+  function changeDepth(index, delta) {
+    const line = lines[index];
+    if (!line || line.rule === "premise") return;
+    const next = line.depth + delta;
+    if (next < 0) {
+      Lab.status(statusNode, "Уровень не может быть меньше 0.", "bad");
+      return;
+    }
+    try {
+      validate({ formula: line.formula, rule: line.rule, refs: line.refs, depth: next }, lines.slice(0, index));
+    } catch (error) {
+      Lab.status(statusNode, error.message, "bad");
+      return;
+    }
+    pushHistory();
+    if (line.rule === "assumption") {
+      const end = subproofEnd(index);
+      const closers = lines
+        .map((other, otherIndex) => ({ other, otherIndex }))
+        .filter(({ other, otherIndex }) => otherIndex > end && ["implI", "notI", "raa"].includes(other.rule) && other.refs[0] === index + 1);
+      for (let i = index; i <= end; i++) lines[i].depth += delta;
+      for (const { other } of closers) other.depth += delta;
+    } else {
+      line.depth = next;
+    }
+    renderState("Уровень строки изменён.", "info");
+  }
+
   function addAbove(index) {
     const line = lines[index];
     openComposer("add", { at: index, depth: line.rule === "assumption" ? Math.max(0, line.depth - 1) : line.depth });
@@ -760,8 +780,8 @@
     openComposer("add", { at: index + 1, depth: lines[index].depth });
   }
 
-  function addLemmaBelow(index) {
-    openComposer("lemma", { at: index + 1, depth: lines[index].depth + 1 });
+  function addSubproofBelow(index) {
+    openComposer("subproof", { at: index + 1, depth: lines[index].depth + 1 });
   }
 
   function openClose(index) {
@@ -794,7 +814,7 @@
   function handleAction(action, index) {
     if (action === "above") addAbove(index);
     else if (action === "below") addBelow(index);
-    else if (action === "lemma") addLemmaBelow(index);
+    else if (action === "subproof") addSubproofBelow(index);
     else if (action === "edit") openEdit(index);
     else if (action === "close") openClose(index);
     else if (action === "delete") deleteLine(index);
@@ -805,50 +825,30 @@
     lines = current.premises.map((text) => ({ ast: parse(text), formula: text, rule: "premise", refs: [], depth: 0 }));
     history = [];
     composer = null;
-    openMenu = null;
     renderGoal();
     renderState();
   }
 
   proofNode.addEventListener("click", (event) => {
-    const action = event.target.closest("[data-action]");
-    if (action) {
-      handleAction(action.dataset.action, Number(action.dataset.index));
+    const level = event.target.closest("[data-level]");
+    if (level) {
+      changeDepth(Number(level.dataset.index), Number(level.dataset.level));
       return;
     }
-    if (!event.target.closest(".fitch-row")) {
-      openMenu = null;
-      proofNode.querySelectorAll(".fitch-row.menu-open").forEach((row) => {
-        row.classList.remove("menu-open");
-        const button = row.querySelector(".fitch-menu");
-        if (button) button.setAttribute("aria-expanded", "false");
-      });
-    }
+    const action = event.target.closest("[data-action]");
+    if (action) handleAction(action.dataset.action, Number(action.dataset.index));
   });
 
   document.addEventListener("click", (event) => {
     if (event.target.closest(".fitch-row")) return;
-    openMenu = null;
-    proofNode.querySelectorAll(".fitch-row.menu-open").forEach((row) => {
-      row.classList.remove("menu-open");
-      const button = row.querySelector(".fitch-menu");
-      if (button) button.setAttribute("aria-expanded", "false");
-    });
+    const focused = document.activeElement;
+    if (focused && focused.closest && focused.closest(".fitch-row")) focused.blur();
   });
 
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") {
-      if (composer) {
-        composer = null;
-        renderState("Редактирование отменено.", "info");
-      } else if (openMenu !== null) {
-        openMenu = null;
-        proofNode.querySelectorAll(".fitch-row.menu-open").forEach((row) => {
-          row.classList.remove("menu-open");
-          const button = row.querySelector(".fitch-menu");
-          if (button) button.setAttribute("aria-expanded", "false");
-        });
-      }
+    if (event.key === "Escape" && composer) {
+      composer = null;
+      renderState("Редактирование отменено.", "info");
     }
   });
 
@@ -857,15 +857,14 @@
     const depth = lines.length ? lines[lines.length - 1].depth : 0;
     openComposer("add", { at: lines.length, depth });
   });
-  $("#add-lemma").addEventListener("click", () => {
+  $("#add-subproof").addEventListener("click", () => {
     const depth = (lines.length ? lines[lines.length - 1].depth : 0) + 1;
-    openComposer("lemma", { at: lines.length, depth });
+    openComposer("subproof", { at: lines.length, depth });
   });
   $("#undo").addEventListener("click", () => {
     if (!history.length) return;
     lines = history.pop();
     composer = null;
-    openMenu = null;
     renderState("Действие отменено.", "info");
   });
   $("#reset").addEventListener("click", loadExercise);

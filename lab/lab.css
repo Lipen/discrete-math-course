@@ -2097,64 +2097,6 @@ button, .btn { border-radius: 9px; font-size: 13px; padding: 7px 12px; }
 .fitch-refs { color: var(--muted); }
 .fitch-row.invalid .fitch-refs { color: #8a2c2c; }
 
-.fitch-menu-cell { display: flex; justify-content: flex-end; }
-
-.fitch-menu {
-  width: 28px;
-  height: 28px;
-  padding: 0;
-  border: 1px solid transparent;
-  border-radius: 7px;
-  background: transparent;
-  color: var(--muted);
-  display: grid;
-  place-items: center;
-  opacity: .48;
-  transition: opacity .14s, background .14s, border-color .14s, color .14s;
-}
-
-.fitch-row:hover .fitch-menu,
-.fitch-row:focus-within .fitch-menu,
-.fitch-row.menu-open .fitch-menu { opacity: 1; }
-
-.fitch-menu:hover,
-.fitch-menu:focus-visible {
-  border-color: #cbd8e8;
-  background: var(--accent-soft);
-  color: var(--accent);
-}
-
-.fitch-actions {
-  position: absolute;
-  z-index: 8;
-  top: 50%;
-  right: 42px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 3px;
-  width: max-content;
-  max-width: min(360px, calc(100vw - 56px));
-  padding: 4px;
-  border: 1px solid var(--line);
-  border-radius: 9px;
-  background: #fff;
-  box-shadow: 0 10px 28px rgba(24, 34, 45, .12);
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transform: translateY(-50%) translateX(4px);
-  transition: opacity .14s, transform .14s, visibility .14s;
-}
-
-.fitch-row:hover .fitch-actions,
-.fitch-row:focus-within .fitch-actions,
-.fitch-row.menu-open .fitch-actions {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-  transform: translateY(-50%);
-}
-
 .fitch-action {
   min-height: 28px;
   padding: 4px 7px;
@@ -2267,7 +2209,7 @@ button, .btn { border-radius: 9px; font-size: 13px; padding: 7px 12px; }
 
 .composer-field.wide { grid-column: 1 / -1; }
 
-.fitch-composer[data-mode="lemma"] .composer-formula { grid-column: 1 / -1; }
+.fitch-composer[data-mode="subproof"] .composer-formula { grid-column: 1 / -1; }
 
 .composer-fixed {
   display: flex;
@@ -2371,21 +2313,11 @@ button, .btn { border-radius: 9px; font-size: 13px; padding: 7px 12px; }
   }
   .fitch-rule-cell::before { content: "правило"; }
   .fitch-refs-cell::before { content: "ссылки"; }
-  .fitch-menu-cell { grid-column: 3; grid-row: 1; }
   .fitch-bar { flex-basis: 12px; width: 12px; margin-left: 2px; }
   .fitch-lemma-tag { max-width: 130px; }
-  .fitch-actions {
-    top: calc(100% - 2px);
-    right: 6px;
-    max-width: calc(100vw - 36px);
-    transform: translateY(2px);
-  }
-  .fitch-row:hover .fitch-actions,
-  .fitch-row:focus-within .fitch-actions,
-  .fitch-row.menu-open .fitch-actions { transform: translateY(0); }
   .composer-grid { grid-template-columns: 1fr 1fr; }
   .composer-field.wide,
-  .fitch-composer[data-mode="lemma"] .composer-formula { grid-column: 1 / -1; }
+  .fitch-composer[data-mode="subproof"] .composer-formula { grid-column: 1 / -1; }
   .composer-field input,
   .composer-field select { min-height: 34px; }
   .composer-foot .active { width: 100%; }
@@ -2396,7 +2328,6 @@ button, .btn { border-radius: 9px; font-size: 13px; padding: 7px 12px; }
 
 @media (prefers-reduced-motion: reduce) {
   .fitch-row,
-  .fitch-menu,
   .fitch-actions,
   .fitch-action { transition: none; }
 }
@@ -2412,3 +2343,90 @@ button, .btn { border-radius: 9px; font-size: 13px; padding: 7px 12px; }
 .fitch-formula-wrap { display: flex; flex-direction: column; min-width: 0; flex: 1 1 auto; }
 
 .fitch-board button:disabled { cursor: default; opacity: .5; }
+
+/* Fitch row controls: level arrows and a non-overlapping action strip. */
+.fitch-head,
+.fitch-row {
+  grid-template-columns: 64px 34px minmax(0, 1fr) 100px 84px;
+  grid-template-areas: "level no formula rule refs" "actions actions actions actions actions";
+}
+
+.fitch-head { grid-template-areas: "level no formula rule refs"; }
+.fitch-level { grid-area: level; display: flex; align-items: center; gap: 2px; padding-top: 2px; }
+.fitch-level-btn {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 13px;
+  line-height: 1;
+  box-shadow: none;
+}
+.fitch-level-btn:hover:not(:disabled) { border-color: #cbd8e8; background: var(--accent-soft); color: var(--accent); }
+.fitch-level-btn:disabled { opacity: .28; cursor: default; }
+.fitch-level-value {
+  min-width: 12px;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+.fitch-no { grid-area: no; }
+.fitch-formula-cell { grid-area: formula; }
+.fitch-rule-cell { grid-area: rule; }
+.fitch-refs-cell { grid-area: refs; }
+
+.fitch-actions {
+  grid-area: actions;
+  position: static;
+  z-index: auto;
+  right: auto;
+  top: auto;
+  display: none;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  width: auto;
+  max-width: none;
+  margin: 7px 0 0 98px;
+  padding: 6px 0 0;
+  border: 0;
+  border-top: 1px dashed var(--line-soft);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: none;
+}
+
+.fitch-row:hover .fitch-actions,
+.fitch-row:focus-within .fitch-actions { display: flex; transform: none; opacity: 1; visibility: visible; pointer-events: auto; }
+
+.fitch-row:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+.fitch-composer[data-mode="subproof"] .composer-formula { grid-column: 1 / -1; }
+
+@media (max-width: 760px) {
+  .fitch-row {
+    grid-template-columns: 64px 30px minmax(0, 1fr);
+    grid-template-areas:
+      "level no formula"
+      "rule rule rule"
+      "refs refs refs"
+      "actions actions actions";
+    gap: 2px 4px;
+  }
+  .fitch-level { grid-area: level; }
+  .fitch-no { grid-area: no; }
+  .fitch-formula-cell { grid-area: formula; }
+  .fitch-rule-cell { grid-area: rule; padding: 0 4px; }
+  .fitch-refs-cell { grid-area: refs; padding: 0 4px 1px; }
+  .fitch-actions { grid-area: actions; margin: 6px 0 0; padding: 6px 0 0; }
+}
