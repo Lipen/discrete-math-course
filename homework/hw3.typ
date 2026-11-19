@@ -143,7 +143,6 @@
 
 #tasklist("t3")[
   + Формализуйте каждый фрагмент, для фрагмента (в) выписав обе трактовки "либо".
-    Приведите свой набор посылок с "либо", где трактовки расходятся.
 
   + Проверьте корректность, для фрагмента (в) --- при каждой трактовке.
     Неверные опровергните оценкой с истинными посылками и ложным заключением.
@@ -164,47 +163,41 @@
   Формула, выводимая без посылок, называется _теоремой_, и запись $proves psi$ означает, что $psi$ --- теорема.
 
   #align(center)[
-    #block(breakable: false)[
-      #grid(
-        columns: 4,
-        column-gutter: 1.4em,
-        row-gutter: 1.2em,
-        align: center + horizon,
-        prooftree(rule(name: [$and$I], $A quad B$, $A and B$)),
-        prooftree(rule(name: [$and$E#sub[1]], $A and B$, $A$)),
-        prooftree(rule(name: [$and$E#sub[2]], $A and B$, $B$)),
-        prooftree(rule(name: [$bot$E], $bot$, $C$)),
+    #grid(
+      columns: 4,
+      column-gutter: 2em,
+      row-gutter: 1em,
+      align: center + horizon,
+      prooftree(rule(name: [$and$I], $A quad B$, $A and B$)),
+      prooftree(rule(name: [$and$E#sub[1]], $A and B$, $A$)),
+      prooftree(rule(name: [$and$E#sub[2]], $A and B$, $B$)),
+      prooftree(rule(name: [$bot$E], $bot$, $C$)),
 
-        prooftree(rule(name: [$or$I#sub[1]], $A$, $A or B$)),
-        prooftree(rule(name: [$or$I#sub[2]], $B$, $A or B$)),
-        prooftree(rule(name: [$or$E], $A or B quad A proves C quad B proves C$, $C$)),
-        prooftree(rule(name: [R], $A$, $A$)),
+      prooftree(rule(name: [$or$I#sub[1]], $A$, $A or B$)),
+      prooftree(rule(name: [$or$I#sub[2]], $B$, $A or B$)),
+      prooftree(rule(name: [$or$E], $A or B quad A proves C quad B proves C$, $C$)),
+      prooftree(rule(name: [R], $A$, $A$)),
 
-        prooftree(rule(name: [$arrow.r$I], $A proves B$, $A -> B$)),
-        prooftree(rule(name: [$arrow.r$E], $A -> B quad A$, $B$)),
-        prooftree(rule(name: [$not$I], $A proves bot$, $not A$)),
-        prooftree(rule(name: [$not$E], $A quad not A$, $bot$)),
-      )
-    ]
+      prooftree(rule(name: [$arrow.r$I], $A proves B$, $A -> B$)),
+      prooftree(rule(name: [$arrow.r$E], $A -> B quad A$, $B$)),
+      prooftree(rule(name: [$not$I], $A proves bot$, $not A$)),
+      prooftree(rule(name: [$not$E], $A quad not A$, $bot$)),
+    )
   ]
 
   _Классическая логика_ добавляет три равносильных принципа.
 
   #align(center)[
-    #block(breakable: false)[
-      #grid(
-        columns: 3,
-        column-gutter: 2.4em,
-        row-gutter: 1.2em,
-        align: center + horizon,
-        prooftree(rule(name: [IP], $not A proves bot$, $A$)),
-        prooftree(rule(name: [DNE], $not not A$, $A$)),
-        prooftree(rule(name: [LEM], $A or not A$)),
-      )
-    ]
+    #grid(
+      columns: 3,
+      column-gutter: 2em,
+      row-gutter: 1em,
+      align: center + horizon,
+      prooftree(rule(name: [IP], $not A proves bot$, $A$)),
+      prooftree(rule(name: [DNE], $not not A$, $A$)),
+      prooftree(rule(name: [LEM], $A or not A$)),
+    )
   ]
-
-  Разбор случаев по LEM --- это $or$E над $A or not A$.
 
   Формула _общезначима_, если истинна при всякой оценке.
 ]
@@ -225,7 +218,6 @@
   + Выведите $proves (A -> B) or (B -> A)$.
 
   + Докажите, что формула $phi = (A -> (B or C)) -> ((A -> B) or (A -> C))$ общезначима, двумя способами:
-
     + постройте вывод $proves phi$ и отметьте строку, где применено классическое правило
     + покажите перебором оценок, что $phi$ истинна при всякой оценке
 ]
@@ -275,10 +267,12 @@
 ]
 
 #tasklist("t6")[
-  + Постройте в нотации Фитча выводы, указывая правило на каждом шаге.
+  + #block(breakable: false)[
+      Постройте в нотации Фитча выводы, указывая правило на каждом шаге.
 
-    + $forall x . thin (P(x) -> Q(x)), quad forall x . thin P(x) quad proves quad forall x . thin Q(x)$
-    + $forall x . thin (P(x) -> Q(x)) quad proves quad (exists x . thin P(x)) -> (exists x . thin Q(x))$
+      + $forall x . thin (P(x) -> Q(x)), quad forall x . thin P(x) quad proves quad forall x . thin Q(x)$
+      + $forall x . thin (P(x) -> Q(x)) quad proves quad (exists x . thin P(x)) -> (exists x . thin Q(x))$
+    ]
 
   + #block(breakable: false)[
       В протоколе ошибка: найдите первую недопустимую строку и нарушенное условие.
@@ -315,7 +309,8 @@
 
   Каждый жилой сектор является сектором.
 
-  _Модель_ задаёт непустую область $D$, множество $P_M subset.eq D^n$ наборов, на которых истинен $n$-местный предикат, и значение константы; $M models phi$ означает, что $phi$ истинна в $M$, а $M nmodels phi$ --- что ложна.
+  _Модель_ задаёт непустую область $D$, множество $P_M subset.eq D^n$ наборов, на которых истинен #box[$n$-местный] предикат, и значение константы.
+  Запись $M models phi$ означает, что $phi$ истинна в~$M$, а запись #box[$M nmodels phi$] --- что ложна.
 ]
 
 #tasklist("t7")[
