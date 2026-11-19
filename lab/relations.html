@@ -206,7 +206,7 @@
     const root = svg("svg", { viewBox: "0 0 " + width + " " + height, role: "img", "aria-label": "Граф отношения" });
     const defs = svg("defs");
     const marker = svg("marker", { id: "rel-arrow", viewBox: "0 0 10 10", refX: "9", refY: "5", markerWidth: "6", markerHeight: "6", orient: "auto-start-reverse" });
-    marker.appendChild(svg("path", { d: "M 0 0 L 10 5 L 0 10 z", fill: "#6b6558" }));
+    marker.appendChild(svg("path", { d: "M 0 0 L 10 5 L 0 10 z", fill: "#6a4c93" }));
     defs.appendChild(marker);
     root.appendChild(defs);
 
@@ -218,7 +218,7 @@
         if (i === j) {
           root.appendChild(svg("path", {
             d: "M " + (a.x - 12) + " " + (a.y - 20) + " C " + (a.x - 45) + " " + (a.y - 70) + ", " + (a.x + 45) + " " + (a.y - 70) + ", " + (a.x + 12) + " " + (a.y - 20),
-            fill: "none", stroke: "#6b6558", "stroke-width": 1.5, "marker-end": "url(#rel-arrow)",
+            fill: "none", stroke: "#6a4c93", "stroke-width": 1.5, "marker-end": "url(#rel-arrow)",
           }));
           continue;
         }
@@ -233,16 +233,16 @@
           const oy = dx / len * 20;
           root.appendChild(svg("path", {
             d: "M " + a.x + " " + a.y + " Q " + (mx + ox) + " " + (my + oy) + " " + b.x + " " + b.y,
-            fill: "none", stroke: "#6b6558", "stroke-width": 1.4, "marker-end": "url(#rel-arrow)",
+            fill: "none", stroke: "#6a4c93", "stroke-width": 1.4, "marker-end": "url(#rel-arrow)",
           }));
           root.appendChild(svg("path", {
             d: "M " + b.x + " " + b.y + " Q " + (mx - ox) + " " + (my - oy) + " " + a.x + " " + a.y,
-            fill: "none", stroke: "#6b6558", "stroke-width": 1.4, "marker-end": "url(#rel-arrow)",
+            fill: "none", stroke: "#6a4c93", "stroke-width": 1.4, "marker-end": "url(#rel-arrow)",
           }));
         } else {
           root.appendChild(svg("line", {
             x1: a.x, y1: a.y, x2: b.x, y2: b.y,
-            stroke: "#6b6558", "stroke-width": 1.4, "marker-end": "url(#rel-arrow)",
+            stroke: "#6a4c93", "stroke-width": 1.4, "marker-end": "url(#rel-arrow)",
           }));
         }
       }

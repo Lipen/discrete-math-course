@@ -89,7 +89,7 @@
 
       <div class="card-slim">
         <h2>Кардинальная арифметика</h2>
-        <p class="hint">Нажмите на строку, чтобы вернуться к сценарию, который её показывает.</p>
+        <p class="hint">Нажмите на строку, чтобы вернуться к сценарию, который её показывает. Обозначение: <span class="math-inline" data-tex="\aleph_0 = \left|\mathbb{N}\right|"></span>.</p>
         <div id="arithmetic"></div>
       </div>
     </div>
@@ -224,7 +224,7 @@
       localHint = "Все комнаты заняты. Сдвиг освобождает первую комнату.";
       if (currentStep === 0) {
         note = "Комнат и гостей одинаково много. Свободных комнат нет.";
-        equationTex = "\\aleph_0 + 1 = \\aleph_0";
+        equationTex = "\\left|\\mathbb{N}\\right| + 1 = \\left|\\mathbb{N}\\right|";
         formulaTex = "g(n) = n + 1";
       } else {
         rooms[0] = { guest: "", kind: currentStep === 1 ? "free" : "new" };
@@ -232,13 +232,13 @@
         for (let i = 1; i <= 5; i++) mapping.push({ row: "old", label: "G" + i, room: i + 1, kind: "old" });
         if (currentStep === 1) {
           note = "Каждый жилец переезжает на одну комнату вправо. Комната 1 пуста.";
-          equationTex = "\\aleph_0 + 1 = \\aleph_0";
+          equationTex = "\\left|\\mathbb{N}\\right| + 1 = \\left|\\mathbb{N}\\right|";
           formulaTex = "g(n) = n + 1";
         } else {
           rooms[0] = { guest: "новый", kind: "new" };
           mapping.push({ row: "new", label: "новый", room: 1, kind: "new" });
           note = "Новый гость занимает комнату 1. Никто не потерян: старый гость n теперь в комнате n+1.";
-          equationTex = "\\aleph_0 + 1 = \\aleph_0";
+          equationTex = "\\left|\\mathbb{N}\\right| + 1 = \\left|\\mathbb{N}\\right|";
           formulaTex = "G_n \\mapsto n + 1, \\quad \\text{новый} \\mapsto 1";
         }
       }
@@ -251,7 +251,7 @@
       localHint = "Сдвиг освобождает начало ряда.";
       if (currentStep === 0) {
         note = "Все комнаты заняты. Снаружи ждут " + k + " новых гостей.";
-        equationTex = "\\aleph_0 + " + k + " = \\aleph_0";
+        equationTex = "\\left|\\mathbb{N}\\right| + " + k + " = \\left|\\mathbb{N}\\right|";
         formulaTex = "g(n) = n + " + k;
       } else {
         for (let i = 0; i < k; i++) rooms[i] = { guest: "N" + (i + 1), kind: "new" };
@@ -259,7 +259,7 @@
         for (let i = 1; i <= 4; i++) mapping.push({ row: "old", label: "G" + i, room: i + k, kind: "old" });
         for (let i = 1; i <= k; i++) mapping.push({ row: "new", label: "N" + i, room: i, kind: "new" });
         note = "Жильцы сдвигаются вправо, новые гости занимают начало ряда.";
-        equationTex = "\\aleph_0 + " + k + " = \\aleph_0";
+        equationTex = "\\left|\\mathbb{N}\\right| + " + k + " = \\left|\\mathbb{N}\\right|";
         formulaTex = "G_n \\mapsto n + " + k + ", \\quad N_j \\mapsto j";
       }
       calloutText = "Сдвиг на конечное k ничего не меняет: натуральный ряд сдвигом на k снова покрывает всё, кроме первых k мест, а эти места заняли новые гости.";
@@ -270,7 +270,7 @@
       localHint = "Бесконечный автобус: каждому пассажиру нужна комната.";
       if (currentStep === 0) {
         note = "В отеле заняты все комнаты. У автобуса бесконечно много пассажиров.";
-        equationTex = "\\aleph_0 + \\aleph_0 = \\aleph_0";
+        equationTex = "\\left|\\mathbb{N}\\right| + \\left|\\mathbb{N}\\right| = \\left|\\mathbb{N}\\right|";
         formulaTex = "G_n \\mapsto 2n, \\quad B_n \\mapsto 2n - 1";
       } else {
         for (let i = 1; i <= 5; i++) {
@@ -280,7 +280,7 @@
           mapping.push({ row: "bus", label: "B" + i, room: 2 * i - 1, kind: "bus" });
         }
         note = "Старые жильцы идут в чётные комнаты, пассажиры автобуса в нечётные. Обе последовательности не пересекаются и покрывают все комнаты.";
-        equationTex = "\\aleph_0 + \\aleph_0 = \\aleph_0";
+        equationTex = "\\left|\\mathbb{N}\\right| + \\left|\\mathbb{N}\\right| = \\left|\\mathbb{N}\\right|";
         formulaTex = "G_n \\mapsto 2n, \\quad B_n \\mapsto 2n - 1";
       }
       calloutText = "Два счётных множества вместе снова счётны. Новая бесконечность не появилась: чётные и нечётные номера это две копии N внутри одного N.";
@@ -300,7 +300,7 @@
         }
         note = "Диагональ " + diagonal + ": " + pairs.join(", ") + ".";
       }
-      equationTex = "\\aleph_0 \\times \\aleph_0 = \\aleph_0";
+      equationTex = "\\left|\\mathbb{N}\\right| \\times \\left|\\mathbb{N}\\right| = \\left|\\mathbb{N}\\right|";
       formulaTex = "\\operatorname{room}(b,n) = \\frac{s(s+1)}{2} + b + 1, \\quad s = b+n-1";
       calloutText = "Старых жильцов можно отправить в чётные комнаты, а пары (автобус, место) в нечётные. Счётное объединение счётных множеств счётно: диагональная нумерация превращает двумерную таблицу в один список.";
     }
@@ -544,11 +544,11 @@
     const wrap = $("#arithmetic");
     clear(wrap);
     const rows = [
-      ["\\aleph_0 + 1 = \\aleph_0", "один гость", "one"],
-      ["\\aleph_0 + k = \\aleph_0", "конечная группа", "group"],
-      ["\\aleph_0 + \\aleph_0 = \\aleph_0", "бесконечный автобус", "bus"],
-      ["\\aleph_0 \\times \\aleph_0 = \\aleph_0", "бесконечно много автобусов", "buses"],
-      ["2^{\\aleph_0} > \\aleph_0", "диагональ Кантора", "diagonal"],
+      ["\\left|\\mathbb{N}\\right| + 1 = \\left|\\mathbb{N}\\right|", "один гость", "one"],
+      ["\\left|\\mathbb{N}\\right| + k = \\left|\\mathbb{N}\\right|", "конечная группа", "group"],
+      ["\\left|\\mathbb{N}\\right| + \\left|\\mathbb{N}\\right| = \\left|\\mathbb{N}\\right|", "бесконечный автобус", "bus"],
+      ["\\left|\\mathbb{N}\\right| \\times \\left|\\mathbb{N}\\right| = \\left|\\mathbb{N}\\right|", "бесконечно много автобусов", "buses"],
+      ["2^{\\left|\\mathbb{N}\\right|} > \\left|\\mathbb{N}\\right|", "диагональ Кантора", "diagonal"],
     ];
     const table = el("table", { class: "data arithmetic-table" });
     const head = el("tr");

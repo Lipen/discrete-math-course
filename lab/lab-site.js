@@ -6,7 +6,7 @@
   if (!catalog) return;
 
   const page = (location.pathname.split("/").pop() || "index.html").toLowerCase();
-  const currentLab = catalog.labs.find((lab) => lab.file.toLowerCase() === page) || null;
+  const currentLab = catalog.labs.find((lab) => lab.file.split("?")[0].toLowerCase() === page) || null;
   const isHub = page === "" || page === "index.html";
 
   if (currentLab) {
