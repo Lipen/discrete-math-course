@@ -2293,15 +2293,10 @@ button, .btn { border-radius: 9px; font-size: 13px; padding: 7px 12px; }
   .goal-strip { align-items: flex-start; }
   .goal-strip .math-inline { font-size: 14px; }
   .fitch-head { display: none; }
-  .fitch-row {
-    grid-template-columns: 32px minmax(0, 1fr) 34px;
-    gap: 2px 4px;
-    padding: 8px;
-  }
-  .fitch-no { grid-column: 1; grid-row: 1; }
-  .fitch-formula-cell { grid-column: 2; grid-row: 1; padding-left: 0; }
-  .fitch-rule-cell { grid-column: 2; grid-row: 2; display: flex; align-items: center; gap: 5px; padding: 0 4px; }
-  .fitch-refs-cell { grid-column: 2; grid-row: 3; padding: 0 4px 1px; }
+  .fitch-row { gap: 2px 4px; padding: 8px; }
+  .fitch-formula-cell { padding-left: 0; }
+  .fitch-rule-cell { display: flex; align-items: center; gap: 5px; padding: 0 4px; }
+  .fitch-refs-cell { padding: 0 4px 1px; }
   .fitch-rule-cell::before,
   .fitch-refs-cell::before {
     color: var(--muted);
@@ -2352,6 +2347,7 @@ button, .btn { border-radius: 9px; font-size: 13px; padding: 7px 12px; }
 }
 
 .fitch-head { grid-template-areas: "level no formula rule refs"; }
+.fitch-row { grid-template-rows: auto auto; }
 .fitch-level { grid-area: level; display: flex; align-items: center; gap: 2px; padding-top: 2px; }
 .fitch-level-btn {
   width: 24px;
@@ -2393,8 +2389,8 @@ button, .btn { border-radius: 9px; font-size: 13px; padding: 7px 12px; }
   gap: 4px;
   width: auto;
   max-width: none;
-  margin: 7px 0 0 98px;
-  padding: 6px 0 0;
+  margin: 0 0 0 98px;
+  padding: 8px 0 0;
   border: 0;
   border-top: 1px dashed var(--line-soft);
   border-radius: 0;
@@ -2428,5 +2424,5 @@ button, .btn { border-radius: 9px; font-size: 13px; padding: 7px 12px; }
   .fitch-formula-cell { grid-area: formula; }
   .fitch-rule-cell { grid-area: rule; padding: 0 4px; }
   .fitch-refs-cell { grid-area: refs; padding: 0 4px 1px; }
-  .fitch-actions { grid-area: actions; margin: 6px 0 0; padding: 6px 0 0; }
+  .fitch-actions { grid-area: actions; margin: 0; padding: 8px 0 0; }
 }

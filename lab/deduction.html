@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Натуральная дедукция · лаборатория</title>
-<link rel="stylesheet" href="lab.css?v=6">
+<link rel="stylesheet" href="lab.css?v=7">
 <link rel="stylesheet" href="vendor/katex/katex.min.css">
 </head>
 <body class="fitch-page">
@@ -392,14 +392,24 @@
     return box;
   }
 
+  function enclosingAssumption(index) {
+    const depth = lines[index].depth;
+    if (depth <= 0) return -1;
+    for (let i = index; i >= 0; i--) {
+      if (lines[i].depth < depth) return -1;
+      if (lines[i].depth === depth && lines[i].rule === "assumption") return i;
+    }
+    return -1;
+  }
+
   function lineActions(line, index) {
     const box = el("div", { class: "fitch-actions", role: "toolbar", "aria-label": "Действия со строкой " + (index + 1) });
     if (line.rule !== "premise") {
       box.appendChild(actionButton("Выше", "above", index));
       box.appendChild(actionButton("Ниже", "below", index));
       box.appendChild(actionButton("Открыть подвывод", "subproof", index));
+      if (enclosingAssumption(index) >= 0) box.appendChild(actionButton("Закрыть подвывод", "close", index));
       box.appendChild(actionButton("Изменить", "edit", index));
-      if (line.rule === "assumption") box.appendChild(actionButton("Закрыть подвывод", "close", index));
       box.appendChild(actionButton("Удалить", "delete", index, "danger"));
     } else {
       box.appendChild(actionButton("Ниже", "below", index));
@@ -785,11 +795,12 @@
   }
 
   function openClose(index) {
-    const line = lines[index];
-    if (line.rule !== "assumption") return;
-    const end = subproofEnd(index);
+    const assumption = enclosingAssumption(index);
+    if (assumption < 0) return;
+    const line = lines[assumption];
+    const end = subproofEnd(assumption);
     const refs = [];
-    for (let i = index + 1; i <= end + 1; i++) refs.push(i);
+    for (let i = assumption + 1; i <= end + 1; i++) refs.push(i);
     openComposer("close", {
       at: end + 1,
       depth: Math.max(0, line.depth - 1),
@@ -840,7 +851,7 @@
   });
 
   document.addEventListener("click", (event) => {
-    if (event.target.closest(".fitch-row")) return;
+    if (event.target.closest(".fitch-row, .fitch-composer")) return;
     const focused = document.activeElement;
     if (focused && focused.closest && focused.closest(".fitch-row")) focused.blur();
   });
