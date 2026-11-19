@@ -6,7 +6,7 @@
 
 // ── Единый стиль миниатюр ──
 #let m-r = 0.05
-#let m-st = 0.4pt
+#let m-st = 0.5pt
 
 #let vtx(name, pos, f, s, r: m-r) = draw.circle(
   pos,
@@ -24,8 +24,8 @@
 
 // ── Venn ──
 #let m-venn(f: c-fl, s: c-bd) = canvas({
-  draw.circle((0.35, 0.5), radius: 0.35, stroke: m-st + s)
-  draw.circle((0.75, 0.5), radius: 0.35, stroke: m-st + s)
+  draw.circle((0.34, 0.5), radius: 0.3, stroke: m-st + s)
+  draw.circle((0.66, 0.5), radius: 0.3, stroke: m-st + s)
 })
 
 // ── Matrix ──
@@ -36,7 +36,7 @@
   for (i, x) in xs.enumerate() {
     for (j, y) in ys.enumerate() {
       if on.contains((i, j)) {
-        draw.circle((x, y), radius: m-r, fill: f, stroke: none)
+        draw.circle((x, y), radius: m-r, fill: s, stroke: none)
       } else {
         draw.circle((x, y), radius: m-r, stroke: m-st + s)
       }
@@ -109,7 +109,7 @@
   vtx("root", (0.5, 0.85), f, s)
   vtx("l", (0.15, 0.5), f, s)
   vtx("r", (0.85, 0.5), f, s)
-  for (k, x) in (0, 0.3, 0.7, 1.0).enumerate() {
+  for (k, x) in (0.08, 0.32, 0.68, 0.92).enumerate() {
     vtx("leaf" + str(k), (x, 0.15), f, s)
   }
   links({
@@ -196,38 +196,36 @@
 
 // ── Gate ──
 #let m-gate(f: c-fl, s: c-bd) = canvas({
-  draw.line((0.15, 0.85), (0.5, 0.85), stroke: m-st + s)
-  draw.line((0.15, 0.2), (0.5, 0.2), stroke: m-st + s)
-  draw.line((0.15, 0.85), (0.15, 0.2), stroke: m-st + s)
+  draw.line((0.2, 0.85), (0.55, 0.85), stroke: m-st + s)
+  draw.line((0.2, 0.15), (0.55, 0.15), stroke: m-st + s)
+  draw.line((0.2, 0.85), (0.2, 0.15), stroke: m-st + s)
   draw.arc(
-    (0.5, 0.85),
+    (0.55, 0.5),
     start: 90deg,
     delta: -180deg,
     radius: 0.35,
     stroke: m-st + s,
   )
-  draw.line((0, 0.7), (0.15, 0.7), stroke: m-st + s)
-  draw.line((0, 0.35), (0.15, 0.35), stroke: m-st + s)
-  draw.line((0.85, 0.5), (1.0, 0.5), stroke: m-st + s)
+  draw.line((0, 0.65), (0.2, 0.65), stroke: m-st + s)
+  draw.line((0, 0.35), (0.2, 0.35), stroke: m-st + s)
+  draw.line((0.9, 0.5), (1.0, 0.5), stroke: m-st + s)
 })
 
 // ── Hamming (7,4) ──
 #let m-hamming(f: c-fl, s: c-bd) = canvas({
-  let R = 0.3
-  let d = 0.15
-  let rp = 0.2
-  let at(rad, ang) = (0.5 + rad * calc.cos(ang), 0.5 + rad * calc.sin(ang))
-  for k in range(3) {
-    draw.circle(at(d, 90deg + k * 120deg), radius: R, stroke: m-st + s)
-  }
-  draw.circle((0.5, 0.5), radius: m-r, fill: f, stroke: none)
-  for k in range(3) {
-    draw.circle(
-      at(rp, 270deg + k * 120deg),
-      radius: m-r,
-      fill: f,
-      stroke: none,
-    )
+  draw.circle((0.5, 0.68), radius: 0.3, stroke: m-st + s)
+  draw.circle((0.32, 0.34), radius: 0.3, stroke: m-st + s)
+  draw.circle((0.68, 0.34), radius: 0.3, stroke: m-st + s)
+  for pos in (
+    (0.5, 0.86),
+    (0.2, 0.24),
+    (0.8, 0.24),
+    (0.35, 0.54),
+    (0.65, 0.54),
+    (0.5, 0.28),
+    (0.5, 0.46),
+  ) {
+    draw.circle(pos, radius: m-r, fill: s, stroke: none)
   }
 })
 
@@ -241,7 +239,7 @@
       draw.circle(
         (0.5 + (j - i / 2) * 0.25, y),
         radius: m-r,
-        fill: f,
+        fill: s,
         stroke: none,
       )
     }
@@ -258,7 +256,7 @@
     draw.line(at(0.85 * R, a), at(R, a), stroke: m-st + s)
   }
   draw.line((0.5, 0.5), at(0.6 * R, 30deg), stroke: m-st + s)
-  draw.circle((0.5, 0.5), radius: m-r, fill: f, stroke: none)
+  draw.circle((0.5, 0.5), radius: m-r, fill: s, stroke: none)
 })
 
 // ── Perm ──
@@ -294,25 +292,23 @@
 // ── DFA ──
 #let m-dfa(f: c-fl, s: c-bd) = canvas({
   let r = 0.1
-  let hgap = 0.5
+  let y = 0.55
+  let q0 = (0.25, y)
+  let q1 = (0.55, y)
+  let q2 = (0.85, y)
   let arrow = (end: ">", scale: 0.5, fill: s)
-  draw.circle((0, 0), radius: r, name: "q0", stroke: m-st + s)
-  draw.circle((hgap, 0), radius: r, name: "q1", stroke: m-st + s)
-  draw.circle((hgap * 2, 0), radius: r + 0.05, name: "q2", stroke: m-st + s)
-  draw.circle(
-    "q2",
-    radius: r,
-    fill: f.transparentize(80%),
-    stroke: m-st + s,
-  )
-  draw.line((-0.4, 0), "q0.west", stroke: m-st + s, mark: arrow)
+  draw.circle(q0, radius: r, name: "q0", stroke: m-st + s)
+  draw.circle(q1, radius: r, name: "q1", stroke: m-st + s)
+  draw.circle(q2, radius: r + 0.05, name: "q2", stroke: m-st + s)
+  draw.circle("q2", radius: r, fill: f.transparentize(80%), stroke: m-st + s)
+  draw.line((0.05, y), "q0.west", stroke: m-st + s, mark: arrow)
   draw.line("q0.east", "q1.west", stroke: m-st + s, mark: arrow)
   draw.line("q1.east", "q2.west", stroke: m-st + s, mark: arrow)
   draw.bezier(
     "q2.south",
     "q0.south",
-    (2 * hgap - 0.1, -0.6),
-    (0.1, -0.6),
+    (0.85, 0.15),
+    (0.25, 0.15),
     stroke: m-st + s,
     mark: arrow,
   )
@@ -360,45 +356,45 @@
 
 // ── Текстовые мотивы ──
 
-#let m-union(f: c-ink, s: c-bd) = text(fill: f, size: s-cap)[$A union B$]
-#let m-quant(f: c-ink, s: c-bd) = text(fill: f, size: s-cap)[$forall exists$]
-#let m-imply(f: c-ink, s: c-bd) = text(fill: f, size: s-cap)[$p imply q$]
-#let m-subset(f: c-ink, s: c-bd) = text(fill: f, size: s-cap)[$A subset.eq B$]
-#let m-bits(f: c-ink, s: c-bd) = text(fill: f, size: s-cap)[$0 1 1 0$]
-#let m-compose(f: c-ink, s: c-bd) = text(fill: f, size: s-cap)[$g compose f$]
-#let m-logic(f: c-ink, s: c-bd) = text(fill: f, size: s-cap)[$and or not$]
-#let m-binom(f: c-ink, s: c-bd) = text(fill: f, size: s-node)[$binom(n, k)$]
+#let m-union(f: c-ink, s: c-bd) = text(fill: s, size: s-cap)[$A union B$]
+#let m-quant(f: c-ink, s: c-bd) = text(fill: s, size: s-cap)[$forall exists$]
+#let m-imply(f: c-ink, s: c-bd) = text(fill: s, size: s-cap)[$p imply q$]
+#let m-subset(f: c-ink, s: c-bd) = text(fill: s, size: s-cap)[$A subset.eq B$]
+#let m-bits(f: c-ink, s: c-bd) = text(fill: s, size: s-cap)[$0 1 1 0$]
+#let m-compose(f: c-ink, s: c-bd) = text(fill: s, size: s-cap)[$g compose f$]
+#let m-logic(f: c-ink, s: c-bd) = text(fill: s, size: s-cap)[$and or not$]
+#let m-binom(f: c-ink, s: c-bd) = text(fill: s, size: s-node)[$binom(n, k)$]
 // ── Combinator ──
 #let m-combinator(f: c-ink, s: c-bd) = text(
-  fill: f,
-  size: s-tiny,
+  fill: s,
+  size: s-tiny - 1pt,
 )[$Y f = f (Y f)$]
 
 // ── Исчисление, типы, бесконечность ──
 
 // ── Lambda ──
 #let m-lambda(f: c-ink, s: c-bd) = text(
-  fill: f,
+  fill: s,
   size: s-node + 3pt,
   font: "Libertinus Serif",
 )[#sym.lambda]
 
 // ── Judgement ──
 #let m-judgement(f: c-ink, s: c-bd) = text(
-  fill: f,
+  fill: s,
   size: s-tiny,
 )[$Gamma tack e : tau$]
 
 // ── Sum ──
 #let m-sum(f: c-ink, s: c-bd) = text(
-  fill: f,
+  fill: s,
   size: s-node + 3pt,
   font: "Libertinus Serif",
 )[#sym.sum]
 
 // ── Aleph ──
 #let m-aleph(f: c-ink, s: c-bd) = text(
-  fill: f,
+  fill: s,
   size: s-node + 3pt,
   font: "Libertinus Serif",
 )[#sym.aleph]
@@ -420,8 +416,8 @@
       )
     }
   }
-  draw.line("g00", "g22", stroke: m-st + f)
-  draw.circle("g11", radius: m-r, fill: f, stroke: none)
+  draw.line("g00", "g22", stroke: m-st + s)
+  draw.circle("g11", radius: m-r, fill: s, stroke: none)
 })
 
 // ── Pairing ──
@@ -441,7 +437,7 @@
   }
   let ord = ("g00", "g01", "g02", "g12", "g11", "g10", "g20", "g21", "g22")
   for k in range(ord.len() - 1) {
-    draw.line(ord.at(k), ord.at(k + 1), stroke: m-st + f)
+    draw.line(ord.at(k), ord.at(k + 1), stroke: m-st + s)
   }
 })
 
@@ -471,20 +467,21 @@
   vtx("s", (0.5, 0.8), f, s)
   vtx("np", (0.25, 0.5), f, s)
   vtx("vp", (0.75, 0.5), f, s)
-  for (name, x) in (("Det", 0.15), ("N", 0.4), ("V", 0.75)) {
+  for (name, x, label) in (("Det", 0.15, "D"), ("N", 0.4, "N"), ("V", 0.75, "V")) {
     draw.rect(
       (x - 0.1, 0.05),
       (x + 0.1, 0.25),
       name: name,
       stroke: m-st + s.transparentize(20%),
     )
+    draw.content(name, text(size: s-tiny, fill: s)[#label])
   }
   links({
     lnk("s", "np", s)
     lnk("s", "vp", s)
-    lnk("np", "Det", s)
-    lnk("np", "N", s)
-    lnk("vp", "V", s)
+    lnk("np", "Det.north", s)
+    lnk("np", "N.north", s)
+    lnk("vp", "V.north", s)
   })
 })
 

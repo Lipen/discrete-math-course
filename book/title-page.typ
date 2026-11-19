@@ -15,10 +15,11 @@
 
 // ── Раскладка полос ──
 // Единый зазор между тайлами: один на весь титульник (полосы и углы).
-#let tile-gap = 0.45cm
+#let tile-gap = 0.35cm
 
-// Ширина плитки фиксирована -- интервалы не гуляют вслед за шириной мотива.
-#let tile(body, height: 1.05cm) = box(
+// Ширина и высота плитки фиксированы: строки иконок держат один ритм.
+#let tile(body, width: 1.1cm, height: 1.05cm) = box(
+  width: width,
   height: height,
   align(center + horizon)[#body],
 )
@@ -113,7 +114,7 @@
       )[
         #align(center)[
           // Первый ряд сверху.
-          #band(gold-soft, gold-soft, (
+          #band(gold-soft, gold, (
             m-venn,
             m-logic,
             m-truth,
@@ -128,9 +129,9 @@
 
           // Второй ряд сверху: угловые герои.
           #block(width: 100%)[
-            #box[#band(gold-soft, gold-soft, (m-derive, m-ferrers, m-modclock))]
+            #box[#band(gold-soft, gold, (m-derive, m-ferrers, m-modclock))]
             #h(1fr)
-            #box[#band(gold-soft, gold-soft, (m-petersen, m-fn))]
+            #box[#band(gold-soft, gold, (m-petersen, m-fn))]
           ]
           #v(1fr)
 
@@ -190,14 +191,14 @@
 
           // Второй ряд снизу: угловые герои.
           #block(width: 100%)[
-            #box[#band(gold-soft, gold-soft, (m-diag, m-bipartite))]
+            #box[#band(gold-soft, gold, (m-diag, m-bipartite))]
             #h(1fr)
-            #box[#band(gold-soft, gold-soft, (m-compose, m-fuzzy))]
+            #box[#band(gold-soft, gold, (m-compose, m-fuzzy))]
           ]
           #v(0.5em)
 
           // Первый ряд снизу.
-          #band(gold-soft, gold-soft, (
+          #band(gold-soft, gold, (
             m-cube,
             m-gate,
             m-judgement,
