@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Хаффман · лаборатория</title>
+<link rel="stylesheet" href="lab.css">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+</head>
+<body>
+<header class="lab-header">
+  <nav class="lab-nav">
+    <a href="index.html">← Все лаборатории</a>
+    <span class="sep">/</span>
+    <span class="here">Код Хаффмана</span>
+  </nav>
+  <p class="eyebrow">Сжатие</p>
+  <h1>Жадное дерево и цена кода</h1>
+  <p class="lead">
+    Задайте частоты символов.
+    Жадное слияние строит дерево, а рядом видны коды, средняя длина и энтропия.
+    Меняйте частоты и смотрите, как дерево перестраивается.
+  </p>
+</header>
+
+<main class="lab-main">
+  <section class="card">
+    <div class="controls">
+      <label>Готовый набор
+        <select id="preset">
+          <option value="classic" selected>классический пример</option>
+          <option value="equal">равные частоты</option>
+          <option value="skew">сильно неравные</option>
+          <option value="two">два символа</option>
+        </select>
+      </label>
+      <div class="btn-row">
+        <button id="apply" class="active">Применить</button>
+      </div>
+    </div>
+
+    <div class="split-wide-right">
+      <div>
+        <h3>Частоты</h3>
+        <textarea id="freq" rows="8" spellcheck="false"></textarea>
+        <p class="hint">Одна строка на символ: имя и вес через пробел. Вес положительный.</p>
+        <div class="status" id="freq-status"></div>
+      </div>
+      <div>
+        <h3>Дерево</h3>
+        <div class="tree-wrap" id="tree"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Слияния</h2>
+    <div id="merges"></div>
+    <p class="hint">На каждом шаге сливаются два узла с наименьшим весом. Вес родителя это сумма весов детей.</p>
+  </section>
+
+  <section class="card">
+    <h2>Коды</h2>
+    <div class="tt-wrap" id="codes"></div>
+  </section>
+
+  <section class="card">
+    <h2>Цена</h2>
+    <div class="metric-row" id="cost"></div>
+    <p class="hint">
+      <span data-tex="L"></span> это средняя длина кода, <span data-tex="H"></span> это энтропия источника.
+      Запас <span data-tex="L - H"></span> показывает, насколько код дальше от теоретического минимума.
+    </p>
+  </section>
+
+  <section class="card">
+    <h2>Что здесь показано</h2>
+    <div class="theory-grid">
+      <div>
+        <h3>Дерево и код</h3>
+        <p>Лист это символ, путь от корня задаёт код: 0 налево, 1 направо.
+        Код символа читается по рёбрам пути.</p>
+      </div>
+      <div>
+        <h3>Префиксный код</h3>
+        <p>Таблица кодов показывает длину каждого слова.
+        Ни одно слово не продолжает другое, поэтому декодирование идёт по дереву без разделителей.</p>
+      </div>
+      <div>
+        <h3>Слияние</h3>
+        <p>Дерево строится снизу вверх: два узла с наименьшим весом сливаются первыми.
+        Вес родителя это сумма весов детей.</p>
+      </div>
+      <div>
+        <h3>Цена</h3>
+        <p>Средняя длина <span data-tex="L = \sum_i p_i \ell_i"></span>, энтропия <span data-tex="H = -\sum_i p_i \log_2 p_i"></span>.
+        Блок «Цена» показывает <span data-tex="L"></span>, <span data-tex="H"></span> и запас <span data-tex="L - H"></span> для текущих частот.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">Лаборатория · Сжатие</footer>
+<script src="vendor/katex/katex.min.js"></script>
+<script src="lab-core.js"></script>
+<script src="lab-math.js"></script>
+<script src="catalog.js"></script>
+<script src="lab-site.js"></script>
+<script>
+(function () {
+  "use strict";
+  const { $, el, svg, clear } = Lab;
+
+  const presets = {
+    classic: [["A", 45], ["B", 13], ["C", 12], ["D", 16], ["E", 9], ["F", 5]],
+    equal: [["A", 1], ["B", 1], ["C", 1], ["D", 1]],
+    skew: [["A", 70], ["B", 10], ["C", 10], ["D", 5], ["E", 5]],
+    two: [["A", 1], ["B", 1]],
+  };
+
+  let entries = [];
+  let tree = null;
+  let codes = new Map();
+  let stats = null;
+
+  const presetNode = $("#preset");
+  const freqNode = $("#freq");
+  const freqStatus = $("#freq-status");
+  const treeNode = $("#tree");
+  const codesNode = $("#codes");
+  const costNode = $("#cost");
+  const mergesNode = $("#merges");
+
+  function setPreset(name) {
+    entries = presets[name].map(([symbol, weight]) => ({ symbol, weight }));
+    freqNode.value = entries.map((e) => e.symbol + " " + e.weight).join("\n");
+    presetNode.value = name;
+    compute();
+    renderAll();
+  }
+
+  function parseFrequencies(text) {
+    const rows = [];
+    const seen = new Set();
+    const lines = text.split(/\r?\n/);
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i].trim();
+      if (!line) continue;
+      const match = line.match(/^(.+?)[\s:=]+(\d+(?:[.,]\d+)?)$/);
+      if (!match) throw new Error("Строка " + (i + 1) + ": ожидается имя и положительный вес.");
+      const symbol = match[1].trim();
+      const weight = Number(match[2].replace(",", "."));
+      if (!Number.isFinite(weight) || weight <= 0) throw new Error("Строка " + (i + 1) + ": вес должен быть положительным.");
+      if (seen.has(symbol)) throw new Error("Символ «" + symbol + "» повторяется.");
+      seen.add(symbol);
+      rows.push({ symbol, weight });
+    }
+    if (rows.length === 0) throw new Error("Нужен хотя бы один символ.");
+    return rows;
+  }
+
+  function compute() {
+    const nodes = [];
+    const merges = [];
+    let counter = 0;
+    for (const entry of entries) {
+      nodes.push({ id: counter++, symbol: entry.symbol, weight: entry.weight, left: null, right: null, order: counter });
+    }
+    while (nodes.length > 1) {
+      nodes.sort((a, b) => a.weight - b.weight || a.order - b.order);
+      const left = nodes.shift();
+      const right = nodes.shift();
+      const parent = {
+        id: counter++,
+        symbol: null,
+        weight: left.weight + right.weight,
+        left,
+        right,
+        order: counter,
+      };
+      nodes.push(parent);
+      merges.push({ left, right, weight: parent.weight });
+    }
+    tree = nodes[0] || null;
+    codes = new Map();
+    if (tree) {
+      if (!tree.left && !tree.right) {
+        codes.set(tree, "0");
+      } else {
+        assignCodes(tree, "");
+      }
+    }
+    const total = entries.reduce((sum, e) => sum + e.weight, 0);
+    let L = 0;
+    let H = 0;
+    for (const [node, code] of codes) {
+      const p = node.weight / total;
+      L += p * code.length;
+      H -= p * Math.log2(p);
+    }
+    stats = { total, L, H, gap: L - H, merges };
+  }
+
+  function assignCodes(node, prefix) {
+    if (!node.left && !node.right) {
+      codes.set(node, prefix || "0");
+      return;
+    }
+    if (node.left) assignCodes(node.left, prefix + "0");
+    if (node.right) assignCodes(node.right, prefix + "1");
+  }
+
+  function leafList(node) {
+    if (!node) return [];
+    if (!node.left && !node.right) return [node];
+    return leafList(node.left).concat(leafList(node.right));
+  }
+
+  function depthOf(node, target, depth) {
+    if (node === target) return depth;
+    if (!node) return -1;
+    const left = depthOf(node.left, target, depth + 1);
+    if (left >= 0) return left;
+    return depthOf(node.right, target, depth + 1);
+  }
+
+  function renderTree() {
+    clear(treeNode);
+    if (!tree) {
+      treeNode.appendChild(el("p", { class: "muted", text: "Нет дерева." }));
+      return;
+    }
+    const leaves = leafList(tree);
+    const leafCount = Math.max(1, leaves.length);
+    const maxDepth = Math.max(0, ...leaves.map((leaf) => depthOf(tree, leaf, 0)));
+    const width = Math.max(620, leafCount * 96 + 120);
+    const height = Math.max(260, (maxDepth + 1) * 90 + 90);
+    const xs = new Map();
+    const ys = new Map();
+    const depths = new Map();
+
+    function layout(node, depth) {
+      depths.set(node, depth);
+      ys.set(node, 46 + depth * 90);
+      if (!node.left && !node.right) {
+        const index = leaves.indexOf(node);
+        xs.set(node, 70 + (index * (width - 140)) / Math.max(1, leaves.length - 1));
+        return xs.get(node);
+      }
+      const leftX = layout(node.left, depth + 1);
+      const rightX = layout(node.right, depth + 1);
+      const x = (leftX + rightX) / 2;
+      xs.set(node, x);
+      return x;
+    }
+    layout(tree, 0);
+
+    const root = svg("svg", { viewBox: "0 0 " + width + " " + height, role: "img", "aria-label": "Дерево Хаффмана" });
+
+    function drawEdges(node) {
+      if (!node || (!node.left && !node.right)) return;
+      for (const [child, bit] of [[node.left, "0"], [node.right, "1"]]) {
+        root.appendChild(svg("line", {
+          x1: xs.get(node), y1: ys.get(node) + 22,
+          x2: xs.get(child), y2: ys.get(child) - 22,
+          stroke: "#b7ae9e", "stroke-width": 1.5,
+        }));
+        root.appendChild(svg("text", {
+          x: (xs.get(node) + xs.get(child)) / 2 + (bit === "0" ? -9 : 9),
+          y: (ys.get(node) + ys.get(child)) / 2,
+          "text-anchor": "middle", "font-family": "var(--mono)", "font-size": 10, fill: "#6b6558",
+        }, bit));
+        drawEdges(child);
+      }
+    }
+    drawEdges(tree);
+
+    function drawNodes(node) {
+      if (!node) return;
+      const x = xs.get(node);
+      const y = ys.get(node);
+      if (!node.left && !node.right) {
+        const code = codes.get(node) || "";
+        root.appendChild(svg("rect", {
+          x: x - 30, y: y - 21, width: 60, height: 42, rx: 9,
+          fill: "#fbf0dc", stroke: "#c79a4e", "stroke-width": 1.5,
+        }));
+        root.appendChild(svg("text", {
+          x, y: y - 3, "text-anchor": "middle", "font-family": "var(--mono)",
+          "font-size": 12, "font-weight": 700, fill: "#1d2733",
+        }, node.symbol));
+        root.appendChild(svg("text", {
+          x, y: y + 13, "text-anchor": "middle", "font-family": "var(--mono)",
+          "font-size": 10, fill: "#7c5210",
+        }, String(node.weight) + " · " + code));
+      } else {
+        root.appendChild(svg("circle", {
+          cx: x, cy: y, r: 20, fill: "#f1eee7", stroke: "#8c8374", "stroke-width": 1.4,
+        }));
+        root.appendChild(svg("text", {
+          x, y: y + 5, "text-anchor": "middle", "font-family": "var(--mono)",
+          "font-size": 11, "font-weight": 650, fill: "#1d2733",
+        }, String(node.weight)));
+      }
+      drawNodes(node.left);
+      drawNodes(node.right);
+    }
+    drawNodes(tree);
+
+    treeNode.appendChild(root);
+  }
+
+  function renderCodes() {
+    clear(codesNode);
+    if (!tree) return;
+    const total = stats.total;
+    const rows = [];
+    for (const [node, code] of codes) rows.push({ node, code });
+    rows.sort((a, b) => a.code.length - b.code.length || a.node.symbol.localeCompare(b.node.symbol));
+    const table = el("table", { class: "data" });
+    const thead = el("thead");
+    thead.appendChild(el("tr", {}, [
+      el("th", { class: "left", text: "символ" }),
+      el("th", { text: "вес" }),
+      el("th", { text: "вероятность" }),
+      el("th", { class: "left", text: "код" }),
+      el("th", { text: "длина" }),
+    ]));
+    table.appendChild(thead);
+    const tbody = el("tbody");
+    for (const row of rows) {
+      const tr = el("tr");
+      const p = row.node.weight / total;
+      tr.appendChild(el("td", { class: "left mono", text: row.node.symbol }));
+      tr.appendChild(el("td", { class: "mono", text: String(row.node.weight) }));
+      tr.appendChild(el("td", { class: "mono", text: Lab.fmt(p, 3) }));
+      tr.appendChild(el("td", { class: "left mono", text: row.code }));
+      tr.appendChild(el("td", { class: "mono", text: String(row.code.length) }));
+      tbody.appendChild(tr);
+    }
+    table.appendChild(tbody);
+    codesNode.appendChild(table);
+  }
+
+  function renderCost() {
+    clear(costNode);
+    if (!stats) return;
+    function metric(tex, suffix, value) {
+      const label = el("span", { class: "k" });
+      label.appendChild(Lab.math(tex));
+      if (suffix) label.appendChild(document.createTextNode(suffix));
+      return el("div", { class: "metric" }, [label, el("span", { class: "v", text: value })]);
+    }
+    costNode.appendChild(metric("L", ", средняя длина", Lab.fmt(stats.L, 3)));
+    costNode.appendChild(metric("H", ", энтропия", Lab.fmt(stats.H, 3)));
+    costNode.appendChild(metric("L - H", "", Lab.fmt(stats.gap, 3)));
+    costNode.appendChild(el("div", { class: "metric" }, [
+      el("span", { class: "k", text: "символов" }), el("span", { class: "v", text: String(entries.length) }),
+    ]));
+  }
+
+  function nodeLabel(node) {
+    return node.symbol ? node.symbol + " (" + node.weight + ")" : "(" + node.weight + ")";
+  }
+
+  function renderMerges() {
+    clear(mergesNode);
+    if (!stats || !stats.merges.length) {
+      mergesNode.appendChild(el("p", { class: "muted", text: "Для одного символа слияний нет." }));
+      return;
+    }
+    const table = el("table", { class: "data" });
+    const thead = el("thead");
+    thead.appendChild(el("tr", {}, [
+      el("th", { text: "шаг" }),
+      el("th", { class: "left", text: "слияние" }),
+      el("th", { text: "вес" }),
+    ]));
+    table.appendChild(thead);
+    const body = el("tbody");
+    stats.merges.forEach((merge, index) => {
+      const tr = el("tr");
+      tr.appendChild(el("td", { class: "mono", text: String(index + 1) }));
+      tr.appendChild(el("td", { class: "left mono", text: nodeLabel(merge.left) + " + " + nodeLabel(merge.right) }));
+      tr.appendChild(el("td", { class: "mono", text: String(merge.weight) }));
+      body.appendChild(tr);
+    });
+    table.appendChild(body);
+    mergesNode.appendChild(table);
+  }
+
+  function renderAll() {
+    renderTree();
+    renderMerges();
+    renderCodes();
+    renderCost();
+  }
+
+  function applyText() {
+    try {
+      entries = parseFrequencies(freqNode.value);
+      Lab.status(freqStatus, "Частоты приняты: " + entries.length + " символов.", "ok");
+      compute();
+      renderAll();
+    } catch (error) {
+      Lab.status(freqStatus, error.message, "bad");
+    }
+  }
+
+  presetNode.addEventListener("change", () => {
+    try {
+      setPreset(presetNode.value);
+      Lab.status(freqStatus, "Готовый набор загружен.", "ok");
+    } catch (error) {
+      Lab.status(freqStatus, error.message, "bad");
+    }
+  });
+
+  $("#apply").addEventListener("click", applyText);
+
+  setPreset("classic");
+  Lab.status(freqStatus, "Готовый набор загружен.", "ok");
+})();
+</script>
+</body>
+</html>

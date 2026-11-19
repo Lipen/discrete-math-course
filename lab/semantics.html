@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Семантика и следствие · лаборатория</title>
+<link rel="stylesheet" href="lab.css">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+</head>
+<body>
+<header class="lab-header">
+  <nav class="lab-nav">
+    <a href="index.html">← Все лаборатории</a>
+    <span class="sep">/</span>
+    <span class="here">Семантика и следствие</span>
+  </nav>
+  <p class="eyebrow">Семантика</p>
+  <h1>Все модели посылок, одна заключение</h1>
+  <p class="lead">
+    Посылки задают множество моделей.
+    Логическое следствие означает, что в каждой такой модели заключение истинно.
+    Перебираются наборы: видно либо доказательство перебором, либо конкретный контрпример.
+  </p>
+  <div class="lab-meta">
+    <span class="pill info">модели</span>
+    <span class="pill">⊨</span>
+    <span class="pill">контрпример</span>
+  </div>
+</header>
+
+<main class="lab-main">
+  <section class="card">
+    <div class="controls" style="display:block">
+      <label class="field" style="margin-bottom:8px">Посылки, одна формула на строку
+        <textarea id="premises" rows="3" spellcheck="false">A → B
+A</textarea>
+      </label>
+      <label class="field">Заключение
+        <input id="conclusion" class="formula-input" value="B" spellcheck="false" autocomplete="off">
+      </label>
+      <div class="btn-row" style="margin-top:10px">
+        <button id="check" class="active">Проверить</button>
+      </div>
+    </div>
+    <div class="btn-row" id="presets"></div>
+    <div class="formula-box" id="sequent" style="margin-top:12px"></div>
+    <div class="status" id="status" style="margin-top:10px"></div>
+  </section>
+
+  <section class="card">
+    <h2>Таблица моделей</h2>
+    <div class="split-wide-left">
+      <div class="tt-wrap" id="table"></div>
+      <div>
+        <h3>Что проверяем</h3>
+        <div id="models"></div>
+        <p class="hint">Строки с истинными посылками выделены. Если в такой строке заключение ложно, это контрпример.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Что здесь показано</h2>
+    <div class="theory-grid">
+      <div>
+        <h3>Модель</h3>
+        <p>Модель это набор значений переменных.
+        Формула истинна в модели или ложна в ней, третьего нет.</p>
+      </div>
+      <div>
+        <h3>Следствие</h3>
+        <p><span data-tex="\Gamma \models \varphi"></span> означает, что каждая модель всех посылок является моделью заключения.</p>
+      </div>
+      <div>
+        <h3>Контрпример</h3>
+        <p>Одной модели, где все посылки истинны, а заключение ложно, достаточно, чтобы следствия не было.</p>
+      </div>
+      <div>
+        <h3>Перебор</h3>
+        <p>Для конечного числа переменных таблица истинности проверяет все модели.
+        Это семантическое доказательство, а не вывод по правилам.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">Лаборатория · Семантика</footer>
+
+<script src="vendor/katex/katex.min.js"></script>
+<script src="lab-core.js"></script>
+<script src="lab-math.js"></script>
+<script src="logic.js"></script>
+<script src="catalog.js"></script>
+<script src="lab-site.js"></script>
+<script>
+(function () {
+  "use strict";
+  const { $, el, clear } = Lab;
+
+  const presets = [
+    { name: "modus ponens", premises: ["A → B", "A"], conclusion: "B" },
+    { name: "modus tollens", premises: ["A → B", "¬B"], conclusion: "¬A" },
+    { name: "гипотетический силлогизм", premises: ["A → B", "B → C"], conclusion: "A → C" },
+    { name: "дизъюнктивный силлогизм", premises: ["A ∨ B", "¬A"], conclusion: "B" },
+    { name: "обратная импликация", premises: ["A → B", "B"], conclusion: "A" },
+    { name: "ошибка дизъюнкции", premises: ["A ∨ B", "A"], conclusion: "¬B" },
+    { name: "де Морган", premises: ["¬(A ∧ B)", "A"], conclusion: "¬B" },
+  ];
+
+  const premisesInput = $("#premises");
+  const conclusionInput = $("#conclusion");
+  const checkButton = $("#check");
+  const presetsNode = $("#presets");
+  const sequentNode = $("#sequent");
+  const statusNode = $("#status");
+  const tableNode = $("#table");
+  const modelsNode = $("#models");
+
+  function parseInputs() {
+    const lines = premisesInput.value.split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
+    if (!lines.length) throw new Error("Нужна хотя бы одна посылка.");
+    return {
+      premises: lines.map((line) => Logic.parse(line)),
+      conclusion: Logic.parse(conclusionInput.value),
+    };
+  }
+
+  function render() {
+    let parsed;
+    try {
+      parsed = parseInputs();
+    } catch (error) {
+      Lab.status(statusNode, error.message, "bad");
+      clear(tableNode);
+      clear(modelsNode);
+      sequentNode.textContent = "...";
+      return;
+    }
+    const result = Logic.entails(parsed.premises, parsed.conclusion);
+    const all = parsed.premises.map((ast) => Logic.toTex(ast)).join(",\\; ");
+    sequentNode.replaceChildren(Lab.math(all + " \\models " + Logic.toTex(parsed.conclusion), false));
+
+    if (result.holds) {
+      Lab.status(statusNode, "Следствие есть: во всех " + result.rows.length + " наборах, где посылки истинны, заключение истинно.", "ok");
+    } else {
+      const ce = result.counterexample;
+      const bits = result.vars.map((name, i) => name + "=" + ce.bits[i]).join(", ");
+      Lab.status(statusNode, "Следствия нет. Контрпример: " + bits + "; посылки истинны, заключение ложно.", "bad");
+    }
+
+    clear(tableNode);
+    const table = el("table", { class: "data" });
+    const head = el("tr");
+    for (const name of result.vars) head.appendChild(el("th", { text: name }));
+    parsed.premises.forEach((_, index) => head.appendChild(el("th", { text: "P" + (index + 1) })));
+    head.appendChild(el("th", { text: "φ" }));
+    const thead = el("thead");
+    thead.appendChild(head);
+    table.appendChild(thead);
+    const body = el("tbody");
+    for (const row of result.rows) {
+      const allTrue = row.premises.every(Boolean);
+      const bad = allTrue && !row.conclusion;
+      const tr = el("tr", { class: bad ? "bad-row" : (allTrue ? "hl" : "") });
+      for (const bit of row.bits) tr.appendChild(el("td", { class: "mono", text: String(bit) }));
+      for (const value of row.premises) tr.appendChild(el("td", { class: "mono" }, Lab.math(value ? "1" : "0")));
+      tr.appendChild(el("td", { class: "mono" }, Lab.math(row.conclusion ? "1" : "0")));
+      body.appendChild(tr);
+    }
+    table.appendChild(body);
+    tableNode.appendChild(table);
+
+    clear(modelsNode);
+    const models = result.rows.filter((row) => row.premises.every(Boolean));
+    const trueModels = models.filter((row) => row.conclusion);
+    modelsNode.appendChild(el("div", { class: "metric-row" }, [
+      el("div", { class: "metric" }, [el("span", { class: "k", text: "моделей посылок" }), el("span", { class: "v", text: String(models.length) })]),
+      el("div", { class: "metric" }, [el("span", { class: "k", text: "с заключением" }), el("span", { class: "v", text: String(trueModels.length) })]),
+      el("div", { class: "metric" }, [el("span", { class: "k", text: "всего строк" }), el("span", { class: "v", text: String(result.rows.length) })]),
+    ]));
+    if (!models.length) modelsNode.appendChild(el("p", { class: "hint", text: "Посылки несовместны: моделей нет, следствие выполняется пусто." }));
+  }
+
+  function applyPreset(preset) {
+    premisesInput.value = preset.premises.join("\n");
+    conclusionInput.value = preset.conclusion;
+    render();
+  }
+
+  for (const preset of presets) {
+    const button = el("button", { type: "button", text: preset.name });
+    button.addEventListener("click", () => applyPreset(preset));
+    presetsNode.appendChild(button);
+  }
+
+  checkButton.addEventListener("click", render);
+  premisesInput.addEventListener("input", render);
+  conclusionInput.addEventListener("input", render);
+
+  applyPreset(presets[0]);
+})();
+</script>
+</body>
+</html>

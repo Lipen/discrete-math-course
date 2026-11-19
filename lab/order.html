@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Порядок и диаграмма Хассе · лаборатория</title>
+<link rel="stylesheet" href="lab.css">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+</head>
+<body>
+<header class="lab-header">
+  <nav class="lab-nav">
+    <a href="index.html">← Все лаборатории</a>
+    <span class="sep">/</span>
+    <span class="here">Порядок и диаграмма Хассе</span>
+  </nav>
+  <p class="eyebrow">Порядок</p>
+  <h1>Покрытия, границы и цепи</h1>
+  <p class="lead">
+    Отношение порядка на маленьком множестве.
+    Проверяются рефлексивность, антисимметричность и транзитивность; строятся диаграмма Хассе, минимумы, максимумы, границы и линейное продолжение.
+  </p>
+  <div class="lab-meta">
+    <span class="pill info">Хассе</span>
+    <span class="pill">границы</span>
+    <span class="pill">цепи</span>
+  </div>
+</header>
+
+<main class="lab-main">
+  <section class="card">
+    <div class="toolbar">
+      <label class="field">Элементов
+        <select id="size">
+          <option value="3">3</option>
+          <option value="4" selected>4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+        </select>
+      </label>
+      <div class="btn-row">
+        <button id="divisors">Порядок делителей</button>
+        <button id="identity">Только диагональ</button>
+        <button id="random-order">Случайный порядок</button>
+      </div>
+    </div>
+
+    <div class="split-wide-left">
+      <div>
+        <h3>Матрица</h3>
+        <p class="hint">Пара (i, j) означает i ≤ j. Клик переключает.</p>
+        <div id="matrix"></div>
+        <div class="post-grid" id="properties" style="margin-top:12px"></div>
+        <div class="status" id="kind" style="margin-top:8px"></div>
+      </div>
+      <div>
+        <h3>Диаграмма Хассе</h3>
+        <div class="graph-wrap" id="hasse"></div>
+        <p class="hint">Ребро соединяет покрытие: между элементами нет третьего. Наведение на вершину подсвечивает сравнимые элементы.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Элементы и границы</h2>
+    <div class="split">
+      <div>
+        <h3>Выбранное подмножество</h3>
+        <div class="toggle-grid" id="subset"></div>
+        <div class="metric-row" id="bound-metrics"></div>
+        <div id="bounds"></div>
+      </div>
+      <div>
+        <h3>Крайние элементы</h3>
+        <div id="extrema"></div>
+        <h3 style="margin-top:16px">Цепи</h3>
+        <div class="formula-box" id="longest-chain"></div>
+        <div class="formula-box" id="linear-extension" style="margin-top:8px"></div>
+        <p class="hint">Линейное продолжение это топологическая сортировка порядка. Длинная цепь показывает максимальную вложенную башню.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Что здесь показано</h2>
+    <div class="theory-grid">
+      <div>
+        <h3>Частичный порядок</h3>
+        <p>Рефлексивность, антисимметричность и транзитивность.
+        Если хотя бы одно свойство сломано, диаграмма Хассе не строится.</p>
+      </div>
+      <div>
+        <h3>Покрытия</h3>
+        <p>Диаграмма рисует только покрытия.
+        Транзитивные следствия убраны, иначе картинка стала бы полным графом.</p>
+      </div>
+      <div>
+        <h3>Границы</h3>
+        <p>Нижняя граница подмножества лежит под каждым его элементом, верхняя лежит над каждым.
+        Наибольшая нижняя и наименьшая верхняя единственны, если существуют.</p>
+      </div>
+      <div>
+        <h3>Цепи</h3>
+        <p>Цепь это множество попарно сравнимых элементов.
+        Линейное продолжение упорядочивает все элементы так, что порядок не нарушается.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">Лаборатория · Порядок</footer>
+
+<script src="vendor/katex/katex.min.js"></script>
+<script src="lab-core.js"></script>
+<script src="lab-math.js"></script>
+<script src="sets.js"></script>
+<script src="catalog.js"></script>
+<script src="lab-site.js"></script>
+<script>
+(function () {
+  "use strict";
+  const { $, el, svg, clear } = Lab;
+
+  let n = 4;
+  let R = [];
+  let focus = null;
+  let selected = new Set([2, 3]);
+
+  const sizeSelect = $("#size");
+  const matrixNode = $("#matrix");
+  const propertiesNode = $("#properties");
+  const kindNode = $("#kind");
+  const hasseNode = $("#hasse");
+  const subsetNode = $("#subset");
+  const boundsNode = $("#bounds");
+  const boundMetrics = $("#bound-metrics");
+  const extremaNode = $("#extrema");
+  const longestNode = $("#longest-chain");
+  const linearNode = $("#linear-extension");
+
+  function divisibility(size) {
+    const matrix = Array.from({ length: size }, () => new Array(size).fill(false));
+    for (let i = 1; i <= size; i++) {
+      for (let j = 1; j <= size; j++) matrix[i - 1][j - 1] = j % i === 0;
+    }
+    return matrix;
+  }
+
+  function diagonal(size) {
+    return Array.from({ length: size }, (_, i) => Array.from({ length: size }, (_, j) => i === j));
+  }
+
+  function randomOrder(size) {
+    const linear = Array.from({ length: size }, (_, i) => i + 1).sort(() => Math.random() - 0.5);
+    const matrix = Array.from({ length: size }, () => new Array(size).fill(false));
+    for (let i = 0; i < size; i++) {
+      for (let j = i; j < size; j++) {
+        matrix[linear[i] - 1][linear[j] - 1] = true;
+      }
+    }
+    return matrix;
+  }
+
+  function renderMatrix() {
+    clear(matrixNode);
+    const table = el("table", { class: "bit-matrix" });
+    const head = el("tr");
+    head.appendChild(el("th", { text: "" }));
+    for (let j = 0; j < n; j++) head.appendChild(el("th", { text: String(j + 1) }));
+    const thead = el("thead");
+    thead.appendChild(head);
+    table.appendChild(thead);
+    const body = el("tbody");
+    for (let i = 0; i < n; i++) {
+      const tr = el("tr");
+      tr.appendChild(el("th", { text: String(i + 1) }));
+      for (let j = 0; j < n; j++) {
+        const td = el("td", { class: i === j ? "diag" : "" });
+        const button = el("button", {
+          type: "button",
+          class: R[i][j] ? "on" : "",
+          text: R[i][j] ? "1" : "0",
+          "aria-label": "(" + (i + 1) + "," + (j + 1) + ")",
+        });
+        button.addEventListener("click", () => {
+          R[i][j] = !R[i][j];
+          renderAll();
+        });
+        td.appendChild(button);
+        tr.appendChild(td);
+      }
+      body.appendChild(tr);
+    }
+    table.appendChild(body);
+    matrixNode.appendChild(table);
+  }
+
+  function coverMatrix() {
+    return Sets.transitiveReduction(R);
+  }
+
+  function rankOf(cover) {
+    const rank = new Array(n).fill(0);
+    for (let step = 0; step < n; step++) {
+      for (let i = 0; i < n; i++) {
+        for (let j = 0; j < n; j++) {
+          if (cover[i][j]) rank[j] = Math.max(rank[j], rank[i] + 1);
+        }
+      }
+    }
+    return rank;
+  }
+
+  function renderHasse(isPoset) {
+    clear(hasseNode);
+    if (!isPoset) {
+      hasseNode.appendChild(el("p", { class: "muted", text: "Отношение не является частичным порядком. Диаграмма Хассе не строится, пока не исправлены свойства." }));
+      return;
+    }
+    const cover = coverMatrix();
+    const rank = rankOf(cover);
+    const layers = new Map();
+    for (let i = 0; i < n; i++) {
+      if (!layers.has(rank[i])) layers.set(rank[i], []);
+      layers.get(rank[i]).push(i);
+    }
+    const maxRank = Math.max(0, ...rank);
+    const width = 520;
+    const height = Math.max(260, (maxRank + 1) * 86 + 60);
+    const coords = new Map();
+    for (const [r, list] of layers) {
+      list.forEach((item, index) => {
+        coords.set(item, {
+          x: (width * (index + 1)) / (list.length + 1),
+          y: height - 50 - r * 82,
+        });
+      });
+    }
+    const root = svg("svg", { viewBox: "0 0 " + width + " " + height, role: "img", "aria-label": "Диаграмма Хассе" });
+    for (let i = 0; i < n; i++) {
+      for (let j = 0; j < n; j++) {
+        if (!cover[i][j]) continue;
+        const a = coords.get(i);
+        const b = coords.get(j);
+        root.appendChild(svg("line", {
+          x1: a.x, y1: a.y - 20, x2: b.x, y2: b.y + 20,
+          stroke: "#b7ae9e", "stroke-width": 1.6,
+        }));
+      }
+    }
+    for (let i = 0; i < n; i++) {
+      const p = coords.get(i);
+      const comparable = focus === null ? false : (R[focus][i] || R[i][focus]);
+      const isFocus = focus === i;
+      root.appendChild(svg("circle", {
+        cx: p.x, cy: p.y, r: 21,
+        fill: isFocus ? "#2e5288" : (comparable ? "#e8eef8" : "#fff"),
+        stroke: isFocus ? "#2e5288" : "#7b7366",
+        "stroke-width": isFocus ? 2.4 : 1.5,
+        style: "cursor:pointer",
+      }));
+      root.appendChild(svg("text", {
+        x: p.x, y: p.y + 5, "text-anchor": "middle",
+        "font-family": "var(--mono)", "font-size": 13, "font-weight": 700,
+        fill: isFocus ? "#fff" : "#1d2733",
+      }, String(i + 1)));
+      const hit = svg("circle", { cx: p.x, cy: p.y, r: 23, fill: "transparent", style: "cursor:pointer" });
+      hit.addEventListener("mouseenter", () => { focus = i; renderHasse(true); });
+      hit.addEventListener("mouseleave", () => { focus = null; renderHasse(true); });
+      root.appendChild(hit);
+    }
+    hasseNode.appendChild(root);
+  }
+
+  function renderProperties() {
+    const p = Sets.relationProperties(R);
+    clear(propertiesNode);
+    propertiesNode.appendChild(el("span", { class: "pill " + (p.reflexive ? "ok" : "no"), text: "рефлексивно" }));
+    propertiesNode.appendChild(el("span", { class: "pill " + (p.antisymmetric ? "ok" : "no"), text: "антисимметрично" }));
+    propertiesNode.appendChild(el("span", { class: "pill " + (p.transitive ? "ok" : "no"), text: "транзитивно" }));
+    const isPoset = p.reflexive && p.antisymmetric && p.transitive;
+    Lab.status(kindNode, isPoset ? "Частичный порядок. Диаграмма Хассе построена." : "Это не частичный порядок: исправьте свойства.", isPoset ? "ok" : "bad");
+    return isPoset;
+  }
+
+  function renderSubset(isPoset) {
+    clear(subsetNode);
+    for (let i = 0; i < n; i++) {
+      const value = i + 1;
+      const button = el("button", { class: "toggle-chip" + (selected.has(value) ? " on" : ""), type: "button", text: String(value) });
+      button.addEventListener("click", () => {
+        if (selected.has(value)) selected.delete(value); else selected.add(value);
+        renderAll();
+      });
+      subsetNode.appendChild(button);
+    }
+    if (!isPoset) {
+      clear(boundsNode);
+      clear(boundMetrics);
+      boundsNode.appendChild(el("p", { class: "hint", text: "Границы определены для частичного порядка." }));
+      return;
+    }
+    const chosen = Sets.list(selected);
+    if (!chosen.length) {
+      clear(boundsNode);
+      clear(boundMetrics);
+      boundsNode.appendChild(el("p", { class: "hint", text: "Выберите хотя бы один элемент." }));
+      return;
+    }
+    const lower = [];
+    const upper = [];
+    for (let x = 1; x <= n; x++) {
+      if (chosen.every((s) => R[x - 1][s - 1])) lower.push(x);
+      if (chosen.every((s) => R[s - 1][x - 1])) upper.push(x);
+    }
+    const glb = lower.find((x) => lower.every((y) => R[x - 1][y - 1]));
+    const lub = upper.find((x) => upper.every((y) => R[y - 1][x - 1]));
+    clear(boundsNode);
+    boundsNode.appendChild(el("p", { class: "hint", text: "Подмножество S = {" + chosen.join(", ") + "}" }));
+    boundsNode.appendChild(el("div", { class: "formula-box" }, Lab.math("\\text{нижние} = \\{" + lower.join(",") + "\\},\\quad \\text{верхние} = \\{" + upper.join(",") + "\\}", false)));
+    boundsNode.appendChild(el("p", { class: "hint", text: glb ? "Наибольшая нижняя граница: " + glb + "." : "Наибольшей нижней границы нет." }));
+    boundsNode.appendChild(el("p", { class: "hint", text: lub ? "Наименьшая верхняя граница: " + lub + "." : "Наименьшей верхней границы нет." }));
+    boundMetrics.innerHTML = "";
+    boundMetrics.appendChild(el("div", { class: "metric" }, [el("span", { class: "k", text: "|S|" }), el("span", { class: "v", text: String(chosen.length) })]));
+    boundMetrics.appendChild(el("div", { class: "metric" }, [el("span", { class: "k", text: "нижних" }), el("span", { class: "v", text: String(lower.length) })]));
+    boundMetrics.appendChild(el("div", { class: "metric" }, [el("span", { class: "k", text: "верхних" }), el("span", { class: "v", text: String(upper.length) })]));
+  }
+
+  function renderExtrema(isPoset) {
+    clear(extremaNode);
+    if (!isPoset) {
+      extremaNode.appendChild(el("p", { class: "hint", text: "Крайние элементы определены для частичного порядка." }));
+      return;
+    }
+    const minimal = [];
+    const maximal = [];
+    for (let i = 1; i <= n; i++) {
+      let hasPred = false;
+      let hasSucc = false;
+      for (let j = 1; j <= n; j++) {
+        if (i !== j && R[j - 1][i - 1]) hasPred = true;
+        if (i !== j && R[i - 1][j - 1]) hasSucc = true;
+      }
+      if (!hasPred) minimal.push(i);
+      if (!hasSucc) maximal.push(i);
+    }
+    extremaNode.appendChild(el("div", { class: "formula-box" }, Lab.math("\\min = \\{" + minimal.join(",") + "\\},\\quad \\max = \\{" + maximal.join(",") + "\\}", false)));
+  }
+
+  function renderChains(isPoset) {
+    clear(longestNode);
+    clear(linearNode);
+    if (!isPoset) {
+      longestNode.textContent = "Нужен частичный порядок.";
+      linearNode.textContent = "Нужен частичный порядок.";
+      return;
+    }
+    const cover = coverMatrix();
+    const indeg = new Array(n).fill(0);
+    for (let i = 0; i < n; i++) for (let j = 0; j < n; j++) if (cover[i][j]) indeg[j]++;
+    const queue = [];
+    for (let i = 0; i < n; i++) if (indeg[i] === 0) queue.push(i);
+    const order = [];
+    while (queue.length) {
+      queue.sort((a, b) => a - b);
+      const item = queue.shift();
+      order.push(item + 1);
+      for (let j = 0; j < n; j++) {
+        if (cover[item][j]) {
+          indeg[j]--;
+          if (indeg[j] === 0) queue.push(j);
+        }
+      }
+    }
+    linearNode.replaceChildren(Lab.math("\\text{линейное продолжение} = (" + order.join(", ") + ")", false));
+
+    const memo = new Map();
+    function longestFrom(i) {
+      if (memo.has(i)) return memo.get(i);
+      let best = [i + 1];
+      for (let j = 0; j < n; j++) {
+        if (cover[i][j]) {
+          const candidate = [i + 1].concat(longestFrom(j));
+          if (candidate.length > best.length) best = candidate;
+        }
+      }
+      memo.set(i, best);
+      return best;
+    }
+    let longest = [];
+    for (let i = 0; i < n; i++) {
+      const candidate = longestFrom(i);
+      if (candidate.length > longest.length) longest = candidate;
+    }
+    longestNode.replaceChildren(Lab.math("\\text{длинная цепь} = (" + longest.join(" < ") + ")", false));
+  }
+
+  function renderAll() {
+    renderMatrix();
+    const isPoset = renderProperties();
+    renderHasse(isPoset);
+    renderSubset(isPoset);
+    renderExtrema(isPoset);
+    renderChains(isPoset);
+  }
+
+  sizeSelect.addEventListener("change", () => {
+    n = Number(sizeSelect.value);
+    R = divisibility(n);
+    selected = new Set([2, 3].filter((x) => x <= n));
+    renderAll();
+  });
+
+  $("#divisors").addEventListener("click", () => { R = divisibility(n); renderAll(); });
+  $("#identity").addEventListener("click", () => { R = diagonal(n); renderAll(); });
+  $("#random-order").addEventListener("click", () => { R = randomOrder(n); renderAll(); });
+
+  R = divisibility(n);
+  selected = new Set([2, 3].filter((x) => x <= n));
+  renderAll();
+})();
+</script>
+</body>
+</html>

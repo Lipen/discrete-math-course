@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Лаборатории · дискретная математика</title>
+<link rel="stylesheet" href="lab.css">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+</head>
+<body class="hub-page">
+<header class="hub-hero">
+  <div>
+    <p class="eyebrow">Дискретная математика</p>
+    <h1>Лаборатории</h1>
+    <p class="lead">
+      Интерактивные инструменты по дискретной математике.
+      В каждой лаборатории вы меняете объект и сразу видите результат.
+    </p>
+    <div class="hub-actions">
+      <a class="btn btn-primary" href="#labs">Открыть каталог</a>
+      <a class="btn" href="minimization.html">Карта Карно</a>
+    </div>
+  </div>
+  <div class="hero-poster">
+    <div class="poster-top"><span>каталог</span><span>ДМ</span></div>
+    <div class="poster-title">Разделы</div>
+    <div class="poster-modules" id="poster-modules"></div>
+  </div>
+</header>
+
+<main class="lab-main">
+  <section id="labs">
+    <div class="section-head">
+      <div>
+        <h2>Лаборатории</h2>
+        <p>Девять инструментов. У каждого один интерактивный объект, который можно менять.</p>
+      </div>
+      <div class="filters" id="filters"></div>
+    </div>
+    <div id="module-list"></div>
+  </section>
+</main>
+
+<footer class="footer">
+  Лаборатории · дискретная математика.
+</footer>
+
+<script src="catalog.js"></script>
+<script src="lab-site.js"></script>
+<script>
+(function () {
+  "use strict";
+  const catalog = window.LAB_CATALOG;
+  const listNode = document.getElementById("module-list");
+  const filtersNode = document.getElementById("filters");
+
+  function moduleVars(module) {
+    return "--m:" + module.accent + ";--m-soft:" + module.soft;
+  }
+
+  const posterModules = document.getElementById("poster-modules");
+  for (const moduleInfo of catalog.modules) {
+    const row = document.createElement("a");
+    row.className = "poster-module";
+    row.href = "#module-" + moduleInfo.id;
+    row.style.cssText = moduleVars(moduleInfo);
+    row.innerHTML = `<i></i><span>${moduleInfo.short}</span>`;
+    posterModules.appendChild(row);
+  }
+
+  catalog.modules.forEach((moduleInfo, moduleIndex) => {
+    const block = document.createElement("section");
+    block.className = "module-block";
+    block.id = "module-" + moduleInfo.id;
+    block.dataset.module = moduleInfo.id;
+    block.style.cssText = moduleVars(moduleInfo);
+    block.innerHTML = `
+      <div class="module-head">
+        <span class="module-index">${String(moduleIndex + 1).padStart(2, "0")}</span>
+        <div>
+          <h3>${moduleInfo.name}</h3>
+          <p>${moduleInfo.blurb}</p>
+        </div>
+      </div>
+      <div class="module-grid"></div>
+    `;
+    const grid = block.querySelector(".module-grid");
+    for (const lab of catalog.labsOf(moduleInfo.id)) {
+      const card = document.createElement("a");
+      card.className = "lab-card";
+      card.href = lab.file;
+      card.style.cssText = moduleVars(moduleInfo);
+      card.innerHTML = `
+        <div class="mark">${lab.mark}</div>
+        <span class="topic">${lab.topic}</span>
+        <h2>${lab.title}</h2>
+        <p>${lab.blurb}</p>
+        <div class="tags">${lab.tags.map((tag) => `<span class="tag">${tag}</span>`).join("")}</div>
+        <span class="go">Открыть →</span>
+      `;
+      grid.appendChild(card);
+    }
+    listNode.appendChild(block);
+  });
+
+  const allButton = document.createElement("button");
+  allButton.className = "filter active";
+  allButton.type = "button";
+  allButton.textContent = "Все";
+  allButton.dataset.module = "all";
+  filtersNode.appendChild(allButton);
+  for (const moduleInfo of catalog.modules) {
+    const button = document.createElement("button");
+    button.className = "filter";
+    button.type = "button";
+    button.dataset.module = moduleInfo.id;
+    button.textContent = moduleInfo.short;
+    filtersNode.appendChild(button);
+  }
+
+  filtersNode.addEventListener("click", (event) => {
+    const button = event.target.closest(".filter");
+    if (!button) return;
+    for (const item of filtersNode.querySelectorAll(".filter")) item.classList.toggle("active", item === button);
+    const wanted = button.dataset.module;
+    for (const block of listNode.querySelectorAll(".module-block")) {
+      block.classList.toggle("is-hidden", wanted !== "all" && block.dataset.module !== wanted);
+    }
+  });
+})();
+</script>
+</body>
+</html>

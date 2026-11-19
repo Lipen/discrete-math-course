@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Схемы · лаборатория</title>
+<link rel="stylesheet" href="lab.css">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+</head>
+<body>
+<header class="lab-header">
+  <nav class="lab-nav">
+    <a href="index.html">← Все лаборатории</a>
+    <span class="sep">/</span>
+    <span class="here">Схемы</span>
+  </nav>
+  <p class="eyebrow">Схемы</p>
+  <h1>Схема, таблица и проверка</h1>
+  <p class="lead">
+    Перед вами схема из вентилей.
+    Щёлкните вентиль, чтобы выбрать его выход, и сравните этот выход с эталоном на всех наборах входов.
+    Первое расхождение показывается отдельной строкой.
+  </p>
+</header>
+
+<main class="lab-main">
+  <section class="card">
+    <div class="controls">
+      <label>Схема
+        <select id="preset">
+          <option value="half">полусумматор</option>
+          <option value="full" selected>полный сумматор</option>
+          <option value="mux">мультиплексор 2:1</option>
+          <option value="maj3">медиана трёх</option>
+        </select>
+      </label>
+      <label>Выбранный выход
+        <select id="output"></select>
+      </label>
+      <div class="btn-row">
+        <button id="check">Сравнить выход</button>
+        <button id="pick-ref">Выбрать эталон</button>
+      </div>
+    </div>
+
+    <div class="split-wide-left">
+      <div>
+        <div class="circuit-wrap" id="circuit"></div>
+        <div class="metric-row" id="metrics"></div>
+      </div>
+      <div>
+        <h3>Проверка</h3>
+        <div class="status" id="verify"></div>
+        <p class="hint" id="verify-hint"></p>
+        <h3 style="margin-top:20px">Обозначения</h3>
+        <div class="legend">
+          <span><span class="sw" style="background:#e6f2ec;border-color:#2f7d5c"></span>эталон</span>
+          <span><span class="sw" style="background:#e8eef8;border-color:#2e5288"></span>выбранный</span>
+          <span><span class="sw" style="background:#fff;border-color:#cfc7b8"></span>вентиль</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Таблица истинности</h2>
+    <div class="tt-wrap" id="table"></div>
+    <p class="hint">Столбцы вентилей идут в порядке вычисления. Эталонный выход помечен звёздочкой.</p>
+  </section>
+
+  <section class="card">
+    <h2>Что здесь показано</h2>
+    <div class="theory-grid">
+      <div>
+        <h3>Схема</h3>
+        <p>Входы слева, вентили справа.
+        Каждый вентиль вычисляет свою операцию по значениям предшественников, поэтому таблица истинности считается одним проходом.</p>
+      </div>
+      <div>
+        <h3>Таблица истинности</h3>
+        <p>Строки перечисляют все наборы входов, столбцы дают выходы.
+        Выбранный выход подсвечен в заголовке и в таблице.</p>
+      </div>
+      <div>
+        <h3>Размер и глубина</h3>
+        <p>Счётчик показывает число вентилей и длину самого длинного пути.
+        Клик по вентилю делает его выходом для проверки.</p>
+      </div>
+      <div>
+        <h3>Проверка</h3>
+        <p>Кнопка сравнивает выбранный выход с эталоном на всех <span data-tex="2^n"></span> наборах.
+        При расхождении показывается первый контрпример.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">Лаборатория · Схемы</footer>
+<script src="vendor/katex/katex.min.js"></script>
+<script src="lab-core.js"></script>
+<script src="lab-math.js"></script>
+<script src="catalog.js"></script>
+<script src="lab-site.js"></script>
+<script>
+(function () {
+  "use strict";
+  const { $, el, svg, clear, bitsOf } = Lab;
+
+  const presets = {
+    half: {
+      inputs: ["a", "b"],
+      gates: [
+        { id: "s", op: "XOR", args: ["a", "b"], label: "S" },
+        { id: "c", op: "AND", args: ["a", "b"], label: "C" },
+      ],
+      ref: "s",
+      bad: "c",
+    },
+    full: {
+      inputs: ["a", "b", "c"],
+      gates: [
+        { id: "x1", op: "XOR", args: ["a", "b"], label: "x1" },
+        { id: "s", op: "XOR", args: ["x1", "c"], label: "S" },
+        { id: "ab", op: "AND", args: ["a", "b"], label: "ab" },
+        { id: "xc", op: "AND", args: ["x1", "c"], label: "xc" },
+        { id: "co", op: "OR", args: ["ab", "xc"], label: "C" },
+      ],
+      ref: "s",
+      bad: "co",
+    },
+    mux: {
+      inputs: ["a", "b", "s"],
+      gates: [
+        { id: "ns", op: "NOT", args: ["s"], label: "¬s", tex: "\\neg s" },
+        { id: "na", op: "AND", args: ["a", "ns"], label: "a∧¬s", tex: "a \\land \\neg s" },
+        { id: "bs", op: "AND", args: ["b", "s"], label: "b∧s", tex: "b \\land s" },
+        { id: "out", op: "OR", args: ["na", "bs"], label: "f" },
+      ],
+      ref: "out",
+      bad: "na",
+    },
+    maj3: {
+      inputs: ["a", "b", "c"],
+      gates: [
+        { id: "ab", op: "AND", args: ["a", "b"], label: "ab" },
+        { id: "bc", op: "AND", args: ["b", "c"], label: "bc" },
+        { id: "ac", op: "AND", args: ["a", "c"], label: "ac" },
+        { id: "m1", op: "OR", args: ["ab", "bc"], label: "m1" },
+        { id: "m", op: "OR", args: ["m1", "ac"], label: "m" },
+      ],
+      ref: "m",
+      bad: "ab",
+    },
+  };
+
+  let currentKey = "full";
+  let current = null;
+  let selected = "co";
+
+  const presetNode = $("#preset");
+  const outputNode = $("#output");
+  const circuitNode = $("#circuit");
+  const tableNode = $("#table");
+  const metricsNode = $("#metrics");
+  const verifyNode = $("#verify");
+  const verifyHint = $("#verify-hint");
+
+  function evalOp(op, args) {
+    if (op === "NOT") return args[0] ? 0 : 1;
+    if (op === "AND") return args[0] && args[1] ? 1 : 0;
+    if (op === "OR") return args[0] || args[1] ? 1 : 0;
+    if (op === "XOR") return args[0] !== args[1] ? 1 : 0;
+    return 0;
+  }
+
+  function prepare(key) {
+    const spec = presets[key];
+    currentKey = key;
+    current = {
+      inputs: spec.inputs.slice(),
+      gates: spec.gates.map((g) => Object.assign({}, g, { args: g.args.slice() })),
+      ref: spec.ref,
+      bad: spec.bad,
+    };
+    selected = spec.bad;
+    outputNode.innerHTML = "";
+    for (const gate of current.gates) {
+      outputNode.appendChild(el("option", {
+        value: gate.id,
+        text: gate.label + " (" + gate.op + ")",
+      }));
+    }
+    outputNode.value = selected;
+    evaluate();
+  }
+
+  function gateIds() {
+    return current.gates.map((g) => g.id);
+  }
+
+  function inputSet() {
+    return new Set(current.inputs);
+  }
+
+  function evaluate() {
+    const values = {};
+    const depth = {};
+    for (const name of current.inputs) {
+      values[name] = 0;
+      depth[name] = 0;
+    }
+    for (const gate of current.gates) {
+      const args = gate.args.map((arg) => values[arg]);
+      values[gate.id] = evalOp(gate.op, args);
+      depth[gate.id] = 1 + Math.max(...gate.args.map((arg) => depth[arg]));
+    }
+    return { values, depth };
+  }
+
+  function gateMap() {
+    const map = new Map();
+    for (const gate of current.gates) map.set(gate.id, gate);
+    return map;
+  }
+
+  function renderCircuit() {
+    const byId = gateMap();
+    const depth = {};
+    for (const name of current.inputs) depth[name] = 0;
+    for (const gate of current.gates) depth[gate.id] = 1 + Math.max(...gate.args.map((arg) => depth[arg]));
+    const maxDepth = Math.max(0, ...current.gates.map((g) => depth[g.id]));
+
+    const columns = new Map();
+    for (let d = 0; d <= maxDepth; d++) columns.set(d, []);
+    for (const gate of current.gates) columns.get(depth[gate.id]).push(gate);
+    for (const list of columns.values()) list.sort((a, b) => a.id.localeCompare(b.id));
+
+    const inputCount = current.inputs.length;
+    const maxColumn = Math.max(1, ...Array.from(columns.values()).map((list) => list.length));
+    const width = Math.max(760, 160 + maxDepth * 150 + 120);
+    const height = Math.max(300, Math.max(inputCount, maxColumn) * 80 + 80);
+
+    const coords = new Map();
+    current.inputs.forEach((name, i) => {
+      coords.set(name, { x: 54, y: 70 + i * ((height - 110) / Math.max(1, inputCount - 1)) });
+    });
+    for (const [d, list] of columns) {
+      if (d === 0) continue;
+      list.forEach((gate, i) => {
+        coords.set(gate.id, {
+          x: 170 + (d - 1) * 150,
+          y: 64 + i * ((height - 110) / Math.max(1, list.length)),
+        });
+      });
+    }
+
+    const root = svg("svg", { viewBox: "0 0 " + width + " " + height, role: "img", "aria-label": "Схема из вентилей" });
+
+    for (const gate of current.gates) {
+      const to = coords.get(gate.id);
+      for (const arg of gate.args) {
+        const from = coords.get(arg);
+        if (!from || !to) continue;
+        const midX = (from.x + to.x) / 2;
+        const path = svg("path", {
+          d: "M " + (from.x + 34) + " " + from.y + " C " + midX + " " + from.y + ", " + midX + " " + to.y + ", " + (to.x - 34) + " " + to.y,
+          fill: "none",
+          stroke: "#b7ae9e",
+          "stroke-width": 1.5,
+        });
+        root.appendChild(path);
+      }
+    }
+
+    for (const name of current.inputs) {
+      const p = coords.get(name);
+      const group = svg("g");
+      group.appendChild(svg("rect", {
+        x: p.x - 30, y: p.y - 19, width: 60, height: 38, rx: 8,
+        fill: "#fbfaf7", stroke: "#9d9586", "stroke-width": 1.5,
+      }));
+      group.appendChild(svg("text", {
+        x: p.x, y: p.y + 5, "text-anchor": "middle",
+        "font-family": "var(--mono)", "font-size": 14, "font-weight": 650, fill: "#1d2733",
+      }, name));
+      root.appendChild(group);
+    }
+
+    for (const gate of current.gates) {
+      const p = coords.get(gate.id);
+      const isRef = gate.id === current.ref;
+      const isSelected = gate.id === selected;
+      const cls = "gate" + (isRef ? " ref" : "") + (isSelected ? " selected" : "");
+      const group = svg("g", { class: cls, "data-gate": gate.id, style: "cursor:pointer" });
+      group.appendChild(svg("rect", {
+        x: p.x - 34, y: p.y - 23, width: 68, height: 46, rx: 10,
+        fill: isSelected ? "#e8eef8" : (isRef ? "#e6f2ec" : "#ffffff"),
+        stroke: isSelected ? "#2e5288" : (isRef ? "#2f7d5c" : "#9d9586"),
+        "stroke-width": isSelected ? 2.6 : 1.5,
+      }));
+      group.appendChild(svg("text", {
+        x: p.x, y: p.y + 1, "text-anchor": "middle",
+        "font-family": "var(--mono)", "font-size": 12, "font-weight": 650, fill: "#1d2733",
+      }, gate.label));
+      group.appendChild(svg("text", {
+        x: p.x, y: p.y + 14, "text-anchor": "middle",
+        "font-family": "var(--mono)", "font-size": 9, fill: "#5f6d7c",
+      }, gate.op));
+      group.addEventListener("click", () => {
+        selected = gate.id;
+        outputNode.value = selected;
+        renderAll();
+      });
+      root.appendChild(group);
+    }
+
+    clear(circuitNode);
+    circuitNode.appendChild(root);
+  }
+
+  function renderMetrics() {
+    const { depth } = evaluate();
+    const maxDepth = Math.max(0, ...current.gates.map((g) => depth[g.id]));
+    metricsNode.innerHTML = "";
+    metricsNode.appendChild(el("div", { class: "metric" }, [
+      el("span", { class: "k", text: "размер" }), el("span", { class: "v", text: String(current.gates.length) }),
+    ]));
+    metricsNode.appendChild(el("div", { class: "metric" }, [
+      el("span", { class: "k", text: "глубина" }), el("span", { class: "v", text: String(maxDepth) }),
+    ]));
+    metricsNode.appendChild(el("div", { class: "metric" }, [
+      el("span", { class: "k", text: "выбранный" }), el("span", { class: "v", text: selected, style: "font-size:15px" }),
+    ]));
+  }
+
+  function allEvaluations() {
+    const rows = [];
+    for (let m = 0; m < (1 << current.inputs.length); m++) {
+      const bits = bitsOf(m, current.inputs.length);
+      const values = {};
+      current.inputs.forEach((name, i) => { values[name] = bits[i]; });
+      for (const gate of current.gates) {
+        values[gate.id] = evalOp(gate.op, gate.args.map((arg) => values[arg]));
+      }
+      rows.push({ m, bits, values });
+    }
+    return rows;
+  }
+
+  function verify(rows) {
+    const ref = current.ref;
+    const gate = current.gates.find((g) => g.id === selected);
+    if (!gate) return null;
+    let firstBad = null;
+    for (const row of rows) {
+      if (row.values[selected] !== row.values[ref]) { firstBad = row; break; }
+    }
+    if (!firstBad) {
+      const trivial = selected === ref;
+      Lab.status(verifyNode, trivial
+        ? "Выбран эталонный выход. Он совпадает сам с собой на всех наборах."
+        : "Выбранный выход совпадает с эталоном на всех наборах.", "ok");
+      verifyHint.textContent = "Проверено " + rows.length + " наборов.";
+    } else {
+      const inputText = current.inputs.map((name, i) => name + "=" + firstBad.bits[i]).join(", ");
+      Lab.status(verifyNode, "Расхождение: " + inputText + ". Выбранный выход " + selected + "=" + firstBad.values[selected] + ", эталон " + ref + "=" + firstBad.values[ref] + ".", "bad");
+      verifyHint.textContent = "Это первый контрпример в лексикографическом порядке наборов.";
+    }
+    return firstBad;
+  }
+
+  function renderTable(rows, firstBad) {
+    clear(tableNode);
+    const table = el("table", { class: "data" });
+    const thead = el("thead");
+    const headRow = el("tr");
+    headRow.appendChild(el("th", { text: "#" }));
+    for (const name of current.inputs) headRow.appendChild(el("th", { text: name }));
+    for (const gate of current.gates) {
+      const th = el("th", { class: gate.id === selected ? "selected" : "" });
+      const labelSpan = el("span");
+      if (gate.tex) labelSpan.appendChild(Lab.math(gate.tex));
+      else labelSpan.textContent = gate.label;
+      if (gate.id === current.ref) labelSpan.appendChild(document.createTextNode(" *"));
+      th.appendChild(labelSpan);
+      th.appendChild(el("br"));
+      th.appendChild(el("span", { class: "small muted", text: gate.op }));
+      headRow.appendChild(th);
+    }
+    thead.appendChild(headRow);
+    table.appendChild(thead);
+
+    const tbody = el("tbody");
+    for (const row of rows) {
+      const tr = el("tr", { class: firstBad && row.m === firstBad.m ? "hl" : "" });
+      tr.appendChild(el("td", { class: "muted small", text: String(row.m) }));
+      for (const bit of row.bits) tr.appendChild(el("td", { class: "mono", text: String(bit) }));
+      for (const gate of current.gates) {
+        const td = el("td", { class: "mono" + (gate.id === selected ? " selected" : "") });
+        td.textContent = String(row.values[gate.id]);
+        tr.appendChild(td);
+      }
+      tbody.appendChild(tr);
+    }
+    table.appendChild(tbody);
+    tableNode.appendChild(table);
+  }
+
+  function renderAll() {
+    const rows = allEvaluations();
+    const firstBad = verify(rows);
+    renderCircuit();
+    renderMetrics();
+    renderTable(rows, firstBad);
+  }
+
+  presetNode.addEventListener("change", () => {
+    prepare(presetNode.value);
+    renderAll();
+  });
+
+  outputNode.addEventListener("change", () => {
+    selected = outputNode.value;
+    renderAll();
+  });
+
+  $("#check").addEventListener("click", () => {
+    const rows = allEvaluations();
+    const firstBad = verify(rows);
+    renderTable(rows, firstBad);
+  });
+
+  $("#pick-ref").addEventListener("click", () => {
+    selected = current.ref;
+    outputNode.value = selected;
+    renderAll();
+  });
+
+  prepare(currentKey);
+  renderAll();
+})();
+</script>
+</body>
+</html>

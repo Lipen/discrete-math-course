@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Булевы функции · лаборатория</title>
+<link rel="stylesheet" href="lab.css">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+</head>
+<body>
+<header class="lab-header">
+  <nav class="lab-nav">
+    <a href="index.html">← Все лаборатории</a>
+    <span class="sep">/</span>
+    <span class="here">Булевы функции</span>
+  </nav>
+  <p class="eyebrow">Булевы функции</p>
+  <h1>Одна функция, четыре взгляда</h1>
+  <p class="lead">
+    Таблица истинности, вектор значений, полином Жегалкина и классы Поста описывают один и тот же объект.
+    Щёлкните выход функции и посмотрите, как все четыре описания меняются вместе.
+  </p>
+</header>
+
+<main class="lab-main">
+  <section class="card">
+    <div class="controls">
+      <label>Переменных
+        <select id="arity">
+          <option value="2">2</option>
+          <option value="3" selected>3</option>
+          <option value="4">4</option>
+        </select>
+      </label>
+      <label>Готовая функция
+        <select id="preset">
+          <option value="custom">своя</option>
+          <option value="and2">A ∧ B</option>
+          <option value="or2">A ∨ B</option>
+          <option value="xor2">A ⊕ B</option>
+          <option value="nand2">A ↑ B (И-НЕ)</option>
+          <option value="nor2">A ↓ B (ИЛИ-НЕ)</option>
+          <option value="impl2">A → B</option>
+          <option value="maj3" selected>медиана трёх</option>
+          <option value="parity3">чётность трёх</option>
+        </select>
+      </label>
+      <div class="btn-row">
+        <button id="zero">Все нули</button>
+        <button id="ones">Все единицы</button>
+        <button id="random">Случайно</button>
+      </div>
+    </div>
+
+    <div class="split">
+      <div>
+        <h3>Таблица истинности</h3>
+        <p class="hint">Клик по значению в последнем столбце переключает бит.</p>
+        <div class="tt-wrap" id="table"></div>
+      </div>
+
+      <div>
+        <h3>Вектор значений</h3>
+        <div class="vector" id="vector"></div>
+        <div class="metric-row" id="metrics"></div>
+
+        <h3>Полином Жегалкина</h3>
+        <div class="anf" id="anf"></div>
+        <p class="hint">Мономы складываются по модулю 2. Порядок мономов: степень, затем двоичный код.</p>
+
+        <h3>Классы Поста</h3>
+        <div class="post-grid" id="post"></div>
+        <div class="status" id="verdict"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Куб и карта</h2>
+    <div class="split">
+      <div>
+        <h3>Гиперкуб</h3>
+        <div class="cube-wrap" id="cube"></div>
+        <p class="hint" id="cube-hint"></p>
+      </div>
+      <div>
+        <h3>Карта Карно</h3>
+        <div class="map-wrap">
+          <div class="map" id="map"></div>
+          <div class="map-note" id="map-note"></div>
+        </div>
+        <p class="hint">Клетка это минтерм, клик переключает значение. Порядок строк и столбцов серый, поэтому соседние клетки отличаются одной переменной.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Что здесь показано</h2>
+    <div class="theory-grid">
+      <div>
+        <h3>Таблица и вектор</h3>
+        <p>Строка таблицы задаёт вход, последний столбец даёт значение функции.
+        Весь столбец это вектор значений.
+        Поточечные XOR и AND считаются по этому вектору.</p>
+      </div>
+      <div>
+        <h3>Полином Жегалкина</h3>
+        <p>Моном это произведение переменных, мономы складываются по XOR.
+        Счётчики показывают, сколько термов в СДНФ и сколько мономов в АНФ для текущей функции.</p>
+      </div>
+      <div>
+        <h3>Классы Поста</h3>
+        <p>Пять меток показывают, лежит ли функция в <span data-tex="T_0"></span>, <span data-tex="T_1"></span>, <span data-tex="S"></span>, <span data-tex="M"></span> и <span data-tex="L"></span>.
+        Вердикт использует критерий Поста: набор полон, если выходит из каждого класса.</p>
+      </div>
+      <div>
+        <h3>Куб и карта</h3>
+        <p>Вершина куба это минтерм, ребро меняет один бит.
+        Карта раскладывает куб в порядке Грея, поэтому соседние клетки и края отличаются одной переменной.
+        Склейка клеток это подкуб, то есть терм ДНФ.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">Лаборатория · Булевы функции</footer>
+<script src="vendor/katex/katex.min.js"></script>
+<script src="lab-core.js"></script>
+<script src="lab-math.js"></script>
+<script src="catalog.js"></script>
+<script src="lab-site.js"></script>
+<script>
+(function () {
+  "use strict";
+  const { $, el, svg, clear, bitsOf, popcount, mapLayout, mintermOf } = Lab;
+
+  const presets = {
+    and2: { n: 2, vals: [0, 0, 0, 1] },
+    or2: { n: 2, vals: [0, 1, 1, 1] },
+    xor2: { n: 2, vals: [0, 1, 1, 0] },
+    nand2: { n: 2, vals: [1, 1, 1, 0] },
+    nor2: { n: 2, vals: [1, 0, 0, 0] },
+    impl2: { n: 2, vals: [1, 1, 0, 1] },
+    maj3: { n: 3, vals: [0, 0, 0, 1, 0, 1, 1, 1] },
+    parity3: { n: 3, vals: [0, 1, 1, 0, 1, 0, 0, 1] },
+  };
+
+  let n = 3;
+  let values = presets.maj3.vals.slice();
+  let vars = ["A", "B", "C", "D"];
+
+  const arity = $("#arity");
+  const preset = $("#preset");
+  const tableNode = $("#table");
+  const vectorNode = $("#vector");
+  const metricsNode = $("#metrics");
+  const anfNode = $("#anf");
+  const postNode = $("#post");
+  const verdictNode = $("#verdict");
+  const cubeNode = $("#cube");
+  const mapNode = $("#map");
+  const mapNote = $("#map-note");
+
+  function markCustom() {
+    preset.value = "custom";
+  }
+
+  function toggleMinterm(m) {
+    values[m] ^= 1;
+    markCustom();
+    renderAll();
+  }
+
+  function anfCoefficients() {
+    const a = values.slice();
+    for (let bit = 0; bit < n; bit++) {
+      for (let mask = 0; mask < values.length; mask++) {
+        if (mask & (1 << bit)) a[mask] ^= a[mask ^ (1 << bit)];
+      }
+    }
+    return a;
+  }
+
+  function monomialText(mask) {
+    if (mask === 0) return "1";
+    const parts = [];
+    for (let bit = 0; bit < n; bit++) {
+      if (mask & (1 << bit)) parts.push(vars[n - 1 - bit]);
+    }
+    return parts.join(" \\cdot ");
+  }
+
+  function renderTable() {
+    clear(tableNode);
+    const head = el("tr");
+    head.appendChild(el("th", { text: "#" }));
+    for (let i = 0; i < n; i++) head.appendChild(el("th", { text: vars[i] }));
+    head.appendChild(el("th", { text: "f" }));
+    const table = el("table", { class: "data" });
+    const thead = el("thead");
+    thead.appendChild(head);
+    table.appendChild(thead);
+    const tbody = el("tbody");
+    for (let m = 0; m < (1 << n); m++) {
+      const row = el("tr");
+      row.appendChild(el("td", { class: "muted small", text: String(m) }));
+      for (const bit of bitsOf(m, n)) row.appendChild(el("td", { class: "mono", text: String(bit) }));
+      const outCell = el("td");
+      const button = el("button", {
+        class: "bit" + (values[m] ? " on" : ""),
+        text: String(values[m]),
+        title: "Переключить значение",
+      });
+      button.addEventListener("click", () => toggleMinterm(m));
+      outCell.appendChild(button);
+      row.appendChild(outCell);
+      tbody.appendChild(row);
+    }
+    table.appendChild(tbody);
+    tableNode.appendChild(table);
+  }
+
+  function renderVector() {
+    vectorNode.textContent = "(" + values.join(", ") + ")";
+    const ones = values.reduce((s, v) => s + v, 0);
+    metricsNode.innerHTML = "";
+    metricsNode.appendChild(el("div", { class: "metric" }, [
+      el("span", { class: "k", text: "единиц" }), el("span", { class: "v", text: String(ones) }),
+    ]));
+    metricsNode.appendChild(el("div", { class: "metric" }, [
+      el("span", { class: "k", text: "длина" }), el("span", { class: "v", text: String(values.length) }),
+    ]));
+    metricsNode.appendChild(el("div", { class: "metric" }, [
+      el("span", { class: "k", text: "плотность" }), el("span", { class: "v", text: Lab.fmt(ones / values.length, 2) }),
+    ]));
+  }
+
+  function checkPost() {
+    const full = values.length - 1;
+    const t0 = values[0] === 0;
+    const t1 = values[full] === 1;
+    let selfDual = true;
+    for (let m = 0; m <= full; m++) {
+      if (values[m] === values[full ^ m]) { selfDual = false; break; }
+    }
+    let monotone = true;
+    for (let x = 0; x <= full && monotone; x++) {
+      for (let y = 0; y <= full; y++) {
+        if ((x & y) === x && values[x] > values[y]) { monotone = false; break; }
+      }
+    }
+    const coeff = anfCoefficients();
+    let linear = true;
+    for (let mask = 0; mask <= full; mask++) {
+      if (popcount(mask) > 1 && coeff[mask] === 1) { linear = false; break; }
+    }
+    return { t0, t1, selfDual, monotone, linear };
+  }
+
+  function renderPost() {
+    const post = checkPost();
+    const rows = [
+      ["T_0", "T0", post.t0, "сохраняет 0"],
+      ["T_1", "T1", post.t1, "сохраняет 1"],
+      ["S", "S", post.selfDual, "самодвойственна"],
+      ["M", "M", post.monotone, "монотонна"],
+      ["L", "L", post.linear, "линейна"],
+    ];
+    clear(postNode);
+    for (const [tex, name, ok, title] of rows) {
+      const badge = el("span", {
+        class: "pill " + (ok ? "ok" : "no"),
+        title,
+      });
+      badge.appendChild(Lab.math(tex));
+      badge.appendChild(document.createTextNode(ok ? " ✓" : " ✗"));
+      postNode.appendChild(badge);
+    }
+    const outside = rows.filter(([, , ok]) => !ok).map(([, name]) => name);
+    if (outside.length === 5) {
+      Lab.status(verdictNode, "Функция вне всех пяти классов. Одна эта функция образует полный базис.", "ok");
+    } else {
+      const belongs = 5 - outside.length;
+      Lab.status(verdictNode, "Функция лежит в " + belongs + " из 5 классов. Вне классов: " + (outside.join(", ") || "ничего") + ". Полного базиса из одной функции нет.", "warn");
+    }
+  }
+
+  function renderAnf() {
+    const coeff = anfCoefficients();
+    const terms = [];
+    for (let mask = 0; mask < coeff.length; mask++) if (coeff[mask]) terms.push(mask);
+    terms.sort((a, b) => popcount(a) - popcount(b) || a - b);
+    const tex = terms.length ? terms.map(monomialText).join(" \\oplus ") : "0";
+    clear(anfNode);
+    anfNode.appendChild(Lab.math(tex));
+    const minterms = values.reduce((s, v) => s + v, 0);
+    metricsNode.appendChild(el("div", { class: "metric" }, [
+      el("span", { class: "k", text: "термов СДНФ" }), el("span", { class: "v", text: String(minterms) }),
+    ]));
+    metricsNode.appendChild(el("div", { class: "metric" }, [
+      el("span", { class: "k", text: "мономов АНФ" }), el("span", { class: "v", text: String(terms.length) }),
+    ]));
+  }
+
+  function vertexCoords(m) {
+    const [a, b, c] = bitsOf(m, 3);
+    if (n === 2) {
+      return { x: 70 + 170 * b, y: 250 - 170 * a };
+    }
+    return { x: 80 + 150 * b + 105 * c, y: 270 - 160 * a - 70 * c };
+  }
+
+  function renderCube() {
+    clear(cubeNode);
+    const hint = $("#cube-hint");
+    if (n === 4) {
+      hint.textContent = "Куб размерности 4 не помещается на лист. Карта справа это его развёртка, а соседние края карты склеены.";
+      cubeNode.appendChild(el("p", { class: "muted small", text: "Для n = 4 смотрите карту: она и есть развёртка четырёхмерного куба." }));
+      return;
+    }
+    hint.textContent = "Вершина это минтерм. Клик переключает значение. Ребро соединяет наборы, различающиеся одним битом.";
+    const width = 520;
+    const height = 360;
+    const root = svg("svg", { viewBox: "0 0 " + width + " " + height, role: "img", "aria-label": "Гиперкуб" });
+    const coords = {};
+    for (let m = 0; m < (1 << n); m++) coords[m] = vertexCoords(m);
+    for (let m = 0; m < (1 << n); m++) {
+      for (let bit = 0; bit < n; bit++) {
+        const other = m ^ (1 << bit);
+        if (other > m) {
+          root.appendChild(svg("line", {
+            x1: coords[m].x, y1: coords[m].y, x2: coords[other].x, y2: coords[other].y,
+            stroke: "#c8c0b1", "stroke-width": 1.4,
+          }));
+        }
+      }
+    }
+    for (let m = 0; m < (1 << n); m++) {
+      const p = coords[m];
+      const group = svg("g", { style: "cursor:pointer" });
+      group.appendChild(svg("circle", {
+        cx: p.x, cy: p.y, r: 22,
+        fill: values[m] ? "#dbe8fa" : "#ffffff",
+        stroke: values[m] ? "#2d5fa8" : "#8c8374",
+        "stroke-width": 1.5,
+      }));
+      group.appendChild(svg("text", {
+        x: p.x, y: p.y - 2, "text-anchor": "middle", "font-family": "var(--mono)",
+        "font-size": 11, fill: "#1d2733",
+      }, bitsOf(m, n).join("")));
+      group.appendChild(svg("text", {
+        x: p.x, y: p.y + 13, "text-anchor": "middle", "font-size": 11,
+        "font-weight": 700, fill: values[m] ? "#2d5fa8" : "#8c8374",
+      }, String(values[m])));
+      group.addEventListener("click", () => toggleMinterm(m));
+      root.appendChild(group);
+    }
+    cubeNode.appendChild(root);
+  }
+
+  function renderMap() {
+    clear(mapNode);
+    const layout = mapLayout(n);
+    const cols = layout.cols.length;
+    mapNode.style.gridTemplateColumns = "64px repeat(" + cols + ", 64px)";
+    mapNode.appendChild(el("div", { class: "map-corner" }));
+    for (const c of layout.cols) {
+      mapNode.appendChild(el("div", { class: "map-head", text: bitsOf(c, layout.colBits).join("") }));
+    }
+    for (const r of layout.rows) {
+      mapNode.appendChild(el("div", { class: "map-rowhead", text: bitsOf(r, layout.rowBits).join("") }));
+      for (const c of layout.cols) {
+        const m = mintermOf(r, c, layout.colBits);
+        const cell = el("div", {
+          class: "map-cell" + (values[m] ? " v1" : ""),
+          "data-m": String(m),
+          "aria-label": "минтерм " + m + ", значение " + values[m],
+        });
+        cell.appendChild(el("span", { class: "idx", text: String(m) }));
+        cell.appendChild(el("span", { class: "val", text: String(values[m]) }));
+        cell.addEventListener("click", () => toggleMinterm(m));
+        mapNode.appendChild(cell);
+      }
+    }
+    mapNote.textContent = n === 4
+      ? "Карта замкнута в тор: верхний край соседний с нижним, левый с правым."
+      : "Соседние клетки, включая противоположные края, отличаются одной переменной.";
+  }
+
+  function renderAll() {
+    renderTable();
+    renderVector();
+    renderPost();
+    renderAnf();
+    renderCube();
+    renderMap();
+  }
+
+  function applyPreset(name) {
+    const p = presets[name];
+    if (!p) return;
+    n = p.n;
+    values = p.vals.slice();
+    arity.value = String(n);
+    preset.value = name;
+    renderAll();
+  }
+
+  arity.addEventListener("change", () => {
+    n = Number(arity.value);
+    values = new Array(1 << n).fill(0);
+    markCustom();
+    renderAll();
+  });
+
+  preset.addEventListener("change", () => {
+    if (preset.value !== "custom") applyPreset(preset.value);
+  });
+
+  $("#zero").addEventListener("click", () => {
+    values = values.map(() => 0);
+    markCustom();
+    renderAll();
+  });
+
+  $("#ones").addEventListener("click", () => {
+    values = values.map(() => 1);
+    markCustom();
+    renderAll();
+  });
+
+  $("#random").addEventListener("click", () => {
+    values = values.map(() => (Math.random() < 0.5 ? 0 : 1));
+    markCustom();
+    renderAll();
+  });
+
+  renderAll();
+})();
+</script>
+</body>
+</html>

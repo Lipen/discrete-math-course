@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SAT и DPLL · лаборатория</title>
+<link rel="stylesheet" href="lab.css">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+</head>
+<body>
+<header class="lab-header">
+  <nav class="lab-nav">
+    <a href="index.html">← Все лаборатории</a>
+    <span class="sep">/</span>
+    <span class="here">SAT</span>
+  </nav>
+  <p class="eyebrow">SAT</p>
+  <h1>DPLL по шагам</h1>
+  <p class="lead">
+    Введите формулу в CNF или выберите готовую задачу.
+    DPLL записывает каждый шаг: решение, юнит-пропагацию, конфликт и откат.
+    Счётчики показывают, сколько работы потребовалось.
+  </p>
+</header>
+
+<main class="lab-main">
+  <section class="card">
+    <div class="controls">
+      <label>Готовая задача
+        <select id="preset">
+          <option value="pigeon" selected>голубятни 3 × 2</option>
+          <option value="color">раскраска треугольника</option>
+          <option value="random">случайная 3-SAT</option>
+        </select>
+      </label>
+      <div class="btn-row">
+        <button id="solve" class="active">Решить</button>
+        <button id="again">Ещё случайная</button>
+        <button id="reset">Сброс</button>
+      </div>
+    </div>
+
+    <div class="split-wide-left">
+      <div>
+        <h3>Формула</h3>
+        <p class="hint">Строка это клауза, литералы разделены пробелом, минус означает отрицание.</p>
+        <textarea id="cnf" rows="9" spellcheck="false"></textarea>
+        <div class="status" id="parse-status"></div>
+      </div>
+      <div>
+        <h3>Результат</h3>
+        <div class="status" id="result"></div>
+        <div class="metric-row" id="metrics"></div>
+        <h3 style="margin-top:18px">Картина пресета</h3>
+        <div class="preset-art" id="art"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Трасса</h2>
+    <div class="trace" id="trace"></div>
+    <div class="btn-row" id="trace-controls" style="margin-top:8px">
+      <button id="trace-step" class="active">Следующий шаг</button>
+      <button id="trace-all">Все шаги</button>
+      <button id="trace-reset">Сброс</button>
+    </div>
+    <p class="hint" id="trace-hint"></p>
+  </section>
+
+  <section class="card">
+    <h2>Что здесь показано</h2>
+    <div class="theory-grid">
+      <div>
+        <h3>CNF</h3>
+        <p>Строка редактора это клауза, литералы разделены пробелом.
+        Отрицание записывается минусом.
+        Формула выполнима, если все клаузы истинны на одном наборе.</p>
+      </div>
+      <div>
+        <h3>Трасса</h3>
+        <p><code>@ L</code> означает уровень решения.
+        <code>решение</code> выбирает переменную, <code>юнит-пропагация</code> доопределяет литерал, <code>конфликт</code> закрывает ветку, <code>откат</code> возвращает назад.</p>
+      </div>
+      <div>
+        <h3>Результат</h3>
+        <p>SAT даёт модель, UNSAT означает, что все ветки закрыты конфликтом и модели нет.
+        Счётчики показывают число решений, пропагаций, конфликтов и узлов.</p>
+      </div>
+      <div>
+        <h3>Картина пресета</h3>
+        <p>Голубятни показывают сетку птиц и дырок, раскраска даёт граф и два цвета, случайная 3-SAT показывает отношение <span data-tex="m/n"></span> и порог <span data-tex="4.26"></span>.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">Лаборатория · SAT</footer>
+<script src="vendor/katex/katex.min.js"></script>
+<script src="lab-core.js"></script>
+<script src="lab-math.js"></script>
+<script src="catalog.js"></script>
+<script src="lab-site.js"></script>
+<script>
+(function () {
+  "use strict";
+  const { $, el, svg, clear } = Lab;
+
+  let currentPreset = "pigeon";
+  let currentN = 6;
+  let currentClauses = [];
+  let currentRatio = null;
+  let randomSeed = 20261119;
+  let currentTrace = [];
+  let tracePos = 0;
+
+  const presetNode = $("#preset");
+  const cnfNode = $("#cnf");
+  const parseStatus = $("#parse-status");
+  const resultNode = $("#result");
+  const metricsNode = $("#metrics");
+  const traceNode = $("#trace");
+  const traceHint = $("#trace-hint");
+  const artNode = $("#art");
+
+  function pigeonhole(pigeons, holes) {
+    const clauses = [];
+    const varOf = (p, h) => p * holes + h + 1;
+    for (let p = 0; p < pigeons; p++) {
+      const clause = [];
+      for (let h = 0; h < holes; h++) clause.push(varOf(p, h));
+      clauses.push(clause);
+    }
+    for (let h = 0; h < holes; h++) {
+      for (let p = 0; p < pigeons; p++) {
+        for (let q = p + 1; q < pigeons; q++) {
+          clauses.push([-varOf(p, h), -varOf(q, h)]);
+        }
+      }
+    }
+    return { n: pigeons * holes, clauses, ratio: null, art: "pigeon" };
+  }
+
+  function triangleColoring() {
+    const clauses = [];
+    const varOf = (v, c) => v * 2 + c + 1;
+    for (let v = 0; v < 3; v++) {
+      clauses.push([varOf(v, 0), varOf(v, 1)]);
+      clauses.push([-varOf(v, 0), -varOf(v, 1)]);
+    }
+    const edges = [[0, 1], [1, 2], [0, 2]];
+    for (const [u, v] of edges) {
+      for (let c = 0; c < 2; c++) clauses.push([-varOf(u, c), -varOf(v, c)]);
+    }
+    return { n: 6, clauses, ratio: null, art: "color" };
+  }
+
+  function mulberry32(seed) {
+    return function () {
+      let t = seed += 0x6D2B79F5;
+      t = Math.imul(t ^ (t >>> 15), t | 1);
+      t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  function random3sat(n, m, seed) {
+    const rng = mulberry32(seed);
+    const clauses = [];
+    let guard = 0;
+    while (clauses.length < m && guard++ < m * 40) {
+      const chosen = [];
+      while (chosen.length < 3) {
+        const v = 1 + Math.floor(rng() * n);
+        if (!chosen.includes(v)) chosen.push(v);
+      }
+      clauses.push(chosen.map((v) => (rng() < 0.5 ? -v : v)));
+    }
+    return { n, clauses, ratio: m / n, art: "random" };
+  }
+
+  function clauseText(clause) {
+    return clause.join(" ");
+  }
+
+  function presetData(name) {
+    if (name === "pigeon") return pigeonhole(3, 2);
+    if (name === "color") return triangleColoring();
+    if (name === "random") {
+      randomSeed = (randomSeed * 1664525 + 1013904223) >>> 0;
+      return random3sat(6, 25, randomSeed);
+    }
+    return pigeonhole(3, 2);
+  }
+
+  function applyPreset(name) {
+    currentPreset = name;
+    const data = presetData(name);
+    currentN = data.n;
+    currentClauses = data.clauses;
+    currentRatio = data.ratio;
+    cnfNode.value = currentClauses.map(clauseText).join("\n");
+    parseStatus.className = "status";
+    parseStatus.textContent = "Переменных: " + currentN + ", клауз: " + currentClauses.length + ".";
+    renderArt(data.art);
+    solveCurrent();
+  }
+
+  function parseCnf(text) {
+    const clauses = [];
+    let maxVar = 0;
+    const lines = text.split(/\r?\n/);
+    for (let lineNo = 0; lineNo < lines.length; lineNo++) {
+      const line = lines[lineNo].trim();
+      if (!line) continue;
+      if (line.startsWith("c")) continue;
+      const tokens = line.split(/\s+/).filter(Boolean);
+      const clause = [];
+      for (const token of tokens) {
+        const value = Number(token);
+        if (!Number.isInteger(value)) {
+          throw new Error("Строка " + (lineNo + 1) + ": не число: " + token);
+        }
+        if (value === 0) continue;
+        clause.push(value);
+        maxVar = Math.max(maxVar, Math.abs(value));
+      }
+      if (clause.length) clauses.push(clause);
+    }
+    if (clauses.length === 0) throw new Error("Нет ни одной клаузы.");
+    if (maxVar === 0) throw new Error("Нет ни одной переменной.");
+    if (maxVar > 20) throw new Error("Слишком много переменных для этой лаборатории: " + maxVar + ".");
+    return { n: maxVar, clauses };
+  }
+
+  function solveCnf(clauses, n) {
+    const assignment = new Array(n + 1).fill(0);
+    const trail = [];
+    const trace = [];
+    let decisions = 0;
+    let propagations = 0;
+    let conflicts = 0;
+    let nodes = 0;
+
+    function assign(v, value, level) {
+      if (assignment[v] !== 0) return;
+      assignment[v] = value ? 1 : -1;
+      trail.push({ v, level });
+    }
+
+    function undoTo(length) {
+      while (trail.length > length) {
+        const item = trail.pop();
+        assignment[item.v] = 0;
+      }
+    }
+
+    function litValue(lit) {
+      const a = assignment[Math.abs(lit)];
+      if (a === 0) return 0;
+      return (lit > 0 ? a === 1 : a === -1) ? 1 : -1;
+    }
+
+    function clauseState(clause) {
+      let satisfied = false;
+      let unassigned = 0;
+      let unassignedLit = 0;
+      for (const lit of clause) {
+        const value = litValue(lit);
+        if (value === 1) { satisfied = true; break; }
+        if (value === 0) { unassigned++; unassignedLit = lit; }
+      }
+      return { satisfied, unassigned, unassignedLit };
+    }
+
+    function propagate(level) {
+      let changed = true;
+      while (changed) {
+        changed = false;
+        for (const clause of clauses) {
+          const st = clauseState(clause);
+          if (st.satisfied) continue;
+          if (st.unassigned === 0) {
+            conflicts++;
+            trace.push({ type: "conflict", level, text: "конфликт: " + clauseText(clause) });
+            return false;
+          }
+          if (st.unassigned === 1) {
+            const lit = st.unassignedLit;
+            const v = Math.abs(lit);
+            const value = lit > 0;
+            assign(v, value, level);
+            propagations++;
+            trace.push({ type: "prop", level, text: "x" + v + " = " + (value ? 1 : 0) + " из " + clauseText(clause) });
+            changed = true;
+          }
+        }
+      }
+      return true;
+    }
+
+    function allAssigned() {
+      for (let v = 1; v <= n; v++) if (assignment[v] === 0) return false;
+      return true;
+    }
+
+    function search(level) {
+      nodes++;
+      if (!propagate(level)) return null;
+      if (allAssigned()) {
+        trace.push({ type: "sat", level, text: "все переменные означены" });
+        return assignment.slice();
+      }
+      let v = 1;
+      while (v <= n && assignment[v] !== 0) v++;
+      for (const value of [false, true]) {
+        const mark = trail.length;
+        assign(v, value, level + 1);
+        decisions++;
+        trace.push({ type: "decision", level: level + 1, text: "x" + v + " = " + (value ? 1 : 0) });
+        const result = search(level + 1);
+        if (result) return result;
+        undoTo(mark);
+        trace.push({ type: "backtrack", level: level + 1, text: "откат x" + v });
+      }
+      return null;
+    }
+
+    const model = search(0);
+    return { model, decisions, propagations, conflicts, nodes, trace, n };
+  }
+
+  function formatModel(model) {
+    const parts = [];
+    for (let v = 1; v < model.length; v++) {
+      if (model[v] !== 0) parts.push("x" + v + "=" + (model[v] === 1 ? 1 : 0));
+    }
+    return parts.join(", ");
+  }
+
+  function renderTrace(trace, upto) {
+    clear(traceNode);
+    if (!trace.length) {
+      traceNode.appendChild(el("div", { class: "muted", text: "Трасса пуста." }));
+      traceHint.textContent = "";
+      return;
+    }
+    if (!upto) {
+      traceNode.appendChild(el("div", { class: "muted", text: "Трасса скрыта. Нажмите «Следующий шаг», чтобы разобрать решение." }));
+      traceHint.textContent = "Шаг 0 из " + trace.length + ".";
+      $("#trace-step").disabled = false;
+      $("#trace-all").disabled = false;
+      return;
+    }
+    let shown = trace.slice(0, upto);
+    let skipped = 0;
+    const limit = 420;
+    if (shown.length > limit) {
+      const half = Math.floor(limit / 2);
+      shown = shown.slice(0, half).concat(shown.slice(shown.length - half));
+      skipped = upto - limit;
+    }
+    for (let i = 0; i < shown.length; i++) {
+      if (skipped && i === Math.floor(limit / 2)) {
+        traceNode.appendChild(el("div", { class: "muted", text: "… пропущено шагов: " + skipped + " …" }));
+      }
+      const item = shown[i];
+      const kind = item.type === "prop" ? "prop" : item.type;
+      const label = item.type === "prop" ? "юнит-пропагация" : (item.type === "decision" ? "решение" : (item.type === "conflict" ? "конфликт" : (item.type === "backtrack" ? "откат" : "SAT")));
+      const line = el("div", { class: "ln" });
+      line.appendChild(el("span", { class: "lv", text: "@" + item.level }));
+      line.appendChild(el("span", { class: "kind " + kind, text: label }));
+      line.appendChild(el("span", { text: item.text }));
+      traceNode.appendChild(line);
+    }
+    traceHint.textContent = "Шаг " + upto + " из " + trace.length + ".";
+    $("#trace-step").disabled = upto >= trace.length;
+    $("#trace-all").disabled = upto >= trace.length;
+  }
+
+  function renderArt(kind) {
+    clear(artNode);
+    if (kind === "pigeon") {
+      artNode.appendChild(el("p", { class: "small muted", text: "Три птицы, две дырки. Переменная x(i,h): птица i сидит в дырке h." }));
+      const table = el("table", { class: "data" });
+      const thead = el("thead");
+      thead.appendChild(el("tr", {}, [
+        el("th", { class: "left", text: "птица" }),
+        el("th", { text: "дырка 1" }),
+        el("th", { text: "дырка 2" }),
+      ]));
+      table.appendChild(thead);
+      const tbody = el("tbody");
+      for (let p = 0; p < 3; p++) {
+        const row = el("tr");
+        row.appendChild(el("td", { class: "left", text: "P" + (p + 1) }));
+        for (let h = 0; h < 2; h++) row.appendChild(el("td", { class: "mono", text: "x" + (p * 2 + h + 1) }));
+        tbody.appendChild(row);
+      }
+      table.appendChild(tbody);
+      artNode.appendChild(table);
+    } else if (kind === "color") {
+      artNode.appendChild(el("p", { class: "small muted", text: "Треугольник, два цвета. Соседние вершины должны получить разные цвета." }));
+      const root = svg("svg", { viewBox: "0 0 320 220", role: "img", "aria-label": "Раскраска треугольника" });
+      const pts = { 0: { x: 160, y: 34 }, 1: { x: 54, y: 178 }, 2: { x: 266, y: 178 } };
+      for (const [u, v] of [[0, 1], [1, 2], [2, 0]]) {
+        root.appendChild(svg("line", { x1: pts[u].x, y1: pts[u].y, x2: pts[v].x, y2: pts[v].y, stroke: "#9d9586", "stroke-width": 2 }));
+      }
+      const colors = ["#2d5fa8", "#a76a12"];
+      for (let v = 0; v < 3; v++) {
+        const p = pts[v];
+        root.appendChild(svg("circle", { cx: p.x, cy: p.y, r: 24, fill: "#fff", stroke: "#7b7366", "stroke-width": 1.5 }));
+        root.appendChild(svg("text", { x: p.x, y: p.y + 5, "text-anchor": "middle", "font-size": 13, "font-weight": 700, fill: "#1d2733" }, String(v + 1)));
+        for (let c = 0; c < 2; c++) {
+          const cx = p.x + (c === 0 ? -18 : 18);
+          const cy = p.y + 38;
+          root.appendChild(svg("circle", { cx, cy, r: 7, fill: colors[c], opacity: 0.85 }));
+          root.appendChild(svg("text", { x: cx, y: cy + 20, "text-anchor": "middle", "font-size": 9, fill: "#5f6d7c" }, "x" + (v * 2 + c + 1)));
+        }
+      }
+      artNode.appendChild(root);
+    } else {
+      const ratio = currentRatio === null ? 0 : currentRatio;
+      artNode.appendChild(el("p", { class: "small muted", text: "Случайная 3-SAT: n = 6, m = 25, отношение m/n = " + Lab.fmt(ratio, 2) + "." }));
+      const bar = el("div", { class: "gaugeline" });
+      const marker = el("div", { class: "gauge-marker" });
+      marker.style.left = Math.max(0, Math.min(100, (ratio / 8) * 100)) + "%";
+      bar.appendChild(marker);
+      artNode.appendChild(bar);
+      artNode.appendChild(el("div", { class: "gauge-label" }, [
+        el("span", { text: "0" }),
+        el("span", { text: "порог 4.26" }),
+        el("span", { text: "8" }),
+      ]));
+    }
+  }
+
+  function renderResult(result) {
+    metricsNode.innerHTML = "";
+    metricsNode.appendChild(el("div", { class: "metric" }, [
+      el("span", { class: "k", text: "решений" }), el("span", { class: "v", text: String(result.decisions) }),
+    ]));
+    metricsNode.appendChild(el("div", { class: "metric" }, [
+      el("span", { class: "k", text: "пропагаций" }), el("span", { class: "v", text: String(result.propagations) }),
+    ]));
+    metricsNode.appendChild(el("div", { class: "metric" }, [
+      el("span", { class: "k", text: "конфликтов" }), el("span", { class: "v", text: String(result.conflicts) }),
+    ]));
+    metricsNode.appendChild(el("div", { class: "metric" }, [
+      el("span", { class: "k", text: "узлов" }), el("span", { class: "v", text: String(result.nodes) }),
+    ]));
+    if (result.model) {
+      Lab.status(resultNode, "SAT. Модель: " + formatModel(result.model), "ok");
+    } else {
+      Lab.status(resultNode, "UNSAT. Все ветки закрыты конфликтом, модели нет.", "bad");
+    }
+    currentTrace = result.trace;
+    tracePos = 0;
+    renderTrace(currentTrace, tracePos);
+  }
+
+  function solveCurrent() {
+    let parsed;
+    try {
+      parsed = parseCnf(cnfNode.value);
+    } catch (error) {
+      Lab.status(parseStatus, error.message, "bad");
+      Lab.status(resultNode, "Формула не разобрана.", "warn");
+      metricsNode.innerHTML = "";
+      clear(traceNode);
+      currentTrace = [];
+      tracePos = 0;
+      traceHint.textContent = "";
+      $("#trace-step").disabled = true;
+      $("#trace-all").disabled = true;
+      return;
+    }
+    currentN = parsed.n;
+    currentClauses = parsed.clauses;
+    Lab.status(parseStatus, "Переменных: " + currentN + ", клауз: " + currentClauses.length + ".", "ok");
+    const result = solveCnf(currentClauses, currentN);
+    renderResult(result);
+    renderArt(currentPreset === "random" ? "random" : (currentPreset === "color" ? "color" : "pigeon"));
+  }
+
+  presetNode.addEventListener("change", () => {
+    applyPreset(presetNode.value);
+  });
+
+  $("#solve").addEventListener("click", () => {
+    solveCurrent();
+  });
+
+  $("#trace-step").addEventListener("click", () => {
+    if (tracePos < currentTrace.length) {
+      tracePos += 1;
+      renderTrace(currentTrace, tracePos);
+    }
+  });
+
+  $("#trace-all").addEventListener("click", () => {
+    tracePos = currentTrace.length;
+    renderTrace(currentTrace, tracePos);
+  });
+
+  $("#trace-reset").addEventListener("click", () => {
+    tracePos = 0;
+    renderTrace(currentTrace, tracePos);
+  });
+
+  $("#again").addEventListener("click", () => {
+    presetNode.value = "random";
+    applyPreset("random");
+  });
+
+  $("#reset").addEventListener("click", () => {
+    applyPreset(currentPreset);
+  });
+
+  applyPreset("pigeon");
+})();
+</script>
+</body>
+</html>
