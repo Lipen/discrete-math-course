@@ -1,4 +1,4 @@
-/* Catalog of the first-semester lab stand. */
+/* Catalog of the discrete-mathematics lab stand. */
 (function () {
   "use strict";
 
@@ -33,7 +33,7 @@
       short: "Булевы",
       accent: "#b45309",
       soft: "#fbf0dc",
-      blurb: "Функции, полиномы, минимизация, диаграммы решений и схемы.",
+      blurb: "Функции, минимизация, диаграммы решений и схемы.",
     },
     {
       id: "codes",
@@ -45,130 +45,129 @@
     },
   ];
 
-  const lectures = [
-    { num: 1, title: "Высказывания и связки", week: "8–9 сентября", module: "sets", labs: ["statements"] },
-    { num: 2, title: "Предикаты и доказательства", week: "15–16 сентября", module: "sets", labs: ["predicates"] },
-    { num: 3, title: "Множества", week: "22–23 сентября", module: "sets", labs: ["sets"] },
-    { num: 4, title: "Отношения и эквивалентность", week: "29–30 сентября", module: "relations", labs: ["relations"] },
-    { num: 5, title: "Отношение порядка", week: "6–7 октября", module: "relations", labs: ["order"] },
-    { num: 6, title: "Функции", week: "13–14 октября", module: "relations", labs: ["functions"] },
-    { num: 7, title: "Счётность и несчётность", week: "20–21 октября", module: "relations", labs: ["cardinality"] },
-    { num: 8, title: "Трансфинитное", week: "27–28 октября", module: "relations", labs: ["transfinite"] },
-    { num: 9, title: "Язык и истина", week: "3–4 ноября", module: "logic", labs: ["semantics"] },
-    { num: 10, title: "Натуральная дедукция", week: "10–11 ноября", module: "logic", labs: ["deduction"] },
-    { num: 11, title: "Логика первого порядка", week: "17–18 ноября", module: "logic", labs: ["fol"] },
-    { num: 12, title: "Алгебра булевых функций", week: "24–25 ноября", module: "boolean", labs: ["boolean-functions", "sat"] },
-    { num: 13, title: "Минимизация и диаграммы решений", week: "1–2 декабря", module: "boolean", labs: ["minimization", "bdd"] },
-    { num: 14, title: "Схемы: логика и проверка", week: "8–9 декабря", module: "boolean", labs: ["circuits"] },
-    { num: 15, title: "Коды с исправлением ошибок", week: "15–16 декабря", module: "codes", labs: ["hamming"] },
-    { num: 16, title: "Сжатие и код Хаффмана", week: "22–23 декабря", module: "codes", labs: ["huffman"] },
-  ];
-
   const labs = [
     {
-      id: "statements", file: "statements.html", lecture: 1, module: "sets", mark: "¬",
+      id: "statements", file: "statements.html", module: "sets", mark: "¬",
+      topic: "Логика высказываний",
       title: "Высказывания и связки",
       blurb: "Соберите формулу, постройте таблицу истинности, разберите дерево разбора и проверьте закон.",
       tags: ["разбор", "таблица истинности", "законы"],
     },
     {
-      id: "predicates", file: "predicates.html", lecture: 2, module: "sets", mark: "∀",
+      id: "predicates", file: "predicates.html", module: "sets", mark: "∀",
+      topic: "Кванторы",
       title: "Предикаты и кванторы",
       blurb: "Конечная модель, в которой видно, кто свидетель, а кто контрпример для ∀ и ∃.",
       tags: ["∀/∃", "свидетель", "отрицание"],
     },
     {
-      id: "sets", file: "sets.html", lecture: 3, module: "sets", mark: "∈",
+      id: "sets", file: "sets.html", module: "sets", mark: "∈",
+      topic: "Множества",
       title: "Множества и диаграммы",
       blurb: "Соберите множества, проверьте операции, посмотрите Венна и степень множества.",
       tags: ["∪/∩/∖", "Венн", "2^A"],
     },
     {
-      id: "relations", file: "relations.html", lecture: 4, module: "relations", mark: "R",
+      id: "relations", file: "relations.html", module: "relations", mark: "R",
+      topic: "Отношения",
       title: "Отношения и эквивалентность",
       blurb: "Матрица и граф отношения, свойства, замыкания, классы эквивалентности и фактор.",
       tags: ["свойства", "замыкание", "фактор"],
     },
     {
-      id: "order", file: "order.html", lecture: 5, module: "relations", mark: "≤",
+      id: "order", file: "order.html", module: "relations", mark: "≤",
+      topic: "Порядок",
       title: "Порядок и диаграмма Хассе",
       blurb: "Посета, диаграмма покрытий, минимумы, максимумы, цепи и линейное продолжение.",
       tags: ["Хассе", "границы", "цепи"],
     },
     {
-      id: "functions", file: "functions.html", lecture: 6, module: "relations", mark: "f",
+      id: "functions", file: "functions.html", module: "relations", mark: "f",
+      topic: "Функции",
       title: "Функции и отображения",
       blurb: "Инъекция, сюръекция, биекция, образ, прообраз, композиция и обратная функция.",
       tags: ["образ", "прообраз", "обратная"],
     },
     {
-      id: "cardinality", file: "cardinality.html", lecture: 7, module: "relations", mark: "ℵ₀",
+      id: "cardinality", file: "cardinality.html", module: "relations", mark: "ℵ₀",
+      topic: "Счётность",
       title: "Счётность и бесконечность",
       blurb: "Отель Гильберта, биекция N→Z, канторовы пары и диагональ Кантора.",
       tags: ["биекция", "N×N", "диагональ"],
     },
     {
-      id: "transfinite", file: "transfinite.html", lecture: 8, module: "relations", mark: "ω",
+      id: "transfinite", file: "transfinite.html", module: "relations", mark: "ω",
+      topic: "Ординалы",
       title: "Трансфинитные ординалы",
       blurb: "Лесенка ординалов, нормальная форма, пределы и сравнение.",
       tags: ["ω", "ординал", "кардинал"],
     },
     {
-      id: "semantics", file: "semantics.html", lecture: 9, module: "logic", mark: "⊨",
+      id: "semantics", file: "semantics.html", module: "logic", mark: "⊨",
+      topic: "Семантика",
       title: "Семантика и следствие",
       blurb: "Модели посылок, истинность заключения и конкретный контрпример.",
       tags: ["модель", "следствие", "контрпример"],
     },
     {
-      id: "deduction", file: "deduction.html", lecture: 10, module: "logic", mark: "⊢",
+      id: "deduction", file: "deduction.html", module: "logic", mark: "⊢",
+      topic: "Натуральная дедукция",
       title: "Натуральная дедукция",
       blurb: "Соберите вывод в стиле Фитча и проверьте каждое правило.",
       tags: ["Фитч", "правила", "вывод"],
     },
     {
-      id: "fol", file: "fol.html", lecture: 11, module: "logic", mark: "∀x",
+      id: "fol", file: "fol.html", module: "logic", mark: "∀x",
+      topic: "Логика первого порядка",
       title: "Модели первого порядка",
       blurb: "Домен, предикаты и кванторы: истинность, свидетели и порядок кванторов.",
       tags: ["модель", "кванторы", "R(x,y)"],
     },
     {
-      id: "boolean-functions", file: "boolean-functions.html", lecture: 12, module: "boolean", mark: "f₂",
+      id: "boolean-functions", file: "boolean-functions.html", module: "boolean", mark: "f₂",
+      topic: "Булевы функции",
       title: "Булевы функции",
       blurb: "Таблица, вектор, полином Жегалкина, классы Поста, куб и карта.",
       tags: ["АНФ", "Пост", "куб"],
     },
     {
-      id: "sat", file: "sat.html", lecture: 12, module: "boolean", mark: "SAT",
+      id: "sat", file: "sat.html", module: "boolean", mark: "SAT",
+      topic: "SAT",
       title: "SAT и DPLL",
       blurb: "CNF, трасса DPLL, решения, пропагации, конфликты и готовые задачи.",
       tags: ["CNF", "DPLL", "конфликт"],
     },
     {
-      id: "minimization", file: "minimization.html", lecture: 13, module: "boolean", mark: "K",
+      id: "minimization", file: "minimization.html", module: "boolean", mark: "K",
+      topic: "Минимизация",
       title: "Карта Карно",
       blurb: "Простые импликанты и точный минимум ДНФ с безразличными наборами.",
       tags: ["Карно", "импликанты", "минимум"],
     },
     {
-      id: "bdd", file: "bdd.html", lecture: 13, module: "boolean", mark: "BDD",
+      id: "bdd", file: "bdd.html", module: "boolean", mark: "BDD",
+      topic: "Диаграммы решений",
       title: "Диаграммы решений",
       blurb: "ROBDD, склейка поддиаграмм и цена порядка переменных.",
       tags: ["ROBDD", "порядок", "склейка"],
     },
     {
-      id: "circuits", file: "circuits.html", lecture: 14, module: "boolean", mark: "∧",
+      id: "circuits", file: "circuits.html", module: "boolean", mark: "∧",
+      topic: "Схемы",
       title: "Схемы",
       blurb: "Вентили, размер, глубина, таблица истинности и проверка против эталона.",
       tags: ["вентили", "глубина", "митер"],
     },
     {
-      id: "hamming", file: "hamming.html", lecture: 15, module: "codes", mark: "7,4",
+      id: "hamming", file: "hamming.html", module: "codes", mark: "7,4",
+      topic: "Коды Хэмминга",
       title: "Код Хэмминга",
       blurb: "Проверочные биты, синдром, позиция ошибки и исправление.",
       tags: ["синдром", "H", "ошибка"],
     },
     {
-      id: "huffman", file: "huffman.html", lecture: 16, module: "codes", mark: "H",
+      id: "huffman", file: "huffman.html", module: "codes", mark: "H",
+      topic: "Сжатие",
       title: "Дерево Хаффмана",
       blurb: "Жадное слияние, коды, средняя длина и энтропия.",
       tags: ["префиксный", "L", "энтропия"],
@@ -181,23 +180,15 @@
     return modules.find((module) => module.id === id) || modules[0];
   }
 
-  function lecturesOf(moduleId) {
-    return lectures.filter((lecture) => lecture.module === moduleId);
-  }
-
-  function labsOfLecture(num) {
-    const lecture = lectures.find((item) => item.num === num);
-    return lecture ? lecture.labs.map((id) => byId.get(id)).filter(Boolean) : [];
+  function labsOf(moduleId) {
+    return labs.filter((lab) => lab.module === moduleId);
   }
 
   window.LAB_CATALOG = {
-    semester: "Осень 2026",
     modules,
-    lectures,
     labs,
     byId,
     moduleOf,
-    lecturesOf,
-    labsOfLecture,
+    labsOf,
   };
 })();

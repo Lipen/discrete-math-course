@@ -1,4 +1,4 @@
-/* Shared site bar, module accent, progress and previous/next navigation. */
+/* Shared site bar, topic accent and previous/next navigation. */
 (function () {
   "use strict";
 
@@ -18,48 +18,18 @@
     document.body.style.setProperty("--accent-soft", moduleInfo.soft);
   }
 
-  const visitedKey = "dm-lab-visited-v1";
-  function visited() {
-    try {
-      return new Set(JSON.parse(localStorage.getItem(visitedKey) || "[]"));
-    } catch (error) {
-      return new Set();
-    }
-  }
-  function saveVisited(set) {
-    try {
-      localStorage.setItem(visitedKey, JSON.stringify(Array.from(set)));
-    } catch (error) {
-      /* localStorage can be unavailable under file:// restrictions. */
-    }
-  }
-
-  const seen = visited();
-  if (currentLab) {
-    seen.add(currentLab.id);
-    saveVisited(seen);
-  }
-  const total = catalog.labs.length;
-  const done = Array.from(seen).filter((id) => catalog.byId.has(id)).length;
-  const percent = total ? Math.round((done / total) * 100) : 0;
-
   function sitebar() {
     const bar = document.createElement("div");
     bar.className = "sitebar";
     bar.innerHTML = `
       <a class="sitebar-brand" href="index.html">
         <span class="sitebar-mark">ДМ</span>
-        <span class="sitebar-title"><b>Лаборатории</b><small>первый семестр</small></span>
+        <span class="sitebar-title"><b>Лаборатории</b><small>дискретная математика</small></span>
       </a>
-      <nav class="sitebar-nav" aria-label="Навигация стенда">
+      <nav class="sitebar-nav" aria-label="Навигация">
         <a href="index.html">Главная</a>
-        <a href="index.html#map">Карта</a>
-        <a href="index.html#labs">Все лаборатории</a>
+        <a href="index.html#labs">Темы</a>
       </nav>
-      <div class="sitebar-progress" title="Пройдено лабораторий: ${done} из ${total}">
-        <span>${done} / ${total}</span>
-        <div class="meter"><i style="width:${percent}%"></i></div>
-      </div>
     `;
     document.body.insertBefore(bar, document.body.firstChild);
   }
@@ -84,9 +54,9 @@
     }
 
     const all = document.createElement("a");
-    all.href = "index.html";
+    all.href = "index.html#labs";
     all.className = "pager-all";
-    all.textContent = "Все лаборатории";
+    all.textContent = "Все темы";
     nav.appendChild(all);
 
     if (next) {
@@ -108,26 +78,18 @@
   if (!isHub) pager();
 
   if (currentLab) {
-    const moduleInfo = catalog.moduleOf(currentLab.module);
     const badge = document.querySelector(".lab-header .eyebrow");
-    if (badge && !badge.dataset.withModule) {
-      badge.dataset.withModule = "1";
-      badge.textContent = badge.textContent + " · " + moduleInfo.name;
-    }
+    if (badge) badge.textContent = currentLab.topic;
 
     const header = document.querySelector(".lab-header");
     if (header && !header.querySelector(".lab-watermark")) {
-      const number = catalog.labs.indexOf(currentLab) + 1;
       const watermark = document.createElement("div");
       watermark.className = "lab-watermark";
       watermark.setAttribute("aria-hidden", "true");
       const mark = document.createElement("span");
       mark.className = "wm-mark";
       mark.textContent = currentLab.mark;
-      const lecture = document.createElement("em");
-      lecture.className = "wm-no";
-      lecture.textContent = String(currentLab.lecture).padStart(2, "0");
-      watermark.append(mark, lecture);
+      watermark.append(mark);
       header.prepend(watermark);
 
       let meta = header.querySelector(".lab-meta");
@@ -139,10 +101,6 @@
         if (lead && lead.parentNode) lead.parentNode.insertBefore(meta, lead.nextSibling);
         else header.appendChild(meta);
       }
-      const chip = document.createElement("span");
-      chip.className = "pill lab-index-pill";
-      chip.textContent = "лаборатория " + String(number).padStart(2, "0") + " / " + total;
-      meta.prepend(chip);
       if (!hadMeta) {
         for (const tag of currentLab.tags) {
           const pill = document.createElement("span");
@@ -152,5 +110,8 @@
         }
       }
     }
+
+    const footer = document.querySelector(".footer");
+    if (footer) footer.textContent = "Лаборатория · " + currentLab.topic;
   }
 })();

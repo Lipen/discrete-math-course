@@ -1479,3 +1479,34 @@ button, .btn { border-radius: 9px; font-size: 13px; padding: 7px 12px; }
   stroke-linecap: round;
   stroke-linejoin: round;
 }
+
+.poster-title {
+  margin-top: auto;
+  font-family: var(--display);
+  font-size: clamp(46px, 5.6vw, 72px);
+  font-weight: 600;
+  line-height: .95;
+  letter-spacing: -.06em;
+}
+
+.poster-module {
+  color: #c9c2b5;
+  text-decoration: none;
+}
+.poster-module:hover { color: #fff; }
+
+.lab-card .topic {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--m);
+  font-weight: 600;
+}
+
+.hub-hero > * { min-width: 0; }
+
+@media (max-width: 620px) {
+  .hub-hero h1 { font-size: clamp(36px, 10.5vw, 48px); }
+  .hub-hero .lead { overflow-wrap: anywhere; }
+}
