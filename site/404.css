@@ -41,7 +41,7 @@ main.di { max-width: none; margin: 0; padding: 0; }
 .torch-lamp {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle 110px at var(--lx) var(--ly), rgba(255, 200, 120, 0.45), rgba(255, 190, 100, 0.18) 45%, transparent 75%);
+  background: radial-gradient(circle 106px at var(--lx) var(--ly), rgba(255, 200, 120, 0.45), rgba(255, 190, 100, 0.18) 45%, transparent 75%);
   mix-blend-mode: screen;
   transform-origin: var(--lx) var(--ly);
   animation: lamp-breathe 2.6s ease-in-out infinite;
