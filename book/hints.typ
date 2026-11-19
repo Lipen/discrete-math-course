@@ -186,6 +186,10 @@
   При GCH $2^(aleph_alpha) = aleph_(alpha+1)$, поэтому $beth_alpha = aleph_alpha$ для всех $alpha$.
   Оба супрема по $n < omega$ тогда равны $aleph_omega$.
 
+- *Задача #ex-ref("card:no-successor-inaccessible")* (недостижимый кардинал не последователь).
+  Если $kappa = lambda^+$, то $lambda < kappa$ и по теореме Кантора $2^lambda > lambda$.
+  Значит, $2^lambda >= kappa$, что нарушает сильный предел $2^lambda < kappa$.
+
 #heading(level: 2, numbering: none)[Глава~@chap:orders. Отношения порядка]
 
 - *Задача #ex-ref("ord:subset-inclusion-poset")* (включение как частичный порядок).
