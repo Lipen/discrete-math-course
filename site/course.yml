@@ -11,7 +11,7 @@ materials:
   - title: Правила курса
     href: syllabus.pdf
     icon: rules
-  - title: Интерактивная лаборатория
+  - title: Лаборатория
     href: lab/
     icon: lab
     fmt: WEB
