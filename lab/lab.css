@@ -1629,8 +1629,8 @@ button, .btn { border-radius: 9px; font-size: 13px; padding: 7px 12px; }
   overflow-x: auto;
 }
 
-.hotel-svg-wrap { min-width: 720px; }
-.hotel-svg { display: block; width: 100%; height: auto; }
+.hotel-svg-wrap { width: 100%; min-width: 0; overflow-x: auto; }
+.hotel-svg { display: block; min-width: 720px; width: 100%; height: auto; }
 
 .hotel-arrow {
   fill: none;
@@ -1828,7 +1828,7 @@ button, .btn { border-radius: 9px; font-size: 13px; padding: 7px 12px; }
 }
 
 @media (max-width: 560px) {
-  .hotel-svg-wrap { min-width: 650px; }
+  .hotel-svg { min-width: 650px; }
   .bus-grid { grid-template-columns: 72px repeat(4, minmax(0, 1fr)); }
   .bus-corner, .bus-head, .bus-row { font-size: 9px; padding: 4px; }
 }

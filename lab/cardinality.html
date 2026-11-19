@@ -149,6 +149,8 @@
   const { $, el, clear, math } = Lab;
 
   const ROOM_COUNT = 10;
+  const BUS_ROWS = 4;
+  const BUS_SEATS = 4;
   const COLORS = {
     old: "#2856a3",
     new: "#26755a",
@@ -283,12 +285,23 @@
       }
       calloutText = "Два счётных множества вместе снова счётны. Новая бесконечность не появилась: чётные и нечётные номера это две копии N внутри одного N.";
     } else {
-      maxStep = 7;
+      maxStep = BUS_ROWS + BUS_SEATS - 1;
       localHint = "Автобусов счётно много. Каждая пара (автобус, место) получает свой номер комнаты.";
       sources = [];
-      note = currentStep === 0 ? "Ничего не размещено." : "Диагональ " + (currentStep - 1) + ": пары с одинаковой суммой получают комнаты.";
+      if (currentStep === 0) {
+        note = "Ничего не размещено.";
+      } else {
+        const diagonal = currentStep - 1;
+        const pairs = [];
+        for (let bus = 0; bus < BUS_ROWS; bus++) {
+          for (let seat = 1; seat <= BUS_SEATS; seat++) {
+            if (bus + seat - 1 === diagonal) pairs.push("B" + bus + "·" + seat + " → " + busRoom(bus, seat));
+          }
+        }
+        note = "Диагональ " + diagonal + ": " + pairs.join(", ") + ".";
+      }
       equationTex = "\\aleph_0 \\times \\aleph_0 = \\aleph_0";
-      formulaTex = "\\operatorname{room}(b,n) = \\pi(b,n-1) + 1";
+      formulaTex = "\\operatorname{room}(b,n) = \\frac{s(s+1)}{2} + b + 1, \\quad s = b+n-1";
       calloutText = "Старых жильцов можно отправить в чётные комнаты, а пары (автобус, место) в нечётные. Счётное объединение счётных множеств счётно: диагональная нумерация превращает двумерную таблицу в один список.";
     }
 
@@ -369,23 +382,22 @@
     return parts.join("");
   }
 
-  function busPairIndex(bus, seat) {
-    const i = bus;
-    const j = seat - 1;
-    return ((i + j) * (i + j + 1)) / 2 + j;
+  function busRoom(bus, seat) {
+    const s = bus + seat - 1;
+    return (s * (s + 1)) / 2 + bus + 1;
   }
 
   function renderBusGrid(state) {
     clear(stage);
-    const buses = 4;
-    const seats = 4;
+    const buses = BUS_ROWS;
+    const seats = BUS_SEATS;
     const grid = el("div", { class: "bus-grid" });
     grid.appendChild(el("div", { class: "bus-corner", text: "автобус \\ место" }));
     for (let seat = 1; seat <= seats; seat++) grid.appendChild(el("div", { class: "bus-head", text: "место " + seat }));
     for (let bus = 0; bus < buses; bus++) {
       grid.appendChild(el("div", { class: "bus-row", text: "B" + bus }));
       for (let seat = 1; seat <= seats; seat++) {
-        const room = busPairIndex(bus, seat) + 1;
+        const room = busRoom(bus, seat);
         const sum = bus + seat - 1;
         const diagonal = step - 1;
         const shown = step > 0 && sum <= diagonal;
@@ -401,23 +413,21 @@
     }
     stage.appendChild(grid);
 
+    const assignment = new Map();
+    for (let bus = 0; bus < buses; bus++) {
+      for (let seat = 1; seat <= seats; seat++) {
+        assignment.set(busRoom(bus, seat), { label: "B" + bus + "·" + seat, sum: bus + seat - 1 });
+      }
+    }
+    const diagonal = step - 1;
     const roomLane = el("div", { class: "bus-rooms" });
     for (let room = 1; room <= 10; room++) {
-      let label = "";
-      for (let bus = 0; bus < buses && !label; bus++) {
-        for (let seat = 1; seat <= seats && !label; seat++) {
-          if (busPairIndex(bus, seat) + 1 === room) label = "B" + bus + "·" + seat;
-        }
-      }
-      const isNew = label && step > 0 && (() => {
-        for (let bus = 0; bus < buses; bus++) for (let seat = 1; seat <= seats; seat++) {
-          if (busPairIndex(bus, seat) + 1 === room) return bus + seat - 1 === step - 1;
-        }
-        return false;
-      })();
-      roomLane.appendChild(el("div", { class: "bus-room-card" + (step > 0 && label ? " assigned" : "") + (isNew ? " current" : "") }, [
+      const info = assignment.get(room);
+      const assigned = step > 0 && info && info.sum <= diagonal;
+      const isNew = assigned && info.sum === diagonal;
+      roomLane.appendChild(el("div", { class: "bus-room-card" + (assigned ? " assigned" : "") + (isNew ? " current" : "") }, [
         el("small", { text: "комната " + room }),
-        el("b", { text: label || "…" }),
+        el("b", { text: assigned ? info.label : "…" }),
       ]));
     }
     stage.appendChild(el("p", { class: "hint", text: "Нижняя лента это окно комнат. В сетке показано, какая пара займёт комнату." }));
