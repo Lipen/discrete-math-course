@@ -21,7 +21,7 @@
 #let tile(body, width: 1.1cm, height: 1.05cm) = box(
   width: width,
   height: height,
-  align(center + horizon)[#body],
+  align(center + horizon, box(body)),
 )
 
 #let band(f, s, motifs, gutter: tile-gap, height: 1.05cm) = grid(
