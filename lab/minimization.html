@@ -268,8 +268,11 @@
     window.scrollTo(x, y);
     requestAnimationFrame(() => {
       window.scrollTo(x, y);
-      if (previousBehavior) root.style.scrollBehavior = previousBehavior;
-      else root.style.scrollBehavior = "";
+      requestAnimationFrame(() => {
+        window.scrollTo(x, y);
+        if (previousBehavior) root.style.scrollBehavior = previousBehavior;
+        else root.style.scrollBehavior = "";
+      });
     });
   }
 
