@@ -35,7 +35,7 @@
       $h = g circle.stroked.tiny f$,
       stroke: hi-stroke,
       pos: 0.5,
-      bend: -22deg,
+      bend: -32deg,
     )
   },
 )
@@ -115,7 +115,7 @@
       $g circle.stroked.tiny f$,
       stroke: hi-stroke,
       pos: 0.5,
-      bend: -22deg,
+      bend: -32deg,
     )
   },
 )
@@ -250,8 +250,8 @@
     arrow(<e>, <a>, $e$)
     arrow(<a>, <b>, $f$, side: right, bend: 14deg, pos: 0.3)
     arrow(<a>, <b>, $g$, side: left, bend: -14deg, pos: 0.7)
-    arrow(<x>, <a>, $h$, pos: 0.5)
-    arrow(<x>, <e>, $u$, stroke: d-stroke, pos: 0.5)
+    arrow(<x>, <a>, $h$, stroke: d-stroke, pos: 0.5)
+    arrow(<x>, <e>, $u$, stroke: hi-stroke, pos: 0.5)
   },
 )
 

@@ -143,7 +143,7 @@
 
 #figure(
   assoc-square,
-  caption: [Ассоциативность: $h circle.stroked.tiny (g circle.stroked.tiny f) = (h circle.stroked.tiny g) circle.stroked.tiny f$. Верхняя и правая стрелки дают одну дорогу, левая и нижняя --- другую.],
+  caption: [Ассоциативность композиции.],
 ) <fig:assoc-square>
 
 Композиция читается справа налево: $g circle.stroked.tiny f$ означает "сначала $f$, затем $g$" --- так же, как в записи $g(f(x))$ функция $f$ применяется первой.
@@ -234,13 +234,12 @@ impl<A> Monoid for Vec<A> {
   Ассоциативность здесь --- соглашение о скобках при конкатенации последовательностей, уже встречавшееся для списков в главе~@chap:algebra.
 
   Полученная категория называется _свободной_: в ней нет никаких соотношений между путями, кроме склейки концов --- каждый новый путь обязан появиться, и лишних не возникает.
-  На рисунке пунктирные стрелки --- исходные рёбра графа, сплошная дуга --- возникший путь-морфизм.
   Свободная категория графа из двух рёбер показана на рис.~@fig:free-cat.
 ]
 
 #figure(
   free-category,
-  caption: [Свободная категория графа: пунктир --- образующие рёбра, сплошная дуга --- новый путь $g circle.stroked.tiny f$.],
+  caption: [Свободная категория графа: пунктирные рёбра и новый путь.],
 ) <fig:free-cat>
 
 Из $A$ в $C$ ведёт новый морфизм $g circle.stroked.tiny f$ --- составной путь "пройти $f$, затем $g$".
@@ -276,7 +275,7 @@ hom-множества --- рабочая валюта всей главы: фу
 
 #figure(
   composition-triangle,
-  caption: [Треугольник композиции: две дороги из $A$ в $C$ дают одну стрелку $h = g circle.stroked.tiny f$.],
+  caption: [Треугольник композиции $h = g circle.stroked.tiny f$.],
 ) <fig:composition-triangle>
 
 #example[Коммутативность --- это равенство функций][
@@ -688,7 +687,7 @@ fn map<T, U>(xs: &[T], f: impl Fn(&T) -> U) -> Vec<U> {
 
 #figure(
   product-universal,
-  caption: [Универсальное свойство произведения: любая пара $f, g$ (пунктир) раскладывается через проекции единственной стрелкой $chevron.l f, g chevron.r$ (акцент).],
+  caption: [Универсальное свойство произведения.],
 ) <fig:product-universal>
 
 Самая экономная версия той же идеи --- объект, определяемый одним универсальным свойством без пар.
@@ -723,7 +722,7 @@ fn map<T, U>(xs: &[T], f: impl Fn(&T) -> U) -> Vec<U> {
 
 #figure(
   coproduct-universal,
-  caption: [Универсальное свойство копроизведения: любая пара $f: A -> X$, $g: B -> X$ (пунктир) пропускается через $A + B$ единственной стрелкой $[f, g]$ (акцент).],
+  caption: [Универсальное свойство копроизведения.],
 ) <fig:coproduct-universal>
 
 В $"Set"$ копроизведение --- дизъюнктное объединение с включениями $iota_1, iota_2$: чтобы задать функцию на нём, достаточно задать её на каждой из частей по отдельности.
@@ -814,7 +813,7 @@ fn map<T, U>(xs: &[T], f: impl Fn(&T) -> U) -> Vec<U> {
 
 #figure(
   cone-diagram,
-  caption: [Конус $N$ (пунктир) и предельный конус $lim D$ (акцент): стрелка $N -> lim D$ единственна.],
+  caption: [Конус $N$ и предельный конус $lim D$.],
 ) <fig:cone>
 
 Пределы узнаются в конструкциях всего курса:
@@ -837,7 +836,7 @@ fn map<T, U>(xs: &[T], f: impl Fn(&T) -> U) -> Vec<U> {
 
 #figure(
   equalizer-diagram,
-  caption: [Уравнитель: $f circle.stroked.tiny e = g circle.stroked.tiny e$. Для любой $h$ с $f circle.stroked.tiny h = g circle.stroked.tiny h$ существует единственная $u: X -> E$ с $e circle.stroked.tiny u = h$.],
+  caption: [Уравнитель пары $f, g$.],
 ) <fig:equalizer>
 
 #example[Уравнитель в $"Set"$][
@@ -858,7 +857,7 @@ fn map<T, U>(xs: &[T], f: impl Fn(&T) -> U) -> Vec<U> {
 
 #figure(
   pullback-square,
-  caption: [Расслоенное произведение: $f circle.stroked.tiny p_A = g circle.stroked.tiny p_B$. Любая пара $a, b$ с $f circle.stroked.tiny a = g circle.stroked.tiny b$ пропускается через $P$ единственной стрелкой.],
+  caption: [Расслоенное произведение стрелок $f$ и $g$.],
 ) <fig:pullback>
 
 #example[Расслоенное произведение в $"Set"$][
@@ -935,7 +934,7 @@ fn map<T, U>(xs: &[T], f: impl Fn(&T) -> U) -> Vec<U> {
 
 #figure(
   yoneda-square,
-  caption: [Квадрат естественности $alpha: cal(C)(A, -) => F$: $F (f) circle.stroked.tiny alpha_B = alpha_C circle.stroked.tiny cal(C)(A, f)$.],
+  caption: [Квадрат естественности $alpha: cal(C)(A, -) => F$.],
 ) <fig:yoneda-square>
 
 #proof[
@@ -1044,7 +1043,7 @@ $
 
 #figure(
   adjunction-triangles,
-  caption: [Треугольные тождества сопряжения: $epsilon F circle.stroked.tiny F eta = "id"_F$ и $G epsilon circle.stroked.tiny eta G = "id"_G$. Пунктир --- тождественная стрелка.],
+  caption: [Треугольные тождества сопряжения.],
 ) <fig:adjunction-triangles>
 
 #example[Свободный сопряжён к забывающему][
@@ -1083,7 +1082,7 @@ $
   Здесь и собирается категорная семантика простых типов: тип --- объект, функция --- стрелка, произведение типов --- $times$, а каррирование --- биекция сопряжения.
 ]
 
-Сопряжение не только задаёт биекцию множеств стрелок: оно переносит универсальные объекты через правую половину пары.
+Сопряжение задаёт биекцию множеств стрелок и переносит универсальные объекты через правую половину пары.
 Это подтверждает обещание из раздела~@sec:limits: у произведений, пересечений и прочих пределов одна общая причина.
 
 #proposition[Правый сопряжённый сохраняет пределы][
@@ -1163,7 +1162,7 @@ fn and_then<T, U, V>(
 
 #figure(
   monad-assoc,
-  caption: [Ассоциативность умножения монады: $mu circle.stroked.tiny T mu = mu circle.stroked.tiny mu T$.],
+  caption: [Ассоциативность умножения монады.],
 ) <fig:monad-assoc>
 
 Для монады `Option` единица оборачивает значение в `Some`, а умножение `join` сплющивает `Option<Option<T>>` в `Option<T>`: внешний `None` отказывает всё, внешний `Some(x)` оставляет внутреннее.
