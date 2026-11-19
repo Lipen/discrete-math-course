@@ -153,3 +153,54 @@
   draw.content((2.2, -0.22), text(size: s-cap, fill: c-muted)[$a$])
   draw.content((-0.22, 1.54), text(size: s-cap, fill: c-muted)[$b$])
 })
+
+// ── Кумулятивная иерархия ──
+#let cumulative-hierarchy = canvas({
+  let level(
+    min,
+    max,
+    label,
+    tag,
+    stroke: t-bd + c-bd,
+    fill: none,
+    label-fill: c-ink,
+    label-size: s-cap,
+    label-weight: "regular",
+  ) = {
+    draw.rect(min, max, name: tag, stroke: stroke, fill: fill, radius: 0.08)
+    draw.content(
+      (max.at(0) + 0.16, max.at(1) - 0.10),
+      text(size: label-size, fill: label-fill, weight: label-weight)[#label],
+      anchor: "west",
+    )
+  }
+
+  level(
+    (-0.5, -0.35),
+    (0.5, 0.35),
+    $V_0$,
+    "v0",
+    fill: c-fl.transparentize(75%),
+  )
+  level((-0.85, -0.7), (0.85, 0.7), $V_1$, "v1")
+  level((-1.2, -1.05), (1.2, 1.05), $V_2$, "v2")
+  level(
+    (-1.65, -1.45),
+    (1.65, 1.45),
+    $V_omega$,
+    "vomega",
+    stroke: (paint: c-edge, thickness: t-bd, dash: "dashed"),
+  )
+  level((-2.0, -1.8), (2.0, 1.8), $V_(omega+1)$, "vomega1")
+  level(
+    (-2.55, -2.2),
+    (2.55, 2.2),
+    $V_kappa$,
+    "vkappa",
+    stroke: t-hi + c-accent,
+    fill: c-accent.transparentize(94%),
+    label-fill: c-accent,
+    label-size: s-node,
+    label-weight: "bold",
+  )
+})
