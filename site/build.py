@@ -401,6 +401,9 @@ def main() -> int:
             linked += 1
     for name in ("theme.css", "ui.js", "icon.svg"):
         shutil.copy2(SITE / name, DIST / name)
+    lab_source = ROOT / "lab"
+    if lab_source.is_dir():
+        shutil.copytree(lab_source, DIST / "lab", dirs_exist_ok=True)
 
     tabs, sections = [], []
     for number, semester in enumerate(content["semesters"], start=1):
@@ -429,6 +432,7 @@ def main() -> int:
     tabs.append('<a href="#cheatsheets">Шпаргалки</a>')
     if content.get("legacy"):
         tabs.append('<a href="#legacy">Старые лекции</a>')
+    tabs.append('<a href="lab/">Лаборатории</a>')
 
     body = f"""<main id="main">
 <header class="hero">

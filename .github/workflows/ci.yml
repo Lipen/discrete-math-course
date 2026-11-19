@@ -240,7 +240,7 @@ jobs:
           python3 tools/gen-archive-index.py public/tex tex
 
       - name: Check site links
-        run: python3 tools/check-site-links.py public/index.html public/typst/index.html public/tex/index.html
+        run: python3 tools/check-site-links.py public/index.html public/lab/index.html public/lab/*.html public/typst/index.html public/tex/index.html
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
