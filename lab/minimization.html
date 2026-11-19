@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Минимизация · лаборатория</title>
-<link rel="stylesheet" href="lab.css">
+<link rel="stylesheet" href="lab.css?v=7">
 <link rel="stylesheet" href="vendor/katex/katex.min.css">
 </head>
 <body>
@@ -18,6 +18,7 @@
   <h1>Карта Карно и точный минимум</h1>
   <p class="lead">
     Расставьте единицы и безразличные наборы.
+    Переключайтесь между картой и таблицей истинности, между ДНФ и КНФ.
     Перечисляются простые импликанты, отмечаются обязательные и находится покрытие с наименьшим числом термов, а при равенстве с наименьшим числом литералов.
   </p>
 </header>
@@ -48,16 +49,32 @@
     </div>
 
     <p class="hint">
-      Клик по клетке меняет состояние: 0 → 1 → X → 0.
+      Клик по клетке переключает 0 и 1.
+      Shift+клик ставит X или возвращает 0.
       X это безразличный набор: его можно покрывать, но не обязательно.
     </p>
 
     <div class="kmap-layout">
       <div class="kmap-left">
-        <h3>Карта</h3>
-        <div class="map-wrap">
-          <div class="map" id="map"></div>
-          <div class="map-note" id="map-note"></div>
+        <div class="kmap-left-head">
+          <h3>Функция</h3>
+          <div class="segmented view-switch" id="view-tabs">
+            <button type="button" data-view="map" class="active">Карта</button>
+            <button type="button" data-view="truth">Таблица истинности</button>
+          </div>
+        </div>
+        <div id="map-view">
+          <div class="map-axis" id="map-axis"></div>
+          <div class="map-wrap">
+            <div class="map" id="map"></div>
+            <div class="map-note" id="map-note"></div>
+          </div>
+        </div>
+        <div id="truth-view" class="hidden">
+          <div class="truth-wrap">
+            <table class="data truth-table" id="truth-table"></table>
+          </div>
+          <p class="hint">Значения в последнем столбце можно менять кликом и Shift+кликом.</p>
         </div>
         <div class="legend" style="margin-top:8px">
           <span><span class="sw" style="background:#e8f0fb;border-color:#a9c1e4"></span>1</span>
@@ -66,11 +83,18 @@
         </div>
       </div>
       <div class="kmap-right">
-        <h3>Минимальная ДНФ</h3>
+        <div class="kmap-right-head">
+          <h3 id="result-title">Минимальная ДНФ</h3>
+          <div class="segmented form-switch" id="form-switch">
+            <button type="button" data-form="dnf" class="active">ДНФ</button>
+            <button type="button" data-form="cnf">КНФ</button>
+          </div>
+        </div>
         <div class="status" id="result"></div>
+        <div class="solution-nav hidden" id="solutions"></div>
         <div class="metric-row" id="metrics"></div>
         <p class="hint">Минимум точный: перебираются подмножества простых импликант, а не применяется эвристика.</p>
-        <h3 style="margin-top:18px">Простые импликанты</h3>
+        <h3 id="primes-title" style="margin-top:18px">Простые импликанты</h3>
         <div id="primes"></div>
       </div>
     </div>
@@ -83,6 +107,7 @@
         <h3>Клетки и склейки</h3>
         <p>Клетка это минтерм, соседние клетки отличаются одной переменной.
         Подсветка группы задаёт один терм, наведение на строку показывает покрытые клетки.
+        Переключатель ДНФ и КНФ решает, что группировать: единицы или нули.
         X можно включить в группу, но не обязательно покрывать.</p>
       </div>
       <div>
@@ -124,14 +149,24 @@
   let state = new Array(1 << n).fill(0);
   let primes = [];
   let lastResult = null;
+  let form = "dnf";
+  let solutionIndex = 0;
+  let currentView = "map";
 
   const arity = $("#arity");
   const preset = $("#preset");
   const mapNode = $("#map");
   const mapNote = $("#map-note");
+  const mapAxis = $("#map-axis");
   const primesNode = $("#primes");
   const resultNode = $("#result");
+  const resultTitle = $("#result-title");
+  const primesTitle = $("#primes-title");
   const metricsNode = $("#metrics");
+  const truthTable = $("#truth-table");
+  const solutionsNode = $("#solutions");
+  const viewTabs = $("#view-tabs");
+  const formSwitch = $("#form-switch");
 
   function markCustom() { preset.value = "custom"; }
 
@@ -153,6 +188,39 @@
     return parts.join(" \\cdot ");
   }
 
+  function targetValue() {
+    return form === "dnf" ? 1 : 0;
+  }
+
+  function clauseText(prime) {
+    if (prime.fixedMask === 0) return "0";
+    const literals = [];
+    for (let bit = 0; bit < n; bit++) {
+      if (!(prime.fixedMask & (1 << bit))) continue;
+      const name = vars[n - 1 - bit];
+      literals.push((prime.value & (1 << bit)) ? "\\neg " + name : name);
+    }
+    const body = literals.join(" \\lor ");
+    return literals.length > 1 ? "\\left( " + body + " \\right)" : body;
+  }
+
+  function axisVars() {
+    const layout = mapLayout(n);
+    const row = [];
+    const col = [];
+    for (let bit = n - 1; bit >= layout.colBits; bit--) row.push(vars[n - 1 - bit]);
+    for (let bit = layout.colBits - 1; bit >= 0; bit--) col.push(vars[n - 1 - bit]);
+    return { row, col };
+  }
+
+  function toggleMinterm(m, shift) {
+    const value = state[m];
+    state[m] = shift ? (value === 2 ? 0 : 2) : (value === 1 ? 0 : 1);
+    markCustom();
+    solutionIndex = 0;
+    renderAll();
+  }
+
   function coveredMinterms(prime) {
     const out = [];
     for (let m = 0; m < (1 << n); m++) {
@@ -164,6 +232,7 @@
   function cubeKey(fixedMask, value) { return fixedMask + ":" + value; }
 
   function findPrimes() {
+    const target = targetValue();
     const cubes = [];
     const seen = new Set();
 
@@ -188,8 +257,8 @@
       let hasOne = false;
       for (let m = 0; m < (1 << n); m++) {
         if ((m & cube.fixedMask) !== cube.value) continue;
-        if (state[m] === 0) { ok = false; break; }
-        if (state[m] === 1) hasOne = true;
+        if (state[m] !== target && state[m] !== 2) { ok = false; break; }
+        if (state[m] === target) hasOne = true;
       }
       if (ok && hasOne) {
         cube.covers = coveredMinterms(cube);
@@ -213,13 +282,22 @@
   }
 
   function computeMinimum() {
-    const ones = [];
-    for (let m = 0; m < (1 << n); m++) if (state[m] === 1) ones.push(m);
-    if (ones.length === 0) return { selected: [], terms: 0, literals: 0, expression: "0", essentials: new Set() };
-    if (primes.length === 0) return { selected: [], terms: 0, literals: 0, expression: "0", essentials: new Set() };
+    const target = targetValue();
+    const needed = [];
+    for (let m = 0; m < (1 << n); m++) if (state[m] === target) needed.push(m);
+
+    if (needed.length === 0) {
+      const expression = form === "dnf" ? "0" : "1";
+      const solution = { selected: [], terms: 0, literals: 0, mask: 0, expression };
+      return { selected: [], terms: 0, literals: 0, expression, solutions: [solution], solutionIndex: 0, essentials: new Set() };
+    }
+    if (primes.length === 0) {
+      const solution = { selected: [], terms: 0, literals: 0, mask: 0, expression: form === "dnf" ? "0" : "1" };
+      return { selected: [], terms: 0, literals: 0, expression: solution.expression, solutions: [solution], solutionIndex: 0, essentials: new Set() };
+    }
 
     const essentials = new Set();
-    for (const m of ones) {
+    for (const m of needed) {
       const covering = [];
       for (let i = 0; i < primes.length; i++) {
         if (primes[i].covers.includes(m)) covering.push(i);
@@ -227,11 +305,13 @@
       if (covering.length === 1) essentials.add(covering[0]);
     }
 
-    let best = null;
+    let bestTerms = Infinity;
+    let bestLiterals = Infinity;
+    let bestMasks = [];
     const total = 1 << primes.length;
     for (let mask = 1; mask < total; mask++) {
       let coversAll = true;
-      for (const m of ones) {
+      for (const m of needed) {
         let hit = false;
         for (let i = 0; i < primes.length; i++) {
           if ((mask & (1 << i)) && primes[i].covers.includes(m)) { hit = true; break; }
@@ -247,30 +327,54 @@
           literals += Lab.popcount(primes[i].fixedMask);
         }
       }
-      const candidate = { terms, literals, mask };
-      if (!best || terms < best.terms || (terms === best.terms && literals < best.literals)) {
-        best = candidate;
+      if (terms < bestTerms || (terms === bestTerms && literals < bestLiterals)) {
+        bestTerms = terms;
+        bestLiterals = literals;
+        bestMasks = [mask];
+      } else if (terms === bestTerms && literals === bestLiterals) {
+        bestMasks.push(mask);
       }
     }
 
-    if (!best) return { selected: [], terms: 0, literals: 0, expression: "0", essentials };
-    const selected = [];
-    for (let i = 0; i < primes.length; i++) if (best.mask & (1 << i)) selected.push(i);
-    const expression = selected.map((i) => termText(primes[i])).join(" \\lor ");
-    return { selected, terms: best.terms, literals: best.literals, expression, essentials };
+    if (!bestMasks.length) {
+      const solution = { selected: [], terms: 0, literals: 0, mask: 0, expression: form === "dnf" ? "0" : "1" };
+      return { selected: [], terms: 0, literals: 0, expression: solution.expression, solutions: [solution], solutionIndex: 0, essentials };
+    }
+
+    const solutions = bestMasks.map((mask) => {
+      const selected = [];
+      for (let i = 0; i < primes.length; i++) if (mask & (1 << i)) selected.push(i);
+      const expression = selected
+        .map((index) => form === "dnf" ? termText(primes[index]) : clauseText(primes[index]))
+        .join(form === "dnf" ? " \\lor " : " \\land ");
+      return { selected, terms: bestTerms, literals: bestLiterals, mask, expression };
+    });
+    const index = Math.min(solutionIndex, solutions.length - 1);
+    const chosen = solutions[index];
+    return { ...chosen, solutions, solutionIndex: index, essentials };
   }
 
   function renderMap() {
     clear(mapNode);
     const layout = mapLayout(n);
+    const axis = axisVars();
     const cols = layout.cols.length;
+    mapAxis.textContent = "Столбцы: " + axis.col.join("") + " · строки: " + axis.row.join("");
     mapNode.style.gridTemplateColumns = "64px repeat(" + cols + ", 64px)";
-    mapNode.appendChild(el("div", { class: "map-corner" }));
+    const corner = el("div", { class: "map-corner", text: axis.row.join("") + " / " + axis.col.join("") });
+    corner.title = "Строки: " + axis.row.join("") + ", столбцы: " + axis.col.join("");
+    mapNode.appendChild(corner);
     for (const c of layout.cols) {
-      mapNode.appendChild(el("div", { class: "map-head", text: bitsOf(c, layout.colBits).join("") }));
+      const bits = bitsOf(c, layout.colBits);
+      const head = el("div", { class: "map-head", text: bits.join("") });
+      head.title = axis.col.map((name, index) => name + "=" + bits[index]).join(", ");
+      mapNode.appendChild(head);
     }
     for (const r of layout.rows) {
-      mapNode.appendChild(el("div", { class: "map-rowhead", text: bitsOf(r, layout.rowBits).join("") }));
+      const bits = bitsOf(r, layout.rowBits);
+      const head = el("div", { class: "map-rowhead", text: bits.join("") });
+      head.title = axis.row.map((name, index) => name + "=" + bits[index]).join(", ");
+      mapNode.appendChild(head);
       for (const c of layout.cols) {
         const m = mintermOf(r, c, layout.colBits);
         const value = state[m];
@@ -278,21 +382,57 @@
         const cell = el("div", {
           class: "map-cell" + cls,
           "data-m": String(m),
+          role: "button",
+          tabindex: "0",
           "aria-label": "минтерм " + m + ", значение " + (value === 2 ? "X" : value),
         });
         cell.appendChild(el("span", { class: "idx", text: String(m) }));
         cell.appendChild(el("span", { class: "val", text: value === 2 ? "X" : String(value) }));
-        cell.addEventListener("click", () => {
-          state[m] = state[m] === 0 ? 1 : (state[m] === 1 ? 2 : 0);
-          markCustom();
-          renderAll();
+        cell.addEventListener("click", (event) => toggleMinterm(m, event.shiftKey));
+        cell.addEventListener("keydown", (event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            toggleMinterm(m, event.shiftKey);
+          }
         });
         mapNode.appendChild(cell);
       }
     }
-    mapNote.textContent = n === 4
+    const grouping = form === "dnf" ? "единицы" : "нули";
+    mapNote.textContent = (n === 4
       ? "Карта замкнута в тор: верхний край соседний с нижним, левый с правым."
-      : "Соседние клетки, включая противоположные края, отличаются одной переменной.";
+      : "Соседние клетки, включая противоположные края, отличаются одной переменной.")
+      + " Для " + (form === "dnf" ? "ДНФ" : "КНФ") + " группируются " + grouping + ".";
+  }
+
+  function renderTruth() {
+    clear(truthTable);
+    const thead = el("thead");
+    const headRow = el("tr");
+    for (const name of vars.slice(0, n)) headRow.appendChild(el("th", { text: name }));
+    headRow.appendChild(el("th", { text: "f" }));
+    thead.appendChild(headRow);
+    truthTable.appendChild(thead);
+    const tbody = el("tbody");
+    for (let m = 0; m < (1 << n); m++) {
+      const bits = bitsOf(m, n);
+      const row = el("tr");
+      for (const bit of bits) row.appendChild(el("td", { class: "mono", text: String(bit) }));
+      const value = state[m];
+      const cell = el("td");
+      const button = el("button", {
+        class: "truth-bit" + (value === 1 ? " v1" : value === 2 ? " vx" : ""),
+        type: "button",
+        "data-m": String(m),
+        "aria-label": "минтерм " + m + ", значение " + (value === 2 ? "X" : value),
+        text: value === 2 ? "X" : String(value),
+      });
+      button.addEventListener("click", (event) => toggleMinterm(m, event.shiftKey));
+      cell.appendChild(button);
+      row.appendChild(cell);
+      tbody.appendChild(row);
+    }
+    truthTable.appendChild(tbody);
   }
 
   function highlightPrime(index, on) {
@@ -440,14 +580,17 @@
   function renderPrimes(result) {
     clear(primesNode);
     if (primes.length === 0) {
-      primesNode.appendChild(el("p", { class: "muted", text: "Простых импликант нет: функция равна нулю." }));
+      const message = form === "dnf"
+        ? "Простых импликант нет: функция равна нулю."
+        : "Клауз нет: функция равна единице.";
+      primesNode.appendChild(el("p", { class: "muted", text: message }));
       return;
     }
     const table = el("table", { class: "data" });
     const thead = el("thead");
     thead.appendChild(el("tr", {}, [
-      el("th", { class: "left", text: "терм" }),
-      el("th", { class: "left", text: "покрывает" }),
+      el("th", { class: "left", text: form === "dnf" ? "терм" : "клауза" }),
+      el("th", { class: "left", text: form === "dnf" ? "покрывает" : "покрывает нули" }),
       el("th", { text: "лит." }),
       el("th", { class: "left", text: "статус" }),
     ]));
@@ -462,7 +605,7 @@
       termCell.appendChild(el("span", {
         style: "display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:7px;background:" + colors[i % colors.length],
       }));
-      termCell.appendChild(Lab.math(termText(p)));
+      termCell.appendChild(Lab.math(form === "dnf" ? termText(p) : clauseText(p)));
       row.appendChild(termCell);
       row.appendChild(el("td", { class: "left mono small", text: p.covers.join(", ") }));
       row.appendChild(el("td", { class: "mono", text: String(Lab.popcount(p.fixedMask)) }));
@@ -479,23 +622,23 @@
     primesNode.appendChild(table);
   }
 
-  function renderResult() {
-    const result = computeMinimum();
-    resultNode.className = "status " + (result.terms === 0 ? "warn" : "ok");
-    if (result.terms === 0) {
-      resultNode.replaceChildren(Lab.math("f = 0", false));
+  function renderResult(result) {
+    const isConstant = result.terms === 0;
+    resultNode.className = "status " + (isConstant ? (form === "dnf" ? "warn" : "ok") : "ok");
+    if (isConstant) {
+      resultNode.replaceChildren(Lab.math(form === "dnf" ? "f = 0" : "f = 1", false));
     } else {
       const line = el("div", { class: "formula-line" });
       line.appendChild(el("span", { class: "formula-prefix" }, Lab.math("f =", false)));
       result.selected.forEach((primeIndex, position) => {
-        if (position > 0) line.appendChild(el("span", { class: "formula-or" }, Lab.math("\\lor", false)));
+        if (position > 0) line.appendChild(el("span", { class: "formula-or" }, Lab.math(form === "dnf" ? "\\lor" : "\\land", false)));
         const term = el("span", {
           class: "formula-term",
           "data-prime": String(primeIndex),
           tabindex: "0",
         });
         term.style.setProperty("--term-color", colors[primeIndex % colors.length]);
-        term.appendChild(Lab.math(termText(primes[primeIndex]), false));
+        term.appendChild(Lab.math(form === "dnf" ? termText(primes[primeIndex]) : clauseText(primes[primeIndex]), false));
         term.addEventListener("mouseenter", () => highlightPrime(primeIndex, true));
         term.addEventListener("mouseleave", () => highlightPrime(primeIndex, false));
         term.addEventListener("focus", () => highlightPrime(primeIndex, true));
@@ -506,24 +649,99 @@
     }
     metricsNode.innerHTML = "";
     metricsNode.appendChild(el("div", { class: "metric" }, [
-      el("span", { class: "k", text: "термов" }), el("span", { class: "v", text: String(result.terms) }),
+      el("span", { class: "k", text: form === "dnf" ? "термов" : "клауз" }),
+      el("span", { class: "v", text: String(result.terms) }),
     ]));
     metricsNode.appendChild(el("div", { class: "metric" }, [
-      el("span", { class: "k", text: "литералов" }), el("span", { class: "v", text: String(result.literals) }),
+      el("span", { class: "k", text: "литералов" }),
+      el("span", { class: "v", text: String(result.literals) }),
     ]));
     metricsNode.appendChild(el("div", { class: "metric" }, [
-      el("span", { class: "k", text: "простых" }), el("span", { class: "v", text: String(primes.length) }),
+      el("span", { class: "k", text: "простых" }),
+      el("span", { class: "v", text: String(primes.length) }),
     ]));
-    return result;
   }
 
-  function renderAll() {
+  function renderSolutions(result) {
+    clear(solutionsNode);
+    if (!result.solutions || result.solutions.length <= 1) {
+      solutionsNode.classList.add("hidden");
+      return;
+    }
+    solutionsNode.classList.remove("hidden");
+    solutionsNode.appendChild(el("div", {
+      class: "solution-meta",
+      text: "Вариант " + (result.solutionIndex + 1) + " из " + result.solutions.length,
+    }));
+    if (result.solutions.length <= 12) {
+      const strip = el("div", { class: "solution-strip", role: "tablist", "aria-label": "Равноценные минимальные варианты" });
+      result.solutions.forEach((solution, index) => {
+        const dot = el("button", {
+          class: "solution-dot" + (index === result.solutionIndex ? " active" : ""),
+          type: "button",
+          role: "tab",
+          "aria-selected": index === result.solutionIndex ? "true" : "false",
+          "aria-label": "Вариант " + (index + 1),
+          title: "Вариант " + (index + 1),
+          text: String(index + 1),
+        });
+        dot.addEventListener("click", () => {
+          solutionIndex = index;
+          renderAll(true);
+        });
+        strip.appendChild(dot);
+      });
+      solutionsNode.appendChild(strip);
+    } else {
+      const select = el("select", { class: "solution-select", "aria-label": "Равноценные минимальные варианты" });
+      result.solutions.forEach((solution, index) => {
+        select.appendChild(el("option", {
+          value: String(index),
+          text: "Вариант " + (index + 1),
+          selected: index === result.solutionIndex ? "selected" : undefined,
+        }));
+      });
+      select.addEventListener("change", () => {
+        solutionIndex = Number(select.value);
+        renderAll(true);
+      });
+      solutionsNode.appendChild(select);
+    }
+  }
+
+  function renderAll(keepSolution) {
+    if (!keepSolution) solutionIndex = 0;
+    resultTitle.textContent = form === "dnf" ? "Минимальная ДНФ" : "Минимальная КНФ";
+    primesTitle.textContent = form === "dnf" ? "Простые импликанты" : "Простые импликаты";
     primes = findPrimes();
     renderMap();
-    const result = renderResult();
+    renderTruth();
+    const result = computeMinimum();
+    solutionIndex = result.solutionIndex;
+    renderResult(result);
     renderPrimes(result);
+    renderSolutions(result);
     renderFrames(result);
     lastResult = result;
+  }
+
+  function setView(view) {
+    currentView = view;
+    for (const button of viewTabs.querySelectorAll("button")) button.classList.toggle("active", button.dataset.view === view);
+    $("#map-view").classList.toggle("hidden", view !== "map");
+    $("#truth-view").classList.toggle("hidden", view !== "truth");
+    if (view === "map") {
+      requestAnimationFrame(() => { if (lastResult) renderFrames(lastResult); });
+    } else {
+      renderTruth();
+    }
+  }
+
+  function setForm(next) {
+    form = next;
+    solutionIndex = 0;
+    for (const button of formSwitch.querySelectorAll("button")) button.classList.toggle("active", button.dataset.form === form);
+    renderAll();
   }
 
   function applyPreset(name) {
@@ -547,6 +765,16 @@
     if (preset.value !== "custom") applyPreset(preset.value);
   });
 
+  viewTabs.addEventListener("click", (event) => {
+    const button = event.target.closest("button[data-view]");
+    if (button) setView(button.dataset.view);
+  });
+
+  formSwitch.addEventListener("click", (event) => {
+    const button = event.target.closest("button[data-form]");
+    if (button) setForm(button.dataset.form);
+  });
+
   $("#zero").addEventListener("click", () => {
     state = state.map(() => 0);
     markCustom();
@@ -563,6 +791,7 @@
     if (lastResult && mapNode.querySelector(".map-cell")) renderFrames(lastResult);
   });
 
+  setView("map");
   applyPreset("maj3");
 })();
 </script>

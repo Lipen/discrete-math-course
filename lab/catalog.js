@@ -82,7 +82,7 @@
       tags: ["CNF", "DPLL", "откат"],
     },
     {
-      id: "minimization", file: "minimization.html", module: "boolean", mark: "K",
+      id: "minimization", file: "minimization.html?v=2", module: "boolean", mark: "K",
       topic: "Минимизация",
       title: "Сожми карту Карно",
       blurb: "Расставьте единицы и безразличные наборы, получите простые импликанты и точный минимум ДНФ.",
