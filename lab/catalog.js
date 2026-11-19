@@ -68,7 +68,7 @@
       tags: ["биекция", "N×N", "диагональ"],
     },
     {
-      id: "deduction", file: "deduction.html", module: "logic", mark: "⊢",
+      id: "deduction", file: "deduction.html?v=4", module: "logic", mark: "⊢",
       topic: "Натуральная дедукция",
       title: "Собери вывод",
       blurb: "Строка за строкой собирайте вывод: выбирайте правило, ссылайтесь на номера, открывайте подвывод. Проверка ловит неверный шаг.",

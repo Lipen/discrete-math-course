@@ -4,101 +4,73 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Натуральная дедукция · лаборатория</title>
-<link rel="stylesheet" href="lab.css">
+<link rel="stylesheet" href="lab.css?v=4">
 <link rel="stylesheet" href="vendor/katex/katex.min.css">
 </head>
-<body>
+<body class="fitch-page">
 <header class="lab-header">
   <nav class="lab-nav">
     <a href="index.html">← Все лаборатории</a>
     <span class="sep">/</span>
     <span class="here">Натуральная дедукция</span>
   </nav>
-  <p class="eyebrow">Натуральная дедукция</p>
   <h1>Соберите вывод в стиле Фитча</h1>
   <p class="lead">
     Посылки и цель фиксированы.
-    Добавляйте строки, выбирайте правило и ссылайтесь на предыдущие номера.
-    Каждая строка проверяется по схеме правила, глубина подвывода контролируется.
+    Наведите на строку, чтобы вставить новую строку выше или ниже, открыть лемму, изменить строку или удалить её.
+    Проверка идёт сразу, пока вы заполняете строку.
   </p>
-  <div class="lab-meta">
-    <span class="pill info">Фитч</span>
-    <span class="pill">правила</span>
-    <span class="pill">подвывод</span>
-  </div>
 </header>
 
 <main class="lab-main">
-  <section class="card">
-    <div class="toolbar">
-      <label class="field grow">Упражнение
+  <section class="card proof-card">
+    <div class="proof-top">
+      <label class="field proof-exercise">Упражнение
         <select id="exercise"></select>
       </label>
+      <div class="proof-count" id="proof-count" aria-live="polite"></div>
     </div>
-    <div class="formula-box" id="goal"></div>
-
-    <div class="proof-table-wrap" style="margin-top:14px">
-      <table class="proof-table" id="proof"></table>
-    </div>
-    <div class="status" id="status" style="margin-top:10px"></div>
-    <div class="btn-row" style="margin-top:8px">
-      <button id="check" class="active">Проверить</button>
-      <button id="undo">Удалить последнюю</button>
+    <div class="goal-strip" id="goal"></div>
+    <p class="proof-help">
+      Наведите на строку или откройте меню строки справа.
+      Кнопка <b>Лемма</b> открывает именованный подвывод.
+      Закрывайте его строкой на уровень выше с правилом <b>→I</b>, <b>¬I</b> или <b>RAA</b>.
+      Поддержаны <b>∧I/E</b>, <b>∨I</b>, <b>→I/E</b>, <b>¬I/E</b>, <b>⊥E</b>, <b>↔E</b> и <b>RAA</b>.
+      <b>∨E</b> и <b>↔I</b> остаются письменной работой.
+    </p>
+    <div class="fitch-board" id="proof" role="region" aria-label="Вывод в стиле Фитча"></div>
+    <div class="status" id="status" role="status" aria-live="polite" style="margin-top:10px"></div>
+    <div class="proof-footer">
+      <button id="add-row" class="active">Добавить строку</button>
+      <button id="add-lemma">Добавить лемму</button>
+      <span class="proof-footer-spacer"></span>
+      <button id="undo" disabled>Отменить</button>
       <button id="reset">Сброс</button>
     </div>
   </section>
 
   <section class="card">
-    <h2>Добавить строку</h2>
-    <div class="toolbar">
-      <label class="field">Глубина
-        <select id="depth">
-          <option value="0">0 · основной</option>
-          <option value="1">1 · подвывод</option>
-          <option value="2">2 · вложенный</option>
-        </select>
-      </label>
-      <label class="field grow">Формула
-        <input id="formula" class="formula-input" placeholder="например, A → B" spellcheck="false" autocomplete="off">
-      </label>
-      <label class="field">Правило
-        <select id="rule"></select>
-      </label>
-      <label class="field">Ссылки
-        <input id="refs" class="formula-input" placeholder="1,2 или 3-5" style="width:130px" spellcheck="false" autocomplete="off">
-      </label>
-      <button id="add" class="active">Добавить</button>
-    </div>
-    <p class="hint">
-      Для <b>→I</b>, <b>¬I</b> и <b>RAA</b> в ссылках указывается диапазон подвывода, например <span class="kbd">3-5</span>.
-      Допущение открывает подвывод, его глубина на единицу больше глубины вывода.
-      В этой версии поддержаны <b>∧I/E</b>, <b>∨I</b>, <b>→I/E</b>, <b>¬I/E</b>, <b>⊥E</b>, <b>↔E</b> и <b>RAA</b>.
-      <b>∨E</b> и <b>↔I</b> требуют двух подвыводов и оставлены для письменной работы.
-    </p>
-  </section>
-
-  <section class="card">
-    <h2>Что здесь показано</h2>
+    <h2>Как устроен вывод</h2>
     <div class="theory-grid">
       <div>
         <h3>Введение и устранение</h3>
         <p>Каждая связка имеет правила введения и устранения.
-        Например, <span data-tex="\land I"></span> собирает конъюнкцию, а <span data-tex="\land E"></span> достаёт из неё часть.</p>
+        <span data-tex="\land I"></span> собирает конъюнкцию, <span data-tex="\land E"></span> достаёт из неё часть.</p>
       </div>
       <div>
         <h3>Подвывод</h3>
         <p>Допущение открывает подвывод.
-        Стрелка вводится, когда из допущения <span data-tex="\varphi"></span> получено <span data-tex="\psi"></span>.</p>
+        Строки внутри остаются на его глубине, а закрывающая строка возвращается на уровень выше.</p>
       </div>
       <div>
-        <h3>Отрицание</h3>
-        <p>Противоречие <span data-tex="\bot"></span> закрывает ветку.
-        Из противоречия можно вывести что угодно, а из допущения, ведущего к противоречию, получается отрицание.</p>
+        <h3>Леммы</h3>
+        <p>Лемма открывает именованный подвывод.
+        Она помогает разбить длинное рассуждение на независимые куски, не меняя номера строк.</p>
       </div>
       <div>
         <h3>Проверка</h3>
-        <p>Каждая добавленная строка проверяется по схеме правила.
-        Цель достигнута, когда на глубине 0 появилась её формула.</p>
+        <p>Каждая строка проверяется по схеме правила автоматически.
+        Цель достигнута, когда её формула выведена на глубине 0 без ошибок.</p>
       </div>
     </div>
   </section>
@@ -115,7 +87,7 @@
 <script>
 (function () {
   "use strict";
-  const { $, el, clear } = Lab;
+  const { $, el, clear, svg } = Lab;
 
   const exercises = [
     { title: "modus ponens", premises: ["A → B", "A"], goal: "B" },
@@ -142,20 +114,33 @@
     { id: "raa", label: "RAA" },
   ];
 
+  const ruleById = new Map(rules.map((rule) => [rule.id, rule]));
   let current = null;
   let lines = [];
+  let history = [];
+  let composer = null;
+  let openMenu = null;
 
   const exerciseSelect = $("#exercise");
   const goalNode = $("#goal");
   const proofNode = $("#proof");
   const statusNode = $("#status");
-  const depthSelect = $("#depth");
-  const formulaInput = $("#formula");
-  const ruleSelect = $("#rule");
-  const refsInput = $("#refs");
+  const countNode = $("#proof-count");
 
   exercises.forEach((exercise, index) => exerciseSelect.appendChild(el("option", { value: String(index), text: exercise.title + "   ⊢ " + exercise.goal })));
-  rules.forEach((rule) => ruleSelect.appendChild(el("option", { value: rule.id, text: rule.label })));
+  function cloneLines() {
+    return lines.map((line) => ({ ...line, refs: line.refs.slice() }));
+  }
+
+  function pushHistory() {
+    history.push(cloneLines());
+    if (history.length > 60) history.shift();
+    updateUndo();
+  }
+
+  function updateUndo() {
+    $("#undo").disabled = history.length === 0;
+  }
 
   function parse(text) {
     return Logic.parse(text);
@@ -165,46 +150,26 @@
     return JSON.stringify(a) === JSON.stringify(b);
   }
 
-  function lineAst(line) {
-    return line.ast;
-  }
-
   function texOf(line) {
     return Logic.toTex(line.ast);
   }
 
-  function renderGoal() {
-    const parts = current.premises.map((text) => Logic.toTex(parse(text)));
-    goalNode.replaceChildren(Lab.math((parts.length ? parts.join(",\\; ") + "\\;\\vdash\\; " : "\\vdash\\; ") + Logic.toTex(parse(current.goal)), false));
+  function refsLabel(refs) {
+    if (!refs || !refs.length) return "·";
+    const parts = [];
+    let start = refs[0];
+    let prev = refs[0];
+    for (let i = 1; i < refs.length; i++) {
+      const value = refs[i];
+      if (value === prev + 1) { prev = value; continue; }
+      parts.push(start === prev ? String(start) : start + "-" + prev);
+      start = prev = value;
+    }
+    parts.push(start === prev ? String(start) : start + "-" + prev);
+    return parts.join(", ");
   }
 
-  function renderProof(marks) {
-    clear(proofNode);
-    const head = el("tr");
-    head.appendChild(el("th", { text: "#" }));
-    head.appendChild(el("th", { text: "формула" }));
-    head.appendChild(el("th", { text: "правило" }));
-    head.appendChild(el("th", { text: "ссылки" }));
-    const thead = el("thead");
-    thead.appendChild(head);
-    proofNode.appendChild(thead);
-    const body = el("tbody");
-    lines.forEach((line, index) => {
-      const tr = el("tr", { class: line.rule === "assumption" ? "assumption" : "" });
-      tr.appendChild(el("td", { class: "num", text: String(index + 1) }));
-      const formulaCell = el("td", { style: "padding-left:" + (10 + line.depth * 18) + "px" });
-      formulaCell.appendChild(Lab.math(texOf(line), false));
-      tr.appendChild(formulaCell);
-      const ruleLabel = line.rule === "premise" ? "посылка" : (rules.find((rule) => rule.id === line.rule)?.label || line.rule);
-      tr.appendChild(el("td", { text: ruleLabel }));
-      tr.appendChild(el("td", { class: "mono", text: line.refsText || "" }));
-      if (marks && marks[index] === false) tr.classList.add("invalid");
-      body.appendChild(tr);
-    });
-    proofNode.appendChild(body);
-  }
-
-  function expandRefs(text) {
+  function parseRefs(text) {
     const out = [];
     for (const token of String(text || "").split(",").map((item) => item.trim()).filter(Boolean)) {
       if (token.includes("-")) {
@@ -220,99 +185,117 @@
     return out;
   }
 
-  function parseRefs(text, count) {
-    const out = expandRefs(text);
-    if (out.length !== count) throw new Error("Нужно ссылок: " + count + ".");
-    return out;
+  function contiguous(refs) {
+    for (let i = 1; i < refs.length; i++) if (refs[i] !== refs[i - 1] + 1) return false;
+    return true;
   }
 
   function validate(candidate, previous) {
     const ast = parse(candidate.formula);
     const depth = Number(candidate.depth);
-    const refsText = candidate.refsText || "";
+    const refs = candidate.refs || [];
+    function source(number) {
+      if (!Number.isInteger(number) || number < 1 || number > previous.length) throw new Error("Ссылка на несуществующую строку.");
+      return previous[number - 1];
+    }
+    function need(count) {
+      if (refs.length !== count) throw new Error("Нужно ссылок: " + count + ".");
+      return refs.map(source);
+    }
+    function accessible(number, sourceLine) {
+      for (let i = number; i < previous.length; i++) {
+        if (previous[i].depth < sourceLine.depth) throw new Error("Ссылка на строку " + number + " уже закрыта: подвывод закончился раньше.");
+      }
+      if (depth < sourceLine.depth) throw new Error("Нельзя ссылаться на строку " + number + " из закрытого подвывода.");
+      return sourceLine;
+    }
+    function needAccessible(count) {
+      if (refs.length !== count) throw new Error("Нужно ссылок: " + count + ".");
+      return refs.map((number) => {
+        const line = source(number);
+        return accessible(number, line);
+      });
+    }
+    function hasOpenAssumption(targetDepth) {
+      for (let i = previous.length - 1; i >= 0; i--) {
+        if (previous[i].depth < targetDepth) return false;
+        if (previous[i].depth === targetDepth && previous[i].rule === "assumption") return true;
+      }
+      return false;
+    }
+    if (depth > 0) {
+      if (candidate.rule === "assumption") {
+        if (depth > 1 && !hasOpenAssumption(depth - 1)) throw new Error("Сначала откройте внешний подвывод.");
+      } else if (!hasOpenAssumption(depth)) {
+        throw new Error("На глубине " + depth + " нет открытого допущения.");
+      }
+    }
     if (candidate.rule === "assumption") {
-      if (refsText.trim()) throw new Error("У допущения не бывает ссылок.");
+      if (refs.length) throw new Error("У допущения не бывает ссылок.");
       if (depth < 1) throw new Error("Допущение должно быть в подвыводе, глубина хотя бы 1.");
       return { ast };
     }
     if (candidate.rule === "reiterate") {
-      const [ref] = parseRefs(refsText, 1);
-      if (ref > previous.length) throw new Error("Ссылка на несуществующую строку.");
-      if (depth < previous[ref - 1].depth) throw new Error("Повтор нельзя вынести из подвывода.");
-      if (!same(lineAst(previous[ref - 1]), ast)) throw new Error("Повтор должен совпадать с указанной формулой.");
+      const [one] = needAccessible(1);
+      if (!same(one.ast, ast)) throw new Error("Повтор должен совпадать с указанной формулой.");
       return { ast };
     }
     if (candidate.rule === "andi") {
-      const [a, b] = parseRefs(refsText, 2);
-      const left = previous[a - 1], right = previous[b - 1];
-      if (!left || !right) throw new Error("Ссылка на несуществующую строку.");
+      const [left, right] = needAccessible(2);
       if (!same(ast, { type: "and", a: left.ast, b: right.ast })) throw new Error("Заключение должно быть конъюнкцией указанных формул.");
       return { ast };
     }
     if (candidate.rule === "ande") {
-      const [ref] = parseRefs(refsText, 1);
-      const source = previous[ref - 1];
-      if (!source || source.ast.type !== "and") throw new Error("Нужна ссылка на конъюнкцию.");
-      if (!same(ast, source.ast.a) && !same(ast, source.ast.b)) throw new Error("Из конъюнкции выводится только её часть.");
+      const [sourceLine] = needAccessible(1);
+      if (sourceLine.ast.type !== "and") throw new Error("Нужна ссылка на конъюнкцию.");
+      if (!same(ast, sourceLine.ast.a) && !same(ast, sourceLine.ast.b)) throw new Error("Из конъюнкции выводится только её часть.");
       return { ast };
     }
     if (candidate.rule === "ori") {
-      const [ref] = parseRefs(refsText, 1);
-      const source = previous[ref - 1];
-      if (!source) throw new Error("Ссылка на несуществующую строку.");
-      const ok = ast.type === "or" && (same(source.ast, ast.a) || same(source.ast, ast.b));
+      const [sourceLine] = needAccessible(1);
+      const ok = ast.type === "or" && (same(sourceLine.ast, ast.a) || same(sourceLine.ast, ast.b));
       if (!ok) throw new Error("Заключение должно быть дизъюнкцией с указанной формулой.");
       return { ast };
     }
     if (candidate.rule === "implE") {
-      const [a, b] = parseRefs(refsText, 2);
-      const one = previous[a - 1], two = previous[b - 1];
-      if (!one || !two) throw new Error("Ссылка на несуществующую строку.");
-      let impl = null, antecedent = null;
-      if (one.ast.type === "impl" && same(two.ast, one.ast.a)) { impl = one.ast; antecedent = two.ast; }
-      if (two.ast.type === "impl" && same(one.ast, two.ast.a)) { impl = two.ast; antecedent = one.ast; }
+      const [one, two] = needAccessible(2);
+      let impl = null;
+      if (one.ast.type === "impl" && same(two.ast, one.ast.a)) impl = one.ast;
+      if (two.ast.type === "impl" && same(one.ast, two.ast.a)) impl = two.ast;
       if (!impl) throw new Error("Нужны импликация и её посылка.");
       if (!same(ast, impl.b)) throw new Error("Заключение должно быть следствием импликации.");
       return { ast };
     }
     if (candidate.rule === "notE") {
-      const [a, b] = parseRefs(refsText, 2);
-      const one = previous[a - 1], two = previous[b - 1];
-      if (!one || !two) throw new Error("Ссылка на несуществующую строку.");
-      const contradiction = ast.type === "const" && ast.value === false;
-      if (!contradiction) throw new Error("¬E даёт ⊥.");
+      const [one, two] = needAccessible(2);
+      if (!(ast.type === "const" && ast.value === false)) throw new Error("¬E даёт ⊥.");
       const neg = one.ast.type === "not" ? one.ast : (two.ast.type === "not" ? two.ast : null);
-      const other = neg === (one.ast) ? two.ast : one.ast;
+      const other = neg === one.ast ? two.ast : one.ast;
       if (!neg || !same(neg.a, other)) throw new Error("Нужны формула и её отрицание.");
       return { ast };
     }
     if (candidate.rule === "botE") {
-      const [ref] = parseRefs(refsText, 1);
-      const source = previous[ref - 1];
-      if (!source || source.ast.type !== "const" || source.ast.value !== false) throw new Error("⊥E требует ⊥.");
+      const [sourceLine] = needAccessible(1);
+      if (sourceLine.ast.type !== "const" || sourceLine.ast.value !== false) throw new Error("⊥E требует ⊥.");
       return { ast };
     }
     if (candidate.rule === "iffE") {
-      const [ref] = parseRefs(refsText, 1);
-      const source = previous[ref - 1];
-      if (!source || source.ast.type !== "iff") throw new Error("↔E требует ссылку на эквивалентность.");
-      const ok = ast.type === "impl" && ((same(ast.a, source.ast.a) && same(ast.b, source.ast.b)) || (same(ast.a, source.ast.b) && same(ast.b, source.ast.a)));
+      const [sourceLine] = needAccessible(1);
+      if (sourceLine.ast.type !== "iff") throw new Error("↔E требует ссылку на эквивалентность.");
+      const ok = ast.type === "impl" && ((same(ast.a, sourceLine.ast.a) && same(ast.b, sourceLine.ast.b)) || (same(ast.a, sourceLine.ast.b) && same(ast.b, sourceLine.ast.a)));
       if (!ok) throw new Error("Из φ↔ψ выводится φ→ψ или ψ→φ.");
       return { ast };
     }
     if (candidate.rule === "implI" || candidate.rule === "notI" || candidate.rule === "raa") {
-      const refs = expandRefs(refsText);
       if (!refs.length) throw new Error("Укажите диапазон подвывода, например 3-5.");
-      const firstRef = refs[0];
-      const lastRef = refs[refs.length - 1];
-      if (firstRef > lastRef) throw new Error("Диапазон ссылок перевёрнут.");
-      const start = previous[firstRef - 1];
-      const end = previous[lastRef - 1];
-      if (!start || !end) throw new Error("Ссылка на несуществующую строку.");
+      if (!contiguous(refs)) throw new Error("Диапазон подвывода должен идти подряд.");
+      const start = source(refs[0]);
+      const end = source(refs[refs.length - 1]);
+      if (end !== previous[previous.length - 1]) throw new Error("Подвывод должен заканчиваться прямо перед этой строкой.");
       if (start.rule !== "assumption") throw new Error("Подвывод должен начинаться с допущения.");
       if (start.depth !== depth + 1 || end.depth !== depth + 1) throw new Error("Глубина подвывода не совпадает.");
-      for (let i = firstRef; i <= lastRef; i++) {
-        if (!previous[i - 1] || previous[i - 1].depth < depth + 1) throw new Error("Подвывод выходит за свою глубину.");
+      for (const ref of refs) {
+        if (source(ref).depth < depth + 1) throw new Error("Подвывод выходит за свою глубину.");
       }
       if (candidate.rule === "implI") {
         if (ast.type !== "impl" || !same(ast.a, start.ast) || !same(ast.b, end.ast)) throw new Error("→I: из допущения φ и вывода ψ получается φ → ψ.");
@@ -328,67 +311,561 @@
     throw new Error("Неизвестное правило.");
   }
 
-  function addLine() {
-    if (!current) return;
-    const candidate = {
-      formula: formulaInput.value,
-      rule: ruleSelect.value,
-      refsText: refsInput.value,
-      depth: Number(depthSelect.value),
+  function analyzeLines() {
+    return lines.map((line, index) => {
+      if (line.rule === "premise") return { ok: true };
+      try {
+        validate({ formula: line.formula, rule: line.rule, refs: line.refs, depth: line.depth }, lines.slice(0, index));
+        return { ok: true };
+      } catch (error) {
+        return { ok: false, error: error.message };
+      }
+    });
+  }
+
+  function goalAst() {
+    return parse(current.goal);
+  }
+
+  function renderGoal() {
+    clear(goalNode);
+    goalNode.appendChild(el("span", { class: "goal-label", text: "Цель" }));
+    const premises = current.premises.map((text) => Logic.toTex(parse(text)));
+    const tex = (premises.length ? premises.join(",\\; ") + "\\;\\vdash\\; " : "\\vdash\\; ") + Logic.toTex(goalAst());
+    goalNode.appendChild(Lab.math(tex, false));
+  }
+
+  function subproofEnd(index) {
+    const depth = lines[index].depth;
+    let end = index;
+    for (let i = index + 1; i < lines.length && lines[i].depth >= depth; i++) end = i;
+    return end;
+  }
+
+  function ruleLabel(line) {
+    return line.rule === "premise" ? "посылка" : (ruleById.get(line.rule)?.label || line.rule);
+  }
+
+  function lineDepthBars(depth) {
+    const box = el("span", { class: "fitch-indent", "aria-hidden": "true" });
+    for (let i = 0; i < depth; i++) box.appendChild(el("span", { class: "fitch-bar" }));
+    return box;
+  }
+
+  function actionButton(label, action, index, extraClass) {
+    return el("button", {
+      class: "fitch-action" + (extraClass ? " " + extraClass : ""),
+      type: "button",
+      "data-action": action,
+      "data-index": String(index),
+      text: label,
+    });
+  }
+
+  function menuIcon() {
+    return svg("svg", { viewBox: "0 0 16 16", width: "16", height: "16", "aria-hidden": "true", focusable: "false" }, [
+      svg("path", { d: "M3 5.5h10M3 8h10M3 10.5h10", fill: "none", stroke: "currentColor", "stroke-width": "1.4", "stroke-linecap": "round" }),
+    ]);
+  }
+
+  function lineActions(line, index) {
+    const box = el("div", { class: "fitch-actions", role: "toolbar", "aria-label": "Действия со строкой " + (index + 1) });
+    if (line.rule !== "premise") {
+      box.appendChild(actionButton("Выше", "above", index));
+      box.appendChild(actionButton("Ниже", "below", index));
+      box.appendChild(actionButton("Лемма", "lemma", index));
+      box.appendChild(actionButton("Изменить", "edit", index));
+      if (line.rule === "assumption") box.appendChild(actionButton("Закрыть", "close", index));
+      box.appendChild(actionButton("Удалить", "delete", index, "danger"));
+    } else {
+      box.appendChild(actionButton("Ниже", "below", index));
+      box.appendChild(actionButton("Лемма", "lemma", index));
+    }
+    return box;
+  }
+
+  function renderRow(line, index, validity) {
+    const row = el("div", {
+      class: "fitch-row" + (line.rule === "premise" ? " premise" : "") + (line.lemmaTitle ? " lemma" : "") + (validity.ok ? "" : " invalid") + (composer && composer.mode === "edit" && composer.index === index ? " editing" : ""),
+      role: "group",
+      "aria-label": "Строка " + (index + 1),
+      "data-index": String(index),
+    });
+    row.appendChild(el("div", { class: "fitch-no", text: String(index + 1) }));
+
+    const formulaCell = el("div", { class: "fitch-formula-cell" });
+    formulaCell.appendChild(lineDepthBars(line.depth));
+    const formulaBox = el("div", { class: "fitch-formula-wrap" });
+    const formula = el("div", { class: "fitch-formula" });
+    formula.appendChild(Lab.math(texOf(line), false));
+    if (line.lemmaTitle) formula.appendChild(el("span", { class: "fitch-lemma-tag", text: "лемма · " + line.lemmaTitle }));
+    formulaBox.appendChild(formula);
+    if (!validity.ok) formulaBox.appendChild(el("div", { class: "fitch-error", text: validity.error }));
+    formulaCell.appendChild(formulaBox);
+    row.appendChild(formulaCell);
+
+    const ruleCell = el("div", { class: "fitch-rule-cell" });
+    ruleCell.appendChild(el("span", { class: "fitch-rule" + (line.rule === "assumption" ? " assumption" : ""), text: ruleLabel(line) }));
+    row.appendChild(ruleCell);
+
+    row.appendChild(el("div", { class: "fitch-refs-cell", title: line.refs.length ? "Ссылки" : "Ссылок нет" }, [el("span", { class: "fitch-refs", text: refsLabel(line.refs) })]));
+
+    const menu = el("button", {
+      class: "fitch-menu",
+      type: "button",
+      "aria-label": "Действия со строкой " + (index + 1),
+      "aria-haspopup": "true",
+      "aria-expanded": openMenu === index ? "true" : "false",
+      title: "Действия со строкой",
+    });
+    menu.appendChild(menuIcon());
+    menu.addEventListener("click", (event) => {
+      event.stopPropagation();
+      const opening = openMenu !== index;
+      openMenu = opening ? index : null;
+      row.classList.toggle("menu-open", opening);
+      menu.setAttribute("aria-expanded", opening ? "true" : "false");
+      proofNode.querySelectorAll(".fitch-row.menu-open").forEach((other) => {
+        if (other !== row) {
+          other.classList.remove("menu-open");
+          const button = other.querySelector(".fitch-menu");
+          if (button) button.setAttribute("aria-expanded", "false");
+        }
+      });
+    });
+    row.appendChild(el("div", { class: "fitch-menu-cell" }, [menu]));
+    row.appendChild(lineActions(line, index));
+    return row;
+  }
+
+  function composerTitle() {
+    if (!composer) return "";
+    if (composer.mode === "edit") return "Изменить строку " + (composer.index + 1);
+    if (composer.mode === "lemma") return "Новая лемма";
+    if (composer.mode === "close") return "Закрыть подвывод";
+    return composer.at >= lines.length ? "Новая строка в конце" : "Новая строка перед строкой " + (composer.at + 1);
+  }
+
+  function depthOptions(selected) {
+    const max = Math.max(5, Number(selected) || 0, ...lines.map((line) => line.depth + 1));
+    return Array.from({ length: max + 1 }, (_, depth) => el("option", { value: String(depth), text: depth + " · " + (depth === 0 ? "основной" : "глубина " + depth), selected: depth === selected ? "selected" : undefined }));
+  }
+
+  function renderComposer() {
+    if (!composer) return null;
+    const isLemma = composer.mode === "lemma";
+    const isClose = composer.mode === "close";
+    const isEdit = composer.mode === "edit";
+    const showTitle = isLemma || (isEdit && composer.title !== undefined);
+    const box = el("form", { class: "fitch-composer", "data-mode": composer.mode, novalidate: "" });
+    const head = el("div", { class: "composer-head" }, [
+      el("div", { class: "composer-title", text: composerTitle() }),
+      el("button", { class: "composer-cancel", type: "button", "data-role": "cancel", text: "Отмена" }),
+    ]);
+    box.appendChild(head);
+
+    const grid = el("div", { class: "composer-grid" });
+    if (isLemma) {
+      grid.appendChild(el("div", { class: "composer-fixed" }, [
+        el("span", { text: "Глубина" }),
+        el("b", { text: String(composer.depth) + " · внутри подвывода" }),
+      ]));
+      grid.appendChild(el("div", { class: "composer-fixed" }, [el("span", { text: "Правило" }), el("b", { text: "допущение" })]));
+    } else {
+      const depthField = el("label", { class: "composer-field" }, [el("span", { text: "Глубина" })]);
+      const depth = el("select", { "data-field": "depth" }, depthOptions(Number(composer.depth)));
+      depthField.appendChild(depth);
+      grid.appendChild(depthField);
+    }
+    const formulaField = el("label", { class: "composer-field composer-formula" }, [el("span", { text: isLemma ? "Допущение леммы" : "Формула" })]);
+    formulaField.appendChild(el("input", { "data-field": "formula", class: "formula-input", value: composer.formula || "", placeholder: isLemma ? "например, A" : "например, A → B", spellcheck: "false", autocomplete: "off" }));
+    grid.appendChild(formulaField);
+
+    if (!isLemma) {
+      const ruleField = el("label", { class: "composer-field" }, [el("span", { text: "Правило" })]);
+      const rule = el("select", { "data-field": "rule" });
+      for (const item of rules) {
+        if (item.id === "premise") continue;
+        rule.appendChild(el("option", { value: item.id, text: item.label, selected: item.id === (composer.rule || "implE") ? "selected" : undefined }));
+      }
+      ruleField.appendChild(rule);
+      grid.appendChild(ruleField);
+    }
+
+    if (!isLemma) {
+      const refsField = el("label", { class: "composer-field" }, [el("span", { text: "Ссылки" })]);
+      refsField.appendChild(el("input", { "data-field": "refs", class: "formula-input", value: composer.refsText || "", placeholder: "1,2 или 3-5", spellcheck: "false", autocomplete: "off" }));
+      grid.appendChild(refsField);
+    }
+
+    if (showTitle) {
+      const titleField = el("label", { class: "composer-field wide" }, [el("span", { text: "Название леммы" })]);
+      titleField.appendChild(el("input", { "data-field": "title", class: "formula-input", value: composer.title || "", placeholder: "например, вспомогательный факт", autocomplete: "off" }));
+      grid.appendChild(titleField);
+    }
+    box.appendChild(grid);
+
+    if (isClose) box.appendChild(el("p", { class: "composer-note", text: "Ссылки уже заполнены диапазоном подвывода. Измените правило, если закрываете его через ¬I или RAA." }));
+
+    const preview = el("div", { class: "composer-preview", "data-role": "preview" });
+    const message = el("span", { class: "composer-msg", "data-role": "message" });
+    const submit = el("button", { class: "active", type: "submit", "data-role": "submit", text: isEdit ? "Сохранить" : (isLemma ? "Открыть лемму" : "Добавить") });
+    const foot = el("div", { class: "composer-foot" }, [
+      preview,
+      message,
+      el("span", { class: "composer-foot-spacer" }),
+      submit,
+    ]);
+    box.appendChild(foot);
+    return box;
+  }
+
+  function renderProof(validity) {
+    const checked = validity || analyzeLines();
+    openMenu = null;
+    clear(proofNode);
+    const head = el("div", { class: "fitch-head", "aria-hidden": "true" }, [
+      el("span", { text: "#" }),
+      el("span", { text: "формула" }),
+      el("span", { text: "правило" }),
+      el("span", { text: "ссылки" }),
+      el("span", { text: "" }),
+    ]);
+    proofNode.appendChild(head);
+    if (!lines.length && !composer) {
+      proofNode.appendChild(el("div", { class: "fitch-empty" }, [
+        el("b", { text: "Пока пусто." }),
+        el("span", { text: "Добавьте строку или начните с леммы, чтобы открыть подвывод." }),
+      ]));
+    }
+    let inserted = false;
+    lines.forEach((line, index) => {
+      if (composer && composer.at === index && composer.mode !== "edit") {
+        proofNode.appendChild(renderComposer());
+        inserted = true;
+      }
+      proofNode.appendChild(renderRow(line, index, checked[index]));
+      if (composer && composer.mode === "edit" && composer.index === index) {
+        proofNode.appendChild(renderComposer());
+        inserted = true;
+      }
+    });
+    if (composer && !inserted) proofNode.appendChild(renderComposer());
+    bindComposer();
+  }
+
+  function renderState(note, noteKind) {
+    const validity = analyzeLines();
+    renderProof(validity);
+    const bad = validity.findIndex((item) => !item.ok);
+    const errorCount = validity.filter((item) => !item.ok).length;
+    countNode.textContent = lines.length + " " + plural(lines.length, "строка", "строки", "строк") + " · " + (errorCount ? errorCount + " " + plural(errorCount, "ошибка", "ошибки", "ошибок") : "ошибок нет");
+    const reached = bad < 0 && lines.some((line) => line.depth === 0 && same(line.ast, goalAst()));
+    if (bad >= 0) {
+      Lab.status(statusNode, "Строка " + (bad + 1) + ": " + validity[bad].error, "bad");
+    } else if (reached) {
+      Lab.status(statusNode, "Цель достигнута: формула выведена на глубине 0 без ошибок.", "ok");
+    } else {
+      Lab.status(statusNode, note || "Ошибок нет. Цель пока не достигнута.", noteKind || "");
+    }
+    updateUndo();
+    return { validity, reached, bad };
+  }
+
+  function plural(n, one, few, many) {
+    const mod10 = n % 10;
+    const mod100 = n % 100;
+    if (mod10 === 1 && mod100 !== 11) return one;
+    if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) return few;
+    return many;
+  }
+
+  function openComposer(mode, options) {
+    openMenu = null;
+    composer = { mode, at: options.at, depth: options.depth, formula: options.formula || "", rule: options.rule || "implE", refsText: options.refsText || "", title: options.title, index: options.index };
+    if (mode === "lemma" && !composer.title) composer.title = "№" + (lines.filter((line) => line.lemmaTitle).length + 1);
+    renderState("Заполните строку: проверка появится сразу.", "info");
+    focusComposer();
+  }
+
+  function focusComposer() {
+    requestAnimationFrame(() => {
+      const input = proofNode.querySelector("[data-field=formula]");
+      if (input) {
+        input.focus();
+        if (composer && composer.mode === "edit") input.select();
+      }
+    });
+  }
+
+  function composerValues() {
+    const box = proofNode.querySelector(".fitch-composer");
+    if (!box) return null;
+    const field = (name) => box.querySelector("[data-field=" + name + "]");
+    return {
+      depth: composer.mode === "lemma" ? composer.depth : Number(field("depth")?.value),
+      formula: field("formula")?.value || "",
+      rule: composer.mode === "lemma" ? "assumption" : (field("rule")?.value || "implE"),
+      refsText: composer.mode === "lemma" ? "" : (field("refs")?.value || ""),
+      title: field("title")?.value || composer.title || "",
     };
-    if (!candidate.formula.trim()) {
-      Lab.status(statusNode, "Введите формулу.", "bad");
+  }
+
+  function updateDraft() {
+    if (!composer) return;
+    const box = proofNode.querySelector(".fitch-composer");
+    if (!box) return;
+    const values = composerValues();
+    const message = box.querySelector("[data-role=message]");
+    const preview = box.querySelector("[data-role=preview]");
+    const submit = box.querySelector("[data-role=submit]");
+    message.className = "composer-msg";
+    clear(preview);
+    if (!values.formula.trim()) {
+      message.textContent = "Введите формулу.";
+      submit.disabled = true;
+      composer.draft = null;
       return;
     }
+    let ast = null;
     try {
-      const { ast } = validate(candidate, lines);
-      lines.push({ ast, formula: candidate.formula, rule: candidate.rule, refsText: candidate.refsText, depth: candidate.depth });
-      formulaInput.value = "";
-      refsInput.value = "";
-      renderProof();
-      checkProof();
+      ast = parse(values.formula);
     } catch (error) {
-      Lab.status(statusNode, error.message, "bad");
+      message.textContent = error.message;
+      message.classList.add("error");
+      submit.disabled = true;
+      composer.draft = null;
+      return;
+    }
+    preview.appendChild(Lab.math(Logic.toTex(ast), false));
+    let refs = [];
+    try {
+      if (composer.mode !== "lemma") refs = parseRefs(values.refsText);
+      const previous = lines.slice(0, composer.mode === "edit" ? composer.index : composer.at);
+      const rule = composer.mode === "lemma" ? "assumption" : values.rule;
+      validate({ formula: values.formula, rule, refs, depth: values.depth }, previous);
+      message.textContent = "Проверено.";
+      message.classList.add("ok");
+      submit.disabled = false;
+      composer.draft = { ast, refs, depth: values.depth, formula: values.formula, rule, title: values.title };
+    } catch (error) {
+      message.textContent = error.message;
+      message.classList.add("error");
+      submit.disabled = true;
+      composer.draft = null;
     }
   }
 
-  function checkProof() {
-    const goalAst = parse(current.goal);
-    const reached = lines.some((line) => line.depth === 0 && same(line.ast, goalAst));
-    renderProof();
-    Lab.status(statusNode, reached
-      ? "Цель достигнута: нужная формула выведена на глубине 0."
-      : "Цель пока не достигнута. Строк в выводе: " + lines.length + ".", reached ? "ok" : "warn");
+  function bindComposer() {
+    const box = proofNode.querySelector(".fitch-composer");
+    if (!box) return;
+    box.querySelector("[data-role=cancel]")?.addEventListener("click", () => {
+      composer = null;
+      renderState("Редактирование отменено.", "info");
+    });
+    box.addEventListener("submit", (event) => {
+      event.preventDefault();
+      saveComposer();
+    });
+    box.querySelectorAll("input, select").forEach((input) => {
+      input.addEventListener("input", updateDraft);
+      input.addEventListener("change", updateDraft);
+      if (input.matches("input")) {
+        input.addEventListener("keydown", (event) => {
+          if (event.key === "Enter") {
+            event.preventDefault();
+            if (composer?.draft) saveComposer();
+          }
+        });
+      }
+    });
+    updateDraft();
+  }
+
+  function saveComposer() {
+    if (!composer) return;
+    updateDraft();
+    if (!composer.draft) return;
+    const draft = composer.draft;
+    pushHistory();
+    const lemmaTitle = (composer.mode === "lemma" || (composer.mode === "edit" && composer.title !== undefined)) ? (draft.title || "").trim() || undefined : undefined;
+    if (composer.mode === "edit") {
+      lines[composer.index] = {
+        ast: draft.ast,
+        formula: draft.formula,
+        rule: draft.rule,
+        refs: draft.refs,
+        depth: draft.depth,
+        lemmaTitle,
+      };
+      composer = null;
+      renderState("Строка изменена.", "ok");
+      return;
+    }
+    const at = Math.max(0, Math.min(composer.at, lines.length));
+    for (const line of lines) {
+      const isRange = ["implI", "notI", "raa"].includes(line.rule) && line.refs.length >= 2;
+      const insideRange = isRange && at > line.refs[0] - 1 && at <= line.refs[line.refs.length - 1];
+      line.refs = line.refs.map((ref) => ref > at ? ref + 1 : ref);
+      if (insideRange) line.refs.push(at + 1);
+      line.refs.sort((a, b) => a - b);
+    }
+    const refs = draft.refs.map((ref) => ref > at ? ref + 1 : ref);
+    lines.splice(at, 0, {
+      ast: draft.ast,
+      formula: draft.formula,
+      rule: draft.rule,
+      refs,
+      depth: draft.depth,
+      lemmaTitle,
+    });
+    composer = null;
+    renderState("Строка добавлена.", "ok");
+  }
+
+  function deleteLine(index) {
+    if (index < 0 || index >= lines.length) return;
+    const line = lines[index];
+    if (line.rule === "premise") return;
+    const lineNo = index + 1;
+    const usedBy = lines.findIndex((other, otherIndex) => {
+      if (otherIndex === index || !other.refs.includes(lineNo)) return false;
+      const isRange = ["implI", "notI", "raa"].includes(other.rule) && other.refs.length >= 2;
+      return !(isRange && lineNo > other.refs[0] && lineNo < other.refs[other.refs.length - 1]);
+    });
+    if (usedBy >= 0) {
+      Lab.status(statusNode, "Строка " + lineNo + " используется в строке " + (usedBy + 1) + ". Сначала измените ссылки.", "bad");
+      return;
+    }
+    if (line.rule === "assumption" && subproofEnd(index) > index) {
+      Lab.status(statusNode, "Сначала удалите строки подвывода, затем допущение.", "bad");
+      return;
+    }
+    pushHistory();
+    for (const other of lines) {
+      other.refs = other.refs.filter((ref) => ref !== lineNo).map((ref) => ref > lineNo ? ref - 1 : ref);
+    }
+    lines.splice(index, 1);
+    composer = null;
+    renderState("Строка удалена.", "info");
+  }
+
+  function addAbove(index) {
+    const line = lines[index];
+    openComposer("add", { at: index, depth: line.rule === "assumption" ? Math.max(0, line.depth - 1) : line.depth });
+  }
+
+  function addBelow(index) {
+    openComposer("add", { at: index + 1, depth: lines[index].depth });
+  }
+
+  function addLemmaBelow(index) {
+    openComposer("lemma", { at: index + 1, depth: lines[index].depth + 1 });
+  }
+
+  function openClose(index) {
+    const line = lines[index];
+    if (line.rule !== "assumption") return;
+    const end = subproofEnd(index);
+    const refs = [];
+    for (let i = index + 1; i <= end + 1; i++) refs.push(i);
+    openComposer("close", {
+      at: end + 1,
+      depth: Math.max(0, line.depth - 1),
+      rule: "implI",
+      refsText: refs[0] === refs[refs.length - 1] ? String(refs[0]) : refs[0] + "-" + refs[refs.length - 1],
+    });
+  }
+
+  function openEdit(index) {
+    const line = lines[index];
+    openComposer("edit", {
+      at: index,
+      index,
+      depth: line.depth,
+      formula: line.formula,
+      rule: line.rule,
+      refsText: line.refs.length ? refsLabel(line.refs) : "",
+      title: line.lemmaTitle,
+    });
+  }
+
+  function handleAction(action, index) {
+    if (action === "above") addAbove(index);
+    else if (action === "below") addBelow(index);
+    else if (action === "lemma") addLemmaBelow(index);
+    else if (action === "edit") openEdit(index);
+    else if (action === "close") openClose(index);
+    else if (action === "delete") deleteLine(index);
   }
 
   function loadExercise() {
     current = exercises[Number(exerciseSelect.value)];
-    lines = current.premises.map((text) => ({
-      ast: parse(text), formula: text, rule: "premise", refsText: "", depth: 0,
-    }));
-    formulaInput.value = "";
-    refsInput.value = "";
-    depthSelect.value = "0";
-    ruleSelect.value = "implE";
+    lines = current.premises.map((text) => ({ ast: parse(text), formula: text, rule: "premise", refs: [], depth: 0 }));
+    history = [];
+    composer = null;
+    openMenu = null;
     renderGoal();
-    renderProof();
-    checkProof();
+    renderState();
   }
 
-  ruleSelect.addEventListener("change", () => {
-    if (ruleSelect.value === "assumption" && depthSelect.value === "0") depthSelect.value = "1";
-    if (["implI", "notI", "raa"].includes(ruleSelect.value)) depthSelect.value = "0";
+  proofNode.addEventListener("click", (event) => {
+    const action = event.target.closest("[data-action]");
+    if (action) {
+      handleAction(action.dataset.action, Number(action.dataset.index));
+      return;
+    }
+    if (!event.target.closest(".fitch-row")) {
+      openMenu = null;
+      proofNode.querySelectorAll(".fitch-row.menu-open").forEach((row) => {
+        row.classList.remove("menu-open");
+        const button = row.querySelector(".fitch-menu");
+        if (button) button.setAttribute("aria-expanded", "false");
+      });
+    }
+  });
+
+  document.addEventListener("click", (event) => {
+    if (event.target.closest(".fitch-row")) return;
+    openMenu = null;
+    proofNode.querySelectorAll(".fitch-row.menu-open").forEach((row) => {
+      row.classList.remove("menu-open");
+      const button = row.querySelector(".fitch-menu");
+      if (button) button.setAttribute("aria-expanded", "false");
+    });
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      if (composer) {
+        composer = null;
+        renderState("Редактирование отменено.", "info");
+      } else if (openMenu !== null) {
+        openMenu = null;
+        proofNode.querySelectorAll(".fitch-row.menu-open").forEach((row) => {
+          row.classList.remove("menu-open");
+          const button = row.querySelector(".fitch-menu");
+          if (button) button.setAttribute("aria-expanded", "false");
+        });
+      }
+    }
   });
 
   exerciseSelect.addEventListener("change", loadExercise);
-  $("#add").addEventListener("click", addLine);
-  formulaInput.addEventListener("keydown", (event) => { if (event.key === "Enter") addLine(); });
-  $("#check").addEventListener("click", checkProof);
+  $("#add-row").addEventListener("click", () => {
+    const depth = lines.length ? lines[lines.length - 1].depth : 0;
+    openComposer("add", { at: lines.length, depth });
+  });
+  $("#add-lemma").addEventListener("click", () => {
+    const depth = (lines.length ? lines[lines.length - 1].depth : 0) + 1;
+    openComposer("lemma", { at: lines.length, depth });
+  });
   $("#undo").addEventListener("click", () => {
-    if (lines.length <= current.premises.length) return;
-    lines.pop();
-    renderProof();
-    checkProof();
+    if (!history.length) return;
+    lines = history.pop();
+    composer = null;
+    openMenu = null;
+    renderState("Действие отменено.", "info");
   });
   $("#reset").addEventListener("click", loadExercise);
 
