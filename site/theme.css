@@ -255,6 +255,7 @@ body.scrolled .up { opacity: 1; visibility: visible; pointer-events: auto; }
 }
 
 /* ── Карточки списков: домашки и шпаргалки ── */
+.labs-lead { margin: 0.2rem 0 0.9rem; color: var(--fg-soft); }
 .mini-group { margin-top: 1.1rem; }
 .mini-group h3 {
   margin: 0 0 0.5rem;

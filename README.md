@@ -2,7 +2,6 @@
 
 [![CI](https://github.com/Lipen/discrete-math-course/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/Lipen/discrete-math-course/actions/workflows/ci.yml)
 [![Website](https://img.shields.io/badge/Website-Visit-brightgreen?style=social)](https://lipen.github.io/discrete-math-course/)
-[![Лаборатории](https://img.shields.io/badge/Лаборатории-Interactive-blue?style=social)](https://lipen.github.io/discrete-math-course/lab/)
 
 > Материалы двухсеместрового курса «Дискретная математика» для программистов и научно-популярная книга по курсу.
 
