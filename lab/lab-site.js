@@ -28,7 +28,7 @@
       </a>
       <nav class="sitebar-nav" aria-label="Навигация">
         <a href="index.html">Главная</a>
-        <a href="index.html#labs">Темы</a>
+        <a href="index.html#labs">Каталог</a>
       </nav>
     `;
     document.body.insertBefore(bar, document.body.firstChild);
@@ -56,7 +56,7 @@
     const all = document.createElement("a");
     all.href = "index.html#labs";
     all.className = "pager-all";
-    all.textContent = "Все темы";
+    all.textContent = "Все лаборатории";
     nav.appendChild(all);
 
     if (next) {
