@@ -2910,13 +2910,6 @@ html[data-theme="dark"] .module-head::before {
 html[data-theme="dark"] .lab-card:hover { box-shadow: 0 20px 44px rgba(0, 0, 0, .34); }
 html[data-theme="dark"] .lecture-node:hover { box-shadow: 0 14px 28px rgba(0, 0, 0, .3); }
 
-html[data-theme="dark"] .hero-poster {
-  background: #070d13;
-  color: #fbf7ef;
-  box-shadow: 0 28px 60px rgba(0, 0, 0, .4);
-}
-html[data-theme="dark"] .hero-poster .poster-caption b { color: #fff; }
-
 html[data-theme="dark"] .goal-strip { border-color: var(--line); }
 html[data-theme="dark"] .fitch-page { --muted: #9fadbc; }
 html[data-theme="dark"] .fitch-row:hover { background: var(--surface-raised); }
@@ -3015,3 +3008,65 @@ html[data-theme="dark"] #primes tbody tr:hover td { background: var(--surface-ra
   .sitebar-gh,
   .sitebar-theme { width: 30px; height: 30px; }
 }
+
+/* ── Hub sections card ── */
+
+.hero-poster {
+  min-height: 0;
+  padding: 22px 24px 18px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: linear-gradient(155deg, color-mix(in srgb, var(--accent) 9%, var(--card)), var(--card));
+  color: var(--ink);
+  box-shadow: var(--shadow-soft);
+}
+
+.hero-poster::before {
+  width: 300px;
+  height: 300px;
+  right: -120px;
+  top: -140px;
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 24%, transparent), transparent 65%);
+}
+
+.hero-poster::after {
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--line) 55%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--line) 55%, transparent) 1px, transparent 1px);
+}
+
+.poster-top {
+  color: var(--muted);
+  font-size: 9px;
+}
+
+.poster-title {
+  margin: 22px 0 14px;
+  font-family: var(--display);
+  font-size: clamp(28px, 3vw, 38px);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -.045em;
+}
+
+.poster-caption { color: var(--muted); }
+.poster-caption b { color: var(--ink); font-weight: 600; }
+.poster-rule { background: var(--line); margin: 16px 0 12px; }
+
+.poster-modules {
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+
+.poster-module {
+  padding: 8px 0;
+  border-top: 1px solid var(--line-soft);
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.poster-module:last-child { border-bottom: 1px solid var(--line-soft); }
+.poster-module:hover { color: var(--accent); }
+.poster-module i { width: 8px; height: 8px; border-radius: 3px; }
