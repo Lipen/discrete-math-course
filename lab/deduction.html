@@ -18,7 +18,7 @@
   <h1>Соберите вывод в стиле Фитча</h1>
   <p class="lead">
     Посылки и цель фиксированы.
-    Наведите на строку, чтобы открыть действия под ней: вставка строки, подвывод, изменение и удаление.
+    Наведите на строку, чтобы открыть действия под ней: вставка строки, поддоказательство, изменение и удаление.
     Проверка идёт сразу, пока вы заполняете строку.
   </p>
 </header>
@@ -34,7 +34,7 @@
     <div class="goal-strip" id="goal"></div>
     <p class="proof-help">
       Наведите на строку или нажмите на неё. Действия появятся под строкой, не закрывая ссылки.
-      Кнопки <b>Открыть подвывод</b> и <b>Закрыть подвывод</b> задают вложенность, стрелки слева меняют уровень строки.
+      Кнопки <b>Открыть поддоказательство</b> и <b>Закрыть поддоказательство</b> задают вложенность, стрелки слева меняют уровень строки.
       Поддержаны <b>∧I/E</b>, <b>∨I</b>, <b>→I/E</b>, <b>¬I/E</b>, <b>⊥E</b>, <b>↔E</b> и <b>RAA</b>.
       <b>∨E</b> и <b>↔I</b> остаются письменной работой.
     </p>
@@ -42,7 +42,7 @@
     <div class="status" id="status" role="status" aria-live="polite" style="margin-top:10px"></div>
     <div class="proof-footer">
       <button id="add-row" class="active">Добавить строку</button>
-      <button id="add-subproof">Открыть подвывод</button>
+      <button id="add-subproof">Открыть поддоказательство</button>
       <span class="proof-footer-spacer"></span>
       <button id="undo" disabled>Отменить</button>
       <button id="reset">Сброс</button>
@@ -58,13 +58,13 @@
         <span data-tex="\land I"></span> собирает конъюнкцию, <span data-tex="\land E"></span> достаёт из неё часть.</p>
       </div>
       <div>
-        <h3>Подвывод</h3>
-        <p>Допущение открывает подвывод.
+        <h3>Поддоказательство</h3>
+        <p>Допущение открывает поддоказательство.
         Строки внутри остаются на его глубине, а закрывающая строка возвращается на уровень выше.</p>
       </div>
       <div>
-        <h3>Подвыводы</h3>
-        <p>Подвывод открывается допущением и закрывается строкой на уровень выше.
+        <h3>Поддоказательства</h3>
+        <p>Поддоказательство открывается допущением и закрывается строкой на уровень выше.
         Стрелки уровня позволяют поправить вложенность прямо у строки.</p>
       </div>
       <div>
@@ -82,7 +82,7 @@
 <script src="lab-core.js"></script>
 <script src="lab-math.js"></script>
 <script src="logic.js"></script>
-<script src="catalog.js"></script>
+<script src="catalog.js?v=11"></script>
 <script src="lab-site.js?v=10"></script>
 <script>
 (function () {
@@ -203,9 +203,9 @@
     }
     function accessible(number, sourceLine) {
       for (let i = number; i < previous.length; i++) {
-        if (previous[i].depth < sourceLine.depth) throw new Error("Ссылка на строку " + number + " уже закрыта: подвывод закончился раньше.");
+        if (previous[i].depth < sourceLine.depth) throw new Error("Ссылка на строку " + number + " уже закрыта: поддоказательство закончилось раньше.");
       }
-      if (depth < sourceLine.depth) throw new Error("Нельзя ссылаться на строку " + number + " из закрытого подвывода.");
+      if (depth < sourceLine.depth) throw new Error("Нельзя ссылаться на строку " + number + " из закрытого поддоказательства.");
       return sourceLine;
     }
     function needAccessible(count) {
@@ -224,15 +224,15 @@
     }
     if (depth > 0) {
       if (candidate.rule === "assumption") {
-        if (hasOpenAssumption(depth)) throw new Error("Подвывод этой глубины уже открыт. Закройте его или выберите большую глубину.");
-        if (depth > 1 && !hasOpenAssumption(depth - 1)) throw new Error("Сначала откройте внешний подвывод.");
+        if (hasOpenAssumption(depth)) throw new Error("Поддоказательство этой глубины уже открыто. Закройте его или выберите большую глубину.");
+        if (depth > 1 && !hasOpenAssumption(depth - 1)) throw new Error("Сначала откройте внешнее поддоказательство.");
       } else if (!hasOpenAssumption(depth)) {
         throw new Error("На глубине " + depth + " нет открытого допущения.");
       }
     }
     if (candidate.rule === "assumption") {
       if (refs.length) throw new Error("У допущения не бывает ссылок.");
-      if (depth < 1) throw new Error("Допущение должно быть в подвыводе, глубина хотя бы 1.");
+      if (depth < 1) throw new Error("Допущение должно быть в поддоказательстве, глубина хотя бы 1.");
       return { ast };
     }
     if (candidate.rule === "reiterate") {
@@ -287,24 +287,24 @@
       return { ast };
     }
     if (candidate.rule === "implI" || candidate.rule === "notI" || candidate.rule === "raa") {
-      if (!refs.length) throw new Error("Укажите диапазон подвывода, например 3-5.");
-      if (!contiguous(refs)) throw new Error("Диапазон подвывода должен идти подряд.");
+      if (!refs.length) throw new Error("Укажите диапазон поддоказательства, например 3-5.");
+      if (!contiguous(refs)) throw new Error("Диапазон поддоказательства должен идти подряд.");
       const start = source(refs[0]);
       const end = source(refs[refs.length - 1]);
-      if (end !== previous[previous.length - 1]) throw new Error("Подвывод должен заканчиваться прямо перед этой строкой.");
-      if (start.rule !== "assumption") throw new Error("Подвывод должен начинаться с допущения.");
-      if (start.depth !== depth + 1 || end.depth !== depth + 1) throw new Error("Глубина подвывода не совпадает.");
+      if (end !== previous[previous.length - 1]) throw new Error("Поддоказательство должно заканчиваться прямо перед этой строкой.");
+      if (start.rule !== "assumption") throw new Error("Поддоказательство должно начинаться с допущения.");
+      if (start.depth !== depth + 1 || end.depth !== depth + 1) throw new Error("Глубина поддоказательства не совпадает.");
       for (const ref of refs) {
-        if (source(ref).depth < depth + 1) throw new Error("Подвывод выходит за свою глубину.");
+        if (source(ref).depth < depth + 1) throw new Error("Поддоказательство выходит за свою глубину.");
       }
       if (candidate.rule === "implI") {
         if (ast.type !== "impl" || !same(ast.a, start.ast) || !same(ast.b, end.ast)) throw new Error("→I: из допущения φ и вывода ψ получается φ → ψ.");
       } else if (candidate.rule === "notI") {
         if (ast.type !== "not" || !same(ast.a, start.ast)) throw new Error("¬I: из допущения φ и ⊥ получается ¬φ.");
-        if (end.ast.type !== "const" || end.ast.value !== false) throw new Error("¬I требует ⊥ в конце подвывода.");
+        if (end.ast.type !== "const" || end.ast.value !== false) throw new Error("¬I требует ⊥ в конце поддоказательства.");
       } else {
         if (start.ast.type !== "not" || !same(start.ast.a, ast)) throw new Error("RAA: из допущения ¬φ и ⊥ получается φ.");
-        if (end.ast.type !== "const" || end.ast.value !== false) throw new Error("RAA требует ⊥ в конце подвывода.");
+        if (end.ast.type !== "const" || end.ast.value !== false) throw new Error("RAA требует ⊥ в конце поддоказательства.");
       }
       return { ast };
     }
@@ -408,13 +408,13 @@
     if (line.rule !== "premise") {
       box.appendChild(actionButton("Выше", "above", index));
       box.appendChild(actionButton("Ниже", "below", index));
-      box.appendChild(actionButton("Открыть подвывод", "subproof", index));
-      if (enclosingAssumption(index) >= 0) box.appendChild(actionButton("Закрыть подвывод", "close", index));
+      box.appendChild(actionButton("Открыть поддоказательство", "subproof", index));
+      if (enclosingAssumption(index) >= 0) box.appendChild(actionButton("Закрыть поддоказательство", "close", index));
       box.appendChild(actionButton("Изменить", "edit", index));
       box.appendChild(actionButton("Удалить", "delete", index, "danger"));
     } else {
       box.appendChild(actionButton("Ниже", "below", index));
-      box.appendChild(actionButton("Открыть подвывод", "subproof", index));
+      box.appendChild(actionButton("Открыть поддоказательство", "subproof", index));
     }
     return box;
   }
@@ -435,7 +435,7 @@
     const formulaBox = el("div", { class: "fitch-formula-wrap" });
     const formula = el("div", { class: "fitch-formula" });
     formula.appendChild(Lab.math(texOf(line), false));
-    if (line.lemmaTitle) formula.appendChild(el("span", { class: "fitch-lemma-tag", text: "подвывод · " + line.lemmaTitle }));
+    if (line.lemmaTitle) formula.appendChild(el("span", { class: "fitch-lemma-tag", text: "поддоказательство · " + line.lemmaTitle }));
     formulaBox.appendChild(formula);
     if (!validity.ok) formulaBox.appendChild(el("div", { class: "fitch-error", text: validity.error }));
     formulaCell.appendChild(formulaBox);
@@ -457,8 +457,8 @@
   function composerTitle() {
     if (!composer) return "";
     if (composer.mode === "edit") return "Изменить строку " + (composer.index + 1);
-    if (composer.mode === "subproof") return "Новый подвывод";
-    if (composer.mode === "close") return "Закрыть подвывод";
+    if (composer.mode === "subproof") return "Новое поддоказательство";
+    if (composer.mode === "close") return "Закрыть поддоказательство";
     return composer.at >= lines.length ? "Новая строка в конце" : "Новая строка перед строкой " + (composer.at + 1);
   }
 
@@ -483,7 +483,7 @@
     if (isSubproof) {
       grid.appendChild(el("div", { class: "composer-fixed" }, [el("span", { text: "Правило" }), el("b", { text: "допущение" })]));
     }
-    const formulaField = el("label", { class: "composer-field composer-formula" }, [el("span", { text: isSubproof ? "Допущение подвывода" : "Формула" })]);
+    const formulaField = el("label", { class: "composer-field composer-formula" }, [el("span", { text: isSubproof ? "Допущение поддоказательства" : "Формула" })]);
     formulaField.appendChild(el("input", { "data-field": "formula", class: "formula-input", value: composer.formula || "", placeholder: isSubproof ? "например, A" : "например, A → B", spellcheck: "false", autocomplete: "off" }));
     grid.appendChild(formulaField);
 
@@ -505,17 +505,17 @@
     }
 
     if (showTitle) {
-      const titleField = el("label", { class: "composer-field wide" }, [el("span", { text: "Название подвывода" })]);
+      const titleField = el("label", { class: "composer-field wide" }, [el("span", { text: "Название поддоказательства" })]);
       titleField.appendChild(el("input", { "data-field": "title", class: "formula-input", value: composer.title || "", placeholder: "например, вспомогательный факт", autocomplete: "off" }));
       grid.appendChild(titleField);
     }
     box.appendChild(grid);
 
-    if (isClose) box.appendChild(el("p", { class: "composer-note", text: "Ссылки уже заполнены диапазоном подвывода. Измените правило, если закрываете его через ¬I или RAA." }));
+    if (isClose) box.appendChild(el("p", { class: "composer-note", text: "Ссылки уже заполнены диапазоном поддоказательства. Измените правило, если закрываете его через ¬I или RAA." }));
 
     const preview = el("div", { class: "composer-preview", "data-role": "preview" });
     const message = el("span", { class: "composer-msg", "data-role": "message" });
-    const submit = el("button", { class: "active", type: "submit", "data-role": "submit", text: isEdit ? "Сохранить" : (isSubproof ? "Открыть подвывод" : "Добавить") });
+    const submit = el("button", { class: "active", type: "submit", "data-role": "submit", text: isEdit ? "Сохранить" : (isSubproof ? "Открыть поддоказательство" : "Добавить") });
     const foot = el("div", { class: "composer-foot" }, [
       preview,
       message,
@@ -540,7 +540,7 @@
     if (!lines.length && !composer) {
       proofNode.appendChild(el("div", { class: "fitch-empty" }, [
         el("b", { text: "Пока пусто." }),
-        el("span", { text: "Добавьте строку или откройте подвывод, чтобы начать рассуждение." }),
+        el("span", { text: "Добавьте строку или откройте поддоказательство, чтобы начать рассуждение." }),
       ]));
     }
     let inserted = false;
@@ -742,7 +742,7 @@
       return;
     }
     if (line.rule === "assumption" && subproofEnd(index) > index) {
-      Lab.status(statusNode, "Сначала удалите строки подвывода, затем допущение.", "bad");
+      Lab.status(statusNode, "Сначала удалите строки поддоказательства, затем допущение.", "bad");
       return;
     }
     pushHistory();
