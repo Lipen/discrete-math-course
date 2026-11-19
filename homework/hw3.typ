@@ -3,6 +3,7 @@
   assume as fitch-assume, premise as fitch-premise, proof as fitch-proof, step as fitch-step,
   subproof as fitch-subproof,
 )
+#import "@preview/curryst:0.6.0": rule, prooftree
 #show: template
 
 #set page(
@@ -38,45 +39,6 @@
 )
 
 #show table: set block(breakable: false)
-
-
-// ── Силлогизм: посылки столбцом, черта вывода, заключение ──
-#let syllogism(num, premise-a, premise-b, conclusion) = block(breakable: false, {
-  set par(justify: false)
-  set text(size: 0.9em)
-  align(center, box(
-    radius: 3.5pt,
-    inset: (x: 0.6em, y: 0.42em),
-    stroke: 0.6pt + luma(60%),
-    text(size: 0.85em, fill: luma(45%))[#num],
-  ))
-  v(0.4em, weak: true)
-  table(
-    columns: (auto,),
-    align: left,
-    inset: 5pt,
-    stroke: none,
-    premise-a,
-    premise-b,
-    table.hline(stroke: 0.8pt + luma(30%)),
-    conclusion,
-  )
-})
-
-
-// ── Правило вывода деревом: посылки над чертой, имя справа от черты ──
-#let ndrule(name, top, bottom) = context {
-  let w = calc.max(if top == none { 0pt } else { measure(top).width }, measure(bottom).width) + 10pt
-  grid(
-    columns: (w, auto),
-    column-gutter: 0.4em,
-    row-gutter: 0.1em,
-    align: (center + horizon, left + horizon),
-    top, [],
-    line(length: 100%, stroke: 0.55pt + luma(35%)), box(text(0.75em, fill: luma(40%))[#name]),
-    bottom, [],
-  )
-}
 
 
 #Box[
@@ -205,23 +167,21 @@
     #block(breakable: false)[
       #grid(
         columns: 4,
-        column-gutter: 1em,
-        row-gutter: 1em,
+        column-gutter: 1.4em,
+        row-gutter: 1.2em,
         align: center + horizon,
-        ndrule([$and$I], $A quad B$, $A and B$),
-        ndrule([$and$E#sub[1]], $A and B$, $A$),
-        ndrule([$and$E#sub[2]], $A and B$, $B$),
-        ndrule([$bot$E], $bot$, $C$),
-
-        ndrule([$or$I#sub[1]], $A$, $A or B$),
-        ndrule([$or$I#sub[2]], $B$, $A or B$),
-        ndrule([$or$E], $A or B quad A proves C quad B proves C$, $C$),
-        ndrule([R], $A$, $A$),
-
-        ndrule([$arrow.r$I], $A proves B$, $A -> B$),
-        ndrule([$arrow.r$E], $A -> B quad A$, $B$),
-        ndrule([$not$I], $A proves bot$, $not A$),
-        ndrule([$not$E], $A quad not A$, $bot$),
+        prooftree(rule(name: [$and$I], $A quad B$, $A and B$)),
+        prooftree(rule(name: [$and$E#sub[1]], $A and B$, $A$)),
+        prooftree(rule(name: [$and$E#sub[2]], $A and B$, $B$)),
+        prooftree(rule(name: [$bot$E], $bot$, $C$)),
+        prooftree(rule(name: [$or$I#sub[1]], $A$, $A or B$)),
+        prooftree(rule(name: [$or$I#sub[2]], $B$, $A or B$)),
+        prooftree(rule(name: [$or$E], $A or B quad A proves C quad B proves C$, $C$)),
+        prooftree(rule(name: [R], $A$, $A$)),
+        prooftree(rule(name: [$arrow.r$I], $A proves B$, $A -> B$)),
+        prooftree(rule(name: [$arrow.r$E], $A -> B quad A$, $B$)),
+        prooftree(rule(name: [$not$I], $A proves bot$, $not A$)),
+        prooftree(rule(name: [$not$E], $A quad not A$, $bot$)),
       )
     ]
   ]
@@ -232,12 +192,12 @@
     #block(breakable: false)[
       #grid(
         columns: 3,
-        column-gutter: 2em,
-        row-gutter: 1em,
+        column-gutter: 2.4em,
+        row-gutter: 1.2em,
         align: center + horizon,
-        ndrule([IP], $not A proves bot$, $A$),
-        ndrule([DNE], $not not A$, $A$),
-        ndrule([LEM], none, $A or not A$),
+        prooftree(rule(name: [IP], $not A proves bot$, $A$)),
+        prooftree(rule(name: [DNE], $not not A$, $A$)),
+        prooftree(rule(name: [LEM], $A or not A$)),
       )
     ]
   ]
@@ -406,24 +366,24 @@
     #grid(
       columns: (auto, auto, auto),
       column-gutter: 1.4em,
-      syllogism(
-        [(а)],
+      prooftree(rule(
+        label: [(а)],
         [Все зонды --- сканеры.],
         [Все сканеры калиброваны.],
         [Все зонды калиброваны.],
-      ),
-      syllogism(
-        [(б)],
+      )),
+      prooftree(rule(
+        label: [(б)],
         [Все маяки --- передатчики.],
         [Все маяки надёжны.],
         [Все передатчики надёжны.],
-      ),
-      syllogism(
-        [(в)],
+      )),
+      prooftree(rule(
+        label: [(в)],
         [Все реле --- годны.],
         [Все реле стары.],
         [Некоторые старые --- годны.],
-      ),
+      )),
     )
   ]
 ]
