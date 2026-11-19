@@ -2602,3 +2602,416 @@ button, .btn { border-radius: 9px; font-size: 13px; padding: 7px 12px; }
 }
 
 #primes td .pill + .pill { margin-left: 4px; }
+
+/* ── Site actions and themes ── */
+
+.sitebar-actions {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-left: auto;
+}
+
+.sitebar-gh,
+.sitebar-theme {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.sitebar-gh svg { width: 17px; height: 17px; }
+.sitebar-gh:hover,
+.sitebar-theme:hover {
+  border-color: var(--line);
+  background: var(--card);
+  color: var(--accent);
+}
+
+.sitebar-theme { border-color: var(--line); background: var(--card); }
+.sitebar-theme svg { display: none; width: 17px; height: 17px; }
+:root[data-pref="auto"] .sitebar-theme .i-auto,
+:root[data-pref="light"] .sitebar-theme .i-light,
+:root[data-pref="dark"] .sitebar-theme .i-dark { display: block; }
+
+:root[data-theme="light"] { color-scheme: light; }
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --ink: #e8eef6;
+  --muted: #9fadbc;
+  --paper: #0b1117;
+  --card: #141c24;
+  --line: #2b3743;
+  --line-soft: #202a34;
+  --accent: #aab9ff;
+  --accent-soft: #1a2334;
+  --green: #7ad9b1;
+  --green-soft: #102b23;
+  --amber: #f3c57c;
+  --amber-soft: #322514;
+  --red: #ff9b91;
+  --red-soft: #371c1d;
+  --violet: #d2b6f5;
+  --violet-soft: #261e35;
+  --blue: #a5c8ff;
+  --blue-soft: #152538;
+  --on-accent: #0a1016;
+  --surface: #141c24;
+  --surface-soft: #111820;
+  --surface-raised: #19232d;
+  --surface-input: #0e151c;
+  --edge: #aab6c4;
+  --shadow-soft: 0 18px 50px rgba(0, 0, 0, .28);
+  --shadow-tight: 0 8px 24px rgba(0, 0, 0, .26);
+}
+
+html[data-theme="dark"] body {
+  background:
+    radial-gradient(1100px 520px at 12% -10%, #162434 0%, transparent 60%),
+    radial-gradient(900px 420px at 92% -4%, #2a2118 0%, transparent 55%),
+    var(--paper);
+}
+
+html[data-theme="dark"] body[data-module] {
+  background:
+    radial-gradient(1000px 500px at 92% -12%, color-mix(in srgb, var(--module-accent) 18%, transparent), transparent 62%),
+    radial-gradient(800px 420px at 0% 0%, #16221f 0%, transparent 55%),
+    var(--paper);
+  --accent: color-mix(in srgb, var(--module-accent) 62%, #ffffff) !important;
+  --accent-soft: color-mix(in srgb, var(--module-accent) 16%, var(--card)) !important;
+}
+
+html[data-theme="dark"] a:hover { color: color-mix(in srgb, var(--accent) 82%, #ffffff); }
+
+html[data-theme="dark"] .sitebar {
+  background: color-mix(in srgb, var(--paper) 86%, transparent);
+  border-color: var(--line);
+}
+
+html[data-theme="dark"] .sitebar-mark {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+html[data-theme="dark"] .sitebar-gh:hover,
+html[data-theme="dark"] .sitebar-theme:hover {
+  border-color: var(--line);
+  background: var(--surface-raised);
+}
+
+html[data-theme="dark"] .sitebar-theme {
+  background: var(--card);
+  border-color: var(--line);
+}
+
+html[data-theme="dark"] .meter { background: #26323d; }
+
+html[data-theme="dark"] .card,
+html[data-theme="dark"] .lab-card,
+html[data-theme="dark"] .lecture-node,
+html[data-theme="dark"] .hub-note,
+html[data-theme="dark"] .panel,
+html[data-theme="dark"] .trace,
+html[data-theme="dark"] .preset-art,
+html[data-theme="dark"] .word-table,
+html[data-theme="dark"] .hotel-stage,
+html[data-theme="dark"] .hotel-equation,
+html[data-theme="dark"] .fitch-board,
+html[data-theme="dark"] .truth-wrap,
+html[data-theme="dark"] .proof-card {
+  background: var(--card);
+  border-color: var(--line);
+  box-shadow: var(--shadow-tight);
+}
+
+html[data-theme="dark"] .controls,
+html[data-theme="dark"] .metric,
+html[data-theme="dark"] .vector,
+html[data-theme="dark"] .anf,
+html[data-theme="dark"] .cube-wrap,
+html[data-theme="dark"] .map-wrap,
+html[data-theme="dark"] .bdd-wrap,
+html[data-theme="dark"] .circuit-wrap,
+html[data-theme="dark"] .tree-wrap,
+html[data-theme="dark"] .sbit,
+html[data-theme="dark"] .theory-grid > div,
+html[data-theme="dark"] .stat-grid .stat,
+html[data-theme="dark"] .room,
+html[data-theme="dark"] .seq-item,
+html[data-theme="dark"] .ordinal-card,
+html[data-theme="dark"] .word-row.received,
+html[data-theme="dark"] .segmented,
+html[data-theme="dark"] .fitch-row,
+html[data-theme="dark"] .fitch-head,
+html[data-theme="dark"] .fitch-rule,
+html[data-theme="dark"] .fitch-action,
+html[data-theme="dark"] .fitch-composer,
+html[data-theme="dark"] .truth-bit,
+html[data-theme="dark"] .solution-dot,
+html[data-theme="dark"] .map-cell,
+html[data-theme="dark"] .pos,
+html[data-theme="dark"] .chip,
+html[data-theme="dark"] .toggle-chip,
+html[data-theme="dark"] .bit-matrix button,
+html[data-theme="dark"] .kbd {
+  background: var(--surface-soft);
+  border-color: var(--line-soft);
+}
+
+html[data-theme="dark"] .card,
+html[data-theme="dark"] .lab-card {
+  background: linear-gradient(180deg, var(--surface-raised), var(--surface));
+}
+
+html[data-theme="dark"] .lecture-node {
+  background: linear-gradient(170deg, var(--surface-raised), var(--surface));
+}
+
+html[data-theme="dark"] .controls { background: var(--surface-soft); }
+html[data-theme="dark"] .metric { background: var(--surface-soft); }
+html[data-theme="dark"] .panel { background: var(--surface-soft); }
+html[data-theme="dark"] .word-row.head { background: var(--surface-raised); }
+html[data-theme="dark"] .word-row.received { background: var(--card); }
+
+html[data-theme="dark"] .formula-box,
+html[data-theme="dark"] .anf,
+html[data-theme="dark"] .vector,
+html[data-theme="dark"] code,
+html[data-theme="dark"] pre.code {
+  background: var(--surface-soft);
+  border-color: var(--line-soft);
+  color: var(--ink);
+}
+
+html[data-theme="dark"] select,
+html[data-theme="dark"] input[type="number"],
+html[data-theme="dark"] input[type="text"],
+html[data-theme="dark"] textarea,
+html[data-theme="dark"] button,
+html[data-theme="dark"] .btn {
+  background: var(--surface-input);
+  border-color: #3a4754;
+  color: var(--ink);
+}
+
+html[data-theme="dark"] button:hover,
+html[data-theme="dark"] .btn:hover {
+  background: var(--surface-raised);
+  border-color: var(--accent);
+}
+
+html[data-theme="dark"] button.active,
+html[data-theme="dark"] .btn.active,
+html[data-theme="dark"] .btn-primary,
+html[data-theme="dark"] .btn-primary:hover,
+html[data-theme="dark"] .filter.active,
+html[data-theme="dark"] .lab-index-pill,
+html[data-theme="dark"] .hotel-step.active,
+html[data-theme="dark"] .solution-dot.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+}
+
+html[data-theme="dark"] .btn-primary:hover { background: color-mix(in srgb, var(--accent) 86%, #ffffff); }
+
+html[data-theme="dark"] .segmented button.active {
+  background: var(--surface-raised);
+  color: var(--ink);
+}
+
+html[data-theme="dark"] .filter {
+  background: var(--card);
+  border-color: var(--line);
+  color: var(--muted);
+}
+
+html[data-theme="dark"] .filter:hover { color: var(--accent); }
+html[data-theme="dark"] .tabs button.active { color: var(--ink); }
+
+html[data-theme="dark"] .status {
+  background: var(--surface-soft);
+  border-color: var(--line-soft);
+  color: var(--ink);
+}
+
+html[data-theme="dark"] .status.ok { background: var(--green-soft); border-color: color-mix(in srgb, var(--green) 35%, var(--line)); color: var(--green); }
+html[data-theme="dark"] .status.bad { background: var(--red-soft); border-color: color-mix(in srgb, var(--red) 35%, var(--line)); color: var(--red); }
+html[data-theme="dark"] .status.warn { background: var(--amber-soft); border-color: color-mix(in srgb, var(--amber) 35%, var(--line)); color: var(--amber); }
+html[data-theme="dark"] .status.info { background: var(--blue-soft); border-color: color-mix(in srgb, var(--blue) 35%, var(--line)); color: var(--blue); }
+
+html[data-theme="dark"] .callout {
+  background: var(--accent-soft);
+  color: var(--ink);
+}
+html[data-theme="dark"] .callout.warn { background: var(--amber-soft); color: var(--amber); }
+html[data-theme="dark"] .callout.bad { background: var(--red-soft); color: var(--red); }
+html[data-theme="dark"] .callout.ok { background: var(--green-soft); color: var(--green); }
+
+html[data-theme="dark"] .note {
+  background: color-mix(in srgb, var(--accent) 8%, var(--card));
+  color: var(--ink);
+}
+
+html[data-theme="dark"] .theory-grid p { color: var(--muted); }
+html[data-theme="dark"] table.data th { color: var(--muted); border-bottom-color: var(--line); }
+html[data-theme="dark"] table.data th,
+html[data-theme="dark"] table.data td { border-bottom-color: var(--line-soft); }
+html[data-theme="dark"] table.data tr.hl td { background: color-mix(in srgb, var(--amber) 14%, var(--card)); }
+html[data-theme="dark"] table.data tr.selected td { background: var(--accent-soft); }
+html[data-theme="dark"] table.data tr.bad-row td { background: var(--red-soft); }
+html[data-theme="dark"] .compare td.current { background: var(--accent-soft); }
+
+html[data-theme="dark"] .map-cell.v1,
+html[data-theme="dark"] .truth-bit.v1 { background: var(--blue-soft); border-color: color-mix(in srgb, var(--blue) 35%, var(--line)); }
+html[data-theme="dark"] .map-cell.vx,
+html[data-theme="dark"] .truth-bit.vx { background: var(--amber-soft); border-color: color-mix(in srgb, var(--amber) 35%, var(--line)); }
+html[data-theme="dark"] .pos.data { background: var(--amber-soft); border-color: color-mix(in srgb, var(--amber) 35%, var(--line)); }
+html[data-theme="dark"] .pos.parity { background: var(--blue-soft); border-color: color-mix(in srgb, var(--blue) 35%, var(--line)); }
+html[data-theme="dark"] .map-cell.hl,
+html[data-theme="dark"] .pos.error { border-color: var(--red); }
+html[data-theme="dark"] .pos.corrected { border-color: var(--green); }
+html[data-theme="dark"] .bdd-edge { stroke: var(--edge); }
+
+html[data-theme="dark"] .lab-card .mark {
+  background: color-mix(in srgb, var(--m) 24%, var(--surface));
+  color: color-mix(in srgb, var(--m) 62%, #ffffff);
+  box-shadow: none;
+}
+
+html[data-theme="dark"] .lab-card .tag,
+html[data-theme="dark"] .pill:not(.ok):not(.no):not(.warn):not(.info) {
+  background: var(--surface-soft);
+  color: var(--muted);
+}
+
+html[data-theme="dark"] .pill.ok { background: var(--green-soft); color: var(--green); }
+html[data-theme="dark"] .pill.no { background: var(--red-soft); color: var(--red); }
+html[data-theme="dark"] .pill.warn { background: var(--amber-soft); color: var(--amber); }
+html[data-theme="dark"] .pill.info { background: var(--blue-soft); color: var(--blue); }
+html[data-theme="dark"] .lab-card .topic,
+html[data-theme="dark"] .lab-card .go { color: color-mix(in srgb, var(--m) 60%, #ffffff); }
+html[data-theme="dark"] .lab-card,
+html[data-theme="dark"] .lab-card:hover,
+html[data-theme="dark"] .lecture-node {
+  border-top-color: color-mix(in srgb, var(--m) 58%, #ffffff);
+}
+html[data-theme="dark"] .module-head::before {
+  background: color-mix(in srgb, var(--m) 58%, #ffffff);
+}
+html[data-theme="dark"] .lab-card:hover { box-shadow: 0 20px 44px rgba(0, 0, 0, .34); }
+html[data-theme="dark"] .lecture-node:hover { box-shadow: 0 14px 28px rgba(0, 0, 0, .3); }
+
+html[data-theme="dark"] .hero-poster {
+  background: #070d13;
+  color: #fbf7ef;
+  box-shadow: 0 28px 60px rgba(0, 0, 0, .4);
+}
+html[data-theme="dark"] .hero-poster .poster-caption b { color: #fff; }
+
+html[data-theme="dark"] .goal-strip { border-color: var(--line); }
+html[data-theme="dark"] .fitch-page { --muted: #9fadbc; }
+html[data-theme="dark"] .fitch-row:hover { background: var(--surface-raised); }
+html[data-theme="dark"] .fitch-row.premise { background: color-mix(in srgb, var(--surface-soft) 70%, var(--card)); }
+html[data-theme="dark"] .fitch-row.invalid { background: var(--red-soft); }
+html[data-theme="dark"] .fitch-row.invalid:hover { background: color-mix(in srgb, var(--red-soft) 80%, var(--red)); }
+html[data-theme="dark"] .fitch-row.lemma:not(.invalid) { background: color-mix(in srgb, var(--violet-soft) 55%, var(--card)); }
+html[data-theme="dark"] .fitch-row.lemma:not(.invalid):hover { background: var(--violet-soft); }
+html[data-theme="dark"] .fitch-bar { border-left-color: var(--line); }
+html[data-theme="dark"] .fitch-bar:last-child { border-left-color: var(--line); }
+html[data-theme="dark"] .fitch-rule { color: var(--ink); }
+html[data-theme="dark"] .fitch-rule.assumption { background: var(--amber-soft); color: var(--amber); }
+html[data-theme="dark"] .fitch-refs,
+html[data-theme="dark"] .fitch-no { color: var(--muted); }
+html[data-theme="dark"] .fitch-row.invalid .fitch-refs,
+html[data-theme="dark"] .fitch-error,
+html[data-theme="dark"] .fitch-action.danger { color: var(--red); }
+html[data-theme="dark"] .fitch-action:hover,
+html[data-theme="dark"] .fitch-action:focus-visible { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+html[data-theme="dark"] .fitch-action.danger:hover,
+html[data-theme="dark"] .fitch-action.danger:focus-visible { background: var(--red-soft); border-color: var(--red); color: var(--red); }
+html[data-theme="dark"] .fitch-composer { border-color: var(--line); box-shadow: inset 0 0 0 1px var(--line-soft); }
+html[data-theme="dark"] .composer-cancel:hover { background: var(--surface-raised); border-color: var(--line); color: var(--ink); }
+html[data-theme="dark"] .fitch-level-btn:hover:not(:disabled) { border-color: var(--line); background: var(--accent-soft); color: var(--accent); }
+
+html[data-theme="dark"] .hotel-callout { border-color: color-mix(in srgb, var(--amber) 35%, var(--line)); color: var(--amber); }
+html[data-theme="dark"] .hotel-area,
+html[data-theme="dark"] .hotel-svg text { fill: var(--ink); }
+html[data-theme="dark"] .hotel-svg text[fill="#5e6a75"] { fill: var(--muted); }
+html[data-theme="dark"] .hotel-svg text[fill="#18222d"] { fill: var(--ink); }
+html[data-theme="dark"] .hotel-svg text[fill="#fff"] { fill: var(--on-accent); }
+html[data-theme="dark"] .hotel-svg rect[fill="#fcfbf8"] { fill: var(--surface-soft); }
+html[data-theme="dark"] .hotel-svg rect[fill="#ffffff"],
+html[data-theme="dark"] .hotel-svg rect[fill="#fff"] { fill: var(--surface); }
+html[data-theme="dark"] .hotel-svg rect[fill="#e3f2eb"] { fill: var(--green-soft); }
+html[data-theme="dark"] .hotel-svg rect[fill="#faeed9"] { fill: var(--amber-soft); }
+html[data-theme="dark"] .hotel-svg rect[fill="#fff5f3"] { fill: var(--red-soft); }
+html[data-theme="dark"] .hotel-svg rect[stroke="#d9d3c6"],
+html[data-theme="dark"] .hotel-svg rect[stroke="#cfc7b8"] { stroke: var(--line); }
+
+html[data-theme="dark"] svg [fill="#fff"],
+html[data-theme="dark"] svg [fill="#ffffff"] { fill: var(--surface-raised); }
+html[data-theme="dark"] svg [fill="#f1eee7"] { fill: var(--surface-soft); }
+html[data-theme="dark"] svg [fill="#e8f0fb"] { fill: var(--blue-soft); }
+html[data-theme="dark"] svg [fill="#e3f2eb"],
+html[data-theme="dark"] svg [fill="#e6f2ec"] { fill: var(--green-soft); }
+html[data-theme="dark"] svg [fill="#fbf0dc"],
+html[data-theme="dark"] svg [fill="#faeed9"] { fill: var(--amber-soft); }
+html[data-theme="dark"] svg [fill="#fff5f3"] { fill: var(--red-soft); }
+html[data-theme="dark"] svg [fill="#1d2733"],
+html[data-theme="dark"] svg [fill="#18222d"] { fill: var(--ink); }
+html[data-theme="dark"] svg [fill="#5e6a75"] { fill: var(--muted); }
+html[data-theme="dark"] svg [stroke="#7b7366"],
+html[data-theme="dark"] svg [stroke="#1d2733"],
+html[data-theme="dark"] svg [stroke="#8c8374"] { stroke: var(--edge); }
+
+html[data-theme="dark"] .finite-panel,
+html[data-theme="dark"] .finite-room,
+html[data-theme="dark"] .map-column,
+html[data-theme="dark"] .bus-cell,
+html[data-theme="dark"] .bus-room-card,
+html[data-theme="dark"] .move-row,
+html[data-theme="dark"] .hotel-step,
+html[data-theme="dark"] .solution-nav {
+  background: var(--surface-soft);
+  border-color: var(--line-soft);
+}
+
+html[data-theme="dark"] .finite-room.taken { background: var(--red-soft); border-color: var(--red); }
+html[data-theme="dark"] .move-row.old { border-left-color: var(--accent); }
+html[data-theme="dark"] .move-row.new { border-left-color: var(--green); }
+html[data-theme="dark"] .move-row.bus { border-left-color: var(--amber); }
+html[data-theme="dark"] .bus-corner,
+html[data-theme="dark"] .bus-head,
+html[data-theme="dark"] .bus-row { background: var(--surface-raised); }
+html[data-theme="dark"] .bus-cell.assigned,
+html[data-theme="dark"] .bus-room-card.assigned { background: var(--accent-soft); border-color: color-mix(in srgb, var(--accent) 35%, var(--line)); }
+html[data-theme="dark"] .bus-cell.current,
+html[data-theme="dark"] .bus-room-card.current { background: var(--amber-soft); border-color: color-mix(in srgb, var(--amber) 40%, var(--line)); box-shadow: none; }
+html[data-theme="dark"] .hotel-step.done { background: var(--green-soft); border-color: color-mix(in srgb, var(--green) 35%, var(--line)); color: var(--green); }
+html[data-theme="dark"] .hotel-step.active { color: var(--on-accent); }
+html[data-theme="dark"] .truth-table tbody tr:hover td { background: var(--surface-raised); }
+html[data-theme="dark"] .toggle-chip.on { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+html[data-theme="dark"] .bit-matrix button.on { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+html[data-theme="dark"] .room.new { background: var(--green-soft); border-color: var(--green); }
+html[data-theme="dark"] .room.new .room-guest { color: var(--green); }
+html[data-theme="dark"] .ordinal-card.selected-a { background: var(--accent-soft); border-color: var(--accent); }
+html[data-theme="dark"] .ordinal-card.selected-b { background: var(--amber-soft); border-color: var(--amber); }
+html[data-theme="dark"] .ordinal-card.selected-a.selected-b { background: var(--green-soft); border-color: var(--green); }
+
+html[data-theme="dark"] .prime-table tbody tr:hover td,
+html[data-theme="dark"] #primes tbody tr:hover td { background: var(--surface-raised); }
+
+@media (max-width: 620px) {
+  .sitebar-actions { gap: 4px; }
+  .sitebar-gh,
+  .sitebar-theme { width: 30px; height: 30px; }
+}
