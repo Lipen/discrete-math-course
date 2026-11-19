@@ -1510,3 +1510,72 @@ button, .btn { border-radius: 9px; font-size: 13px; padding: 7px 12px; }
   .hub-hero h1 { font-size: clamp(36px, 10.5vw, 48px); }
   .hub-hero .lead { overflow-wrap: anywhere; }
 }
+
+/* ── Karnaugh workspace ── */
+
+.kmap-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 480px) minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+}
+
+.kmap-left, .kmap-right { min-width: 0; }
+.kmap-left h3, .kmap-right h3 { margin-top: 0; }
+.kmap-right #primes { overflow-x: auto; }
+.kmap-right #result { min-height: 48px; }
+
+.formula-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px 7px;
+}
+
+.formula-prefix { color: var(--muted); }
+
+.formula-term {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 5px;
+  border-radius: 6px;
+  border-bottom: 2px solid color-mix(in srgb, var(--term-color) 45%, transparent);
+  transition: background .15s, border-color .15s;
+  cursor: default;
+}
+
+.formula-term:hover,
+.formula-term:focus {
+  outline: none;
+  background: color-mix(in srgb, var(--term-color) 13%, transparent);
+  border-color: var(--term-color);
+}
+
+.formula-or { color: var(--muted); }
+
+.k-frame .k-fill { fill-opacity: .09; transition: fill-opacity .16s; }
+.k-frame .k-stroke {
+  fill: none;
+  stroke-width: 2.2;
+  opacity: .86;
+  transition: stroke-width .16s, opacity .16s;
+}
+.k-frame.is-focused .k-fill { fill-opacity: .26; }
+.k-frame.is-focused .k-stroke { stroke-width: 3.4; opacity: 1; }
+.k-frame.is-dimmed .k-fill { fill-opacity: .025; }
+.k-frame.is-dimmed .k-stroke { opacity: .3; }
+
+#primes tbody tr:hover td { background: #f7f4ec; }
+
+@media (max-width: 900px) {
+  .kmap-layout { grid-template-columns: 1fr; gap: 18px; }
+}
+
+.kmap-layout { grid-template-columns: minmax(0, 420px) minmax(0, 1fr); }
+.kmap-left .map-wrap { display: flex; flex-direction: column; align-items: flex-start; }
+.kmap-left .map { margin-left: 0; margin-right: 0; }
+.kmap-left .map-note { width: 100%; text-align: left; }
+
+@media (max-width: 900px) {
+  .kmap-layout { grid-template-columns: 1fr; }
+}

@@ -52,12 +52,8 @@
       X это безразличный набор: его можно покрывать, но не обязательно.
     </p>
 
-    <div class="split-wide-right">
-      <div>
-        <h3>Простые импликанты</h3>
-        <div id="primes"></div>
-      </div>
-      <div>
+    <div class="kmap-layout">
+      <div class="kmap-left">
         <h3>Карта</h3>
         <div class="map-wrap">
           <div class="map" id="map"></div>
@@ -69,14 +65,15 @@
           <span><span class="sw" style="background:#fff;border-color:#cfc7b8"></span>0</span>
         </div>
       </div>
+      <div class="kmap-right">
+        <h3>Минимальная ДНФ</h3>
+        <div class="status" id="result"></div>
+        <div class="metric-row" id="metrics"></div>
+        <p class="hint">Минимум точный: перебираются подмножества простых импликант, а не применяется эвристика.</p>
+        <h3 style="margin-top:18px">Простые импликанты</h3>
+        <div id="primes"></div>
+      </div>
     </div>
-  </section>
-
-  <section class="card">
-    <h2>Результат</h2>
-    <div class="status" id="result"></div>
-    <div class="metric-row" id="metrics"></div>
-    <p class="hint">Минимум точный: перебираются подмножества простых импликант, а не применяется эвристика.</p>
   </section>
 
   <section class="card">
@@ -304,6 +301,20 @@
       const cell = mapNode.querySelector('[data-m="' + m + '"]');
       if (cell) cell.classList.toggle("hl", on);
     }
+    highlightFrames(index, on);
+  }
+
+  function highlightFrames(index, on) {
+    const root = mapNode.querySelector(".k-map-overlay");
+    if (!root) return;
+    const frames = Array.from(root.querySelectorAll(".k-frame"));
+    const has = frames.some((frame) => frame.getAttribute("data-prime") === String(index));
+    if (!has) return;
+    for (const frame of frames) {
+      const isActive = frame.getAttribute("data-prime") === String(index);
+      frame.classList.toggle("is-focused", on && isActive);
+      frame.classList.toggle("is-dimmed", on && !isActive);
+    }
   }
 
   function cyclicSegments(indices, total) {
@@ -341,20 +352,36 @@
 
   function drawFrame(root, left, top, right, bottom, open, color, label) {
     const gap = 5;
+    const radius = Math.min(8, (right - left) / 2, (bottom - top) / 2);
     const d = [];
     const segment = (x1, y1, x2, y2) => d.push("M " + x1 + " " + y1 + " L " + x2 + " " + y2);
-    if (!open.top) segment(left + (open.left ? gap : 0), top, right - (open.right ? gap : 0), top);
-    if (!open.bottom) segment(left + (open.left ? gap : 0), bottom, right - (open.right ? gap : 0), bottom);
-    if (!open.left) segment(left, top + (open.top ? gap : 0), left, bottom - (open.bottom ? gap : 0));
-    if (!open.right) segment(right, top + (open.top ? gap : 0), right, bottom - (open.bottom ? gap : 0));
-    if (!d.length) return;
+    const arc = (x1, y1, cx, cy, x2, y2) => d.push("M " + x1 + " " + y1 + " Q " + cx + " " + cy + " " + x2 + " " + y2);
+    if (!open.top) segment(left + (open.left ? gap : radius), top, right - (open.right ? gap : radius), top);
+    if (!open.bottom) segment(left + (open.left ? gap : radius), bottom, right - (open.right ? gap : radius), bottom);
+    if (!open.left) segment(left, top + (open.top ? gap : radius), left, bottom - (open.bottom ? gap : radius));
+    if (!open.right) segment(right, top + (open.top ? gap : radius), right, bottom - (open.bottom ? gap : radius));
+    if (!open.top && !open.left) arc(left + radius, top, left, top, left, top + radius);
+    if (!open.top && !open.right) arc(right - radius, top, right, top, right, top + radius);
+    if (!open.bottom && !open.right) arc(right, bottom - radius, right, bottom, right - radius, bottom);
+    if (!open.bottom && !open.left) arc(left + radius, bottom, left, bottom, left, bottom - radius);
+
+    const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
+    group.classList.add("k-frame");
+    group.setAttribute("data-prime", label);
+    const fill = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    fill.setAttribute("x", left);
+    fill.setAttribute("y", top);
+    fill.setAttribute("width", right - left);
+    fill.setAttribute("height", bottom - top);
+    fill.setAttribute("rx", radius);
+    fill.setAttribute("fill", color);
+    fill.classList.add("k-fill");
     const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
     path.setAttribute("d", d.join(" "));
     path.setAttribute("stroke", color);
-    path.setAttribute("stroke-width", "2.4");
-    path.setAttribute("opacity", "0.92");
-    path.setAttribute("data-prime", label);
-    root.appendChild(path);
+    path.classList.add("k-stroke");
+    group.append(fill, path);
+    root.appendChild(group);
   }
 
   function renderFrames(result) {
@@ -454,9 +481,29 @@
 
   function renderResult() {
     const result = computeMinimum();
-    const tex = result.terms === 0 ? "f = 0" : "f = " + result.expression;
     resultNode.className = "status " + (result.terms === 0 ? "warn" : "ok");
-    resultNode.replaceChildren(Lab.math(tex, tex.length > 60));
+    if (result.terms === 0) {
+      resultNode.replaceChildren(Lab.math("f = 0", false));
+    } else {
+      const line = el("div", { class: "formula-line" });
+      line.appendChild(el("span", { class: "formula-prefix" }, Lab.math("f =", false)));
+      result.selected.forEach((primeIndex, position) => {
+        if (position > 0) line.appendChild(el("span", { class: "formula-or" }, Lab.math("\\lor", false)));
+        const term = el("span", {
+          class: "formula-term",
+          "data-prime": String(primeIndex),
+          tabindex: "0",
+        });
+        term.style.setProperty("--term-color", colors[primeIndex % colors.length]);
+        term.appendChild(Lab.math(termText(primes[primeIndex]), false));
+        term.addEventListener("mouseenter", () => highlightPrime(primeIndex, true));
+        term.addEventListener("mouseleave", () => highlightPrime(primeIndex, false));
+        term.addEventListener("focus", () => highlightPrime(primeIndex, true));
+        term.addEventListener("blur", () => highlightPrime(primeIndex, false));
+        line.appendChild(term);
+      });
+      resultNode.replaceChildren(line);
+    }
     metricsNode.innerHTML = "";
     metricsNode.appendChild(el("div", { class: "metric" }, [
       el("span", { class: "k", text: "термов" }), el("span", { class: "v", text: String(result.terms) }),
