@@ -316,17 +316,17 @@ def legacy_section(content: dict) -> str:
 CAVE_SCENE = """<svg class="cave-scene" viewBox="0 0 600 600" aria-hidden="true">
   <defs>
     <linearGradient id="beam" x1="150" y1="360" x2="600" y2="360" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#ffce8a" stop-opacity=".65"/>
-      <stop offset=".45" stop-color="#f0b45a" stop-opacity=".22"/>
+      <stop offset="0" stop-color="#ffce8a" stop-opacity=".8"/>
+      <stop offset=".45" stop-color="#f0b45a" stop-opacity=".32"/>
       <stop offset="1" stop-color="#f0b45a" stop-opacity="0"/>
     </linearGradient>
     <linearGradient id="core" x1="150" y1="360" x2="600" y2="360" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#fff0c0" stop-opacity=".7"/>
-      <stop offset=".5" stop-color="#ffd28a" stop-opacity=".18"/>
+      <stop offset="0" stop-color="#fff0c0" stop-opacity=".9"/>
+      <stop offset=".5" stop-color="#ffd28a" stop-opacity=".28"/>
       <stop offset="1" stop-color="#ffd28a" stop-opacity="0"/>
     </linearGradient>
     <radialGradient id="glow" cx="150" cy="360" r="90" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#ffd28a" stop-opacity=".55"/>
+      <stop offset="0" stop-color="#ffd28a" stop-opacity=".75"/>
       <stop offset="1" stop-color="#ffd28a" stop-opacity="0"/>
     </radialGradient>
     <radialGradient id="vig" cx="300" cy="300" r="380" gradientUnits="userSpaceOnUse">

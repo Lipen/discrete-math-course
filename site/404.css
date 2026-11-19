@@ -23,12 +23,12 @@ main.di { max-width: none; margin: 0; padding: 0; }
   -webkit-mask-image:
     radial-gradient(circle 240px at var(--mx) var(--my), transparent 0 50%, rgba(0, 0, 0, 0.6) 80%, #000 100%),
     radial-gradient(ellipse 320px 240px at var(--cx) var(--cy), rgba(0, 0, 0, 0.7) 0 35%, rgba(0, 0, 0, 0.85) 70%, #000 100%),
-    radial-gradient(circle 80px at var(--lx) var(--ly), rgba(0, 0, 0, 0.8) 0 25%, rgba(0, 0, 0, 0.9) 65%, #000 100%);
+    radial-gradient(circle 80px at var(--lx) var(--ly), rgba(0, 0, 0, 0.62) 0 25%, rgba(0, 0, 0, 0.82) 65%, #000 100%);
   -webkit-mask-composite: source-in;
   mask-image:
     radial-gradient(circle 240px at var(--mx) var(--my), transparent 0 50%, rgba(0, 0, 0, 0.6) 80%, #000 100%),
     radial-gradient(ellipse 320px 240px at var(--cx) var(--cy), rgba(0, 0, 0, 0.7) 0 35%, rgba(0, 0, 0, 0.85) 70%, #000 100%),
-    radial-gradient(circle 80px at var(--lx) var(--ly), rgba(0, 0, 0, 0.8) 0 25%, rgba(0, 0, 0, 0.9) 65%, #000 100%);
+    radial-gradient(circle 80px at var(--lx) var(--ly), rgba(0, 0, 0, 0.62) 0 25%, rgba(0, 0, 0, 0.82) 65%, #000 100%);
   mask-composite: intersect;
 }
 .torch::after {
@@ -41,7 +41,7 @@ main.di { max-width: none; margin: 0; padding: 0; }
 .torch-lamp {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle 110px at var(--lx) var(--ly), rgba(255, 200, 120, 0.32), rgba(255, 190, 100, 0.11) 45%, transparent 75%);
+  background: radial-gradient(circle 110px at var(--lx) var(--ly), rgba(255, 200, 120, 0.45), rgba(255, 190, 100, 0.18) 45%, transparent 75%);
   mix-blend-mode: screen;
   animation: lamp-ambient 4.2s ease-in-out infinite;
 }
@@ -120,7 +120,7 @@ main.di { max-width: none; margin: 0; padding: 0; }
 .d1 .lamp-flame {
   transform-box: fill-box;
   transform-origin: center bottom;
-  filter: drop-shadow(0 0 6px rgba(255, 170, 80, 0.35));
+  filter: drop-shadow(0 0 11px rgba(255, 170, 80, 0.6));
   animation: flame-flicker 2.6s ease-in-out infinite;
 }
 .d1 .lamp-flame-core {
@@ -154,9 +154,9 @@ main.di { max-width: none; margin: 0; padding: 0; }
 .d1 .mote:nth-child(6) { animation-duration: 8s; animation-delay: -5s; }
 .d1 .mote:nth-child(7) { animation-duration: 13s; animation-delay: -1s; }
 @keyframes mote-drift {
-  0% { transform: translate(0, 0); opacity: 0.15; }
-  50% { transform: translate(11px, -7px); opacity: 0.7; }
-  100% { transform: translate(-4px, -13px); opacity: 0.4; }
+  0% { transform: translate(0, 0); opacity: 0.2; }
+  50% { transform: translate(24px, -15px); opacity: 0.9; }
+  100% { transform: translate(-9px, -26px); opacity: 0.6; }
 }
 .d1 .relic {
   animation: relic-breathe 6.8s ease-in-out infinite;
