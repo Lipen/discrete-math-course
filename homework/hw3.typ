@@ -364,7 +364,7 @@
   Из свода уцелели три максимы.
 
   #align(center)[
-    #set text(0.9em)
+    #set text(0.8em)
     #grid(
       columns: 3,
       prooftree(rule(
