@@ -60,6 +60,11 @@
   <section class="card">
     <h2>Трасса</h2>
     <div class="trace" id="trace"></div>
+    <div class="btn-row" id="trace-controls" style="margin-top:8px">
+      <button id="trace-step" class="active">Следующий шаг</button>
+      <button id="trace-all">Все шаги</button>
+      <button id="trace-reset">Сброс</button>
+    </div>
     <p class="hint" id="trace-hint"></p>
   </section>
 
@@ -106,6 +111,8 @@
   let currentClauses = [];
   let currentRatio = null;
   let randomSeed = 20261119;
+  let currentTrace = [];
+  let tracePos = 0;
 
   const presetNode = $("#preset");
   const cnfNode = $("#cnf");
@@ -331,19 +338,27 @@
     return parts.join(", ");
   }
 
-  function renderTrace(trace) {
+  function renderTrace(trace, upto) {
     clear(traceNode);
     if (!trace.length) {
       traceNode.appendChild(el("div", { class: "muted", text: "Трасса пуста." }));
+      traceHint.textContent = "";
       return;
     }
-    const limit = 420;
-    let shown = trace;
+    if (!upto) {
+      traceNode.appendChild(el("div", { class: "muted", text: "Трасса скрыта. Нажмите «Следующий шаг», чтобы разобрать решение." }));
+      traceHint.textContent = "Шаг 0 из " + trace.length + ".";
+      $("#trace-step").disabled = false;
+      $("#trace-all").disabled = false;
+      return;
+    }
+    let shown = trace.slice(0, upto);
     let skipped = 0;
-    if (trace.length > limit) {
+    const limit = 420;
+    if (shown.length > limit) {
       const half = Math.floor(limit / 2);
-      shown = trace.slice(0, half).concat(trace.slice(trace.length - half));
-      skipped = trace.length - limit;
+      shown = shown.slice(0, half).concat(shown.slice(shown.length - half));
+      skipped = upto - limit;
     }
     for (let i = 0; i < shown.length; i++) {
       if (skipped && i === Math.floor(limit / 2)) {
@@ -358,7 +373,9 @@
       line.appendChild(el("span", { text: item.text }));
       traceNode.appendChild(line);
     }
-    traceHint.textContent = "Всего шагов: " + trace.length + ".";
+    traceHint.textContent = "Шаг " + upto + " из " + trace.length + ".";
+    $("#trace-step").disabled = upto >= trace.length;
+    $("#trace-all").disabled = upto >= trace.length;
   }
 
   function renderArt(kind) {
@@ -437,7 +454,9 @@
     } else {
       Lab.status(resultNode, "UNSAT. Все ветки закрыты конфликтом, модели нет.", "bad");
     }
-    renderTrace(result.trace);
+    currentTrace = result.trace;
+    tracePos = 0;
+    renderTrace(currentTrace, tracePos);
   }
 
   function solveCurrent() {
@@ -449,7 +468,11 @@
       Lab.status(resultNode, "Формула не разобрана.", "warn");
       metricsNode.innerHTML = "";
       clear(traceNode);
+      currentTrace = [];
+      tracePos = 0;
       traceHint.textContent = "";
+      $("#trace-step").disabled = true;
+      $("#trace-all").disabled = true;
       return;
     }
     currentN = parsed.n;
@@ -466,6 +489,23 @@
 
   $("#solve").addEventListener("click", () => {
     solveCurrent();
+  });
+
+  $("#trace-step").addEventListener("click", () => {
+    if (tracePos < currentTrace.length) {
+      tracePos += 1;
+      renderTrace(currentTrace, tracePos);
+    }
+  });
+
+  $("#trace-all").addEventListener("click", () => {
+    tracePos = currentTrace.length;
+    renderTrace(currentTrace, tracePos);
+  });
+
+  $("#trace-reset").addEventListener("click", () => {
+    tracePos = 0;
+    renderTrace(currentTrace, tracePos);
   });
 
   $("#again").addEventListener("click", () => {

@@ -1579,3 +1579,267 @@ button, .btn { border-radius: 9px; font-size: 13px; padding: 7px 12px; }
 @media (max-width: 900px) {
   .kmap-layout { grid-template-columns: 1fr; }
 }
+
+/* ── Cardinality: Hilbert hotel and diagonal ── */
+
+.scenario-switch {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 8px 0 14px;
+}
+
+.scenario-switch button {
+  border-radius: 8px;
+  padding: 6px 11px;
+  font-size: 12px;
+}
+
+.hotel-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 0;
+}
+
+.inline-field {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.inline-field select { min-width: 64px; padding: 5px 8px; }
+
+.hotel-board {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(0, .65fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.hotel-stage {
+  border: 1px solid var(--line-soft);
+  border-radius: 12px;
+  background: #fbfaf7;
+  padding: 8px;
+  overflow-x: auto;
+}
+
+.hotel-svg-wrap { min-width: 720px; }
+.hotel-svg { display: block; width: 100%; height: auto; }
+
+.hotel-arrow {
+  fill: none;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-dasharray: 6 5;
+  animation: hotel-flow 1.3s linear infinite;
+}
+
+@keyframes hotel-flow { to { stroke-dashoffset: -22; } }
+
+.h-room { animation: hotel-pop .32s ease both; }
+@keyframes hotel-pop {
+  from { opacity: .35; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hotel-arrow, .h-room { animation: none; }
+}
+
+.hotel-aside {
+  border-left: 1px solid var(--line-soft);
+  padding-left: 18px;
+}
+
+.hotel-log {
+  margin: 0 0 14px;
+  padding-left: 19px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.hotel-log li { margin: 5px 0; }
+.hotel-log li.current { color: var(--accent); font-weight: 700; }
+
+.hotel-equation {
+  padding: 10px 12px;
+  border: 1px solid var(--line-soft);
+  border-radius: 9px;
+  background: #fff;
+  text-align: center;
+}
+
+.hotel-callout {
+  margin-top: 12px;
+  padding: 10px 12px;
+  border: 1px solid #ecd6ac;
+  border-radius: 9px;
+  background: var(--amber-soft);
+  color: #7c5210;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.finite-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  margin-top: 18px;
+  padding: 14px;
+  border: 1px solid var(--line-soft);
+  border-radius: 12px;
+  background: #fbfaf7;
+}
+
+.finite-rooms {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.finite-room {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  text-align: center;
+}
+
+.finite-room small { color: var(--muted); font-size: 9px; }
+.finite-room b { font-size: 13px; }
+.finite-room.taken { border-color: var(--red); background: var(--red-soft); }
+
+.card-slim {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line-soft);
+}
+
+.card-slim h2 {
+  font-size: 20px;
+  margin: 0 0 4px;
+}
+
+.arithmetic-table { margin-top: 8px; }
+.arithmetic-table td { vertical-align: middle; }
+.arithmetic-table button { padding: 5px 10px; font-size: 12px; }
+
+.mapping-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(62px, 1fr));
+  gap: 6px;
+}
+
+.map-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 7px 4px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+}
+
+.map-column small { color: var(--muted); font-family: var(--mono); font-size: 9px; }
+.map-column b { font-family: var(--mono); font-size: 15px; }
+.map-arrow { color: var(--accent); font-size: 12px; }
+
+.bus-grid {
+  display: grid;
+  grid-template-columns: 92px repeat(4, minmax(0, 1fr));
+  gap: 4px;
+}
+
+.bus-corner, .bus-head, .bus-row {
+  display: flex;
+  align-items: center;
+  padding: 6px;
+  border-radius: 6px;
+  background: #f1eee7;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 650;
+}
+
+.bus-head { justify-content: center; }
+.bus-row { color: var(--ink); }
+
+.bus-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-height: 48px;
+  padding: 5px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: #fff;
+  transition: background .2s, border-color .2s, box-shadow .2s;
+}
+
+.bus-cell small { color: var(--muted); font-size: 9px; }
+.bus-room { font-family: var(--mono); font-size: 12px; font-weight: 700; }
+.bus-cell.assigned { background: var(--accent-soft); border-color: #b9cce8; }
+.bus-cell.current { background: var(--amber-soft); border-color: #d7b26e; box-shadow: 0 0 0 2px #d7b26e inset; }
+
+.bus-rooms {
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  gap: 4px;
+  margin-top: 10px;
+}
+
+.bus-room-card {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-height: 46px;
+  padding: 5px;
+  border: 1px dashed var(--line);
+  border-radius: 6px;
+  background: #fff;
+  text-align: center;
+}
+
+.bus-room-card small { color: var(--muted); font-size: 8px; }
+.bus-room-card b { font-family: var(--mono); font-size: 10px; }
+.bus-room-card.assigned { border-style: solid; background: var(--accent-soft); }
+.bus-room-card.current { border-color: #d7b26e; background: var(--amber-soft); }
+
+.hidden { display: none !important; }
+
+@media (max-width: 900px) {
+  .hotel-board { grid-template-columns: 1fr; }
+  .hotel-aside { border-left: 0; border-top: 1px solid var(--line-soft); padding: 14px 0 0; }
+  .finite-panel { grid-template-columns: 1fr; }
+  .bus-rooms { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+}
+
+@media (max-width: 560px) {
+  .hotel-svg-wrap { min-width: 650px; }
+  .bus-grid { grid-template-columns: 72px repeat(4, minmax(0, 1fr)); }
+  .bus-corner, .bus-head, .bus-row { font-size: 9px; padding: 4px; }
+}
+
+.hotel-board > * { min-width: 0; }
+.hotel-stage { max-width: 100%; min-width: 0; }
+
+#arithmetic { overflow-x: auto; }
+
+@media (max-width: 900px) {
+  .lab-header { overflow: clip; }
+}
+
+.finite-room.waiting { border-style: dashed; border-color: var(--red); background: var(--red-soft); }

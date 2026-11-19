@@ -54,6 +54,12 @@
   </section>
 
   <section class="card">
+    <h2>Слияния</h2>
+    <div id="merges"></div>
+    <p class="hint">На каждом шаге сливаются два узла с наименьшим весом. Вес родителя это сумма весов детей.</p>
+  </section>
+
+  <section class="card">
     <h2>Коды</h2>
     <div class="tt-wrap" id="codes"></div>
   </section>
@@ -123,6 +129,7 @@
   const treeNode = $("#tree");
   const codesNode = $("#codes");
   const costNode = $("#cost");
+  const mergesNode = $("#merges");
 
   function setPreset(name) {
     entries = presets[name].map(([symbol, weight]) => ({ symbol, weight }));
@@ -154,6 +161,7 @@
 
   function compute() {
     const nodes = [];
+    const merges = [];
     let counter = 0;
     for (const entry of entries) {
       nodes.push({ id: counter++, symbol: entry.symbol, weight: entry.weight, left: null, right: null, order: counter });
@@ -162,14 +170,16 @@
       nodes.sort((a, b) => a.weight - b.weight || a.order - b.order);
       const left = nodes.shift();
       const right = nodes.shift();
-      nodes.push({
+      const parent = {
         id: counter++,
         symbol: null,
         weight: left.weight + right.weight,
         left,
         right,
         order: counter,
-      });
+      };
+      nodes.push(parent);
+      merges.push({ left, right, weight: parent.weight });
     }
     tree = nodes[0] || null;
     codes = new Map();
@@ -188,7 +198,7 @@
       L += p * code.length;
       H -= p * Math.log2(p);
     }
-    stats = { total, L, H, gap: L - H };
+    stats = { total, L, H, gap: L - H, merges };
   }
 
   function assignCodes(node, prefix) {
@@ -349,8 +359,39 @@
     ]));
   }
 
+  function nodeLabel(node) {
+    return node.symbol ? node.symbol + " (" + node.weight + ")" : "(" + node.weight + ")";
+  }
+
+  function renderMerges() {
+    clear(mergesNode);
+    if (!stats || !stats.merges.length) {
+      mergesNode.appendChild(el("p", { class: "muted", text: "Для одного символа слияний нет." }));
+      return;
+    }
+    const table = el("table", { class: "data" });
+    const thead = el("thead");
+    thead.appendChild(el("tr", {}, [
+      el("th", { text: "шаг" }),
+      el("th", { class: "left", text: "слияние" }),
+      el("th", { text: "вес" }),
+    ]));
+    table.appendChild(thead);
+    const body = el("tbody");
+    stats.merges.forEach((merge, index) => {
+      const tr = el("tr");
+      tr.appendChild(el("td", { class: "mono", text: String(index + 1) }));
+      tr.appendChild(el("td", { class: "left mono", text: nodeLabel(merge.left) + " + " + nodeLabel(merge.right) }));
+      tr.appendChild(el("td", { class: "mono", text: String(merge.weight) }));
+      body.appendChild(tr);
+    });
+    table.appendChild(body);
+    mergesNode.appendChild(table);
+  }
+
   function renderAll() {
     renderTree();
+    renderMerges();
     renderCodes();
     renderCost();
   }

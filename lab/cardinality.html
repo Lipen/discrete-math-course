@@ -15,14 +15,15 @@
     <span class="here">Счётность и бесконечность</span>
   </nav>
   <p class="eyebrow">Счётность</p>
-  <h1>Бесконечность, которую можно пересчитать</h1>
+  <h1>Отель, автобусы и диагональ</h1>
   <p class="lead">
-    Отель Гильберта, целые числа, пары натуральных и диагональ Кантора.
-    Четыре модели показывают, где биекция находится, а где её принципиально не может быть.
+    В полный отель приходит один гость, затем конечная группа, бесконечный автобус и бесконечно много автобусов.
+    На каждом шаге видно, кто куда переезжает и почему мощность не меняется.
   </p>
   <div class="lab-meta">
     <span class="pill info">биекция</span>
-    <span class="pill">N × N</span>
+    <span class="pill">N + N = N</span>
+    <span class="pill">N × N = N</span>
     <span class="pill">диагональ</span>
   </div>
 </header>
@@ -32,29 +33,64 @@
     <div class="tabs" id="tabs">
       <button data-tab="hotel" class="active">Отель</button>
       <button data-tab="integers">Целые</button>
-      <button data-tab="pairs">Пары</button>
       <button data-tab="diagonal">Диагональ</button>
     </div>
 
     <div class="tab-panel" id="tab-hotel">
-      <div class="split-wide-left">
+      <div class="scenario-switch" id="hotel-scenarios">
+        <button data-scenario="one" class="active">Один гость</button>
+        <button data-scenario="group">Группа</button>
+        <button data-scenario="bus">Бесконечный автобус</button>
+        <button data-scenario="buses">Бесконечно много автобусов</button>
+      </div>
+
+      <div class="hotel-board">
         <div>
-          <h3>Отель Гильберта</h3>
-          <p class="hint">Все комнаты заняты. Новый гость всё равно помещается: каждый жилец переезжает на одну комнату дальше.</p>
-          <div class="btn-row">
-            <button id="hotel-shift" class="active">Поселить ещё одного</button>
+          <h3 id="hotel-title">Один гость</h3>
+          <p class="hint" id="hotel-hint"></p>
+          <div class="hotel-controls">
+            <button id="hotel-next" class="active">Следующий шаг</button>
+            <button id="hotel-auto">Авто</button>
             <button id="hotel-reset">Сброс</button>
+            <label class="inline-field" id="group-wrap">Группа
+              <select id="group-size">
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+            </label>
           </div>
-          <div id="hotel-rooms" style="margin-top:14px"></div>
-          <div class="formula-box" id="hotel-formula" style="margin-top:12px"></div>
-          <div class="status" id="hotel-status" style="margin-top:8px"></div>
+          <div class="hotel-stage" id="hotel-stage"></div>
+          <div class="status" id="hotel-status" style="margin-top:10px"></div>
+          <div class="formula-box" id="hotel-formula" style="margin-top:10px"></div>
         </div>
+
+        <aside class="hotel-aside">
+          <h3>Ход</h3>
+          <ol class="hotel-log" id="hotel-log"></ol>
+          <div class="hotel-equation" id="hotel-equation"></div>
+          <div class="hotel-callout" id="hotel-callout"></div>
+        </aside>
+      </div>
+
+      <section class="finite-panel">
         <div>
-          <h3>Почему это работает</h3>
-          <p>Отображение <span data-tex="n \mapsto n+1"></span> сдвигает всех жильцов и освобождает комнату 1.</p>
-          <p>Это инъекция из натуральных в натуральные, но не сюръекция: комната 1 остаётся свободной.</p>
-          <p>Для нового гостя этого достаточно. Для бесконечной группы понадобится сдвиг на бесконечность, например <span data-tex="n \mapsto 2n"></span>.</p>
+          <h3>Конечный отель</h3>
+          <p class="hint">Три комнаты и три гостя. Попробуйте поселить четвёртого.</p>
         </div>
+        <div class="finite-rooms" id="finite-rooms"></div>
+        <div class="btn-row">
+          <button id="finite-try">Заселить нового</button>
+          <button id="finite-reset">Сброс</button>
+        </div>
+        <div class="status" id="finite-status"></div>
+      </section>
+
+      <div class="card-slim">
+        <h2>Кардинальная арифметика</h2>
+        <p class="hint">Нажмите на строку, чтобы вернуться к сценарию, который её показывает.</p>
+        <div id="arithmetic"></div>
       </div>
     </div>
 
@@ -62,33 +98,18 @@
       <div class="split-wide-left">
         <div>
           <h3>Целые числа</h3>
-          <p class="hint">Натуральные и целые равномощны: каждому целому можно выдать натуральный номер.</p>
+          <p class="hint">Нумерация выдаёт каждому целому свой натуральный номер. Ни один номер не пропущен и не повторён.</p>
           <div class="btn-row">
             <button id="integers-add" class="active">Добавить пару</button>
             <button id="integers-reset">Сброс</button>
           </div>
-          <div id="integers-list" style="margin-top:14px"></div>
+          <div class="mapping-grid" id="integers-list" style="margin-top:14px"></div>
         </div>
         <div>
           <h3>Формула</h3>
           <div class="formula-box" id="integers-formula"></div>
-          <p class="hint">Чётные номера дают отрицательные числа, нечётные положительные. Ноль стоит отдельно.</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="tab-panel hidden" id="tab-pairs">
-      <div class="split-wide-left">
-        <div>
-          <h3>Пары натуральных</h3>
-          <p class="hint">Клик по клетке показывает номер пары и её диагональ. Диагональ это фиксированная сумма i+j.</p>
-          <div class="tt-wrap" id="pairs-table"></div>
-        </div>
-        <div>
-          <h3>Номер пары</h3>
-          <div class="formula-box" id="pairs-formula"></div>
-          <div class="status" id="pairs-status" style="margin-top:8px"></div>
-          <p class="hint">Диагонали конечны, поэтому их можно обходить по очереди. Каждая пара получит конечный номер.</p>
+          <div class="status" id="integers-status" style="margin-top:8px"></div>
+          <p class="hint">Ноль стоит в начале. Дальше идут пары: положительное число получает нечётный номер, отрицательное чётный.</p>
         </div>
       </div>
     </div>
@@ -97,9 +118,10 @@
       <div class="split-wide-left">
         <div>
           <h3>Диагональ Кантора</h3>
-          <p class="hint">Строки это гипотетический список всех двоичных последовательностей. Диагональ даёт новую последовательность.</p>
+          <p class="hint">Строки это гипотетический список двоичных последовательностей. Диагональ строит последовательность, которой в списке нет.</p>
           <div class="btn-row">
-            <button id="diagonal-random" class="active">Пересчитать таблицу</button>
+            <button id="diagonal-step" class="active">Следующий шаг</button>
+            <button id="diagonal-random">Новая таблица</button>
           </div>
           <div class="tt-wrap" id="diagonal-table" style="margin-top:12px"></div>
         </div>
@@ -107,34 +129,8 @@
           <h3>Почему новой строки нет в списке</h3>
           <div class="formula-box" id="diagonal-formula"></div>
           <div class="status" id="diagonal-status" style="margin-top:8px"></div>
-          <p class="hint">Строка d отличается от строки i хотя бы в позиции i. Значит она не равна ни одной строке списка.</p>
+          <p class="hint" id="diagonal-hint"></p>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="card">
-    <h2>Что здесь показано</h2>
-    <div class="theory-grid">
-      <div>
-        <h3>Равномощность</h3>
-        <p>Два множества равномощны, если между ними есть биекция.
-        Для бесконечных множеств это определение, а не количество элементов.</p>
-      </div>
-      <div>
-        <h3>Счётность</h3>
-        <p>Множество счётно, если его можно занумеровать натуральными.
-        Целые и пары натуральных счётны: формулы дают конкретную нумерацию.</p>
-      </div>
-      <div>
-        <h3>Диагональ</h3>
-        <p>Кантор строит последовательность, которой нет в предложенном списке.
-        Поэтому множество всех двоичных последовательностей несчётно.</p>
-      </div>
-      <div>
-        <h3>Иерархия</h3>
-        <p>Мощность множества подмножеств строго больше мощности исходного множества.
-        Так появляются разные бесконечности.</p>
       </div>
     </div>
   </section>
@@ -150,29 +146,45 @@
 <script>
 (function () {
   "use strict";
-  const { $, el, clear } = Lab;
+  const { $, el, clear, math } = Lab;
 
-  let hotelShifted = false;
-  let integerSteps = 10;
-  let selectedPair = null;
+  const ROOM_COUNT = 10;
+  const COLORS = {
+    old: "#2856a3",
+    new: "#26755a",
+    bus: "#a96b15",
+    free: "#b23b3b",
+  };
+
+  let scenario = "one";
+  let step = 0;
+  let groupSize = 2;
+  let hotelTimer = null;
+  let integerSteps = 8;
+  let diagonalStep = 0;
   let diagonalTable = [];
+  let finiteTried = false;
 
   const tabs = $("#tabs");
-  const hotelRooms = $("#hotel-rooms");
-  const hotelFormula = $("#hotel-formula");
-  const hotelStatus = $("#hotel-status");
-  const integersList = $("#integers-list");
-  const integersFormula = $("#integers-formula");
-  const pairsTable = $("#pairs-table");
-  const pairsFormula = $("#pairs-formula");
-  const pairsStatus = $("#pairs-status");
-  const diagonalTableNode = $("#diagonal-table");
-  const diagonalFormula = $("#diagonal-formula");
-  const diagonalStatus = $("#diagonal-status");
+  const stage = $("#hotel-stage");
+  const title = $("#hotel-title");
+  const hint = $("#hotel-hint");
+  const status = $("#hotel-status");
+  const formula = $("#hotel-formula");
+  const equation = $("#hotel-equation");
+  const callout = $("#hotel-callout");
+  const log = $("#hotel-log");
+  const groupWrap = $("#group-wrap");
+  const groupSelect = $("#group-size");
+  const nextButton = $("#hotel-next");
+  const autoButton = $("#hotel-auto");
 
   function showTab(name) {
     for (const button of tabs.querySelectorAll("button")) button.classList.toggle("active", button.dataset.tab === name);
     for (const panel of document.querySelectorAll(".tab-panel")) panel.classList.toggle("hidden", panel.id !== "tab-" + name);
+    if (name === "hotel") renderHotel();
+    if (name === "integers") renderIntegers();
+    if (name === "diagonal") renderDiagonal();
   }
 
   tabs.addEventListener("click", (event) => {
@@ -180,22 +192,385 @@
     if (button) showTab(button.dataset.tab);
   });
 
-  function renderHotel() {
-    clear(hotelRooms);
-    const strip = el("div", { class: "room-strip" });
-    for (let room = 1; room <= 8; room++) {
-      const guest = hotelShifted ? (room === 1 ? "новый" : "гость " + (room - 1)) : "гость " + room;
-      strip.appendChild(el("div", { class: "room" + (room === 1 && hotelShifted ? " new" : "") }, [
-        el("span", { class: "room-num", text: "комната " + room }),
-        el("span", { class: "room-guest", text: guest }),
+  function stopAuto() {
+    if (hotelTimer !== null) {
+      clearInterval(hotelTimer);
+      hotelTimer = null;
+    }
+    autoButton.textContent = "Авто";
+  }
+
+  function roomList(n) {
+    return Array.from({ length: n }, (_, i) => ({ guest: "G" + (i + 1), kind: "old" }));
+  }
+
+  function stateFor(s, currentStep) {
+    const rooms = roomList(ROOM_COUNT);
+    let sources = [];
+    let mapping = [];
+    let note = "";
+    let localHint = "";
+    let equationTex = "";
+    let calloutText = "";
+    let formulaTex = "";
+    let maxStep = 0;
+
+    if (s === "one") {
+      maxStep = 2;
+      sources = Array.from({ length: 5 }, (_, i) => ({ row: "old", label: "G" + (i + 1) }));
+      sources.push({ row: "new", label: "новый" });
+      localHint = "Все комнаты заняты. Сдвиг освобождает первую комнату.";
+      if (currentStep === 0) {
+        note = "Комнат и гостей одинаково много. Свободных комнат нет.";
+        equationTex = "\\aleph_0 + 1 = \\aleph_0";
+        formulaTex = "g(n) = n + 1";
+      } else {
+        rooms[0] = { guest: "", kind: currentStep === 1 ? "free" : "new" };
+        for (let i = 1; i < ROOM_COUNT; i++) rooms[i] = { guest: "G" + i, kind: "old" };
+        for (let i = 1; i <= 5; i++) mapping.push({ row: "old", label: "G" + i, room: i + 1, kind: "old" });
+        if (currentStep === 1) {
+          note = "Каждый жилец переезжает на одну комнату вправо. Комната 1 пуста.";
+          equationTex = "\\aleph_0 + 1 = \\aleph_0";
+          formulaTex = "g(n) = n + 1";
+        } else {
+          rooms[0] = { guest: "новый", kind: "new" };
+          mapping.push({ row: "new", label: "новый", room: 1, kind: "new" });
+          note = "Новый гость занимает комнату 1. Никто не потерян: старый гость n теперь в комнате n+1.";
+          equationTex = "\\aleph_0 + 1 = \\aleph_0";
+          formulaTex = "G_n \\mapsto n + 1, \\quad \\text{новый} \\mapsto 1";
+        }
+      }
+      calloutText = "В конечном отеле сдвиг не помогает: четыре гостя не помещаются в три комнаты. В бесконечном отеле гостей и комнат одинаково много, поэтому сдвиг освобождает место.";
+    } else if (s === "group") {
+      maxStep = 2;
+      const k = groupSize;
+      sources = Array.from({ length: 4 }, (_, i) => ({ row: "old", label: "G" + (i + 1) }));
+      sources = sources.concat(Array.from({ length: k }, (_, i) => ({ row: "new", label: "N" + (i + 1) })));
+      localHint = "Сдвиг освобождает начало ряда.";
+      if (currentStep === 0) {
+        note = "Все комнаты заняты. Снаружи ждут " + k + " новых гостей.";
+        equationTex = "\\aleph_0 + " + k + " = \\aleph_0";
+        formulaTex = "g(n) = n + " + k;
+      } else {
+        for (let i = 0; i < k; i++) rooms[i] = { guest: "N" + (i + 1), kind: "new" };
+        for (let i = k; i < ROOM_COUNT; i++) rooms[i] = { guest: "G" + (i - k + 1), kind: "old" };
+        for (let i = 1; i <= 4; i++) mapping.push({ row: "old", label: "G" + i, room: i + k, kind: "old" });
+        for (let i = 1; i <= k; i++) mapping.push({ row: "new", label: "N" + i, room: i, kind: "new" });
+        note = "Жильцы сдвигаются вправо, новые гости занимают начало ряда.";
+        equationTex = "\\aleph_0 + " + k + " = \\aleph_0";
+        formulaTex = "G_n \\mapsto n + " + k + ", \\quad N_j \\mapsto j";
+      }
+      calloutText = "Сдвиг на конечное k ничего не меняет: натуральный ряд сдвигом на k снова покрывает всё, кроме первых k мест, а эти места заняли новые гости.";
+    } else if (s === "bus") {
+      maxStep = 1;
+      sources = Array.from({ length: 5 }, (_, i) => ({ row: "old", label: "G" + (i + 1) }));
+      sources = sources.concat(Array.from({ length: 5 }, (_, i) => ({ row: "bus", label: "B" + (i + 1) })));
+      localHint = "Бесконечный автобус: каждому пассажиру нужна комната.";
+      if (currentStep === 0) {
+        note = "В отеле заняты все комнаты. У автобуса бесконечно много пассажиров.";
+        equationTex = "\\aleph_0 + \\aleph_0 = \\aleph_0";
+        formulaTex = "G_n \\mapsto 2n, \\quad B_n \\mapsto 2n - 1";
+      } else {
+        for (let i = 1; i <= 5; i++) {
+          rooms[2 * i - 1] = { guest: "G" + i, kind: "old" };
+          rooms[2 * i - 2] = { guest: "B" + i, kind: "bus" };
+          mapping.push({ row: "old", label: "G" + i, room: 2 * i, kind: "old" });
+          mapping.push({ row: "bus", label: "B" + i, room: 2 * i - 1, kind: "bus" });
+        }
+        note = "Старые жильцы идут в чётные комнаты, пассажиры автобуса в нечётные. Обе последовательности не пересекаются и покрывают все комнаты.";
+        equationTex = "\\aleph_0 + \\aleph_0 = \\aleph_0";
+        formulaTex = "G_n \\mapsto 2n, \\quad B_n \\mapsto 2n - 1";
+      }
+      calloutText = "Два счётных множества вместе снова счётны. Новая бесконечность не появилась: чётные и нечётные номера это две копии N внутри одного N.";
+    } else {
+      maxStep = 7;
+      localHint = "Автобусов счётно много. Каждая пара (автобус, место) получает свой номер комнаты.";
+      sources = [];
+      note = currentStep === 0 ? "Ничего не размещено." : "Диагональ " + (currentStep - 1) + ": пары с одинаковой суммой получают комнаты.";
+      equationTex = "\\aleph_0 \\times \\aleph_0 = \\aleph_0";
+      formulaTex = "\\operatorname{room}(b,n) = \\pi(b,n-1) + 1";
+      calloutText = "Старых жильцов можно отправить в чётные комнаты, а пары (автобус, место) в нечётные. Счётное объединение счётных множеств счётно: диагональная нумерация превращает двумерную таблицу в один список.";
+    }
+
+    return { rooms, sources, mapping, note, localHint, equationTex, formulaTex, calloutText, maxStep, currentStep };
+  }
+
+  function sourceY(row) {
+    return row === "old" ? 174 : 244;
+  }
+
+  function sourceX(index) {
+    return 88 + index * 148;
+  }
+
+  function roomX(index) {
+    return 32 + index * 87;
+  }
+
+  function hotelSvg(state) {
+    const parts = [];
+    parts.push('<svg class="hotel-svg" viewBox="0 0 920 316" role="img" aria-label="Схема переезда гостей в отеле">');
+    parts.push('<defs>');
+    for (const kind of ["old", "new", "bus"]) {
+      parts.push('<marker id="arrow-' + kind + '" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="' + COLORS[kind] + '"></path></marker>');
+    }
+    parts.push('</defs>');
+
+    for (let i = 0; i < state.rooms.length; i++) {
+      const room = state.rooms[i];
+      const x = roomX(i);
+      const isFree = room.kind === "free";
+      const fill = isFree ? "#fff5f3" : (room.kind === "new" ? "#e3f2eb" : (room.kind === "bus" ? "#faeed9" : "#ffffff"));
+      const stroke = isFree ? COLORS.free : (room.kind === "new" ? COLORS.new : (room.kind === "bus" ? COLORS.bus : "#cfc7b8"));
+      parts.push('<g class="h-room">');
+      parts.push('<rect x="' + x + '" y="28" width="74" height="58" rx="9" fill="' + fill + '" stroke="' + stroke + '" stroke-width="1.4"' + (isFree ? ' stroke-dasharray="5 4"' : '') + '></rect>');
+      parts.push('<text x="' + (x + 37) + '" y="45" text-anchor="middle" font-size="9" fill="#5e6a75">комната ' + (i + 1) + '</text>');
+      parts.push('<text x="' + (x + 37) + '" y="68" text-anchor="middle" font-size="12" font-weight="700" fill="' + (isFree ? COLORS.free : '#18222d') + '">' + (isFree ? "свободна" : room.guest) + '</text>');
+      parts.push('</g>');
+    }
+
+    const rows = {};
+    const sourceParts = [];
+    const arrowParts = [];
+    for (const source of state.sources) {
+      if (!rows[source.row]) rows[source.row] = [];
+      rows[source.row].push(source);
+    }
+
+    for (const rowName of Object.keys(rows)) {
+      const y = sourceY(rowName);
+      const label = rowName === "old" ? "жильцы" : (rowName === "new" ? "новые" : "автобус");
+      sourceParts.push('<text x="14" y="' + (y + 21) + '" font-size="10" fill="#5e6a75">' + label + '</text>');
+      rows[rowName].forEach((source, index) => {
+        const x = sourceX(index);
+        const fill = rowName === "old" ? "#e6eefb" : (rowName === "new" ? "#e3f2eb" : "#faeed9");
+        const stroke = COLORS[rowName];
+        sourceParts.push('<rect x="' + x + '" y="' + y + '" width="72" height="34" rx="7" fill="' + fill + '" stroke="' + stroke + '" stroke-width="1.1"></rect>');
+        sourceParts.push('<text x="' + (x + 36) + '" y="' + (y + 21) + '" text-anchor="middle" font-size="11" font-weight="700" fill="#18222d">' + source.label + '</text>');
+      });
+    }
+
+    for (const arrow of state.mapping) {
+      const rowSources = rows[arrow.row] || [];
+      const fromIndex = rowSources.findIndex((source) => source.label === arrow.label);
+      if (fromIndex < 0) continue;
+      const x1 = sourceX(fromIndex) + 36;
+      const y1 = sourceY(arrow.row) - 3;
+      const x2 = roomX(arrow.room - 1) + 37;
+      const y2 = 91;
+      const mid = (y1 + y2) / 2;
+      arrowParts.push('<path class="hotel-arrow" d="M ' + x1 + ' ' + y1 + ' C ' + x1 + ' ' + mid + ', ' + x2 + ' ' + mid + ', ' + x2 + ' ' + y2 + '" stroke="' + COLORS[arrow.kind] + '" marker-end="url(#arrow-' + arrow.kind + ')"></path>');
+    }
+
+    parts.push('<text x="900" y="64" text-anchor="middle" font-size="20" fill="#5e6a75">…</text>');
+    parts.push(arrowParts.join(""));
+    parts.push(sourceParts.join(""));
+    parts.push('</svg>');
+    return parts.join("");
+  }
+
+  function busPairIndex(bus, seat) {
+    const i = bus;
+    const j = seat - 1;
+    return ((i + j) * (i + j + 1)) / 2 + j;
+  }
+
+  function renderBusGrid(state) {
+    clear(stage);
+    const buses = 4;
+    const seats = 4;
+    const grid = el("div", { class: "bus-grid" });
+    grid.appendChild(el("div", { class: "bus-corner", text: "автобус \\ место" }));
+    for (let seat = 1; seat <= seats; seat++) grid.appendChild(el("div", { class: "bus-head", text: "место " + seat }));
+    for (let bus = 0; bus < buses; bus++) {
+      grid.appendChild(el("div", { class: "bus-row", text: "B" + bus }));
+      for (let seat = 1; seat <= seats; seat++) {
+        const room = busPairIndex(bus, seat) + 1;
+        const sum = bus + seat - 1;
+        const diagonal = step - 1;
+        const shown = step > 0 && sum <= diagonal;
+        const current = step > 0 && sum === diagonal;
+        const cell = el("div", {
+          class: "bus-cell" + (shown ? " assigned" : "") + (current ? " current" : ""),
+        }, [
+          el("span", { class: "bus-room", text: "№" + room }),
+          el("small", { text: (shown ? "занята" : "ждёт") }),
+        ]);
+        grid.appendChild(cell);
+      }
+    }
+    stage.appendChild(grid);
+
+    const roomLane = el("div", { class: "bus-rooms" });
+    for (let room = 1; room <= 10; room++) {
+      let label = "";
+      for (let bus = 0; bus < buses && !label; bus++) {
+        for (let seat = 1; seat <= seats && !label; seat++) {
+          if (busPairIndex(bus, seat) + 1 === room) label = "B" + bus + "·" + seat;
+        }
+      }
+      const isNew = label && step > 0 && (() => {
+        for (let bus = 0; bus < buses; bus++) for (let seat = 1; seat <= seats; seat++) {
+          if (busPairIndex(bus, seat) + 1 === room) return bus + seat - 1 === step - 1;
+        }
+        return false;
+      })();
+      roomLane.appendChild(el("div", { class: "bus-room-card" + (step > 0 && label ? " assigned" : "") + (isNew ? " current" : "") }, [
+        el("small", { text: "комната " + room }),
+        el("b", { text: label || "…" }),
       ]));
     }
-    strip.appendChild(el("div", { class: "room ellipsis", text: "…" }));
-    hotelRooms.appendChild(strip);
-    hotelFormula.replaceChildren(Lab.math("g(n) = n + 1", false));
-    Lab.status(hotelStatus, hotelShifted
-      ? "Новый гость в комнате 1. Гость 8 переехал в комнату 9, окно сдвинулось."
-      : "Все комнаты заняты. Нажмите кнопку, чтобы сдвинуть жильцов.", hotelShifted ? "ok" : "warn");
+    stage.appendChild(el("p", { class: "hint", text: "Нижняя лента это окно комнат. В сетке показано, какая пара займёт комнату." }));
+    stage.appendChild(roomLane);
+  }
+
+  function renderHotel() {
+    const state = stateFor(scenario, step);
+    groupWrap.classList.toggle("hidden", scenario !== "group");
+    title.textContent = scenario === "one" ? "Один гость" : (scenario === "group" ? "Конечная группа" : (scenario === "bus" ? "Бесконечный автобус" : "Бесконечно много автобусов"));
+    hint.textContent = state.localHint;
+    clear(log);
+    const descriptions = scenario === "one"
+      ? ["Комнаты заняты", "Жильцы сдвигаются на одну", "Новый гость в комнате 1"]
+      : scenario === "group"
+        ? ["Комнаты заняты", "Сдвиг на " + groupSize, "Новые гости в первых " + groupSize + " комнатах"]
+        : scenario === "bus"
+          ? ["Комнаты заняты, автобус ждёт", "Жильцы в чётные, автобус в нечётные"]
+          : Array.from({ length: state.maxStep + 1 }, (_, i) => i === 0 ? "Ничего не размещено" : "Диагональ " + (i - 1));
+    for (let i = 0; i <= state.maxStep; i++) {
+      const li = el("li", { class: i === step ? "current" : "", text: descriptions[i] || "" });
+      log.appendChild(li);
+    }
+
+    if (scenario === "buses") {
+      renderBusGrid(state);
+    } else {
+      clear(stage);
+      const wrap = el("div", { class: "hotel-svg-wrap" });
+      wrap.innerHTML = hotelSvg(state);
+      stage.appendChild(wrap);
+    }
+
+    Lab.status(status, state.note, step === 0 ? "warn" : "ok");
+    formula.replaceChildren(math(state.formulaTex, true));
+    equation.replaceChildren(math(state.equationTex, true));
+    callout.textContent = state.calloutText;
+    nextButton.disabled = step >= state.maxStep;
+    nextButton.textContent = step >= state.maxStep ? "Готово" : "Следующий шаг";
+  }
+
+  function setScenario(name) {
+    stopAuto();
+    scenario = name;
+    step = 0;
+    for (const button of document.querySelectorAll("#hotel-scenarios button")) button.classList.toggle("active", button.dataset.scenario === name);
+    renderHotel();
+  }
+
+  document.querySelector("#hotel-scenarios").addEventListener("click", (event) => {
+    const button = event.target.closest("button[data-scenario]");
+    if (button) setScenario(button.dataset.scenario);
+  });
+
+  nextButton.addEventListener("click", () => {
+    const max = stateFor(scenario, step).maxStep;
+    if (step >= max) return;
+    step += 1;
+    renderHotel();
+  });
+
+  autoButton.addEventListener("click", () => {
+    if (hotelTimer !== null) {
+      stopAuto();
+      return;
+    }
+    autoButton.textContent = "Стоп";
+    hotelTimer = setInterval(() => {
+      const max = stateFor(scenario, step).maxStep;
+      if (step >= max) {
+        stopAuto();
+        return;
+      }
+      step += 1;
+      renderHotel();
+      if (step >= max) stopAuto();
+    }, 1050);
+  });
+
+  $("#hotel-reset").addEventListener("click", () => {
+    stopAuto();
+    step = 0;
+    renderHotel();
+  });
+
+  groupSelect.addEventListener("change", () => {
+    groupSize = Number(groupSelect.value);
+    step = 0;
+    renderHotel();
+  });
+
+  function renderFinite() {
+    const rooms = $("#finite-rooms");
+    clear(rooms);
+    for (let i = 1; i <= 3; i++) {
+      rooms.appendChild(el("div", { class: "finite-room" }, [
+        el("small", { text: "комната " + i }),
+        el("b", { text: "G" + i }),
+      ]));
+    }
+    if (finiteTried) {
+      rooms.appendChild(el("div", { class: "finite-room waiting" }, [
+        el("small", { text: "снаружи" }),
+        el("b", { text: "новый" }),
+      ]));
+    }
+    Lab.status($("#finite-status"), finiteTried ? "Гостей четыре, комнат три. Свободной комнаты нет, сдвиг не помогает." : "Три комнаты заняты тремя гостями.", finiteTried ? "bad" : "warn");
+  }
+
+  $("#finite-try").addEventListener("click", () => { finiteTried = true; renderFinite(); });
+  $("#finite-reset").addEventListener("click", () => { finiteTried = false; renderFinite(); });
+
+  function renderArithmetic() {
+    const wrap = $("#arithmetic");
+    clear(wrap);
+    const rows = [
+      ["\\aleph_0 + 1 = \\aleph_0", "один гость", "one"],
+      ["\\aleph_0 + k = \\aleph_0", "конечная группа", "group"],
+      ["\\aleph_0 + \\aleph_0 = \\aleph_0", "бесконечный автобус", "bus"],
+      ["\\aleph_0 \\times \\aleph_0 = \\aleph_0", "бесконечно много автобусов", "buses"],
+      ["2^{\\aleph_0} > \\aleph_0", "диагональ Кантора", "diagonal"],
+    ];
+    const table = el("table", { class: "data arithmetic-table" });
+    const head = el("tr");
+    head.appendChild(el("th", { class: "left", text: "равенство" }));
+    head.appendChild(el("th", { class: "left", text: "что показывает" }));
+    head.appendChild(el("th", { class: "left", text: "открыть" }));
+    const thead = el("thead");
+    thead.appendChild(head);
+    table.appendChild(thead);
+    const body = el("tbody");
+    for (const [tex, label, target] of rows) {
+      const tr = el("tr");
+      const texCell = el("td", { class: "left" });
+      texCell.appendChild(math(tex, false));
+      tr.appendChild(texCell);
+      tr.appendChild(el("td", { class: "left", text: label }));
+      const actionCell = el("td", { class: "left" });
+      const button = el("button", { type: "button", text: "Показать" });
+      button.addEventListener("click", () => {
+        if (target === "diagonal") {
+          showTab("diagonal");
+        } else {
+          showTab("hotel");
+          setScenario(target);
+        }
+      });
+      actionCell.appendChild(button);
+      tr.appendChild(actionCell);
+      body.appendChild(tr);
+    }
+    table.appendChild(body);
+    wrap.appendChild(table);
   }
 
   function integerOf(n) {
@@ -204,65 +579,22 @@
   }
 
   function renderIntegers() {
-    clear(integersList);
-    const wrap = el("div", { class: "seq" });
+    const list = $("#integers-list");
+    clear(list);
     for (let n = 0; n <= integerSteps; n++) {
-      wrap.appendChild(el("span", { class: "seq-item" }, [
+      const value = integerOf(n);
+      list.appendChild(el("div", { class: "map-column" }, [
         el("small", { text: "n=" + n }),
-        el("b", { text: String(integerOf(n)) }),
+        el("span", { class: "map-arrow", text: "↓" }),
+        el("b", { text: String(value) }),
       ]));
     }
-    integersList.appendChild(wrap);
-    integersFormula.replaceChildren(Lab.math("f(n) = \\begin{cases} 0, & n = 0 \\\\ (n+1)/2, & n \\text{ нечётно} \\\\ -n/2, & n \\text{ чётно} \\end{cases}", true));
+    $("#integers-formula").replaceChildren(math("f(n) = \\begin{cases} 0, & n = 0 \\\\ (n+1)/2, & n \\text{ нечётно} \\\\ -n/2, & n \\text{ чётно} \\end{cases}", true));
+    Lab.status($("#integers-status"), "Каждое целое появляется ровно один раз: 0, 1, −1, 2, −2, …", "ok");
   }
 
-  function pairIndex(i, j) {
-    const s = i + j;
-    return (s * (s + 1)) / 2 + j;
-  }
-
-  function renderPairs() {
-    clear(pairsTable);
-    const table = el("table", { class: "data" });
-    const head = el("tr");
-    head.appendChild(el("th", { text: "i \\ j" }));
-    for (let j = 0; j < 5; j++) head.appendChild(el("th", { text: String(j) }));
-    const thead = el("thead");
-    thead.appendChild(head);
-    table.appendChild(thead);
-    const body = el("tbody");
-    for (let i = 0; i < 5; i++) {
-      const tr = el("tr");
-      tr.appendChild(el("th", { text: String(i) }));
-      for (let j = 0; j < 5; j++) {
-        const td = el("td", { class: "mono" });
-        const button = el("button", {
-          class: "cantor-cell" + (selectedPair && selectedPair.i === i && selectedPair.j === j ? " on" : ""),
-          type: "button",
-          text: String(pairIndex(i, j)),
-        });
-        button.addEventListener("click", () => { selectedPair = { i, j }; renderPairs(); });
-        td.appendChild(button);
-        tr.appendChild(td);
-      }
-      body.appendChild(tr);
-    }
-    table.appendChild(body);
-    pairsTable.appendChild(table);
-    pairsFormula.replaceChildren(Lab.math("\\pi(i,j) = \\frac{(i+j)(i+j+1)}{2} + j", false));
-    if (selectedPair) {
-      const sum = selectedPair.i + selectedPair.j;
-      Lab.status(pairsStatus, "Пара (" + selectedPair.i + ", " + selectedPair.j + ") получает номер " + pairIndex(selectedPair.i, selectedPair.j) + ". Диагональ i+j = " + sum + ".", "ok");
-      for (const cell of pairsTable.querySelectorAll(".cantor-cell")) {
-        const index = Array.from(pairsTable.querySelectorAll(".cantor-cell")).indexOf(cell);
-        const i = Math.floor(index / 5);
-        const j = index % 5;
-        cell.classList.toggle("diag", i + j === sum);
-      }
-    } else {
-      Lab.status(pairsStatus, "Клик по клетке покажет номер пары.", "warn");
-    }
-  }
+  $("#integers-add").addEventListener("click", () => { integerSteps += 4; renderIntegers(); });
+  $("#integers-reset").addEventListener("click", () => { integerSteps = 8; renderIntegers(); });
 
   function makeDiagonal() {
     diagonalTable = [];
@@ -271,10 +603,12 @@
       for (let j = 0; j < 6; j++) row.push(Math.random() < 0.5 ? 0 : 1);
       diagonalTable.push(row);
     }
+    diagonalStep = 0;
   }
 
   function renderDiagonal() {
-    clear(diagonalTableNode);
+    const node = $("#diagonal-table");
+    clear(node);
     const table = el("table", { class: "data" });
     const head = el("tr");
     head.appendChild(el("th", { text: "строка" }));
@@ -287,33 +621,51 @@
       const tr = el("tr");
       tr.appendChild(el("th", { text: "s" + (i + 1) }));
       for (let j = 0; j < 6; j++) {
-        const td = el("td", { class: "mono" + (i === j ? " diag" : ""), text: String(diagonalTable[i][j]) });
-        tr.appendChild(td);
+        const cls = "mono" + (diagonalStep >= 1 && i === j ? " diag" : "");
+        tr.appendChild(el("td", { class: cls, text: String(diagonalTable[i][j]) }));
       }
       body.appendChild(tr);
     }
-    const dRow = el("tr", { class: "hl" });
-    dRow.appendChild(el("th", { text: "d" }));
-    for (let j = 0; j < 5; j++) dRow.appendChild(el("td", { class: "mono diag", text: String(1 - diagonalTable[j][j]) }));
-    dRow.appendChild(el("td", { class: "muted", text: "…" }));
-    body.appendChild(dRow);
+    if (diagonalStep >= 2) {
+      const dRow = el("tr", { class: "hl" });
+      dRow.appendChild(el("th", { text: "d" }));
+      for (let j = 0; j < 5; j++) dRow.appendChild(el("td", { class: "mono diag", text: String(1 - diagonalTable[j][j]) }));
+      dRow.appendChild(el("td", { class: "muted", text: "…" }));
+      body.appendChild(dRow);
+    }
     table.appendChild(body);
-    diagonalTableNode.appendChild(table);
-    diagonalFormula.replaceChildren(Lab.math("d_i = 1 - b_{ii}", false));
-    Lab.status(diagonalStatus, "Строка d отличается от каждой строки списка в её диагональной позиции. Значит списка всех последовательностей нет.", "ok");
+    node.appendChild(table);
+    $("#diagonal-formula").replaceChildren(math("d_i = 1 - b_{ii}", false));
+    const status = $("#diagonal-status");
+    const hint = $("#diagonal-hint");
+    if (diagonalStep === 0) {
+      Lab.status(status, "Список строк готов. Нажмите шаг, чтобы выделить диагональ.", "warn");
+      hint.textContent = "Пока это только список. Диагональ ещё не построена.";
+    } else if (diagonalStep === 1) {
+      Lab.status(status, "Диагональ это клетки b_ii. Они задают по одному биту из каждой строки.", "warn");
+      hint.textContent = "На следующем шаге каждый диагональный бит перевернётся.";
+    } else {
+      Lab.status(status, "Строка d отличается от каждой строки s_i в позиции i. Значит списка всех последовательностей нет.", "ok");
+      hint.textContent = "Для любой строки i выполнено d_i ≠ b_ii, поэтому d не равна ни одной строке списка.";
+    }
+    $("#diagonal-step").disabled = diagonalStep >= 2;
+    $("#diagonal-step").textContent = diagonalStep >= 2 ? "Готово" : "Следующий шаг";
   }
 
-  $("#hotel-shift").addEventListener("click", () => { hotelShifted = true; renderHotel(); });
-  $("#hotel-reset").addEventListener("click", () => { hotelShifted = false; renderHotel(); });
-  $("#integers-add").addEventListener("click", () => { integerSteps += 4; renderIntegers(); });
-  $("#integers-reset").addEventListener("click", () => { integerSteps = 10; renderIntegers(); });
+  $("#diagonal-step").addEventListener("click", () => {
+    if (diagonalStep < 2) {
+      diagonalStep += 1;
+      renderDiagonal();
+    }
+  });
   $("#diagonal-random").addEventListener("click", () => { makeDiagonal(); renderDiagonal(); });
 
   makeDiagonal();
   renderHotel();
   renderIntegers();
-  renderPairs();
   renderDiagonal();
+  renderFinite();
+  renderArithmetic();
   showTab("hotel");
 })();
 </script>
