@@ -47,7 +47,7 @@ main.di { max-width: none; margin: 0; padding: 0; }
   background: radial-gradient(circle 106px at 50% 50%, rgba(255, 200, 120, 0.45), rgba(255, 190, 100, 0.18) 45%, transparent 75%);
   mix-blend-mode: screen;
   transform-origin: center;
-  animation: lamp-breathe 2.6s ease-in-out infinite;
+  animation: lamp-breathe 2.6s linear infinite;
 }
 @keyframes lamp-breathe {
   0%, 100% { transform: scale(1); opacity: 0.85; }
@@ -121,18 +121,18 @@ main.di { max-width: none; margin: 0; padding: 0; }
   box-shadow: 0 30px 60px -34px rgb(20 15 5 / 55%), inset 0 1px 0 rgb(255 255 255 / 6%);
 }
 .d1 .cave svg { display: block; width: 100%; height: 100%; position: relative; z-index: 0; }
-.d1 .lamp-glow { transform-box: view-box; transform-origin: 150px 360px; animation: lamp-breathe 2.6s ease-in-out infinite; }
-.d1 .lamp-beam, .d1 .lamp-core { animation: beam-breathe 2.6s ease-in-out infinite; }
+.d1 .lamp-glow { transform-box: view-box; transform-origin: 150px 360px; animation: lamp-breathe 2.6s linear infinite; }
+.d1 .lamp-beam, .d1 .lamp-core { animation: beam-breathe 2.6s linear infinite; }
 .d1 .lamp-flame {
   transform-box: fill-box;
   transform-origin: center bottom;
   filter: drop-shadow(0 0 11px rgba(255, 170, 80, 0.6));
-  animation: flame-flicker 2.6s ease-in-out infinite;
+  animation: flame-flicker 2.6s linear infinite;
 }
 .d1 .lamp-flame-core {
   transform-box: fill-box;
   transform-origin: center bottom;
-  animation: flame-core 1.7s ease-in-out infinite;
+  animation: flame-core 1.7s linear infinite;
 }
 @keyframes beam-breathe {
   0%, 100% { opacity: 0.86; }
@@ -154,7 +154,7 @@ main.di { max-width: none; margin: 0; padding: 0; }
 .d1 .mote {
   transform-box: fill-box;
   transform-origin: center;
-  animation: mote-drift 9s ease-in-out infinite alternate;
+  animation: mote-drift 9s linear infinite alternate;
 }
 .d1 .mote:nth-child(1) { animation-duration: 9s; animation-delay: -1s; }
 .d1 .mote:nth-child(2) { animation-duration: 12s; animation-delay: -4s; }
