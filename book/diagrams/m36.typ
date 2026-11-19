@@ -18,23 +18,44 @@
   edge(fr, to, "-}>", ..opts, ..extra)
 }
 
-// ── Треугольник f, g и их композиции h ──
-// Один рисунок служит и аксиомой ассоциативности, и свободной категорией графа A -> B -> C.
-#let fgh-triangle(spacing) = diagram(
+// ── Треугольник композиции: h = g ∘ f ──
+#let composition-triangle = diagram(
   node-stroke: n-stroke,
   node-fill: c-fl,
-  spacing: spacing,
+  spacing: 3.2em,
   {
     node((0, 0), $A$, name: <a>)
     node((1.6, 0), $B$, name: <b>)
     node((3.2, 0), $C$, name: <c>)
     arrow(<a>, <b>, $f$)
     arrow(<b>, <c>, $g$)
-    arrow(<a>, <c>, $h$, stroke: hi-stroke, pos: 0.5, bend: -22deg)
+    arrow(
+      <a>,
+      <c>,
+      $h = g circle.stroked.tiny f$,
+      stroke: hi-stroke,
+      pos: 0.5,
+      bend: -22deg,
+    )
   },
 )
 
-#let assoc-triangle = fgh-triangle(3.2em)
+// ── Ассоциативность: h ∘ (g ∘ f) = (h ∘ g) ∘ f ──
+#let assoc-square = diagram(
+  node-stroke: n-stroke,
+  node-fill: c-fl,
+  spacing: 3.4em,
+  {
+    node((0, -2), $A$, name: <a>)
+    node((2.6, -2), $B$, name: <b>)
+    node((0, 0), $C$, name: <c>)
+    node((2.6, 0), $D$, name: <d>)
+    arrow(<a>, <b>, $f$, side: left)
+    arrow(<b>, <d>, $h circle.stroked.tiny g$, side: right)
+    arrow(<a>, <c>, $g circle.stroked.tiny f$, side: left)
+    arrow(<c>, <d>, $h$, side: right)
+  },
+)
 
 // ── Моноид как категория с одним объектом ──
 #let monoid-one-object = canvas({
@@ -77,7 +98,27 @@
 )
 
 // ── Свободная категория графа: морфизмы --- пути ──
-#let free-category = fgh-triangle(3em)
+// Пунктир --- образующие рёбра графа, сплошная дуга --- новый путь-морфизм.
+#let free-category = diagram(
+  node-stroke: n-stroke,
+  node-fill: c-fl,
+  spacing: 3.2em,
+  {
+    node((0, 0), $A$, name: <a>)
+    node((1.8, 0), $B$, name: <b>)
+    node((3.6, 0), $C$, name: <c>)
+    arrow(<a>, <b>, $f$, stroke: d-stroke)
+    arrow(<b>, <c>, $g$, stroke: d-stroke)
+    arrow(
+      <a>,
+      <c>,
+      $g circle.stroked.tiny f$,
+      stroke: hi-stroke,
+      pos: 0.5,
+      bend: -22deg,
+    )
+  },
+)
 
 // ── Булеан: образ и прообраз ──
 #let image-inverse-image = diagram(
@@ -126,15 +167,33 @@
   node-fill: c-fl,
   spacing: 3.2em,
   {
-    node((1.4, 0), $A times B$, name: <ab>)
-    node((0, 1.8), $A$, name: <a>)
-    node((2.8, 1.8), $B$, name: <b>)
-    node((-2.2, 0), $X$, name: <x>)
-    arrow(<ab>, <a>, $pi_1$, side: right, pos: 0.2)
+    node((1.6, -1.0), $A times B$, name: <ab>)
+    node((0, -2.4), $A$, name: <a>)
+    node((3.2, -2.4), $B$, name: <b>)
+    node((1.6, 0.8), $X$, name: <x>)
+    arrow(<ab>, <a>, $pi_1$, side: left)
     arrow(<ab>, <b>, $pi_2$, side: right)
-    arrow(<x>, <a>, $f$, stroke: d-stroke, pos: 0.5)
-    arrow(<x>, <b>, $g$, stroke: d-stroke, pos: 0.5)
-    arrow(<x>, <ab>, $chevron.l f, g chevron.r$, stroke: hi-stroke, pos: 0.5)
+    arrow(<x>, <a>, $f$, stroke: d-stroke, side: left, pos: 0.55)
+    arrow(<x>, <b>, $g$, stroke: d-stroke, side: right, pos: 0.55)
+    arrow(<x>, <ab>, $chevron.l f, g chevron.r$, stroke: hi-stroke, side: right)
+  },
+)
+
+// ── Универсальное свойство копроизведения ──
+#let coproduct-universal = diagram(
+  node-stroke: n-stroke,
+  node-fill: c-fl,
+  spacing: 3.2em,
+  {
+    node((1.6, -1.0), $A + B$, name: <ab>)
+    node((0, -2.4), $A$, name: <a>)
+    node((3.2, -2.4), $B$, name: <b>)
+    node((1.6, 0.8), $X$, name: <x>)
+    arrow(<a>, <ab>, $iota_1$, side: left)
+    arrow(<b>, <ab>, $iota_2$, side: right)
+    arrow(<a>, <x>, $f$, stroke: d-stroke, side: left, pos: 0.55)
+    arrow(<b>, <x>, $g$, stroke: d-stroke, side: right, pos: 0.55)
+    arrow(<ab>, <x>, $[f, g]$, stroke: hi-stroke, side: left)
   },
 )
 
@@ -144,9 +203,9 @@
   node-fill: c-fl,
   spacing: 3.4em,
   {
-    node((2.6, 0.9), $A$, name: <a>)
-    node((4.2, 0.9), $B$, name: <b>)
-    node((3.4, -0.6), $C$, name: <c>)
+    node((2.6, -0.9), $A$, name: <a>)
+    node((4.2, -0.9), $B$, name: <b>)
+    node((3.4, 0.6), $C$, name: <c>)
     arrow(
       <a>,
       <c>,
@@ -158,7 +217,7 @@
       label-angle: 0deg,
     )
     arrow(<b>, <c>, $v$)
-    node((2.6, 3), $N$, name: <n>, stroke: (
+    node((2.6, -3), $N$, name: <n>, stroke: (
       paint: c-muted,
       thickness: t-bd,
       dash: "dashed",
@@ -166,11 +225,50 @@
     edge(<n>, <a>, "-}>", stroke: d-stroke)
     edge(<n>, <b>, "-}>", stroke: d-stroke)
     edge(<n>, <c>, "-}>", stroke: d-stroke)
-    node((0, 3), $lim D$, name: <l>, stroke: hi-stroke)
+    node((0, -3), $lim D$, name: <l>, stroke: hi-stroke)
     edge(<l>, <a>, "-}>", stroke: hi-stroke)
     edge(<l>, <b>, "-}>", stroke: hi-stroke)
     edge(<l>, <c>, "-}>", stroke: hi-stroke)
     edge(<n>, <l>, "-|>", label: [$!$], label-size: s-cap, stroke: hr-dash)
+  },
+)
+
+// ── Уравнитель пары стрелок ──
+#let equalizer-diagram = diagram(
+  node-stroke: n-stroke,
+  node-fill: c-fl,
+  spacing: 3.2em,
+  {
+    node((0, -2), $E$, name: <e>)
+    node((2.8, -2), $A$, name: <a>)
+    node((2.8, 0), $B$, name: <b>)
+    node((0, 0), $X$, name: <x>, stroke: (
+      paint: c-muted,
+      thickness: t-bd,
+      dash: "dashed",
+    ))
+    arrow(<e>, <a>, $e$)
+    arrow(<a>, <b>, $f$, side: right, bend: 14deg, pos: 0.3)
+    arrow(<a>, <b>, $g$, side: left, bend: -14deg, pos: 0.7)
+    arrow(<x>, <a>, $h$, pos: 0.5)
+    arrow(<x>, <e>, $u$, stroke: d-stroke, pos: 0.5)
+  },
+)
+
+// ── Расслоенное произведение ──
+#let pullback-square = diagram(
+  node-stroke: n-stroke,
+  node-fill: c-fl,
+  spacing: 3.2em,
+  {
+    node((0, -2), $P$, name: <p>)
+    node((2.8, -2), $A$, name: <a>)
+    node((0, 0), $B$, name: <b>)
+    node((2.8, 0), $C$, name: <c>)
+    arrow(<p>, <a>, $p_A$, side: left)
+    arrow(<p>, <b>, $p_B$, side: right)
+    arrow(<a>, <c>, $f$, side: right)
+    arrow(<b>, <c>, $g$, side: left)
   },
 )
 
@@ -212,6 +310,62 @@
       label-size: s-cap,
       stroke: hr-dash,
     )
+  },
+)
+
+// ── Квадрат естественности леммы Йонеды ──
+#let yoneda-square = diagram(
+  node-stroke: n-stroke,
+  node-fill: c-fl,
+  spacing: 4.2em,
+  {
+    node((0, -2), $cal(C)(A, B)$, name: <cb>)
+    node((4.2, -2), $F (B)$, name: <fb>)
+    node((0, 0), $cal(C)(A, C)$, name: <cc>)
+    node((4.2, 0), $F (C)$, name: <fc>)
+    arrow(<cb>, <fb>, $alpha_B$, side: left)
+    arrow(<cc>, <fc>, $alpha_C$, side: left)
+    arrow(<cb>, <cc>, $cal(C)(A, f)$, side: left)
+    arrow(<fb>, <fc>, $F (f)$, side: right)
+  },
+)
+
+// ── Треугольные тождества сопряжения ──
+#let adjunction-triangles = diagram(
+  node-stroke: n-stroke,
+  node-fill: c-fl,
+  spacing: 3em,
+  {
+    node((0, -2), $F$, name: <f1>)
+    node((2.6, -3.1), $F G F$, name: <fgf>)
+    node((2.6, -0.9), $F$, name: <f2>)
+    arrow(<f1>, <fgf>, $F eta$, side: left)
+    arrow(<fgf>, <f2>, $epsilon F$, side: right)
+    arrow(<f1>, <f2>, $"id"_F$, stroke: d-stroke, bend: -24deg, pos: 0.5)
+
+    node((5.6, -2), $G$, name: <g1>)
+    node((8.2, -3.1), $G F G$, name: <gfg>)
+    node((8.2, -0.9), $G$, name: <g2>)
+    arrow(<g1>, <gfg>, $eta G$, side: left)
+    arrow(<gfg>, <g2>, $G epsilon$, side: right)
+    arrow(<g1>, <g2>, $"id"_G$, stroke: d-stroke, bend: -24deg, pos: 0.5)
+  },
+)
+
+// ── Ассоциативность умножения монады ──
+#let monad-assoc = diagram(
+  node-stroke: n-stroke,
+  node-fill: c-fl,
+  spacing: 3.6em,
+  {
+    node((0, -2), $T^3$, name: <t3>)
+    node((2.8, -2), $T^2$, name: <t2a>)
+    node((0, 0), $T^2$, name: <t2b>)
+    node((2.8, 0), $T$, name: <t>)
+    arrow(<t3>, <t2a>, $T mu$, side: left)
+    arrow(<t3>, <t2b>, $mu T$, side: left)
+    arrow(<t2a>, <t>, $mu$, side: right)
+    arrow(<t2b>, <t>, $mu$, side: right)
   },
 )
 
