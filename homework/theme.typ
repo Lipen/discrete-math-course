@@ -10,8 +10,8 @@
 #let good = rgb("#15803d")
 
 // ── Отступы заголовка задачи ──
-#let heading-above = 1.6em
-#let heading-below = 0.9em
+#let heading-above = 1.4em
+#let heading-below = 0.8em
 
 // ── Темплеет ──
 #let template(dark: false, doc) = {
@@ -32,7 +32,7 @@
 
   // Заголовки задач: цвет, размер и волосяная линейка снизу.
   show heading.where(level: 2): set text(
-    size: 13pt,
+    size: 1.2em,
     weight: "bold",
     fill: accent,
   )
@@ -41,7 +41,7 @@
     above: heading-above,
     below: heading-below,
     sticky: true,
-    inset: (bottom: 0.35em),
+    inset: (bottom: 0.4em),
     stroke: (bottom: 0.8pt + accent.lighten(40%)),
     it,
   )
@@ -126,8 +126,8 @@
   width: 100%,
   above: 1em,
   below: 1em,
-  inset: (x: 10pt),
-  stroke: (left: 1.5pt + accent.lighten(40%)),
+  inset: (x: 0.8em),
+  stroke: (left: 2pt + accent.lighten(40%)),
   body,
 )
 
@@ -136,9 +136,9 @@
   width: 100%,
   above: 1em,
   below: 1em,
-  inset: (x: 10pt, y: 6pt),
+  inset: (x: 0.8em, y: 0.5em),
   stroke: (left: 2pt + accent),
-  fill: accent.lighten(96%),
+  fill: accent.lighten(94%),
 )[
   #block[#strong[Теорема#if title != none [ (#title)]]]
   #v(0.5em)
@@ -151,14 +151,14 @@
   above: 0.5em,
   below: 0.5em,
 )[
-  #set text(size: 0.9em)
+  #set text(size: 0.8em)
   #text(fill: warn, weight: "bold")[Указание.] #emph[#body]
 ]
 
 // ── Бокс (цитата-эпиграф) ──
 #let Box(body, align: right, inset: 0.8em) = std.align(align)[
   #set std.align(right)
-  #set text(size: 10.5pt, style: "italic", fill: luma(35%))
+  #set text(size: 0.8em, style: "italic", fill: luma(40%))
   #body
 ]
 
@@ -168,21 +168,21 @@
     body,
     inset: (x: 1em),
     stroke: (left: 2pt + accent),
-    outset: (y: 3pt, left: -3pt),
+    outset: (y: 4pt, left: -4pt),
     ..args,
   )
 }
 
 // ── Теги-пилюли ──
 #let Tag(label, color) = {
-  set text(size: 0.72em, weight: "bold", fill: color.darken(25%))
+  set text(size: 0.8em, weight: "bold", fill: color.darken(25%))
   box(
     label,
     radius: 50%,
-    inset: (x: 0.5em, y: 0.2em),
-    outset: (y: 0.2em),
-    stroke: 0.7pt + color.darken(25%),
-    fill: color.lighten(88%),
+    inset: (x: 0.5em),
+    outset: (y: 0.4em),
+    stroke: 0.8pt + color.darken(25%),
+    fill: color.lighten(90%),
   )
 }
 #let TagCore = Tag("База", green)
@@ -196,7 +196,7 @@
   above: heading-above,
   below: heading-below,
 )[
-  #place(right + horizon, dy: -0.18em)[#tag]
+  #place(right + horizon, dy: -0.2em)[#tag]
   #heading(level: 2)[#title]
 ]
 
