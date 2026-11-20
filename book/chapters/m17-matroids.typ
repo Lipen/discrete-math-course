@@ -183,7 +183,7 @@ pub fn greedy<M: Matroid>(m: &M, weights: &[u32]) -> Vec<u32> {
 Первое общее свойство --- _наследственность_.
 
 #definition[Наследственность][#idx("Наследственность")
-  Семейство $cal(F)$ называется *наследственным*, если каждое подмножество допустимого множества допустимо, то есть $A in cal(F) and B subset.eq A ==> B in cal(F)$.
+  Семейство $cal(F)$ называется *наследственным*, если каждое подмножество допустимого множества допустимо, то есть $forall A, B subset.eq E . thin A in cal(F) and B subset.eq A ==> B in cal(F)$.
 ]
 
 Наследственность означает, что допустимость не портится при удалении элементов: выбросив часть элементов из допустимого решения, нельзя получить недопустимое.
@@ -209,7 +209,7 @@ pub fn greedy<M: Matroid>(m: &M, weights: &[u32]) -> Vec<u32> {
 Жадное построение не остановится на локальном максимуме, если есть куда расти.
 
 #definition[Свойство замены][#idx("Свойство замены")
-  Семейство $cal(F)$ обладает *свойством замены*, если $A, B in cal(F) and abs(A) < abs(B) ==> exists x in B setminus A . thin A union {x} in cal(F)$.
+  Семейство $cal(F)$ обладает *свойством замены*, если $forall A, B in cal(F) . thin abs(A) < abs(B) ==> exists x in B setminus A . thin A union {x} in cal(F)$.
 ]
 
 Проверим свойство замены для трёх задач.
@@ -263,8 +263,8 @@ pub fn greedy<M: Matroid>(m: &M, weights: &[u32]) -> Vec<u32> {
   Пусть $cal(I)$ --- семейство его подмножеств.
   Пара $(E, cal(I))$ называется *матроидом*, если выполнены следующие условия:
   + *Непустота:* семейство $cal(I)$ содержит хотя бы одно множество.
-  + *Наследственность:* $A in cal(I) and B subset.eq A ==> B in cal(I)$.
-  + *Свойство замены:* $A, B in cal(I) and abs(A) < abs(B) ==> exists x in B setminus A . thin A union {x} in cal(I)$.
+  + *Наследственность:* $forall A, B subset.eq E . thin A in cal(I) and B subset.eq A ==> B in cal(I)$.
+  + *Свойство замены:* $forall A, B in cal(I) . thin abs(A) < abs(B) ==> exists x in B setminus A . thin A union {x} in cal(I)$.
 
   Множества из $cal(I)$ называются *независимыми множествами*.
   Элементы множества $E$ называются *элементами матроида*.
