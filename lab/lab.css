@@ -2400,8 +2400,9 @@ button, .btn { border-radius: 9px; font-size: 13px; padding: 7px 12px; }
 }
 .fitch-level-pop {
   position: absolute;
-  left: 0;
-  top: 100%;
+  left: 100%;
+  top: 0;
+  margin-left: 4px;
   z-index: 8;
   display: flex;
   align-items: center;
@@ -2447,7 +2448,7 @@ button, .btn { border-radius: 9px; font-size: 13px; padding: 7px 12px; }
 }
 
 .fitch-row:hover:not(:has(.fitch-level.has-pop:hover)) .fitch-actions,
-.fitch-row:focus-within:not(:has(.fitch-level.has-pop:focus-within)) .fitch-actions { display: flex; }
+.fitch-row:focus-within .fitch-actions { display: flex; }
 
 .fitch-row:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 
