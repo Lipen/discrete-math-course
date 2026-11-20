@@ -2151,8 +2151,10 @@ button, .btn { border-radius: 9px; font-size: 13px; padding: 7px 12px; }
 .fitch-error { color: #8a2c2c; }
 .fitch-warning { color: #7c5210; }
 
-.fitch-row.warning { background: #fffaf0; }
-.fitch-row.warning:hover { background: #fff4dc; }
+.fitch-row.warning,
+.fitch-row.lemma.warning:not(.invalid) { background: #fffaf0; }
+.fitch-row.warning:hover,
+.fitch-row.lemma.warning:not(.invalid):hover { background: #fff4dc; }
 .fitch-row.warning .fitch-refs { color: #7c5210; }
 
 .fitch-raw {
@@ -2984,8 +2986,10 @@ html[data-theme="dark"] .fitch-row:hover { background: var(--surface-raised); }
 html[data-theme="dark"] .fitch-row.premise { background: color-mix(in srgb, var(--surface-soft) 70%, var(--card)); }
 html[data-theme="dark"] .fitch-row.invalid { background: var(--red-soft); }
 html[data-theme="dark"] .fitch-row.invalid:hover { background: color-mix(in srgb, var(--red-soft) 80%, var(--red)); }
-html[data-theme="dark"] .fitch-row.warning { background: color-mix(in srgb, var(--amber-soft) 55%, var(--card)); }
-html[data-theme="dark"] .fitch-row.warning:hover { background: var(--amber-soft); }
+html[data-theme="dark"] .fitch-row.warning,
+html[data-theme="dark"] .fitch-row.lemma.warning:not(.invalid) { background: color-mix(in srgb, var(--amber-soft) 55%, var(--card)); }
+html[data-theme="dark"] .fitch-row.warning:hover,
+html[data-theme="dark"] .fitch-row.lemma.warning:not(.invalid):hover { background: var(--amber-soft); }
 html[data-theme="dark"] .fitch-row.lemma:not(.invalid) { background: color-mix(in srgb, var(--violet-soft) 55%, var(--card)); }
 html[data-theme="dark"] .fitch-row.lemma:not(.invalid):hover { background: var(--violet-soft); }
 html[data-theme="dark"] .fitch-bar { border-left-color: var(--line); }
