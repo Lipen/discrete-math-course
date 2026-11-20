@@ -493,14 +493,14 @@ _Замыкание_ добавляет минимально необходим�
 #definition[Право-уникальность][#idx("Право-уникальность")
   Отношение $R subset.eq A times B$ называется *право-уникальным* (англ. right-unique), если у каждого элемента $A$ не больше одного образа в $B$:
   $
-    forall a in A forall b_1, b_2 in B . thin (a, b_1) in R and (a, b_2) in R imply b_1 = b_2.
+    forall a in A forall b_1, b_2 in B . thin ((a, b_1) in R and (a, b_2) in R) imply b_1 = b_2.
   $
 ]
 
 #definition[Лево-уникальность][#idx("Лево-уникальность")
   Отношение $R subset.eq A times B$ называется *лево-уникальным* (англ. left-unique), если у каждого элемента $B$ не больше одного прообраза в $A$:
   $
-    forall b in B forall a_1, a_2 in A . thin (a_1, b) in R and (a_2, b) in R imply a_1 = a_2.
+    forall b in B forall a_1, a_2 in A . thin ((a_1, b) in R and (a_2, b) in R) imply a_1 = a_2.
   $
 ]
 
