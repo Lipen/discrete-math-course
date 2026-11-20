@@ -78,13 +78,9 @@
 
 #definition[Функция][#idx("Функция")
   Бинарное отношение $f subset.eq A times B$ называется *функцией*, если выполнены два условия.
-
-  Первое условие --- *лево-тотальность* (англ. left-total):
+  Первое условие --- *лево-тотальность* (англ. left-total), второе --- *право-уникальность* (англ. right-unique):
   $
-    forall a in A exists b in B . thin (a, b) in f.
-  $
-  Второе условие --- *право-уникальность* (англ. right-unique):
-  $
+    forall a in A exists b in B . thin (a, b) in f, \
     forall a in A forall b_1, b_2 in B . thin ((a, b_1) in f and (a, b_2) in f) imply b_1 = b_2.
   $
 
