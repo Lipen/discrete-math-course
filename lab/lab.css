@@ -2141,11 +2141,33 @@ button, .btn { border-radius: 9px; font-size: 13px; padding: 7px 12px; }
 .fitch-action.danger:hover,
 .fitch-action.danger:focus-visible { border-color: #e4c4bf; background: var(--red-soft); color: var(--red); }
 
-.fitch-error {
+.fitch-error,
+.fitch-warning {
   margin: 4px 4px 0;
-  color: #8a2c2c;
   font-size: 11.5px;
   line-height: 1.35;
+}
+
+.fitch-error { color: #8a2c2c; }
+.fitch-warning { color: #7c5210; }
+
+.fitch-row.warning { background: #fffaf0; }
+.fitch-row.warning:hover { background: #fff4dc; }
+.fitch-row.warning .fitch-refs { color: #7c5210; }
+
+.fitch-raw {
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 650;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.fitch-rule.unspecified {
+  border: 1px dashed var(--line);
+  background: transparent;
+  color: var(--muted);
 }
 
 .fitch-empty {
@@ -2280,7 +2302,27 @@ button, .btn { border-radius: 9px; font-size: 13px; padding: 7px 12px; }
 
 .composer-msg { color: var(--muted); font-size: 11.5px; line-height: 1.35; }
 .composer-msg.ok { color: var(--green); }
+.composer-msg.warn { color: #7c5210; }
 .composer-msg.error { color: #8a2c2c; }
+.composer-raw {
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 650;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.composer-field.warn > span::after,
+.composer-field.error > span::after {
+  margin-left: 5px;
+  font-weight: 800;
+}
+.composer-field.warn > span::after { content: "!"; color: var(--amber); }
+.composer-field.error > span::after { content: "×"; color: var(--red); }
+.composer-field.warn input,
+.composer-field.warn select { border-color: #e0b96f; background: #fffaf0; }
+.composer-field.error input,
+.composer-field.error select { border-color: #e4c4bf; background: var(--red-soft); }
 .composer-foot-spacer { flex: 1 1 18px; }
 .composer-foot .active { min-width: 82px; }
 
@@ -2942,6 +2984,8 @@ html[data-theme="dark"] .fitch-row:hover { background: var(--surface-raised); }
 html[data-theme="dark"] .fitch-row.premise { background: color-mix(in srgb, var(--surface-soft) 70%, var(--card)); }
 html[data-theme="dark"] .fitch-row.invalid { background: var(--red-soft); }
 html[data-theme="dark"] .fitch-row.invalid:hover { background: color-mix(in srgb, var(--red-soft) 80%, var(--red)); }
+html[data-theme="dark"] .fitch-row.warning { background: color-mix(in srgb, var(--amber-soft) 55%, var(--card)); }
+html[data-theme="dark"] .fitch-row.warning:hover { background: var(--amber-soft); }
 html[data-theme="dark"] .fitch-row.lemma:not(.invalid) { background: color-mix(in srgb, var(--violet-soft) 55%, var(--card)); }
 html[data-theme="dark"] .fitch-row.lemma:not(.invalid):hover { background: var(--violet-soft); }
 html[data-theme="dark"] .fitch-bar { border-left-color: var(--line); }
@@ -2953,11 +2997,18 @@ html[data-theme="dark"] .fitch-no { color: var(--muted); }
 html[data-theme="dark"] .fitch-row.invalid .fitch-refs,
 html[data-theme="dark"] .fitch-error,
 html[data-theme="dark"] .fitch-action.danger { color: var(--red); }
+html[data-theme="dark"] .fitch-row.warning .fitch-refs,
+html[data-theme="dark"] .fitch-warning,
+html[data-theme="dark"] .composer-msg.warn { color: var(--amber); }
 html[data-theme="dark"] .fitch-action:hover,
 html[data-theme="dark"] .fitch-action:focus-visible { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
 html[data-theme="dark"] .fitch-action.danger:hover,
 html[data-theme="dark"] .fitch-action.danger:focus-visible { background: var(--red-soft); border-color: var(--red); color: var(--red); }
 html[data-theme="dark"] .fitch-composer { border-color: var(--line); box-shadow: inset 0 0 0 1px var(--line-soft); }
+html[data-theme="dark"] .composer-field.warn input,
+html[data-theme="dark"] .composer-field.warn select { border-color: color-mix(in srgb, var(--amber) 45%, var(--line)); background: var(--amber-soft); }
+html[data-theme="dark"] .composer-field.error input,
+html[data-theme="dark"] .composer-field.error select { border-color: color-mix(in srgb, var(--red) 45%, var(--line)); background: var(--red-soft); }
 html[data-theme="dark"] .composer-cancel:hover { background: var(--surface-raised); border-color: var(--line); color: var(--ink); }
 html[data-theme="dark"] .fitch-level-btn:hover:not(:disabled) { border-color: var(--line); background: var(--accent-soft); color: var(--accent); }
 

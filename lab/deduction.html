@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Натуральная дедукция · лаборатория</title>
 <script src="lab-theme.js"></script>
-<link rel="stylesheet" href="lab.css?v=16">
+<link rel="stylesheet" href="lab.css?v=18">
 <link rel="stylesheet" href="vendor/katex/katex.min.css">
 </head>
 <body class="fitch-page">
@@ -20,6 +20,8 @@
     Посылки и цель фиксированы.
     Наведите на строку, чтобы открыть действия под ней: вставка строки, подвывод, изменение и удаление.
     Проверка идёт сразу, пока вы заполняете строку.
+    Неполный шаг можно сохранить и дополнить позже.
+    Жёлтая строка означает незавершённый шаг, красная означает ошибку.
   </p>
 </header>
 
@@ -82,7 +84,7 @@
 <script src="lab-core.js"></script>
 <script src="lab-math.js"></script>
 <script src="logic.js"></script>
-<script src="catalog.js?v=16"></script>
+<script src="catalog.js?v=18"></script>
 <script src="lab-site.js?v=10"></script>
 <script>
 (function () {
@@ -189,16 +191,30 @@
     return true;
   }
 
+  class StepError extends Error {
+    constructor(kind, message) {
+      super(message);
+      this.kind = kind;
+    }
+  }
+
+  function stepWarn(message) {
+    throw new StepError("warning", message);
+  }
+
   function validate(candidate, previous) {
-    const ast = parse(candidate.formula);
+    const ast = candidate.ast || parse(candidate.formula);
     const depth = Number(candidate.depth);
     const refs = candidate.refs || [];
     function source(number) {
       if (!Number.isInteger(number) || number < 1 || number > previous.length) throw new Error("Ссылка на несуществующую строку.");
-      return previous[number - 1];
+      const line = previous[number - 1];
+      if (!line.ast) stepWarn("Ссылка на строку " + number + " без разобранной формулы.");
+      return line;
     }
     function need(count) {
-      if (refs.length !== count) throw new Error("Нужно ссылок: " + count + ".");
+      if (refs.length === 0) stepWarn("Ссылки не указаны: нужно " + count + ".");
+      if (refs.length !== count) stepWarn("Нужно ссылок: " + count + ", указано " + refs.length + ".");
       return refs.map(source);
     }
     function accessible(number, sourceLine) {
@@ -209,7 +225,8 @@
       return sourceLine;
     }
     function needAccessible(count) {
-      if (refs.length !== count) throw new Error("Нужно ссылок: " + count + ".");
+      if (refs.length === 0) stepWarn("Ссылки не указаны: нужно " + count + ".");
+      if (refs.length !== count) stepWarn("Нужно ссылок: " + count + ", указано " + refs.length + ".");
       return refs.map((number) => {
         const line = source(number);
         return accessible(number, line);
@@ -287,7 +304,7 @@
       return { ast };
     }
     if (candidate.rule === "implI" || candidate.rule === "notI" || candidate.rule === "raa") {
-      if (!refs.length) throw new Error("Укажите диапазон подвывода, например 3-5.");
+      if (!refs.length) stepWarn("Укажите диапазон подвывода, например 3-5.");
       if (!contiguous(refs)) throw new Error("Диапазон подвывода должен идти подряд.");
       const start = source(refs[0]);
       const end = source(refs[refs.length - 1]);
@@ -313,12 +330,30 @@
 
   function analyzeLines() {
     return lines.map((line, index) => {
-      if (line.rule === "premise") return { ok: true };
+      if (line.rule === "premise") {
+        return line.ast ? { status: "ok", ok: true } : { status: "warning", ok: false, warning: "Посылка не разобрана." };
+      }
+      const formula = String(line.formula || "").trim();
+      if (!formula) return { status: "warning", ok: false, warning: "Формула не задана." };
+      let ast = line.ast;
+      if (!ast) {
+        try {
+          ast = parse(formula);
+          line.ast = ast;
+        } catch (error) {
+          return { status: "warning", ok: false, warning: "Формула не разобрана: " + error.message };
+        }
+      }
+      if (!line.rule) return { status: "warning", ok: false, warning: "Шаг не обоснован." + (line.refsError ? " Ссылки не разобраны: " + line.refsError : "") };
+      if (line.refsError) return { status: "warning", ok: false, warning: "Ссылки не разобраны: " + line.refsError };
       try {
-        validate({ formula: line.formula, rule: line.rule, refs: line.refs, depth: line.depth }, lines.slice(0, index));
-        return { ok: true };
+        validate({ formula, ast, rule: line.rule, refs: line.refs, depth: line.depth }, lines.slice(0, index));
+        return { status: "ok", ok: true };
       } catch (error) {
-        return { ok: false, error: error.message };
+        if (error instanceof StepError && error.kind === "warning") {
+          return { status: "warning", ok: false, warning: error.message };
+        }
+        return { status: "error", ok: false, error: error.message };
       }
     });
   }
@@ -343,7 +378,8 @@
   }
 
   function ruleLabel(line) {
-    return line.rule === "premise" ? "посылка" : (ruleById.get(line.rule)?.label || line.rule);
+    if (line.rule === "premise") return "посылка";
+    return line.rule ? (ruleById.get(line.rule)?.label || line.rule) : "не указано";
   }
 
   function lineDepthBars(depth) {
@@ -429,7 +465,7 @@
 
   function renderRow(line, index, validity) {
     const row = el("div", {
-      class: "fitch-row" + (line.rule === "premise" ? " premise" : "") + (line.lemmaTitle ? " lemma" : "") + (validity.ok ? "" : " invalid") + (composer && composer.mode === "edit" && composer.index === index ? " editing" : ""),
+      class: "fitch-row" + (line.rule === "premise" ? " premise" : "") + (line.lemmaTitle ? " lemma" : "") + (validity.status === "error" ? " invalid" : (validity.status === "warning" ? " warning" : "")) + (composer && composer.mode === "edit" && composer.index === index ? " editing" : ""),
       role: "group",
       tabindex: "0",
       "aria-label": "Строка " + (index + 1),
@@ -442,18 +478,22 @@
     formulaCell.appendChild(lineDepthBars(line.depth));
     const formulaBox = el("div", { class: "fitch-formula-wrap" });
     const formula = el("div", { class: "fitch-formula" });
-    formula.appendChild(Lab.math(texOf(line), false));
+    if (line.ast) formula.appendChild(Lab.math(texOf(line), false));
+    else formula.appendChild(el("span", { class: "fitch-raw", text: line.formula.trim() || "…" }));
     if (line.lemmaTitle) formula.appendChild(el("span", { class: "fitch-lemma-tag", text: "подвывод · " + line.lemmaTitle }));
     formulaBox.appendChild(formula);
-    if (!validity.ok) formulaBox.appendChild(el("div", { class: "fitch-error", text: validity.error }));
+    if (validity.status === "warning") formulaBox.appendChild(el("div", { class: "fitch-warning", text: validity.warning }));
+    if (validity.status === "error") formulaBox.appendChild(el("div", { class: "fitch-error", text: validity.error }));
     formulaCell.appendChild(formulaBox);
     row.appendChild(formulaCell);
 
     const ruleCell = el("div", { class: "fitch-rule-cell" });
-    ruleCell.appendChild(el("span", { class: "fitch-rule" + (line.rule === "assumption" ? " assumption" : ""), text: ruleLabel(line) }));
+    ruleCell.appendChild(el("span", { class: "fitch-rule" + (line.rule === "assumption" ? " assumption" : "") + (line.rule ? "" : " unspecified"), text: ruleLabel(line) }));
     row.appendChild(ruleCell);
 
-    row.appendChild(el("div", { class: "fitch-refs-cell", title: line.refs.length ? "Ссылки" : "Ссылок нет" }, [el("span", { class: "fitch-refs", text: refsLabel(line.refs) })]));
+    const refsText = line.refs.length ? refsLabel(line.refs) : (line.refsRaw || "·");
+    const refsTitle = line.refs.length ? "Ссылки" : (line.refsError ? "Ссылки не разобраны" : "Ссылок нет");
+    row.appendChild(el("div", { class: "fitch-refs-cell", title: refsTitle }, [el("span", { class: "fitch-refs", text: refsText })]));
     row.appendChild(lineActions(line, index));
     row.addEventListener("click", (event) => {
       if (event.target.closest("button, input, select, a, .fitch-level")) return;
@@ -498,9 +538,10 @@
     if (!isSubproof) {
       const ruleField = el("label", { class: "composer-field" }, [el("span", { text: "Правило" })]);
       const rule = el("select", { "data-field": "rule" });
+      rule.appendChild(el("option", { value: "", text: "не указано", selected: composer.rule ? undefined : "selected" }));
       for (const item of rules) {
         if (item.id === "premise") continue;
-        rule.appendChild(el("option", { value: item.id, text: item.label, selected: item.id === (composer.rule || "implE") ? "selected" : undefined }));
+        rule.appendChild(el("option", { value: item.id, text: item.label, selected: item.id === composer.rule ? "selected" : undefined }));
       }
       ruleField.appendChild(rule);
       grid.appendChild(ruleField);
@@ -570,14 +611,24 @@
   function renderState(note, noteKind) {
     const validity = analyzeLines();
     renderProof(validity);
-    const bad = validity.findIndex((item) => !item.ok);
-    const errorCount = validity.filter((item) => !item.ok).length;
-    countNode.textContent = lines.length + " " + plural(lines.length, "строка", "строки", "строк") + " · " + (errorCount ? errorCount + " " + plural(errorCount, "ошибка", "ошибки", "ошибок") : "ошибок нет");
-    const reached = bad < 0 && lines.some((line) => line.depth === 0 && same(line.ast, goalAst()));
+    const bad = validity.findIndex((item) => item.status === "error");
+    const firstWarning = validity.findIndex((item) => item.status === "warning");
+    const errorCount = validity.filter((item) => item.status === "error").length;
+    const warningCount = validity.filter((item) => item.status === "warning").length;
+    const parts = [lines.length + " " + plural(lines.length, "строка", "строки", "строк")];
+    if (warningCount) parts.push(warningCount + " " + plural(warningCount, "предупреждение", "предупреждения", "предупреждений"));
+    if (errorCount) parts.push(errorCount + " " + plural(errorCount, "ошибка", "ошибки", "ошибок"));
+    else if (!warningCount) parts.push("ошибок нет");
+    countNode.textContent = parts.join(" · ");
+    const reached = bad < 0 && lines.some((line) => line.depth === 0 && line.ast && same(line.ast, goalAst()));
     if (bad >= 0) {
-      Lab.status(statusNode, "Строка " + (bad + 1) + ": " + validity[bad].error, "bad");
-    } else if (reached) {
+      Lab.status(statusNode, "Доказательство содержит ошибку. Строка " + (bad + 1) + ": " + validity[bad].error, "bad");
+    } else if (reached && warningCount === 0) {
       Lab.status(statusNode, "Цель достигнута: формула выведена на глубине 0 без ошибок.", "ok");
+    } else if (reached) {
+      Lab.status(statusNode, "Цель достигнута, но доказательство неполное. Строка " + (firstWarning + 1) + ": " + validity[firstWarning].warning, "warn");
+    } else if (firstWarning >= 0) {
+      Lab.status(statusNode, "Доказательство неполное. Строка " + (firstWarning + 1) + ": " + validity[firstWarning].warning, "warn");
     } else {
       Lab.status(statusNode, note || "Ошибок нет. Цель пока не достигнута.", noteKind || "");
     }
@@ -594,7 +645,7 @@
   }
 
   function openComposer(mode, options) {
-    composer = { mode, at: options.at, depth: options.depth, formula: options.formula || "", rule: options.rule || "implE", refsText: options.refsText || "", title: options.title, index: options.index };
+    composer = { mode, at: options.at, depth: options.depth, formula: options.formula || "", rule: options.rule || "", refsText: options.refsText || "", title: options.title, index: options.index };
     if (mode === "subproof" && !composer.title) composer.title = "№" + (lines.filter((line) => line.lemmaTitle).length + 1);
     renderState("Заполните строку: проверка появится сразу.", "info");
     focusComposer();
@@ -617,7 +668,7 @@
     return {
       depth: composer.depth,
       formula: field("formula")?.value || "",
-      rule: composer.mode === "subproof" ? "assumption" : (field("rule")?.value || "implE"),
+      rule: composer.mode === "subproof" ? "assumption" : (field("rule")?.value || ""),
       refsText: composer.mode === "subproof" ? "" : (field("refs")?.value || ""),
       title: field("title")?.value || composer.title || "",
     };
@@ -631,41 +682,97 @@
     const message = box.querySelector("[data-role=message]");
     const preview = box.querySelector("[data-role=preview]");
     const submit = box.querySelector("[data-role=submit]");
+    const formulaInput = box.querySelector("[data-field=formula]");
+    const refsInput = box.querySelector("[data-field=refs]");
+    const ruleInput = box.querySelector("[data-field=rule]");
     message.className = "composer-msg";
     clear(preview);
-    if (!values.formula.trim()) {
-      message.textContent = "Введите формулу.";
-      submit.disabled = true;
-      composer.draft = null;
-      return;
-    }
+    submit.disabled = false;
+
+    const rawFormula = values.formula.trim();
     let ast = null;
-    try {
-      ast = parse(values.formula);
-    } catch (error) {
-      message.textContent = error.message;
-      message.classList.add("error");
-      submit.disabled = true;
-      composer.draft = null;
-      return;
+    let formulaWarning = "";
+    if (!rawFormula) formulaWarning = "Формула не задана.";
+    else {
+      try {
+        ast = parse(values.formula);
+      } catch (error) {
+        formulaWarning = "Формула не разобрана: " + error.message;
+      }
     }
-    preview.appendChild(Lab.math(Logic.toTex(ast), false));
+    if (ast) preview.appendChild(Lab.math(Logic.toTex(ast), false));
+    else preview.appendChild(el("span", { class: "composer-raw", text: rawFormula || "…" }));
+
     let refs = [];
-    try {
-      if (composer.mode !== "subproof") refs = parseRefs(values.refsText);
-      const previous = lines.slice(0, composer.mode === "edit" ? composer.index : composer.at);
-      const rule = composer.mode === "subproof" ? "assumption" : values.rule;
-      validate({ formula: values.formula, rule, refs, depth: values.depth }, previous);
+    let refsError = "";
+    if (composer.mode !== "subproof" && values.refsText.trim()) {
+      try {
+        refs = parseRefs(values.refsText);
+      } catch (error) {
+        refsError = error.message;
+      }
+    }
+
+    const rule = composer.mode === "subproof" ? "assumption" : values.rule;
+    let status = "warning";
+    let warning = formulaWarning;
+    let error = "";
+    if (!formulaWarning && !refsError) {
+      if (!rule) {
+        warning = "Шаг не обоснован.";
+      } else {
+        try {
+          const previous = lines.slice(0, composer.mode === "edit" ? composer.index : composer.at);
+          validate({ formula: values.formula, ast, rule, refs, depth: values.depth }, previous);
+          status = "ok";
+          warning = "";
+        } catch (failure) {
+          if (failure instanceof StepError && failure.kind === "warning") {
+            warning = failure.message;
+          } else {
+            status = "error";
+            warning = "";
+            error = failure.message;
+          }
+        }
+      }
+    }
+    if (refsError) {
+      status = "warning";
+      if (!formulaWarning) warning = warning ? warning + " " + refsError : refsError;
+    }
+
+    const mark = (input, state) => {
+      const field = input?.closest(".composer-field");
+      if (!field) return;
+      field.classList.remove("ok", "warn", "error");
+      if (state) field.classList.add(state);
+    };
+    mark(formulaInput, formulaWarning ? "warn" : (ast ? "ok" : ""));
+    mark(refsInput, refsError ? "error" : (!formulaWarning && rule && status === "warning" ? "warn" : (refs.length ? "ok" : "")));
+    mark(ruleInput, composer.mode === "subproof" ? "ok" : (!rule ? "warn" : (status === "error" ? "error" : "ok")));
+
+    if (status === "ok") {
       message.textContent = "Проверено.";
       message.classList.add("ok");
-      submit.disabled = false;
-      composer.draft = { ast, refs, depth: values.depth, formula: values.formula, rule, title: values.title };
-    } catch (error) {
-      message.textContent = error.message;
+    } else if (status === "error") {
+      message.textContent = "Ошибка: " + error + " Шаг можно сохранить и исправить позже.";
       message.classList.add("error");
-      submit.disabled = true;
-      composer.draft = null;
+    } else {
+      message.textContent = (warning || "Шаг неполный.") + " Можно сохранить и дополнить позже.";
+      message.classList.add("warn");
     }
+
+    composer.draft = {
+      ast,
+      formula: values.formula,
+      rule,
+      refs,
+      refsRaw: refsError ? values.refsText : undefined,
+      refsError: refsError || undefined,
+      depth: values.depth,
+      title: values.title,
+    };
   }
 
   function bindComposer() {
@@ -707,6 +814,8 @@
         formula: draft.formula,
         rule: draft.rule,
         refs: draft.refs,
+        refsRaw: draft.refsRaw,
+        refsError: draft.refsError,
         depth: draft.depth,
         lemmaTitle,
       };
@@ -728,6 +837,8 @@
       formula: draft.formula,
       rule: draft.rule,
       refs,
+      refsRaw: draft.refsRaw,
+      refsError: draft.refsError,
       depth: draft.depth,
       lemmaTitle,
     });
@@ -771,7 +882,7 @@
       return;
     }
     try {
-      validate({ formula: line.formula, rule: line.rule, refs: line.refs, depth: next }, lines.slice(0, index));
+      if (line.ast && line.rule) validate({ formula: line.formula, ast: line.ast, rule: line.rule, refs: line.refs, depth: next }, lines.slice(0, index));
     } catch (error) {
       Lab.status(statusNode, error.message, "bad");
       return;
@@ -826,7 +937,7 @@
       depth: line.depth,
       formula: line.formula,
       rule: line.rule,
-      refsText: line.refs.length ? refsLabel(line.refs) : "",
+      refsText: line.refs.length ? refsLabel(line.refs) : (line.refsRaw || ""),
       title: line.lemmaTitle,
     });
   }
