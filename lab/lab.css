@@ -2358,16 +2358,23 @@ button, .btn { border-radius: 9px; font-size: 13px; padding: 7px 12px; }
 
 .fitch-board button:disabled { cursor: default; opacity: .5; }
 
-/* Fitch row controls: level arrows and a non-overlapping action strip. */
+/* Fitch row controls: fixed columns, floating popovers, no reflow. */
 .fitch-head,
 .fitch-row {
-  grid-template-columns: 64px 34px minmax(0, 1fr) 100px 84px;
-  grid-template-areas: "level no formula rule refs" "actions actions actions actions actions";
+  grid-template-columns: 34px 34px minmax(0, 1fr) 100px 84px;
+  grid-template-areas: "level no formula rule refs";
 }
 
 .fitch-head { grid-template-areas: "level no formula rule refs"; }
-.fitch-row { grid-template-rows: auto auto; }
-.fitch-level { grid-area: level; display: flex; align-items: center; gap: 2px; padding-top: 2px; }
+.fitch-level {
+  position: relative;
+  grid-area: level;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 2px;
+}
+.fitch-level[tabindex] { cursor: pointer; }
 .fitch-level-btn {
   width: 24px;
   height: 24px;
@@ -2391,51 +2398,69 @@ button, .btn { border-radius: 9px; font-size: 13px; padding: 7px 12px; }
   font-variant-numeric: tabular-nums;
   text-align: center;
 }
+.fitch-level-pop {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  z-index: 8;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--card);
+  box-shadow: var(--shadow-tight);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.fitch-level:hover .fitch-level-pop,
+.fitch-level:focus-within .fitch-level-pop {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
 .fitch-no { grid-area: no; }
 .fitch-formula-cell { grid-area: formula; }
 .fitch-rule-cell { grid-area: rule; }
 .fitch-refs-cell { grid-area: refs; }
 
 .fitch-actions {
-  grid-area: actions;
-  position: static;
-  z-index: auto;
-  right: auto;
-  top: auto;
+  position: absolute;
+  left: 34px;
+  right: 10px;
+  top: 100%;
+  z-index: 7;
   display: none;
   flex-wrap: wrap;
   align-items: center;
   gap: 4px;
   width: auto;
   max-width: none;
-  margin: 0 0 0 98px;
-  padding: 8px 0 0;
-  border: 0;
-  border-top: 1px dashed var(--line-soft);
-  border-radius: 0;
-  background: transparent;
-  box-shadow: none;
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-  transform: none;
+  margin: 0;
+  padding: 7px 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--card);
+  box-shadow: var(--shadow-tight);
 }
 
-.fitch-row:hover .fitch-actions,
-.fitch-row:focus-within .fitch-actions { display: flex; transform: none; opacity: 1; visibility: visible; pointer-events: auto; }
+.fitch-row:hover:not(:has(.fitch-level.has-pop:hover)) .fitch-actions,
+.fitch-row:focus-within:not(:has(.fitch-level.has-pop:focus-within)) .fitch-actions { display: flex; }
 
 .fitch-row:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 
 .fitch-composer[data-mode="subproof"] .composer-formula { grid-column: 1 / -1; }
 
 @media (max-width: 760px) {
+  .fitch-head,
   .fitch-row {
-    grid-template-columns: 64px 30px minmax(0, 1fr);
+    grid-template-columns: 34px 30px minmax(0, 1fr);
     grid-template-areas:
       "level no formula"
       "rule rule rule"
-      "refs refs refs"
-      "actions actions actions";
+      "refs refs refs";
     gap: 2px 4px;
   }
   .fitch-level { grid-area: level; }
@@ -2443,7 +2468,7 @@ button, .btn { border-radius: 9px; font-size: 13px; padding: 7px 12px; }
   .fitch-formula-cell { grid-area: formula; }
   .fitch-rule-cell { grid-area: rule; padding: 0 4px; }
   .fitch-refs-cell { grid-area: refs; padding: 0 4px 1px; }
-  .fitch-actions { grid-area: actions; margin: 0; padding: 8px 0 0; }
+  .fitch-actions { left: 10px; right: 10px; }
 }
 
 .hotel-legend { margin: 8px 0 0; }

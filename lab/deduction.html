@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Натуральная дедукция · лаборатория</title>
 <script src="lab-theme.js"></script>
-<link rel="stylesheet" href="lab.css?v=11">
+<link rel="stylesheet" href="lab.css?v=15">
 <link rel="stylesheet" href="vendor/katex/katex.min.css">
 </head>
 <body class="fitch-page">
@@ -82,7 +82,7 @@
 <script src="lab-core.js"></script>
 <script src="lab-math.js"></script>
 <script src="logic.js"></script>
-<script src="catalog.js?v=12"></script>
+<script src="catalog.js?v=15"></script>
 <script src="lab-site.js?v=10"></script>
 <script>
 (function () {
@@ -387,9 +387,17 @@
       title: "Уровень больше",
       text: "→",
     });
-    box.appendChild(less);
+    box.classList.add("has-pop");
+    box.setAttribute("tabindex", "0");
+    box.setAttribute("aria-label", "Уровень строки " + (index + 1));
+    box.setAttribute("title", "Наведите или нажмите, чтобы изменить уровень");
+    box.addEventListener("click", (event) => { if (!event.target.closest("button")) box.focus(); });
     box.appendChild(el("span", { class: "fitch-level-value", text: String(line.depth), "aria-label": "Уровень " + line.depth }));
-    box.appendChild(more);
+    const pop = el("div", { class: "fitch-level-pop", role: "group", "aria-label": "Уровень строки " + (index + 1) });
+    pop.appendChild(less);
+    pop.appendChild(el("span", { class: "fitch-level-value", text: String(line.depth), "aria-label": "Уровень " + line.depth }));
+    pop.appendChild(more);
+    box.appendChild(pop);
     return box;
   }
 
@@ -406,11 +414,11 @@
   function lineActions(line, index) {
     const box = el("div", { class: "fitch-actions", role: "toolbar", "aria-label": "Действия со строкой " + (index + 1) });
     if (line.rule !== "premise") {
+      box.appendChild(actionButton("Изменить", "edit", index));
       box.appendChild(actionButton("Выше", "above", index));
       box.appendChild(actionButton("Ниже", "below", index));
       box.appendChild(actionButton("Открыть подвывод", "subproof", index));
       if (enclosingAssumption(index) >= 0) box.appendChild(actionButton("Закрыть подвывод", "close", index));
-      box.appendChild(actionButton("Изменить", "edit", index));
       box.appendChild(actionButton("Удалить", "delete", index, "danger"));
     } else {
       box.appendChild(actionButton("Ниже", "below", index));
@@ -448,7 +456,7 @@
     row.appendChild(el("div", { class: "fitch-refs-cell", title: line.refs.length ? "Ссылки" : "Ссылок нет" }, [el("span", { class: "fitch-refs", text: refsLabel(line.refs) })]));
     row.appendChild(lineActions(line, index));
     row.addEventListener("click", (event) => {
-      if (event.target.closest("button, input, select, a")) return;
+      if (event.target.closest("button, input, select, a, .fitch-level")) return;
       row.focus({ preventScroll: true });
     });
     return row;
