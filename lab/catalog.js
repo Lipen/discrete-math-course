@@ -47,7 +47,7 @@
 
   const labs = [
     {
-      id: "relations", file: "relations.html?v=2", module: "structures", mark: "R",
+      id: "relations", file: "relations.html", module: "structures", mark: "R",
       topic: "Отношения",
       title: "Замкни отношение",
       blurb: "Щёлкайте пары в матрице и применяйте замыкания. Рядом меняются граф, свойства, классы эквивалентности и фактор.",
@@ -61,28 +61,28 @@
       tags: ["Хассе", "границы", "цепи"],
     },
     {
-      id: "cardinality", file: "cardinality.html?v=6", module: "infinity", mark: "ℵ₀",
+      id: "cardinality", file: "cardinality.html", module: "infinity", mark: "ℵ₀",
       topic: "Мощность",
       title: "Рассели бесконечность",
       blurb: "Переселяйте гостей, запускайте бесконечные автобусы, нумеруйте целые и ловите диагональ Кантора.",
       tags: ["биекция", "N×N", "диагональ"],
     },
     {
-      id: "deduction", file: "deduction.html?v=19", module: "logic", mark: "⊢",
+      id: "deduction", file: "deduction.html", module: "logic", mark: "⊢",
       topic: "Натуральная дедукция",
       title: "Собери вывод",
       blurb: "Строка за строкой собирайте вывод: выбирайте правило, ссылайтесь на номера, открывайте подвывод. Проверка ловит неверный шаг.",
       tags: ["Фитч", "правила", "подвывод"],
     },
     {
-      id: "sat", file: "sat.html?v=2", module: "boolean", mark: "SAT",
+      id: "sat", file: "sat.html", module: "boolean", mark: "SAT",
       topic: "SAT",
       title: "Прокрути DPLL",
       blurb: "Введите CNF и пройдите DPLL: решения, юнит-пропагация, конфликт, откат. Счётчики показывают цену поиска.",
       tags: ["CNF", "DPLL", "откат"],
     },
     {
-      id: "minimization", file: "minimization.html?v=8", module: "boolean", mark: "K",
+      id: "minimization", file: "minimization.html", module: "boolean", mark: "K",
       topic: "Минимизация",
       title: "Сожми карту Карно",
       blurb: "Расставьте единицы и безразличные наборы на карте до пяти переменных, получите простые импликанты и точный минимум ДНФ или КНФ.",
@@ -103,7 +103,7 @@
       tags: ["синдром", "H", "исправление"],
     },
     {
-      id: "huffman", file: "huffman.html?v=2", module: "codes", mark: "H",
+      id: "huffman", file: "huffman.html", module: "codes", mark: "H",
       topic: "Сжатие",
       title: "Построй дерево Хаффмана",
       blurb: "Задайте частоты, разберите жадные слияния, получите коды и сравните среднюю длину с энтропией.",
