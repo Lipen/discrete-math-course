@@ -180,7 +180,7 @@
 
   function setMapping(preset) {
     if (preset === "bijection") {
-      if (m !== k) { Lab.status(kindNode, "Биекция возможна только при равных размерах. Поменяйте размеры.", "warn"); return; }
+      if (m !== k) { Lab.status(kindNode, "Биекция возможна только при равных размерах домена и кодомена.", "warn"); return; }
       f = {};
       for (let i = 1; i <= m; i++) f[i] = i;
     } else if (preset === "surjection") {
