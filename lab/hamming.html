@@ -16,11 +16,11 @@
     <span class="here">Коды Хэмминга</span>
   </nav>
   <p class="eyebrow">Коды Хэмминга</p>
-  <h1>Синдром знает позицию</h1>
+  <h1>Синдром указывает позицию</h1>
   <p class="lead">
     Соберите кодовое слово из четырёх информационных битов.
-    Затем переверните любой бит принятого слова и посмотрите, как три проверки дают номер ошибки.
-    Две ошибки тоже видны, но декодер Хэмминга их не исправляет.
+    Переверните бит принятого слова и проследите, как три проверки дают номер ошибки.
+    Две ошибки обнаруживаются, но не исправляются.
   </p>
 </header>
 
@@ -53,7 +53,7 @@
             <div class="word-cells" id="c-row"></div>
           </div>
           <div class="word-row received">
-            <span class="word-label"><span class="lname" data-tex="r"></span><small>принято · клик</small></span>
+            <span class="word-label"><span class="lname" data-tex="r"></span><small>принято · нажмите</small></span>
             <div class="word-cells" id="r-row"></div>
           </div>
           <div class="word-row">
@@ -79,8 +79,8 @@
       </div>
       <div>
         <p class="hint">
-          Столбец j это двоичная запись номера j.
-          Синдром одной ошибки совпадает со столбцом её позиции, поэтому декодер знает, какой бит переворачивать.
+          Столбец j задаёт двоичную запись номера j.
+          Синдром одной ошибки совпадает со столбцом её позиции, поэтому декодер определяет, какой бит переворачивать.
         </p>
       </div>
     </div>
@@ -92,7 +92,7 @@
       <div>
         <h3>Кодовое слово</h3>
         <p>Синие позиции проверочные, янтарные информационные.
-        Проверочные биты <span data-tex="p_1"></span>, <span data-tex="p_2"></span>, <span data-tex="p_4"></span> считаются по формулам на карточке, затем собирается слово <span data-tex="c"></span>.</p>
+        Проверочные биты <span data-tex="p_1"></span>, <span data-tex="p_2"></span>, <span data-tex="p_4"></span> считаются по формулам выше, затем собирается слово <span data-tex="c"></span>.</p>
       </div>
       <div>
         <h3>Синдром</h3>
@@ -101,7 +101,7 @@
       </div>
       <div>
         <h3>Матрица</h3>
-        <p>Столбец <span data-tex="j"></span> матрицы <span data-tex="H"></span> это двоичная запись <span data-tex="j"></span>.
+        <p>Столбец <span data-tex="j"></span> матрицы <span data-tex="H"></span> задаёт двоичную запись <span data-tex="j"></span>.
         Поэтому синдром одной ошибки совпадает со столбцом её позиции.</p>
       </div>
       <div>
@@ -229,7 +229,7 @@
     for (let pos = 1; pos <= 7; pos++) {
       const cell = positionCell(pos, r[pos - 1], {
         error: Boolean(errorMask & (1 << (pos - 1))),
-        title: "Принято, клик переворачивает",
+        title: "Принято, нажатие переворачивает",
       });
       cell.addEventListener("click", () => {
         errorMask ^= 1 << (pos - 1);
@@ -299,7 +299,7 @@
     if (actualErrors === 0 && s.value === 0) {
       Lab.status(syndromeStatus, "Ошибки нет: синдром 0.", "ok");
     } else if (actualErrors === 1) {
-      Lab.status(syndromeStatus, "Одна ошибка. Синдром указывает на позицию " + s.value + "; декодер переворачивает её.", "ok");
+      Lab.status(syndromeStatus, "Одна ошибка. Синдром указывает на позицию " + s.value + ". Декодер переворачивает этот бит.", "ok");
     } else if (actualErrors >= 2) {
       Lab.status(syndromeStatus, "Фактических ошибок: " + actualErrors + ". Декодер переворачивает позицию " + (s.value === 0 ? "0, то есть не исправляет" : s.value) + ". При двух и более ошибках это может быть неверно.", "warn");
     } else {

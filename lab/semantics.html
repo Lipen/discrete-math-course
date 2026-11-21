@@ -16,11 +16,11 @@
     <span class="here">Семантика и следствие</span>
   </nav>
   <p class="eyebrow">Семантика</p>
-  <h1>Все модели посылок, одна заключение</h1>
+  <h1>Все модели посылок, одно заключение</h1>
   <p class="lead">
     Посылки задают множество моделей.
     Логическое следствие означает, что в каждой такой модели заключение истинно.
-    Перебираются наборы: видно либо доказательство перебором, либо конкретный контрпример.
+    Таблица перебирает наборы и показывает либо все модели, либо конкретный контрпример.
   </p>
   <div class="lab-meta">
     <span class="pill info">модели</span>
@@ -65,7 +65,7 @@ A</textarea>
     <div class="theory-grid">
       <div>
         <h3>Модель</h3>
-        <p>Модель это набор значений переменных.
+        <p>Модель задаёт набор значений переменных.
         Формула истинна в модели или ложна в ней, третьего нет.</p>
       </div>
       <div>
@@ -74,7 +74,7 @@ A</textarea>
       </div>
       <div>
         <h3>Контрпример</h3>
-        <p>Одной модели, где все посылки истинны, а заключение ложно, достаточно, чтобы следствия не было.</p>
+        <p>Одной модели, в которой все посылки истинны, а заключение ложно, достаточно, чтобы следствия не было.</p>
       </div>
       <div>
         <h3>Перебор</h3>
@@ -142,11 +142,11 @@ A</textarea>
     sequentNode.replaceChildren(Lab.math(all + " \\models " + Logic.toTex(parsed.conclusion), false));
 
     if (result.holds) {
-      Lab.status(statusNode, "Следствие есть: во всех " + result.rows.length + " наборах, где посылки истинны, заключение истинно.", "ok");
+      Lab.status(statusNode, "Следствие есть: на каждом наборе, где посылки истинны, заключение истинно.", "ok");
     } else {
       const ce = result.counterexample;
       const bits = result.vars.map((name, i) => name + "=" + ce.bits[i]).join(", ");
-      Lab.status(statusNode, "Следствия нет. Контрпример: " + bits + "; посылки истинны, заключение ложно.", "bad");
+      Lab.status(statusNode, "Следствия нет. Контрпример: " + bits + ". Посылки истинны, заключение ложно.", "bad");
     }
 
     clear(tableNode);
@@ -179,7 +179,7 @@ A</textarea>
       el("div", { class: "metric" }, [el("span", { class: "k", text: "с заключением" }), el("span", { class: "v", text: String(trueModels.length) })]),
       el("div", { class: "metric" }, [el("span", { class: "k", text: "всего строк" }), el("span", { class: "v", text: String(result.rows.length) })]),
     ]));
-    if (!models.length) modelsNode.appendChild(el("p", { class: "hint", text: "Посылки несовместны: моделей нет, следствие выполняется пусто." }));
+    if (!models.length) modelsNode.appendChild(el("p", { class: "hint", text: "Посылки несовместны: моделей нет, поэтому следствие выполняется." }));
   }
 
   function applyPreset(preset) {
