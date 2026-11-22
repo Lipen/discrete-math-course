@@ -311,7 +311,10 @@
     } else if (actualErrors === 1) {
       Lab.status(syndromeStatus, "Одна ошибка. Синдром указывает на позицию " + s.value + ". Декодер переворачивает этот бит.", "ok");
     } else if (actualErrors >= 2) {
-      Lab.status(syndromeStatus, "Фактических ошибок: " + actualErrors + ". Декодер переворачивает позицию " + (s.value === 0 ? "0, то есть не исправляет" : s.value) + ". При двух и более ошибках это может быть неверно.", "warn");
+      const action = s.value === 0
+        ? "Синдром 0: декодер ошибку не видит и ничего не исправляет."
+        : "Декодер переворачивает позицию " + s.value + ", это может быть неверно.";
+      Lab.status(syndromeStatus, "Перевёрнутых битов: " + actualErrors + ". " + action, "warn");
     } else {
       Lab.status(syndromeStatus, "Синдром " + s.value + ", ошибок не внесено. Проверьте слово.", "warn");
     }

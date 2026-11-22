@@ -544,10 +544,17 @@
           ? ["Комнаты заняты, автобус ждёт", "Жильцы в чётные, автобус в нечётные"]
           : Array.from({ length: state.maxStep + 1 }, (_, i) => i === 0 ? "Ничего не размещено" : "Диагональ " + (i - 1));
     for (let i = 0; i <= state.maxStep; i++) {
-      const li = el("li", { class: i === step ? "current" : "", text: descriptions[i] || "", "data-focus-key": "hotel-log-" + i });
-      li.title = "Перейти к шагу " + i;
-      if (i === step) li.setAttribute("aria-current", "step");
-      activate(li, () => { stopAuto(); step = i; renderHotel(); }, "Перейти к шагу " + i + ": " + (descriptions[i] || ""));
+      const li = el("li", { class: i === step ? "current" : "" });
+      const stepButton = el("button", {
+        class: "hotel-log-button",
+        type: "button",
+        text: descriptions[i] || "",
+        "data-focus-key": "hotel-log-" + i,
+      });
+      stepButton.title = "Перейти к шагу " + i;
+      if (i === step) stepButton.setAttribute("aria-current", "step");
+      activate(stepButton, () => { stopAuto(); step = i; renderHotel(); }, "Перейти к шагу " + i + ": " + (descriptions[i] || ""));
+      li.appendChild(stepButton);
       log.appendChild(li);
       const chip = el("button", {
         class: "hotel-step" + (i === step ? " active" : "") + (i < step ? " done" : ""),

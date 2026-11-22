@@ -241,7 +241,7 @@
 
     const root = svg("svg", {
       viewBox: "0 0 " + width + " " + height,
-      role: "img",
+      role: "group",
       "aria-label": "Диаграмма решений",
       style: "min-width:" + Math.min(width, 820) + "px",
     });
@@ -271,9 +271,21 @@
       }
     }
 
+    function targetText(target) {
+      if (target === 0 || target === 1) return String(target);
+      const targetNode = byId.get(target);
+      return targetNode ? names[targetNode.v] : String(target);
+    }
+
     for (const node of nodes) {
       const p = coords.get(node.id);
-      const group = svg("g", { class: "bdd-node", "data-id": String(node.id) });
+      const group = svg("g", {
+        class: "bdd-node",
+        "data-id": String(node.id),
+        tabindex: "0",
+        role: "img",
+        "aria-label": "Узел " + names[node.v] + ", ноль ведёт к " + targetText(node.lo) + ", единица ведёт к " + targetText(node.hi),
+      });
       group.appendChild(svg("circle", {
         cx: p.x, cy: p.y, r: 22,
         fill: "#ffffff",
@@ -344,6 +356,8 @@
       const id = Number(nodeEl.getAttribute("data-id"));
       nodeEl.addEventListener("mouseenter", () => highlight(id, true));
       nodeEl.addEventListener("mouseleave", () => highlight(id, false));
+      nodeEl.addEventListener("focus", () => highlight(id, true));
+      nodeEl.addEventListener("blur", () => highlight(id, false));
     });
 
     clear(diagramNode);

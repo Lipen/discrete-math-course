@@ -1706,6 +1706,22 @@ button, .btn { border-radius: 9px; font-size: 13px; padding: 7px 12px; }
 
 .hotel-log li { margin: 5px 0; }
 .hotel-log li.current { color: var(--accent); font-weight: 700; }
+.hotel-log-button {
+  display: inline;
+  padding: 0;
+  border: 0;
+  border-radius: 3px;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
+  text-underline-offset: 2px;
+}
+.hotel-log-button:hover { color: var(--accent); }
+.hotel-log-button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 .hotel-equation {
   padding: 10px 12px;
@@ -2595,7 +2611,8 @@ button, .btn { border-radius: 9px; font-size: 13px; padding: 7px 12px; }
 }
 
 svg g.gate:focus-visible rect,
-svg g.hc-node:focus-visible circle {
+svg g.hc-node:focus-visible circle,
+svg g.bdd-node:focus-visible circle {
   stroke: var(--accent);
   stroke-width: 3;
 }

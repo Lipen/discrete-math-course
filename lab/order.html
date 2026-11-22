@@ -240,7 +240,7 @@
         });
       });
     }
-    const root = svg("svg", { viewBox: "0 0 " + width + " " + height, role: "img", "aria-label": "Диаграмма Хассе" });
+    const root = svg("svg", { viewBox: "0 0 " + width + " " + height, role: "group", "aria-label": "Диаграмма Хассе" });
     for (let i = 0; i < n; i++) {
       for (let j = 0; j < n; j++) {
         if (!cover[i][j]) continue;
@@ -252,27 +252,50 @@
         }));
       }
     }
+    const circles = [];
+    const texts = [];
+    function paintFocus() {
+      for (let i = 0; i < n; i++) {
+        const comparable = focus === null ? false : (R[focus][i] || R[i][focus]);
+        const isFocus = focus === i;
+        circles[i].setAttribute("fill", isFocus ? "#2e5288" : (comparable ? "#e8eef8" : "#fff"));
+        circles[i].setAttribute("stroke", isFocus ? "#2e5288" : "#7b7366");
+        circles[i].setAttribute("stroke-width", isFocus ? "2.4" : "1.5");
+        texts[i].setAttribute("fill", isFocus ? "#fff" : "#1d2733");
+      }
+    }
     for (let i = 0; i < n; i++) {
       const p = coords.get(i);
-      const comparable = focus === null ? false : (R[focus][i] || R[i][focus]);
-      const isFocus = focus === i;
-      root.appendChild(svg("circle", {
-        cx: p.x, cy: p.y, r: 21,
-        fill: isFocus ? "#2e5288" : (comparable ? "#e8eef8" : "#fff"),
-        stroke: isFocus ? "#2e5288" : "#7b7366",
-        "stroke-width": isFocus ? 2.4 : 1.5,
-        style: "cursor:pointer",
-      }));
-      root.appendChild(svg("text", {
+      const circle = svg("circle", { cx: p.x, cy: p.y, r: 21, style: "cursor:pointer" });
+      circles.push(circle);
+      root.appendChild(circle);
+      const text = svg("text", {
         x: p.x, y: p.y + 5, "text-anchor": "middle",
         "font-family": "var(--mono)", "font-size": 13, "font-weight": 700,
-        fill: isFocus ? "#fff" : "#1d2733",
-      }, String(i + 1)));
-      const hit = svg("circle", { cx: p.x, cy: p.y, r: 23, fill: "transparent", style: "cursor:pointer" });
-      hit.addEventListener("mouseenter", () => { focus = i; renderHasse(true); });
-      hit.addEventListener("mouseleave", () => { focus = null; renderHasse(true); });
+      }, String(i + 1));
+      texts.push(text);
+      root.appendChild(text);
+      const comparableList = [];
+      for (let j = 0; j < n; j++) {
+        if (j !== i && (R[i][j] || R[j][i])) comparableList.push(j + 1);
+      }
+      const hit = svg("circle", {
+        cx: p.x, cy: p.y, r: 23, fill: "transparent",
+        tabindex: "0", role: "img", style: "cursor:pointer",
+        "data-focus-key": "hasse-" + (i + 1),
+        "aria-label": "Элемент " + (i + 1) + (comparableList.length
+          ? ", сравним с " + comparableList.join(", ")
+          : ", не сравним ни с кем"),
+      });
+      hit.addEventListener("mouseenter", () => { focus = i; paintFocus(); });
+      hit.addEventListener("mouseleave", () => {
+        if (document.activeElement !== hit) { focus = null; paintFocus(); }
+      });
+      hit.addEventListener("focus", () => { focus = i; paintFocus(); });
+      hit.addEventListener("blur", () => { focus = null; paintFocus(); });
       root.appendChild(hit);
     }
+    paintFocus();
     hasseNode.appendChild(root);
   }
 
@@ -417,14 +440,15 @@
 
   sizeSelect.addEventListener("change", () => {
     n = Number(sizeSelect.value);
+    focus = null;
     R = divisibility(n);
     selected = new Set([2, 3].filter((x) => x <= n));
     renderAll();
   });
 
-  $("#divisors").addEventListener("click", () => { R = divisibility(n); renderAll(); });
-  $("#identity").addEventListener("click", () => { R = diagonal(n); renderAll(); });
-  $("#random-order").addEventListener("click", () => { R = randomOrder(n); renderAll(); });
+  $("#divisors").addEventListener("click", () => { focus = null; R = divisibility(n); renderAll(); });
+  $("#identity").addEventListener("click", () => { focus = null; R = diagonal(n); renderAll(); });
+  $("#random-order").addEventListener("click", () => { focus = null; R = randomOrder(n); renderAll(); });
 
   const paint = renderAll;
   renderAll = () => Lab.keepFocus(paint);
