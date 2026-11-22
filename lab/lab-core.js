@@ -142,6 +142,22 @@
     return node;
   }
 
+  function keepFocus(render) {
+    const active = document.activeElement;
+    const key = active && active.getAttribute("data-focus-key");
+    render();
+    if (!key) return;
+    const next = Array.from(document.querySelectorAll("[data-focus-key]"))
+      .find((node) => node.getAttribute("data-focus-key") === key);
+    if (!next) return;
+    if (!next.disabled) {
+      next.focus({ preventScroll: true });
+      return;
+    }
+    const fallback = next.parentElement && next.parentElement.querySelector("button:not([disabled])");
+    if (fallback) fallback.focus({ preventScroll: true });
+  }
+
   function setActive(buttons, active) {
     buttons.forEach((button) => button.classList.toggle("active", button === active));
   }
@@ -158,6 +174,6 @@
 
   window.Lab = {
     $, $$, el, svg, clear, bitsOf, bin, popcount, graySeq, truthRows,
-    mapLayout, mintermOf, escapeHtml, fmt, status, activate, setPressed, setActive, downloadText,
+    mapLayout, mintermOf, escapeHtml, fmt, status, activate, setPressed, keepFocus, setActive, downloadText,
   };
 })();

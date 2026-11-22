@@ -177,6 +177,7 @@
         type: "button",
         text: String(value),
         "aria-label": "Элемент " + value + " предиката " + name + (active ? ", выбран" : ", не выбран"),
+        "data-focus-key": "pred-" + name + "-" + value,
       });
       setPressed(button, active);
       button.addEventListener("click", () => togglePredicate(name, value));
@@ -289,6 +290,8 @@
   });
 
   setFormula(presets[2][0]);
+  const paint = renderAll;
+  renderAll = () => Lab.keepFocus(paint);
   renderAll();
 })();
 </script>

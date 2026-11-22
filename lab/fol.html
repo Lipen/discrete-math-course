@@ -178,6 +178,7 @@
         type: "button",
         text: String(value),
         "aria-label": "Элемент " + value + " предиката " + name + (active ? ", выбран" : ", не выбран"),
+        "data-focus-key": "fol-" + name + "-" + value,
       });
       setPressed(button, active);
       button.addEventListener("click", () => toggleSet(name, value));
@@ -207,6 +208,7 @@
           class: model.preds.R.has(key) ? "on" : "",
           text: model.preds.R.has(key) ? "1" : "0",
           "aria-label": "R(" + i + "," + j + ")",
+          "data-focus-key": "fol-R-" + key,
         });
         setPressed(button, model.preds.R.has(key));
         button.addEventListener("click", () => {
@@ -329,6 +331,8 @@
   });
 
   setFormula(presets[0]);
+  const paint = renderAll;
+  renderAll = () => Lab.keepFocus(paint);
   renderAll();
 })();
 </script>

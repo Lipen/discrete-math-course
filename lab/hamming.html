@@ -201,6 +201,7 @@
         text: String(bit),
         title: "d" + (i + 1),
         "aria-label": "d" + (i + 1) + " = " + bit + ", переключить",
+        "data-focus-key": "data-" + i,
       });
       setPressed(button, bit);
       button.addEventListener("click", () => {
@@ -238,6 +239,7 @@
         error: hasError,
         title: "Принято, нажатие переворачивает",
       });
+      cell.setAttribute("data-focus-key", "r-" + pos);
       activate(cell, () => {
         errorMask ^= 1 << (pos - 1);
         renderAll();
@@ -341,6 +343,8 @@
     renderAll();
   });
 
+  const paint = renderAll;
+  renderAll = () => Lab.keepFocus(paint);
   renderAll();
 })();
 </script>

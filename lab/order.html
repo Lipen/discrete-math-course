@@ -183,6 +183,7 @@
           class: R[i][j] ? "on" : "",
           text: R[i][j] ? "1" : "0",
           "aria-label": "(" + (i + 1) + "," + (j + 1) + ")",
+          "data-focus-key": "ord-" + i + "-" + j,
         });
         setPressed(button, R[i][j]);
         button.addEventListener("click", () => {
@@ -295,6 +296,7 @@
         type: "button",
         text: String(value),
         "aria-label": "Элемент " + value + (selected.has(value) ? ", выбран" : ", не выбран"),
+        "data-focus-key": "ord-sub-" + value,
       });
       setPressed(button, selected.has(value));
       button.addEventListener("click", () => {
@@ -424,6 +426,8 @@
   $("#identity").addEventListener("click", () => { R = diagonal(n); renderAll(); });
   $("#random-order").addEventListener("click", () => { R = randomOrder(n); renderAll(); });
 
+  const paint = renderAll;
+  renderAll = () => Lab.keepFocus(paint);
   R = divisibility(n);
   selected = new Set([2, 3].filter((x) => x <= n));
   renderAll();

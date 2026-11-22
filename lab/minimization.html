@@ -605,6 +605,7 @@
           role: "button",
           tabindex: "0",
           "aria-label": "минтерм " + m + (layer === null ? "" : ", слой E=" + layer) + ", значение " + (value === 2 ? "X" : value),
+          "data-focus-key": "kmap-" + m,
         });
         cell.appendChild(el("span", { class: "idx", text: String(m) }));
         cell.appendChild(el("span", { class: "val", text: value === 2 ? "X" : String(value) }));
@@ -737,6 +738,7 @@
         type: "button",
         "data-m": String(m),
         "aria-label": "минтерм " + m + ", значение " + (value === 2 ? "X" : value),
+        "data-focus-key": "truth-" + m,
         text: value === 2 ? "X" : String(value),
       });
       setPressed(button, value === 1);
@@ -1135,6 +1137,9 @@
     refreshAxisBars();
     renderFrames(lastResult);
   });
+
+  const paint = renderAll;
+  renderAll = (...args) => Lab.keepFocus(() => paint(...args));
 
   const saved = readSession();
   if (saved) {

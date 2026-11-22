@@ -292,7 +292,7 @@
       const isRef = gate.id === current.ref;
       const isSelected = gate.id === selected;
       const cls = "gate" + (isRef ? " ref" : "") + (isSelected ? " selected" : "");
-      const group = svg("g", { class: cls, "data-gate": gate.id, tabindex: "0", style: "cursor:pointer" });
+      const group = svg("g", { class: cls, "data-gate": gate.id, tabindex: "0", style: "cursor:pointer", "data-focus-key": "gate-" + gate.id });
       group.appendChild(svg("rect", {
         x: p.x - 34, y: p.y - 23, width: 68, height: 46, rx: 10,
         fill: isSelected ? "#e8eef8" : (isRef ? "#e6f2ec" : "#ffffff"),
@@ -438,6 +438,8 @@
     renderAll();
   });
 
+  const paint = renderAll;
+  renderAll = () => Lab.keepFocus(paint);
   prepare(currentKey);
   renderAll();
 })();

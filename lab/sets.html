@@ -242,6 +242,7 @@
         type: "button",
         text: String(value),
         "aria-label": "Элемент " + value + " множества " + label + (active ? ", выбран" : ", не выбран"),
+        "data-focus-key": "set-" + label + "-" + value,
       });
       setPressed(button, active);
       button.addEventListener("click", () => {
@@ -414,6 +415,8 @@
     renderAll();
   });
 
+  const paint = renderAll;
+  renderAll = () => Lab.keepFocus(paint);
   renderAll();
 })();
 </script>

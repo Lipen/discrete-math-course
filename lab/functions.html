@@ -208,7 +208,7 @@
       const tr = el("tr");
       tr.appendChild(el("td", { class: "mono", text: String(x) }));
       const td = el("td");
-      const select = el("select", { "aria-label": "Значение f(" + x + ")" });
+      const select = el("select", { "aria-label": "Значение f(" + x + ")", "data-focus-key": "map-" + x });
       for (const y of codomain()) select.appendChild(el("option", { value: String(y), text: String(y) }));
       select.value = String(f[x]);
       select.addEventListener("change", () => {
@@ -279,6 +279,7 @@
         type: "button",
         text: String(x),
         "aria-label": "Элемент домена " + x + (domainSubset.has(x) ? ", выбран" : ", не выбран"),
+        "data-focus-key": "dom-" + x,
       });
       setPressed(button, domainSubset.has(x));
       button.addEventListener("click", () => {
@@ -294,6 +295,7 @@
         type: "button",
         text: String(y),
         "aria-label": "Элемент кодомена " + y + (codomainSubset.has(y) ? ", выбран" : ", не выбран"),
+        "data-focus-key": "cod-" + y,
       });
       setPressed(button, codomainSubset.has(y));
       button.addEventListener("click", () => {
@@ -362,6 +364,8 @@
   $("#reset").addEventListener("click", () => { resetMapping(); renderAll(); });
   gPreset.addEventListener("change", renderComposition);
 
+  const paint = renderAll;
+  renderAll = () => Lab.keepFocus(paint);
   resetMapping();
   renderAll();
 })();

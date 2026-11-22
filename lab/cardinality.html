@@ -544,7 +544,7 @@
           ? ["Комнаты заняты, автобус ждёт", "Жильцы в чётные, автобус в нечётные"]
           : Array.from({ length: state.maxStep + 1 }, (_, i) => i === 0 ? "Ничего не размещено" : "Диагональ " + (i - 1));
     for (let i = 0; i <= state.maxStep; i++) {
-      const li = el("li", { class: i === step ? "current" : "", text: descriptions[i] || "" });
+      const li = el("li", { class: i === step ? "current" : "", text: descriptions[i] || "", "data-focus-key": "hotel-log-" + i });
       li.title = "Перейти к шагу " + i;
       if (i === step) li.setAttribute("aria-current", "step");
       activate(li, () => { stopAuto(); step = i; renderHotel(); }, "Перейти к шагу " + i + ": " + (descriptions[i] || ""));
@@ -554,6 +554,7 @@
         type: "button",
         text: scenario === "buses" ? (i === 0 ? "S" : String(i - 1)) : String(i),
         title: descriptions[i] || "",
+        "data-focus-key": "hotel-step-" + i,
       });
       if (i === step) chip.setAttribute("aria-current", "step");
       chip.addEventListener("click", () => { stopAuto(); step = i; renderHotel(); });
@@ -789,6 +790,8 @@
   });
   $("#diagonal-random").addEventListener("click", () => { makeDiagonal(); renderDiagonal(); });
 
+  const paintHotel = renderHotel;
+  renderHotel = (...args) => Lab.keepFocus(() => paintHotel(...args));
   makeDiagonal();
   renderHotel();
   renderIntegers();

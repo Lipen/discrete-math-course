@@ -162,6 +162,7 @@
       const card = el("button", {
         class: "ordinal-card" + (String(index) === aSelect.value ? " selected-a" : "") + (String(index) === bSelect.value ? " selected-b" : ""),
         type: "button",
+        "data-focus-key": "ordinal-" + index,
       });
       const mark = el("span", { class: "ordinal-mark" });
       mark.appendChild(Lab.math(ordinal.tex, false));
@@ -226,6 +227,8 @@
     renderAll();
   });
 
+  const paint = renderAll;
+  renderAll = () => Lab.keepFocus(paint);
   renderAll();
 })();
 </script>

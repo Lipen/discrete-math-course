@@ -212,6 +212,7 @@
         text: String(values[m]),
         title: "Переключить значение",
         "aria-label": "f(" + bitsOf(m, n).join("") + ") = " + values[m] + ", переключить",
+        "data-focus-key": "bit-" + m,
       });
       setPressed(button, values[m]);
       button.addEventListener("click", () => toggleMinterm(m));
@@ -341,7 +342,7 @@
     }
     for (let m = 0; m < (1 << n); m++) {
       const p = coords[m];
-      const group = svg("g", { class: "hc-node", tabindex: "0", style: "cursor:pointer" });
+      const group = svg("g", { class: "hc-node", tabindex: "0", style: "cursor:pointer", "data-focus-key": "cube-" + m });
       group.appendChild(svg("circle", {
         cx: p.x, cy: p.y, r: 22,
         fill: values[m] ? "#dbe8fa" : "#ffffff",
@@ -379,6 +380,7 @@
         const cell = el("div", {
           class: "map-cell" + (values[m] ? " v1" : ""),
           "data-m": String(m),
+          "data-focus-key": "map-" + m,
         });
         cell.appendChild(el("span", { class: "idx", text: String(m) }));
         cell.appendChild(el("span", { class: "val", text: String(values[m]) }));
@@ -440,6 +442,8 @@
     renderAll();
   });
 
+  const paint = renderAll;
+  renderAll = () => Lab.keepFocus(paint);
   renderAll();
 })();
 </script>

@@ -178,6 +178,7 @@
           class: R[i][j] ? "on" : "",
           text: R[i][j] ? "1" : "0",
           "aria-label": "пара (" + (i + 1) + "," + (j + 1) + ")",
+          "data-focus-key": "rel-" + i + "-" + j,
         });
         setPressed(button, R[i][j]);
         button.addEventListener("click", () => {
@@ -372,6 +373,8 @@
     renderAll();
   });
 
+  const paint = renderAll;
+  renderAll = () => Lab.keepFocus(paint);
   R = defaultMatrix(n);
   renderAll();
 })();
