@@ -162,6 +162,55 @@
     buttons.forEach((button) => button.classList.toggle("active", button === active));
   }
 
+  /* One active key for a set of hover and focus triggers. */
+  function focusSet(onChange) {
+    const sources = new Map();
+    const ids = new WeakMap();
+    let nextId = 0;
+    function sourceId(node) {
+      let id = ids.get(node);
+      if (!id) {
+        id = ++nextId;
+        ids.set(node, id);
+      }
+      return id;
+    }
+    function activeKey() {
+      let key = null;
+      for (const value of sources.values()) key = value;
+      return key;
+    }
+    function emit() {
+      onChange(activeKey());
+    }
+    function bind(node, key) {
+      if (!node) return node;
+      const id = sourceId(node);
+      node.addEventListener("mouseenter", () => {
+        sources.set("mouse:" + id, String(key));
+        emit();
+      });
+      node.addEventListener("mouseleave", () => {
+        sources.delete("mouse:" + id);
+        emit();
+      });
+      node.addEventListener("focus", () => {
+        sources.set("focus:" + id, String(key));
+        emit();
+      });
+      node.addEventListener("blur", () => {
+        sources.delete("focus:" + id);
+        emit();
+      });
+      return node;
+    }
+    function clear() {
+      sources.clear();
+      emit();
+    }
+    return { bind, clear, activeKey };
+  }
+
   function downloadText(name, text, type) {
     const blob = new Blob([text], { type: type || "text/plain;charset=utf-8" });
     const url = URL.createObjectURL(blob);
@@ -174,6 +223,6 @@
 
   window.Lab = {
     $, $$, el, svg, clear, bitsOf, bin, popcount, graySeq, truthRows,
-    mapLayout, mintermOf, escapeHtml, fmt, status, activate, setPressed, keepFocus, setActive, downloadText,
+    mapLayout, mintermOf, escapeHtml, fmt, status, activate, setPressed, keepFocus, setActive, focusSet, downloadText,
   };
 })();

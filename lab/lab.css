@@ -391,7 +391,10 @@ svg { display: block; max-width: 100%; height: auto; }
 .map-cell .val { font-family: var(--mono); font-size: 17px; font-weight: 700; line-height: 1.2; }
 .map-cell.v1 { background: var(--blue-soft); border-color: #a9c1e4; }
 .map-cell.vx { background: var(--amber-soft); border-color: #d7b26e; }
-.map-cell.hl { box-shadow: 0 0 0 2px var(--red) inset; border-color: var(--red); }
+.map-cell.is-covered {
+  border-color: var(--term-color);
+  box-shadow: 0 0 0 2px var(--term-color) inset;
+}
 
 .map-corner { width: var(--map-cell); height: 32px; }
 .map-head {
@@ -564,6 +567,9 @@ svg { display: block; max-width: 100%; height: auto; }
 
 .legend { display: flex; flex-wrap: wrap; gap: 10px; font-size: 12px; color: var(--muted); }
 .legend .sw { display: inline-block; width: 12px; height: 12px; border-radius: 3px; border: 1px solid #cfc7b8; vertical-align: -2px; margin-right: 4px; }
+.legend .sw.is-term { background: transparent; border: 2px solid var(--term-color); }
+.legend .sw.is-active { background: color-mix(in srgb, var(--term-color) 30%, transparent); border: 1px solid var(--term-color); }
+.legend .sw.is-ghost { background: transparent; border: 2px dashed var(--term-color); }
 
 .index-grid {
   display: grid;
@@ -1553,6 +1559,54 @@ button, .btn { border-radius: 9px; font-size: 13px; padding: 7px 12px; }
 
 /* ── Karnaugh workspace ── */
 
+.term-0 { --term-color: #2d5fa8; }
+.term-1 { --term-color: #2f7d5c; }
+.term-2 { --term-color: #a76a12; }
+.term-3 { --term-color: #6a4c93; }
+.term-4 { --term-color: #b03a3a; }
+.term-5 { --term-color: #0f766e; }
+.term-6 { --term-color: #7c3aed; }
+.term-7 { --term-color: #b45309; }
+.term-8 { --term-color: #a23b72; }
+.term-9 { --term-color: #3f5b73; }
+.term-10 { --term-color: #6b7a1f; }
+.term-11 { --term-color: #0e6f8c; }
+
+.term-swatch,
+.term-no {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  background: var(--term-color);
+  color: var(--card);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.term-swatch {
+  width: 18px;
+  height: 18px;
+  border-radius: 5px;
+  margin-right: 7px;
+  vertical-align: -4px;
+}
+
+.term-swatch.is-empty {
+  background: transparent;
+  box-shadow: 0 0 0 2px var(--term-color) inset;
+  color: transparent;
+}
+
+.term-no {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
 .kmap-layout {
   display: grid;
   grid-template-columns: minmax(0, 480px) minmax(0, 1fr);
@@ -1593,19 +1647,43 @@ button, .btn { border-radius: 9px; font-size: 13px; padding: 7px 12px; }
 
 .formula-or { color: var(--muted); }
 
-.k-frame .k-fill { fill-opacity: .09; transition: fill-opacity .16s; }
+.k-frame[data-selected="false"]:not(.is-active) { display: none; }
+.k-frame .k-fill {
+  fill: var(--term-color);
+  fill-opacity: 0;
+  transition: fill-opacity .16s;
+}
 .k-frame .k-stroke {
   fill: none;
+  stroke: var(--term-color);
   stroke-width: 2.2;
-  opacity: .86;
+  opacity: .88;
   transition: stroke-width .16s, opacity .16s;
 }
-.k-frame.is-focused .k-fill { fill-opacity: .26; }
-.k-frame.is-focused .k-stroke { stroke-width: 3.4; opacity: 1; }
-.k-frame.is-dimmed .k-fill { fill-opacity: .025; }
-.k-frame.is-dimmed .k-stroke { opacity: .3; }
+.k-frame.is-active .k-fill { fill-opacity: .16; }
+.k-frame.is-active .k-stroke { stroke-width: 3.2; opacity: 1; }
+.k-frame[data-selected="false"].is-active .k-fill { fill-opacity: .10; }
+.k-frame[data-selected="false"].is-active .k-stroke { stroke-dasharray: 6 4; }
+.k-frame.is-dimmed .k-fill { fill-opacity: 0; }
+.k-frame.is-dimmed .k-stroke { opacity: .28; }
+.k-frame.is-dimmed .k-badge,
+.k-frame.is-dimmed .k-badge-text { opacity: .35; }
+.k-frame.is-active .k-badge,
+.k-frame.is-active .k-badge-text { opacity: 1; }
+.k-badge { fill: var(--term-color); opacity: .72; }
+.k-badge-text {
+  fill: var(--card);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  text-anchor: middle;
+  opacity: .72;
+}
+.formula-term .term-no { align-self: center; }
 
 #primes tbody tr:hover td { background: #f7f4ec; }
+#primes tbody tr:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+#primes tbody tr:focus-visible td { background: color-mix(in srgb, var(--accent) 8%, transparent); }
 
 @media (max-width: 900px) {
   .kmap-layout { grid-template-columns: 1fr; gap: 18px; }
@@ -2996,13 +3074,25 @@ html[data-theme="dark"] table.data tr.selected td { background: var(--accent-sof
 html[data-theme="dark"] table.data tr.bad-row td { background: var(--red-soft); }
 html[data-theme="dark"] .compare td.current { background: var(--accent-soft); }
 
+html[data-theme="dark"] .term-0 { --term-color: #8ab4ff; }
+html[data-theme="dark"] .term-1 { --term-color: #6fd3a8; }
+html[data-theme="dark"] .term-2 { --term-color: #e0b05a; }
+html[data-theme="dark"] .term-3 { --term-color: #b99bec; }
+html[data-theme="dark"] .term-4 { --term-color: #ff8f8f; }
+html[data-theme="dark"] .term-5 { --term-color: #5fd3c7; }
+html[data-theme="dark"] .term-6 { --term-color: #b79cff; }
+html[data-theme="dark"] .term-7 { --term-color: #f0a45c; }
+html[data-theme="dark"] .term-8 { --term-color: #f08fbf; }
+html[data-theme="dark"] .term-9 { --term-color: #9fb4cd; }
+html[data-theme="dark"] .term-10 { --term-color: #c4d36f; }
+html[data-theme="dark"] .term-11 { --term-color: #6fc7e6; }
+
 html[data-theme="dark"] .map-cell.v1,
 html[data-theme="dark"] .truth-bit.v1 { background: var(--blue-soft); border-color: color-mix(in srgb, var(--blue) 35%, var(--line)); }
 html[data-theme="dark"] .map-cell.vx,
 html[data-theme="dark"] .truth-bit.vx { background: var(--amber-soft); border-color: color-mix(in srgb, var(--amber) 35%, var(--line)); }
 html[data-theme="dark"] .pos.data { background: var(--amber-soft); border-color: color-mix(in srgb, var(--amber) 35%, var(--line)); }
 html[data-theme="dark"] .pos.parity { background: var(--blue-soft); border-color: color-mix(in srgb, var(--blue) 35%, var(--line)); }
-html[data-theme="dark"] .map-cell.hl,
 html[data-theme="dark"] .pos.error { border-color: var(--red); }
 html[data-theme="dark"] .pos.corrected { border-color: var(--green); }
 html[data-theme="dark"] .bdd-edge { stroke: var(--edge); }

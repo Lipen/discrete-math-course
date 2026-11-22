@@ -87,6 +87,9 @@
           <span><span class="sw" style="background:var(--blue-soft);border-color:color-mix(in srgb, var(--blue) 40%, var(--line))"></span>1</span>
           <span><span class="sw" style="background:var(--amber-soft);border-color:color-mix(in srgb, var(--amber) 40%, var(--line))"></span>X</span>
           <span><span class="sw" style="background:var(--card);border-color:var(--line)"></span>0</span>
+          <span><span class="sw is-term term-0"></span>в минимуме</span>
+          <span><span class="sw is-active term-2"></span>активная</span>
+          <span><span class="sw is-ghost term-1"></span>свободная</span>
         </div>
       </div>
       <div class="kmap-right">
@@ -115,7 +118,9 @@
         <p>Клетка задаёт минтерм, соседние клетки отличаются одной переменной.
         Линии у края показывают, где переменная равна 1.
         При разрыве каждая часть линии подписана отдельно.
-        Подсветка группы задаёт один терм, наведение на строку показывает покрытые клетки.
+        Выбранные группы обведены цветом и пронумерованы.
+        Наведение или фокус заполняет одну группу, остальные приглушаются.
+        Свободная импликанта показывается штриховой рамкой.
         Переключатель ДНФ и КНФ решает, что группировать: единицы или нули.
         X можно включить в группу, но не обязательно покрывать.</p>
       </div>
@@ -145,7 +150,8 @@
   "use strict";
   const { $, el, clear, bitsOf, graySeq, mapLayout, mintermOf, setPressed } = Lab;
   const vars = ["A", "B", "C", "D", "E"];
-  const colors = ["#2d5fa8", "#2f7d5c", "#a76a12", "#6a4c93", "#b03a3a", "#0f766e", "#7c3aed", "#b45309"];
+  const TERM_COUNT = 12;
+  const TERM_CLASSES = Array.from({ length: TERM_COUNT }, (_, index) => "term-" + index);
   const STORAGE_KEY = "dm-lab:minimization:v1";
   const STORAGE_TTL = 8 * 60 * 60 * 1000;
 
@@ -165,6 +171,12 @@
   let form = "dnf";
   let solutionIndex = 0;
   let currentView = "map";
+
+  function termClass(index) {
+    return "term-" + (index % TERM_COUNT);
+  }
+
+  const focus = Lab.focusSet((key) => applyPrimeState(key));
 
   const arity = $("#arity");
   const preset = $("#preset");
@@ -752,23 +764,29 @@
     truthTable.appendChild(tbody);
   }
 
-  function highlightPrime(index, on) {
-    if (!primes[index]) return;
-    for (const m of primes[index].covers) {
-      const cell = mapNode.querySelector('[data-m="' + m + '"]');
-      if (cell) cell.classList.toggle("hl", on);
+  function applyPrimeState(key) {
+    const active = key === null || key === undefined || key === "" ? null : String(key);
+    for (const frame of mapNode.querySelectorAll(".k-frame")) {
+      const primeKey = frame.getAttribute("data-prime");
+      const selected = frame.getAttribute("data-selected") === "true";
+      const isActive = active !== null && primeKey === active;
+      frame.classList.toggle("is-active", isActive);
+      frame.classList.toggle("is-dimmed", active !== null && selected && !isActive);
     }
-    highlightFrames(index, on);
-  }
-
-  function highlightFrames(index, on) {
-    const frames = Array.from(mapNode.querySelectorAll(".k-map-overlay .k-frame"));
-    const has = frames.some((frame) => frame.getAttribute("data-prime") === String(index));
-    if (!has) return;
-    for (const frame of frames) {
-      const isActive = frame.getAttribute("data-prime") === String(index);
-      frame.classList.toggle("is-focused", on && isActive);
-      frame.classList.toggle("is-dimmed", on && !isActive);
+    for (const cell of mapNode.querySelectorAll(".map-cell")) {
+      cell.classList.remove("is-covered", ...TERM_CLASSES);
+    }
+    if (active === null) return;
+    const prime = primes[Number(active)];
+    if (!prime) return;
+    const cls = termClass(Number(active));
+    const seen = new Set();
+    for (const m of prime.covers) {
+      for (const cell of mapNode.querySelectorAll('.map-cell[data-m="' + m + '"]')) {
+        if (seen.has(cell)) continue;
+        seen.add(cell);
+        cell.classList.add("is-covered", cls);
+      }
     }
   }
 
@@ -805,7 +823,7 @@
     return out;
   }
 
-  function drawFrame(root, left, top, right, bottom, open, color, label) {
+  function drawFrame(root, left, top, right, bottom, open, options) {
     const gap = 5;
     const radius = Math.min(8, (right - left) / 2, (bottom - top) / 2);
     const d = [];
@@ -821,22 +839,80 @@
     if (!open.bottom && !open.left) arc(left + radius, bottom, left, bottom, left, bottom - radius);
 
     const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
-    group.classList.add("k-frame");
-    group.setAttribute("data-prime", label);
+    group.classList.add("k-frame", termClass(options.primeIndex));
+    group.setAttribute("data-prime", String(options.primeIndex));
+    group.setAttribute("data-selected", options.selected ? "true" : "false");
     const fill = document.createElementNS("http://www.w3.org/2000/svg", "rect");
     fill.setAttribute("x", left);
     fill.setAttribute("y", top);
     fill.setAttribute("width", right - left);
     fill.setAttribute("height", bottom - top);
     fill.setAttribute("rx", radius);
-    fill.setAttribute("fill", color);
     fill.classList.add("k-fill");
     const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
     path.setAttribute("d", d.join(" "));
-    path.setAttribute("stroke", color);
     path.classList.add("k-stroke");
     group.append(fill, path);
     root.appendChild(group);
+    return group;
+  }
+
+  function addBadge(group, x, y, termNumber) {
+    const badge = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    badge.setAttribute("cx", x);
+    badge.setAttribute("cy", y);
+    badge.setAttribute("r", 8);
+    badge.classList.add("k-badge");
+    const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    text.setAttribute("x", x);
+    text.setAttribute("y", y + 3.5);
+    text.classList.add("k-badge-text");
+    text.textContent = String(termNumber);
+    group.append(badge, text);
+  }
+
+  function placeBadges(requests) {
+    const placed = [];
+    const pad = 11;
+    for (const request of requests) {
+      const { group, left, top, right, bottom, termNumber } = request;
+      const centerX = (left + right) / 2;
+      const centerY = (top + bottom) / 2;
+      const candidates = [
+        [right - pad, top + pad],
+        [right - pad, bottom - pad],
+        [centerX, top + pad],
+        [centerX, bottom - pad],
+        [left + pad, top + pad],
+        [left + pad, bottom - pad],
+        [right - pad, centerY],
+        [left + pad, centerY],
+      ];
+      for (let x = left + pad; x <= right - pad + 0.01; x += 18) {
+        candidates.push([x, top + pad]);
+        candidates.push([x, bottom - pad]);
+      }
+      let best = candidates[0];
+      let bestDistance = -1;
+      for (const candidate of candidates) {
+        let nearest = Infinity;
+        for (const point of placed) {
+          nearest = Math.min(nearest, Math.hypot(candidate[0] - point.x, candidate[1] - point.y));
+        }
+        if (nearest >= 18) {
+          best = candidate;
+          break;
+        }
+        if (nearest > bestDistance) {
+          bestDistance = nearest;
+          best = candidate;
+        }
+      }
+      const x = Math.max(left + 9, Math.min(right - 9, best[0]));
+      const y = Math.max(top + 9, Math.min(bottom - 9, best[1]));
+      addBadge(group, x, y, termNumber);
+      placed.push({ x, y });
+    }
   }
 
   function renderFrames(result) {
@@ -845,11 +921,16 @@
       const old = grid.querySelector(".k-map-overlay");
       if (old) old.remove();
     }
-    if (!result || !result.selected.length) return;
+    if (!result) {
+      applyPrimeState(focus.activeKey());
+      return;
+    }
 
     const layout = gridLayout();
     const rowAt = new Map(layout.rows.map((code, index) => [code, index]));
     const colAt = new Map(layout.cols.map((code, index) => [code, index]));
+    const selectedOrdinal = new Map(result.selected.map((primeIndex, position) => [primeIndex, position + 1]));
+    const inset = 3;
 
     for (const grid of grids) {
       const layer = n === 5 ? Number(grid.dataset.layer) : null;
@@ -862,9 +943,11 @@
       root.classList.add("k-map-overlay");
       root.setAttribute("viewBox", "0 0 " + width + " " + height);
       root.setAttribute("aria-hidden", "true");
+      const badgeRequests = [];
 
-      for (const primeIndex of result.selected) {
+      for (let primeIndex = 0; primeIndex < primes.length; primeIndex++) {
         const prime = primes[primeIndex];
+        const selected = selectedOrdinal.has(primeIndex);
         const covers = layer === null ? prime.covers : prime.covers.filter((m) => (m & 1) === layer);
         if (!covers.length) continue;
         const rows = new Set();
@@ -880,7 +963,7 @@
         const colSegments = cyclicSegments(cols, layout.cols.length);
         const rowWrap = rowSegments.length > 1;
         const colWrap = colSegments.length > 1;
-        const inset = 2 + (primeIndex % 4) * 1.5;
+        let firstSegment = true;
         for (const [r0, r1] of rowSegments) {
           for (const [c0, c1] of colSegments) {
             const firstInner = mintermOf(layout.rows[r0], layout.cols[c0], layout.colBits);
@@ -892,17 +975,30 @@
             const top = first.offsetTop + inset;
             const right = last.offsetLeft + last.offsetWidth - inset;
             const bottom = last.offsetTop + last.offsetHeight - inset;
-            drawFrame(root, left, top, right, bottom, {
+            const group = drawFrame(root, left, top, right, bottom, {
               top: rowWrap && r0 === 0,
               bottom: rowWrap && r1 === layout.rows.length - 1,
               left: colWrap && c0 === 0,
               right: colWrap && c1 === layout.cols.length - 1,
-            }, colors[primeIndex % colors.length], String(primeIndex));
+            }, { primeIndex, selected });
+            if (selected && firstSegment) {
+              badgeRequests.push({
+                group,
+                left,
+                top,
+                right,
+                bottom,
+                termNumber: selectedOrdinal.get(primeIndex),
+              });
+            }
+            firstSegment = false;
           }
         }
       }
+      placeBadges(badgeRequests);
       grid.appendChild(root);
     }
+    applyPrimeState(focus.activeKey());
   }
 
   function renderPrimes(result) {
@@ -926,13 +1022,20 @@
     const tbody = el("tbody");
     for (let i = 0; i < primes.length; i++) {
       const p = primes[i];
-      const selected = result.selected.includes(i);
+      const selectedAt = result.selected.indexOf(i);
+      const selected = selectedAt >= 0;
       const essential = result.essentials.has(i);
-      const row = el("tr", { "data-prime": String(i) });
+      const row = el("tr", {
+        "data-prime": String(i),
+        "data-focus-key": "prime-" + i,
+        tabindex: "0",
+      });
       const termCell = el("td", { class: "left" });
-      termCell.appendChild(el("span", {
-        style: "display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:7px;background:" + colors[i % colors.length],
-      }));
+      const swatch = el("span", {
+        class: "term-swatch " + termClass(i) + (selected ? "" : " is-empty"),
+      });
+      if (selected) swatch.textContent = String(selectedAt + 1);
+      termCell.appendChild(swatch);
       termCell.appendChild(Lab.math(form === "dnf" ? termText(p) : clauseText(p)));
       row.appendChild(termCell);
       row.appendChild(el("td", { class: "left mono small", text: p.covers.join(", ") }));
@@ -942,8 +1045,7 @@
       if (selected) statusCell.appendChild(el("span", { class: "pill ok", text: "в минимуме" }));
       if (!essential && !selected) statusCell.appendChild(el("span", { class: "pill", text: "свободная" }));
       row.appendChild(statusCell);
-      row.addEventListener("mouseenter", () => highlightPrime(i, true));
-      row.addEventListener("mouseleave", () => highlightPrime(i, false));
+      focus.bind(row, i);
       tbody.appendChild(row);
     }
     table.appendChild(tbody);
@@ -961,16 +1063,17 @@
       result.selected.forEach((primeIndex, position) => {
         if (position > 0) line.appendChild(el("span", { class: "formula-or" }, Lab.math(form === "dnf" ? "\\lor" : "\\land", false)));
         const term = el("span", {
-          class: "formula-term",
+          class: "formula-term " + termClass(primeIndex),
           "data-prime": String(primeIndex),
+          "data-focus-key": "term-" + primeIndex,
           tabindex: "0",
         });
-        term.style.setProperty("--term-color", colors[primeIndex % colors.length]);
+        term.appendChild(el("span", {
+          class: "term-no " + termClass(primeIndex),
+          text: String(position + 1),
+        }));
         term.appendChild(Lab.math(form === "dnf" ? termText(primes[primeIndex]) : clauseText(primes[primeIndex]), false));
-        term.addEventListener("mouseenter", () => highlightPrime(primeIndex, true));
-        term.addEventListener("mouseleave", () => highlightPrime(primeIndex, false));
-        term.addEventListener("focus", () => highlightPrime(primeIndex, true));
-        term.addEventListener("blur", () => highlightPrime(primeIndex, false));
+        focus.bind(term, primeIndex);
         line.appendChild(term);
       });
       resultNode.replaceChildren(line);
@@ -1038,6 +1141,7 @@
   }
 
   function renderAll(keepSolution) {
+    focus.clear();
     if (!keepSolution) solutionIndex = 0;
     resultTitle.textContent = form === "dnf" ? "Минимальная ДНФ" : "Минимальная КНФ";
     primesTitle.textContent = form === "dnf" ? "Простые импликанты" : "Простые импликаты";
