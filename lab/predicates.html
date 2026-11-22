@@ -128,7 +128,7 @@
 <script>
 (function () {
   "use strict";
-  const { $, el, clear } = Lab;
+  const { $, el, clear, setPressed } = Lab;
 
   const presets = [
     ["∀x P(x)", "все элементы в P"],
@@ -176,7 +176,9 @@
         class: "toggle-chip" + (active ? " on" : ""),
         type: "button",
         text: String(value),
+        "aria-label": "Элемент " + value + " предиката " + name + (active ? ", выбран" : ", не выбран"),
       });
+      setPressed(button, active);
       button.addEventListener("click", () => togglePredicate(name, value));
       node.appendChild(button);
     }

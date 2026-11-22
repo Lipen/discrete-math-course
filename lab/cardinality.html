@@ -156,7 +156,7 @@
 <script>
 (function () {
   "use strict";
-  const { $, el, clear, math } = Lab;
+  const { $, el, clear, math, activate } = Lab;
 
   const ROOM_COUNT = 10;
   const BUS_ROWS = 4;
@@ -546,7 +546,8 @@
     for (let i = 0; i <= state.maxStep; i++) {
       const li = el("li", { class: i === step ? "current" : "", text: descriptions[i] || "" });
       li.title = "Перейти к шагу " + i;
-      li.addEventListener("click", () => { stopAuto(); step = i; renderHotel(); });
+      if (i === step) li.setAttribute("aria-current", "step");
+      activate(li, () => { stopAuto(); step = i; renderHotel(); }, "Перейти к шагу " + i + ": " + (descriptions[i] || ""));
       log.appendChild(li);
       const chip = el("button", {
         class: "hotel-step" + (i === step ? " active" : "") + (i < step ? " done" : ""),
@@ -554,6 +555,7 @@
         text: scenario === "buses" ? (i === 0 ? "S" : String(i - 1)) : String(i),
         title: descriptions[i] || "",
       });
+      if (i === step) chip.setAttribute("aria-current", "step");
       chip.addEventListener("click", () => { stopAuto(); step = i; renderHotel(); });
       stepsNode.appendChild(chip);
     }

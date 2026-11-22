@@ -31,6 +31,7 @@
     const bar = document.createElement("div");
     bar.className = "sitebar";
     bar.innerHTML = `
+      <a class="skip-link" href="#lab-main">К содержанию</a>
       <a class="sitebar-brand" href="index.html">
         <span class="sitebar-mark">ДМ</span>
         <span class="sitebar-title"><b>Лаборатории</b><small>дискретная математика</small></span>
@@ -65,6 +66,28 @@
       window.__theme.set(THEME_ORDER[(THEME_ORDER.indexOf(pref) + 1) % THEME_ORDER.length]);
       label();
     });
+  }
+
+  function prepareMain() {
+    const main = document.querySelector("main.lab-main");
+    if (!main) return;
+    if (!main.id) main.id = "lab-main";
+    for (const status of document.querySelectorAll(".status")) {
+      if (!status.hasAttribute("role")) status.setAttribute("role", "status");
+      if (!status.hasAttribute("aria-live")) status.setAttribute("aria-live", "polite");
+      status.setAttribute("aria-atomic", "true");
+    }
+    const firstH3 = main.querySelector("h3");
+    if (!firstH3) return;
+    const headingBefore = Array.from(main.querySelectorAll("h2")).some((heading) => (
+      heading.compareDocumentPosition(firstH3) & Node.DOCUMENT_POSITION_FOLLOWING
+    ));
+    if (headingBefore) return;
+    const card = firstH3.closest("section.card") || main;
+    const heading = document.createElement("h2");
+    heading.className = "sr-only";
+    heading.textContent = "Интерактивная модель";
+    card.prepend(heading);
   }
 
   function pager() {
@@ -108,6 +131,7 @@
   }
 
   if (!document.querySelector(".sitebar")) sitebar();
+  prepareMain();
   if (!isHub) pager();
 
   if (currentLab) {

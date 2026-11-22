@@ -157,7 +157,7 @@
 <script>
 (function () {
   "use strict";
-  const { $, el, svg, clear } = Lab;
+  const { $, el, svg, clear, setPressed } = Lab;
 
   const identities = [
     { id: "de-morgan", name: "де Морган: (A ∩ B)ᶜ = Aᶜ ∪ Bᶜ", tex: "(A \\cap B)^{c} = A^{c} \\cup B^{c}", left: (a, b) => !(a && b), right: (a, b) => !a || !b },
@@ -237,7 +237,13 @@
     clear(node);
     for (const value of universe) {
       const active = set.has(value);
-      const button = el("button", { class: "toggle-chip" + (active ? " on" : ""), type: "button", text: String(value) });
+      const button = el("button", {
+        class: "toggle-chip" + (active ? " on" : ""),
+        type: "button",
+        text: String(value),
+        "aria-label": "Элемент " + value + " множества " + label + (active ? ", выбран" : ", не выбран"),
+      });
+      setPressed(button, active);
       button.addEventListener("click", () => {
         if (set.has(value)) set.delete(value); else set.add(value);
         renderAll();

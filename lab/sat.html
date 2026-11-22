@@ -44,8 +44,8 @@
     <div class="split-wide-left">
       <div>
         <h3>Формула</h3>
-        <p class="hint">Строка задаёт клаузу, литералы разделены пробелом, минус означает отрицание.</p>
-        <textarea id="cnf" rows="9" spellcheck="false"></textarea>
+        <p class="hint" id="cnf-hint">Строка задаёт клаузу, литералы разделены пробелом, минус означает отрицание.</p>
+        <textarea id="cnf" rows="9" spellcheck="false" aria-label="Формула в CNF" aria-describedby="cnf-hint"></textarea>
         <div class="status" id="parse-status"></div>
       </div>
       <div>

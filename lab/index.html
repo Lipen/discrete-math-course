@@ -14,7 +14,7 @@
     <p class="eyebrow">Дискретная математика</p>
     <h1>Лаборатории</h1>
     <p class="lead">
-      Девять интерактивных инструментов по дискретной математике.
+      Восемнадцать интерактивных инструментов: от таблиц истинности и карт Карно до кодов, схем и ординалов.
       Меняйте объект и наблюдайте, как вместе с ним меняются таблица, граф, вывод или код.
     </p>
     <div class="hub-actions">
@@ -33,7 +33,7 @@
   <section id="labs">
     <div class="section-head">
       <div>
-        <h2>Лаборатории</h2>
+        <h2>Каталог</h2>
         <p>Каталог по разделам курса. В каждой лаборатории один объект и его проверка.</p>
       </div>
       <div class="filters" id="filters"></div>
@@ -94,7 +94,7 @@
       card.innerHTML = `
         <div class="mark">${lab.mark}</div>
         <span class="topic">${lab.topic}</span>
-        <h2>${lab.title}</h2>
+        <h4>${lab.title}</h4>
         <p>${lab.blurb}</p>
         <div class="tags">${lab.tags.map((tag) => `<span class="tag">${tag}</span>`).join("")}</div>
         <span class="go">Открыть →</span>

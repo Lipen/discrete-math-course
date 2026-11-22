@@ -143,7 +143,7 @@
 <script>
 (function () {
   "use strict";
-  const { $, el, clear, bitsOf, graySeq, mapLayout, mintermOf } = Lab;
+  const { $, el, clear, bitsOf, graySeq, mapLayout, mintermOf, setPressed } = Lab;
   const vars = ["A", "B", "C", "D", "E"];
   const colors = ["#2d5fa8", "#2f7d5c", "#a76a12", "#6a4c93", "#b03a3a", "#0f766e", "#7c3aed", "#b45309"];
   const STORAGE_KEY = "dm-lab:minimization:v1";
@@ -608,6 +608,7 @@
         });
         cell.appendChild(el("span", { class: "idx", text: String(m) }));
         cell.appendChild(el("span", { class: "val", text: value === 2 ? "X" : String(value) }));
+        setPressed(cell, value === 1);
         cell.addEventListener("click", (event) => toggleMinterm(m, event.shiftKey));
         cell.addEventListener("keydown", (event) => {
           if (event.key === "Enter" || event.key === " ") {
@@ -738,6 +739,7 @@
         "aria-label": "минтерм " + m + ", значение " + (value === 2 ? "X" : value),
         text: value === 2 ? "X" : String(value),
       });
+      setPressed(button, value === 1);
       button.addEventListener("click", (event) => toggleMinterm(m, event.shiftKey));
       cell.appendChild(button);
       row.appendChild(cell);

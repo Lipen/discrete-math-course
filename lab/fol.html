@@ -127,7 +127,7 @@
 <script>
 (function () {
   "use strict";
-  const { $, el, clear } = Lab;
+  const { $, el, clear, setPressed } = Lab;
 
   const presets = [
     "∀x (P(x) → Q(x))",
@@ -172,7 +172,14 @@
   function renderGrid(node, name) {
     clear(node);
     for (const value of model.domain) {
-      const button = el("button", { class: "toggle-chip" + (model.preds[name].has(value) ? " on" : ""), type: "button", text: String(value) });
+      const active = model.preds[name].has(value);
+      const button = el("button", {
+        class: "toggle-chip" + (active ? " on" : ""),
+        type: "button",
+        text: String(value),
+        "aria-label": "Элемент " + value + " предиката " + name + (active ? ", выбран" : ", не выбран"),
+      });
+      setPressed(button, active);
       button.addEventListener("click", () => toggleSet(name, value));
       node.appendChild(button);
     }
@@ -201,6 +208,7 @@
           text: model.preds.R.has(key) ? "1" : "0",
           "aria-label": "R(" + i + "," + j + ")",
         });
+        setPressed(button, model.preds.R.has(key));
         button.addEventListener("click", () => {
           if (model.preds.R.has(key)) model.preds.R.delete(key); else model.preds.R.add(key);
           renderAll();

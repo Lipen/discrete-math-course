@@ -133,7 +133,7 @@
 <script>
 (function () {
   "use strict";
-  const { $, el, svg, clear, bitsOf, popcount, mapLayout, mintermOf } = Lab;
+  const { $, el, svg, clear, bitsOf, popcount, mapLayout, mintermOf, activate, setPressed } = Lab;
 
   const presets = {
     and2: { n: 2, vals: [0, 0, 0, 1] },
@@ -211,7 +211,9 @@
         class: "bit" + (values[m] ? " on" : ""),
         text: String(values[m]),
         title: "Переключить значение",
+        "aria-label": "f(" + bitsOf(m, n).join("") + ") = " + values[m] + ", переключить",
       });
+      setPressed(button, values[m]);
       button.addEventListener("click", () => toggleMinterm(m));
       outCell.appendChild(button);
       row.appendChild(outCell);
@@ -304,10 +306,11 @@
   }
 
   function vertexCoords(m) {
-    const [a, b, c] = bitsOf(m, 3);
     if (n === 2) {
+      const [a, b] = bitsOf(m, 2);
       return { x: 70 + 170 * b, y: 250 - 170 * a };
     }
+    const [a, b, c] = bitsOf(m, 3);
     return { x: 80 + 150 * b + 105 * c, y: 270 - 160 * a - 70 * c };
   }
 
@@ -322,7 +325,7 @@
     hint.textContent = "Вершина задаёт минтерм, нажатие переключает значение. Ребро соединяет наборы, различающиеся одним битом.";
     const width = 520;
     const height = 360;
-    const root = svg("svg", { viewBox: "0 0 " + width + " " + height, role: "img", "aria-label": "Гиперкуб" });
+    const root = svg("svg", { viewBox: "0 0 " + width + " " + height, role: "group", "aria-label": "Гиперкуб" });
     const coords = {};
     for (let m = 0; m < (1 << n); m++) coords[m] = vertexCoords(m);
     for (let m = 0; m < (1 << n); m++) {
@@ -338,7 +341,7 @@
     }
     for (let m = 0; m < (1 << n); m++) {
       const p = coords[m];
-      const group = svg("g", { style: "cursor:pointer" });
+      const group = svg("g", { class: "hc-node", tabindex: "0", style: "cursor:pointer" });
       group.appendChild(svg("circle", {
         cx: p.x, cy: p.y, r: 22,
         fill: values[m] ? "#dbe8fa" : "#ffffff",
@@ -353,7 +356,8 @@
         x: p.x, y: p.y + 13, "text-anchor": "middle", "font-size": 11,
         "font-weight": 700, fill: values[m] ? "#2d5fa8" : "#8c8374",
       }, String(values[m])));
-      group.addEventListener("click", () => toggleMinterm(m));
+      activate(group, () => toggleMinterm(m), "минтерм " + bitsOf(m, n).join("") + ", значение " + values[m] + ", переключить");
+      setPressed(group, values[m]);
       root.appendChild(group);
     }
     cubeNode.appendChild(root);
@@ -375,11 +379,11 @@
         const cell = el("div", {
           class: "map-cell" + (values[m] ? " v1" : ""),
           "data-m": String(m),
-          "aria-label": "минтерм " + m + ", значение " + values[m],
         });
         cell.appendChild(el("span", { class: "idx", text: String(m) }));
         cell.appendChild(el("span", { class: "val", text: String(values[m]) }));
-        cell.addEventListener("click", () => toggleMinterm(m));
+        activate(cell, () => toggleMinterm(m), "минтерм " + m + ", значение " + values[m] + ", переключить");
+        setPressed(cell, values[m]);
         mapNode.appendChild(cell);
       }
     }

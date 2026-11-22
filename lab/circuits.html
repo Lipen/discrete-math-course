@@ -105,7 +105,7 @@
 <script>
 (function () {
   "use strict";
-  const { $, el, svg, clear, bitsOf } = Lab;
+  const { $, el, svg, clear, bitsOf, activate, setPressed } = Lab;
 
   const presets = {
     half: {
@@ -255,7 +255,7 @@
       });
     }
 
-    const root = svg("svg", { viewBox: "0 0 " + width + " " + height, role: "img", "aria-label": "Схема из вентилей" });
+    const root = svg("svg", { viewBox: "0 0 " + width + " " + height, role: "group", "aria-label": "Схема из вентилей" });
 
     for (const gate of current.gates) {
       const to = coords.get(gate.id);
@@ -292,7 +292,7 @@
       const isRef = gate.id === current.ref;
       const isSelected = gate.id === selected;
       const cls = "gate" + (isRef ? " ref" : "") + (isSelected ? " selected" : "");
-      const group = svg("g", { class: cls, "data-gate": gate.id, style: "cursor:pointer" });
+      const group = svg("g", { class: cls, "data-gate": gate.id, tabindex: "0", style: "cursor:pointer" });
       group.appendChild(svg("rect", {
         x: p.x - 34, y: p.y - 23, width: 68, height: 46, rx: 10,
         fill: isSelected ? "#e8eef8" : (isRef ? "#e6f2ec" : "#ffffff"),
@@ -307,11 +307,12 @@
         x: p.x, y: p.y + 14, "text-anchor": "middle",
         "font-family": "var(--mono)", "font-size": 9, fill: "#5f6d7c",
       }, gate.op));
-      group.addEventListener("click", () => {
+      activate(group, () => {
         selected = gate.id;
         outputNode.value = selected;
         renderAll();
-      });
+      }, "Вентиль " + gate.label + ", " + gate.op + (isRef ? ", эталонный выход" : "") + ", выбрать");
+      setPressed(group, isSelected);
       root.appendChild(group);
     }
 

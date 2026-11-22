@@ -520,7 +520,7 @@ svg { display: block; max-width: 100%; height: auto; }
   background: #fff;
   padding: 5px 4px;
   text-align: center;
-  cursor: pointer;
+  cursor: default;
   user-select: none;
 }
 
@@ -586,7 +586,7 @@ svg { display: block; max-width: 100%; height: auto; }
 
 .lab-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 6px 18px rgba(46, 82, 136, .08); color: var(--ink); }
 .lab-card .n { font-family: var(--serif); font-size: 13px; color: var(--accent); font-weight: 650; }
-.lab-card h2 { margin: 0; font-size: 21px; }
+.lab-card h4 { margin: 0; font-size: 21px; }
 .lab-card p { margin: 0; color: var(--muted); font-size: 14px; }
 .lab-card .go { margin-top: 4px; font-size: 13px; font-weight: 650; color: var(--accent); }
 
@@ -669,6 +669,37 @@ table.data td.selected, table.data th.selected { background: var(--accent-soft);
   border-bottom: 1px solid var(--line);
   backdrop-filter: blur(14px);
 }
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: 12px;
+  top: 8px;
+  z-index: 2;
+  padding: 7px 12px;
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  transform: translateY(-160%);
+  transition: transform .12s ease;
+}
+
+.skip-link:focus-visible { transform: translateY(0); outline: 2px solid var(--accent); outline-offset: 2px; }
 
 .sitebar-brand {
   display: flex;
@@ -1392,7 +1423,7 @@ h3 { font-family: var(--sans); font-weight: 700; letter-spacing: -.015em; }
 .lab-card .mark { width: 48px; height: 48px; border-radius: 14px; background: var(--m); color: #fff; font-family: var(--mono); font-size: 15px; box-shadow: 0 10px 20px color-mix(in srgb, var(--m) 24%, transparent); }
 .lab-card .lab-order { position: absolute; top: 15px; right: 16px; font-family: var(--mono); font-size: 9px; color: var(--muted); letter-spacing: .03em; }
 .lab-card .lecture { font-family: var(--mono); font-size: 9px; letter-spacing: .08em; }
-.lab-card h2 { font-family: var(--sans); font-size: 19px; font-weight: 700; letter-spacing: -.02em; line-height: 1.22; }
+.lab-card h4 { font-family: var(--sans); font-size: 19px; font-weight: 700; letter-spacing: -.02em; line-height: 1.22; }
 .lab-card p { font-size: 13.5px; line-height: 1.5; }
 .lab-card .go { font-family: var(--mono); font-size: 9.5px; letter-spacing: .04em; text-transform: uppercase; transition: transform .18s; }
 .lab-card:hover .go { transform: translateX(4px); }
@@ -2556,9 +2587,17 @@ button, .btn { border-radius: 9px; font-size: 13px; padding: 7px 12px; }
 }
 
 .map-cell:focus-visible,
-.truth-bit:focus-visible {
+.truth-bit:focus-visible,
+.pos:focus-visible,
+[role="button"]:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
+}
+
+svg g.gate:focus-visible rect,
+svg g.hc-node:focus-visible circle {
+  stroke: var(--accent);
+  stroke-width: 3;
 }
 
 .truth-wrap {

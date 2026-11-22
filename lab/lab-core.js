@@ -117,6 +117,29 @@
     if (!node) return;
     node.className = "status" + (kind ? " " + kind : "");
     node.textContent = text;
+    if (!node.hasAttribute("role")) node.setAttribute("role", "status");
+    if (!node.hasAttribute("aria-live")) node.setAttribute("aria-live", "polite");
+    node.setAttribute("aria-atomic", "true");
+  }
+
+  function activate(node, handler, label) {
+    if (!node) return node;
+    node.setAttribute("role", "button");
+    if (!node.hasAttribute("tabindex")) node.tabIndex = 0;
+    if (label) node.setAttribute("aria-label", label);
+    node.addEventListener("click", handler);
+    node.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " " || event.key === "Spacebar") {
+        event.preventDefault();
+        handler(event);
+      }
+    });
+    return node;
+  }
+
+  function setPressed(node, pressed) {
+    if (node) node.setAttribute("aria-pressed", pressed ? "true" : "false");
+    return node;
   }
 
   function setActive(buttons, active) {
@@ -135,6 +158,6 @@
 
   window.Lab = {
     $, $$, el, svg, clear, bitsOf, bin, popcount, graySeq, truthRows,
-    mapLayout, mintermOf, escapeHtml, fmt, status, setActive, downloadText,
+    mapLayout, mintermOf, escapeHtml, fmt, status, activate, setPressed, setActive, downloadText,
   };
 })();

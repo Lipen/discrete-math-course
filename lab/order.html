@@ -121,7 +121,7 @@
 <script>
 (function () {
   "use strict";
-  const { $, el, svg, clear } = Lab;
+  const { $, el, svg, clear, setPressed } = Lab;
 
   let n = 4;
   let R = [];
@@ -184,6 +184,7 @@
           text: R[i][j] ? "1" : "0",
           "aria-label": "(" + (i + 1) + "," + (j + 1) + ")",
         });
+        setPressed(button, R[i][j]);
         button.addEventListener("click", () => {
           R[i][j] = !R[i][j];
           renderAll();
@@ -289,7 +290,13 @@
     clear(subsetNode);
     for (let i = 0; i < n; i++) {
       const value = i + 1;
-      const button = el("button", { class: "toggle-chip" + (selected.has(value) ? " on" : ""), type: "button", text: String(value) });
+      const button = el("button", {
+        class: "toggle-chip" + (selected.has(value) ? " on" : ""),
+        type: "button",
+        text: String(value),
+        "aria-label": "Элемент " + value + (selected.has(value) ? ", выбран" : ", не выбран"),
+      });
+      setPressed(button, selected.has(value));
       button.addEventListener("click", () => {
         if (selected.has(value)) selected.delete(value); else selected.add(value);
         renderAll();

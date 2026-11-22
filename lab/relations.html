@@ -126,7 +126,7 @@
 <script>
 (function () {
   "use strict";
-  const { $, el, svg, clear } = Lab;
+  const { $, el, svg, clear, setPressed } = Lab;
 
   let n = 4;
   let R = [];
@@ -179,6 +179,7 @@
           text: R[i][j] ? "1" : "0",
           "aria-label": "пара (" + (i + 1) + "," + (j + 1) + ")",
         });
+        setPressed(button, R[i][j]);
         button.addEventListener("click", () => {
           R[i][j] = !R[i][j];
           renderAll();

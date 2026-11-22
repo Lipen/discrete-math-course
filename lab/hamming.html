@@ -122,7 +122,7 @@
 <script>
 (function () {
   "use strict";
-  const { $, el, clear, popcount } = Lab;
+  const { $, el, clear, popcount, activate, setPressed } = Lab;
 
   let data = [1, 0, 1, 1];
   let errorMask = 0;
@@ -196,7 +196,13 @@
   function renderDataBits() {
     clear(dataBitsNode);
     data.forEach((bit, i) => {
-      const button = el("button", { class: "bit" + (bit ? " on" : ""), text: String(bit), title: "d" + (i + 1) });
+      const button = el("button", {
+        class: "bit" + (bit ? " on" : ""),
+        text: String(bit),
+        title: "d" + (i + 1),
+        "aria-label": "d" + (i + 1) + " = " + bit + ", переключить",
+      });
+      setPressed(button, bit);
       button.addEventListener("click", () => {
         data[i] ^= 1;
         errorMask = 0;
@@ -227,14 +233,16 @@
       cRow.appendChild(positionCell(pos, c[pos - 1], { title: "Передано" }));
     }
     for (let pos = 1; pos <= 7; pos++) {
+      const hasError = Boolean(errorMask & (1 << (pos - 1)));
       const cell = positionCell(pos, r[pos - 1], {
-        error: Boolean(errorMask & (1 << (pos - 1))),
+        error: hasError,
         title: "Принято, нажатие переворачивает",
       });
-      cell.addEventListener("click", () => {
+      activate(cell, () => {
         errorMask ^= 1 << (pos - 1);
         renderAll();
-      });
+      }, "Позиция " + pos + ", " + roleOf(pos).label + ", принятый бит " + r[pos - 1] + (hasError ? ", ошибка" : ", без ошибки") + ", переключить");
+      setPressed(cell, hasError);
       rRow.appendChild(cell);
     }
     for (let pos = 1; pos <= 7; pos++) {
