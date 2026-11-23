@@ -3212,7 +3212,8 @@ html[data-theme="dark"] svg [fill="#18222d"] { fill: var(--ink); }
 html[data-theme="dark"] svg [fill="#5f6d7c"],
 html[data-theme="dark"] svg [fill="#6b6558"] { fill: var(--muted); }
 html[data-theme="dark"] svg [fill="#2f7d5c"] { fill: var(--green); }
-html[data-theme="dark"] svg [fill="#2d5fa8"] { fill: var(--blue); }
+html[data-theme="dark"] svg [fill="#2d5fa8"],
+html[data-theme="dark"] svg [fill="#2e5288"] { fill: var(--blue); }
 html[data-theme="dark"] svg [fill="#6a4c93"] { fill: var(--violet); }
 html[data-theme="dark"] svg [fill="#0f766e"] { fill: var(--green); }
 html[data-theme="dark"] svg [fill="#7c5210"],
