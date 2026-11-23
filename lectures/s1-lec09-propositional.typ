@@ -3,7 +3,7 @@
 #import "diagrams/ghosts.typ": (
   prop-ghost, syntax-semantics-ghost, truthtable-ghost,
 )
-#import "diagrams/m01.typ": (
+#import "diagrams/propositional.typ": (
   ambiguous-trees, dangling-else-inner, dangling-else-outer, parse-tree-prop,
 )
 #show: slides.with(

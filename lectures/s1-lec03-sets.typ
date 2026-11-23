@@ -1,11 +1,11 @@
 // s1, лекция 3 --- Множества (неделя 21--27 сентября).
 #import "theme.typ": *
 #import "diagrams/ghosts.typ": venn-ghost
-#import "diagrams/m04.typ": (
+#import "diagrams/sets.typ": (
   equality-boxes, points-grid, product-plane, rect-difference, set-box,
   venn-difference, venn-intersection, venn-subset, venn-union, venn-vs-euler,
 )
-#import "diagrams/m08.typ": hasse-powerset-3-large
+#import "diagrams/order.typ": hasse-powerset-3-large
 #show: slides.with(
   title: [Множества],
   date: "Осень 2026",

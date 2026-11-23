@@ -5,7 +5,7 @@
   multitape-ghost, oracle-ghost, reduction-ghost, rice-ghost, tape-ghost,
   universal-ghost,
 )
-#import "diagrams/m25.typ": reduction-halt-empty
+#import "diagrams/turing.typ": reduction-halt-empty
 
 #show: slides.with(
   title: [Проблема остановки],

@@ -1,8 +1,8 @@
 // s2, лекция 9 --- Машина Тьюринга (неделя 5--11 апреля).
 #import "theme.typ": *
 #import "diagrams/ghosts.typ": tape-ghost
-#import "diagrams/m25.typ": turing-machine
-#import "diagrams/m25.typ": tm-configuration
+#import "diagrams/turing.typ": turing-machine
+#import "diagrams/turing.typ": tm-configuration
 
 #show: slides.with(
   title: [Машина Тьюринга],

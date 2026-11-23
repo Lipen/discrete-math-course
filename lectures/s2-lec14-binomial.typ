@@ -3,8 +3,8 @@
 #import "diagrams/ghosts.typ": (
   choose-ghost, counting-tree-ghost, diamond-ghost, domino-ghost, venn3-ghost,
 )
-#import "diagrams/m18.typ": pascal-triangle, venn-inclusion-exclusion
-#import "diagrams/m21.typ": catalan-lattice
+#import "diagrams/combinatorics.typ": pascal-triangle, venn-inclusion-exclusion
+#import "diagrams/generating-functions.typ": catalan-lattice
 #show: slides.with(
   title: [Бином и включение-исключение],
   date: "Весна 2027",

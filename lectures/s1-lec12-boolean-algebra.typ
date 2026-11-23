@@ -1,7 +1,7 @@
 // s1, лекция 12 --- Алгебра булевых функций (24--25 ноября).
 #import "theme.typ": *
 #import "diagrams/ghosts.typ": boolfun-ghost
-#import "diagrams/m10.typ": q3-cube, q3-gray-cycle, xor-triangle
+#import "diagrams/boolean.typ": q3-cube, q3-gray-cycle, xor-triangle
 #show: slides.with(
   title: [Алгебра булевых функций],
   date: "Осень 2026",

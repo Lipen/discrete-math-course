@@ -1,7 +1,7 @@
 // s2, лекция 6 --- Недетерминированные автоматы (неделя 15--21 марта).
 #import "theme.typ": *
 #import "diagrams/ghosts.typ": nfa-ghost, regex-ghost, subset-ghost
-#import "diagrams/m23.typ": (
+#import "diagrams/automata.typ": (
   dfa-subset-01, nfa-01-eps, nfa-01-eps-fixed, nfa-ends-01, nfa-third-one,
   thompson-star-one,
 )

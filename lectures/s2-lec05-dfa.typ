@@ -1,7 +1,7 @@
 // s2, лекция 5 --- Детерминированные автоматы (неделя 8--14 марта).
 #import "theme.typ": *
 #import "diagrams/ghosts.typ": dfa-ghost, words-ghost
-#import "diagrams/m23.typ": dfa-01, dfa-even-ones
+#import "diagrams/automata.typ": dfa-01, dfa-even-ones
 #show: slides.with(
   title: [Детерминированные автоматы],
   date: "Весна 2027",

@@ -1,7 +1,7 @@
 // s1, лекция 14 --- Схемы: логика и проверка (8--9 декабря).
 #import "theme.typ": *
 #import "diagrams/ghosts.typ": circuit-ghost
-#import "diagrams/m11.typ": full-adder, half-adder, multiplexer-4to1
+#import "diagrams/circuits.typ": full-adder, half-adder, multiplexer-4to1
 #show: slides.with(
   title: [Схемы: логика и проверка],
   date: "Осень 2026",

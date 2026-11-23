@@ -1,8 +1,8 @@
 // s2, лекция 16 --- Бёрнсайд и Рамсей (неделя 24--30 мая).
 #import "theme.typ": *
 #import "diagrams/ghosts.typ": coeff-extract-ghost, necklace-ghost, ramsey-ghost
-#import "diagrams/m18.typ": pascal-triangle
-#import "diagrams/m21.typ": catalan-lattice
+#import "diagrams/combinatorics.typ": pascal-triangle
+#import "diagrams/generating-functions.typ": catalan-lattice
 #show: slides.with(
   title: [Бёрнсайд и Рамсей],
   date: "Весна 2027",

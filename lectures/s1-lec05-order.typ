@@ -3,7 +3,7 @@
 #import "diagrams/ghosts.typ": (
   diamond-ghost, graph-ghost, path-ghost, poset-ghost, tree-ghost,
 )
-#import "diagrams/m08.typ": (
+#import "diagrams/order.typ": (
   bounds-d12, extrema-maximal-chain, extrema-two-minimals, forbidden-pair,
   hasse-chain-3, hasse-digraph-cover, hasse-digraph-full, hasse-divisors-12,
   hasse-permissions, hasse-powerset-2, hasse-powerset-3, inf-number-line,

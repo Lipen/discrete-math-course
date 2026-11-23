@@ -4,7 +4,7 @@
   catalan-ghost, choose-ghost, coeff-extract-ghost, counting-tree-ghost,
   ogf-ghost, recurrence-ghost,
 )
-#import "diagrams/m21.typ": catalan-lattice
+#import "diagrams/generating-functions.typ": catalan-lattice
 #show: slides.with(
   title: [Рекурренции и производящие функции],
   date: "Весна 2027",

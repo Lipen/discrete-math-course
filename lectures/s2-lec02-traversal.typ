@@ -1,7 +1,7 @@
 // s2, лекция 2 --- Обходы и деревья (неделя 15--21 февраля).
 #import "theme.typ": *
 #import "diagrams/ghosts.typ": bfs-ghost, tree-ghost
-#import "diagrams/m09.typ": bfs-grid, tree
+#import "diagrams/graphs.typ": bfs-grid, tree
 #show: slides.with(
   title: [Обходы и деревья],
   date: "Весна 2027",

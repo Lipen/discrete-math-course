@@ -1,7 +1,7 @@
 // s2, лекция 13 --- Правила счёта (неделя 3--9 мая).
 #import "theme.typ": *
 #import "diagrams/ghosts.typ": counting-tree-ghost, pigeonhole-ghost
-#import "diagrams/m21.typ": decision-tree
+#import "diagrams/generating-functions.typ": decision-tree
 #show: slides.with(
   title: [Правила счёта],
   date: "Весна 2027",

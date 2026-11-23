@@ -1,6 +1,6 @@
 // s1, лекция 7 --- Счётность и несчётность (неделя 19--25 октября).
 #import "theme.typ": *
-#import "diagrams/m07.typ": cantor-diagonal, cantor-line-square, qq-pairing
+#import "diagrams/cardinality.typ": cantor-diagonal, cantor-line-square, qq-pairing
 #show: slides.with(
   title: [Счётность и несчётность],
   date: "Осень 2026",

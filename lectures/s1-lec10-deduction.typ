@@ -4,7 +4,7 @@
 #import "@preview/frederic:0.1.0": (
   fitch-assume, fitch-premise, fitch-proof, fitch-step, fitch-subproof,
 )
-#import "diagrams/m02.typ": (
+#import "diagrams/deduction.typ": (
   mp-chain, nd-comm, nd-projection, nd-rule-ande, nd-rule-andi, nd-rule-bote,
   nd-rule-iie, nd-rule-iii, nd-rule-ip, nd-rule-ne, nd-rule-ni, nd-rule-ore,
   nd-rule-ori, nd-rule-tonk-e, nd-rule-tonk-i, search-backtrack,

@@ -1,7 +1,7 @@
 // s1, лекция 16 --- Сжатие и код Хаффмана (неделя 22--23 декабря).
 #import "theme.typ": *
 #import "diagrams/ghosts.typ": huffman-ghost
-#import "diagrams/m13.typ": huffman-tree
+#import "diagrams/codes.typ": huffman-tree
 #show: slides.with(
   title: [Сжатие и код Хаффмана],
   date: "Осень 2026",

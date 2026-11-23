@@ -1,7 +1,7 @@
 // s1, лекция 15 --- Коды с исправлением ошибок (неделя 15--16 декабря).
 #import "theme.typ": *
 #import "diagrams/ghosts.typ": hamming-balls-ghost
-#import "diagrams/m13.typ": hamming-groups, hamming-spheres, hamming-venn
+#import "diagrams/codes.typ": hamming-groups, hamming-spheres, hamming-venn
 #show: slides.with(
   title: [Коды с исправлением ошибок],
   date: "Осень 2026",

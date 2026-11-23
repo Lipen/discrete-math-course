@@ -2,7 +2,7 @@
 #import "theme.typ": *
 #import "diagrams/ghosts.typ": consequence-ghost, normal-forms-ghost, syllogism-ghost, syntax-semantics-ghost
 #import "@preview/frederic:0.1.0": fitch-assume, fitch-premise, fitch-proof, fitch-step, fitch-subproof
-#import "diagrams/m03.typ": (
+#import "diagrams/fol.typ": (
   euler-barbara, euler-celarent, euler-darii, judgment-circles, parse-tree, square-of-opposition,
 )
 #let premise-label = [Посылка]

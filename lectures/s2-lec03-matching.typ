@@ -3,7 +3,7 @@
 #import "diagrams/ghosts.typ": (
   dijkstra-ghost, hamiltonian-ghost, konigsberg-ghost, matching-ghost,
 )
-#import "diagrams/m09.typ": bipartite, eulerian
+#import "diagrams/graphs.typ": bipartite, eulerian
 #show: slides.with(
   title: [Циклы и паросочетания],
   date: "Весна 2027",

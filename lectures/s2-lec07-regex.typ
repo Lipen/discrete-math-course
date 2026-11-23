@@ -1,7 +1,7 @@
 // s2, лекция 7 --- Регулярные выражения (неделя 22--28 марта).
 #import "theme.typ": *
 #import "diagrams/ghosts.typ": pumping-ghost, regex-ghost
-#import "diagrams/m23.typ": thompson-star-one
+#import "diagrams/automata.typ": thompson-star-one
 #show: slides.with(
   title: [Регулярные выражения],
   date: "Весна 2027",

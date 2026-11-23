@@ -1,7 +1,7 @@
 // s2, лекция 1 --- Графы (неделя 8--14 февраля).
 #import "theme.typ": *
 #import "diagrams/ghosts.typ": graph-ghost, path-ghost
-#import "diagrams/m09.typ": bridge-cut, petersen
+#import "diagrams/graphs.typ": bridge-cut, petersen
 #show: slides.with(
   title: [Графы],
   date: "Весна 2027",

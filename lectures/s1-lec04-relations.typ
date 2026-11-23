@@ -4,7 +4,7 @@
   closure-ghost, composition-ghost, diamond-ghost, partition-ghost,
   relation-ghost,
 )
-#import "diagrams/m05.typ": (
+#import "diagrams/relations.typ": (
   equivalence-classes-blobs, equivalence-matrix-blocks, equivalence-partition,
   quotient-collapse, rel-bipartite, rel-composition-paths, rel-digraph,
   rel-warshall-steps,

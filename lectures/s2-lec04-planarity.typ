@@ -1,7 +1,7 @@
 // s2, лекция 4 --- Планарность, раскраска, потоки (неделя 1--7 марта).
 #import "theme.typ": *
 #import "diagrams/ghosts.typ": flow-ghost, k33-ghost, map-coloring-ghost
-#import "diagrams/m09.typ": graph-coloring, k33, k5, petersen, planar
+#import "diagrams/graphs.typ": graph-coloring, k33, k5, petersen, planar
 #show: slides.with(
   title: [Планарность, раскраска, потоки],
   date: "Весна 2027",

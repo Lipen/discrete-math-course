@@ -1,6 +1,6 @@
 // s1, лекция 8 --- Трансфинитное (неделя 26 октября --- 1 ноября).
 #import "theme.typ": *
-#import "diagrams/m07.typ": (
+#import "diagrams/cardinality.typ": (
   addition-order, aleph-beth, finite-representation, hydra, lex-pairs,
   multiplication-order, ordinal-ladder,
 )

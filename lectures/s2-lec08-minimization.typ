@@ -1,7 +1,7 @@
 // s2, лекция 8 --- Минимизация автоматов (неделя 29 марта --- 4 апреля).
 #import "theme.typ": *
 #import "diagrams/ghosts.typ": distinguish-ghost, minimize-ghost, nerode-ghost
-#import "diagrams/m23.typ": dfa-redundant
+#import "diagrams/automata.typ": dfa-redundant
 #show: slides.with(
   title: [Минимизация автоматов],
   date: "Весна 2027",

@@ -1,7 +1,7 @@
 // s1, лекция 6 --- Функции (неделя 12--18 октября).
 #import "theme.typ": *
 #import "diagrams/ghosts.typ": composition-ghost, function-ghost
-#import "diagrams/m06.typ": (
+#import "diagrams/functions.typ": (
   cantor-grid, composition-pipeline, curry-schema, dirichlet-line,
   floor-ceil-line, floor-ceil-steps, function-parts, image-preimage,
   iteration-double, iteration-swap, mapping-bijection, mapping-injection,

@@ -1,7 +1,7 @@
 // s1, лекция 13 --- Минимизация и диаграммы решений (1--2 декабря).
 #import "theme.typ": *
 #import "diagrams/ghosts.typ": circuit-ghost
-#import "diagrams/m10.typ": bdd-xor, karnaugh-3var-majority
+#import "diagrams/boolean.typ": bdd-xor, karnaugh-3var-majority
 #show: slides.with(
   title: [Минимизация и диаграммы решений],
   date: "Осень 2026",
