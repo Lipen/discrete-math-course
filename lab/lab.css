@@ -3206,6 +3206,7 @@ html[data-theme="dark"] svg [fill="#faeed9"] { fill: var(--amber-soft); }
 html[data-theme="dark"] svg [fill="#efe9f7"] { fill: var(--violet-soft); }
 html[data-theme="dark"] svg [fill="#fff5f3"] { fill: var(--red-soft); }
 html[data-theme="dark"] svg text { fill: var(--ink); }
+html[data-theme="dark"] .k-badge-text { fill: var(--card); }
 html[data-theme="dark"] svg [fill="#1d2733"],
 html[data-theme="dark"] svg [fill="#18222d"] { fill: var(--ink); }
 html[data-theme="dark"] svg [fill="#5f6d7c"],
