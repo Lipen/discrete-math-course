@@ -1,4 +1,4 @@
-// Булевы функции: куб Q3, цикл Грея, треугольник XOR, карта Карно и ROBDD.
+// Булевы функции: куб Q3, цикл Грея, треугольник XOR, суперпозиция, решётка Поста, карта Карно и ROBDD.
 #import "@preview/cetz:0.5.2": canvas, draw
 #import "@preview/fletcher:0.5.8": diagram, edge, node
 #import "style.typ": *
@@ -215,3 +215,97 @@
     }
   }
 })
+
+// ── Суперпозиция: входы, функции g_i, внешняя f ──
+#let superposition-diagram = {
+  let box(pos, name, body, tone: cool) = node(
+    pos,
+    text(fill: ink)[#body],
+    name: name,
+    fill: tone.lighten(88%),
+    stroke: (paint: tone, thickness: 1pt),
+    inset: 5pt,
+    width: 2.4em,
+    height: 1.7em,
+  )
+  let wire(from, to) = edge(from, to, "->", stroke: edge-plain)
+  diagram(
+    spacing: 2.2em,
+    node(
+      (0, 0),
+      $x_1, ..., x_m$,
+      name: <in>,
+      fill: none,
+      stroke: none,
+      inset: 2pt,
+    ),
+    box((2, -1.3), <g1>, $g_1$),
+    box((2, 0), <g2>, $g_2$),
+    box((2, 1.3), <g3>, $g_3$),
+    box((4, 0), <f>, $f$, tone: green),
+    node(
+      (6, 0),
+      $h$,
+      name: <out>,
+      fill: none,
+      stroke: none,
+      inset: 2pt,
+    ),
+    wire(<in>, <g1>),
+    wire(<in>, <g2>),
+    wire(<in>, <g3>),
+    wire(<g1>, <f>),
+    wire(<g2>, <f>),
+    wire(<g3>, <f>),
+    wire(<f>, <out>),
+  )
+}
+
+// ── Схема решётки Поста: P2, пять предполных классов, проекции ──
+#let post-lattice-scheme = {
+  let class-node(pos, name, body) = node(
+    pos,
+    text(fill: ink)[#body],
+    name: name,
+    fill: cool.lighten(88%),
+    stroke: (paint: cool, thickness: 1pt),
+    inset: 5pt,
+    width: 2.2em,
+    height: 1.6em,
+  )
+  let wire(from, to) = edge(from, to, "-", stroke: edge-thin)
+  diagram(
+    spacing: 2.2em,
+    node(
+      (0, 0),
+      $P_2$,
+      name: <top>,
+      fill: green.lighten(88%),
+      stroke: (paint: green, thickness: 1pt),
+      inset: 5pt,
+    ),
+    class-node((-2, 1.5), <t0>, $T_0$),
+    class-node((-1, 1.5), <t1>, $T_1$),
+    class-node((0, 1.5), <s>, $S$),
+    class-node((1, 1.5), <m>, $M$),
+    class-node((2, 1.5), <l>, $L$),
+    node(
+      (0, 3),
+      [проекции],
+      name: <bot>,
+      fill: luma(95%),
+      stroke: (paint: ink-soft, thickness: 0.9pt),
+      inset: 5pt,
+    ),
+    wire(<top>, <t0>),
+    wire(<top>, <t1>),
+    wire(<top>, <s>),
+    wire(<top>, <m>),
+    wire(<top>, <l>),
+    wire(<t0>, <bot>),
+    wire(<t1>, <bot>),
+    wire(<s>, <bot>),
+    wire(<m>, <bot>),
+    wire(<l>, <bot>),
+  )
+}
