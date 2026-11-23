@@ -19,7 +19,7 @@
   <h1>DPLL по шагам</h1>
   <p class="lead">
     Введите формулу в CNF или выберите готовую задачу.
-    DPLL фиксирует каждый шаг: решение, юнит-пропагацию, конфликт и откат.
+    DPLL фиксирует каждый шаг: ветвление, юнит-пропагацию, конфликт и откат.
     Счётчики показывают цену поиска.
   </p>
 </header>
@@ -52,7 +52,7 @@
         <h3>Результат</h3>
         <div class="status" id="result"></div>
         <div class="metric-row" id="metrics"></div>
-        <h3 style="margin-top:18px">Схема готовой задачи</h3>
+        <h3 style="margin-top:18px">Постановка задачи</h3>
         <div class="preset-art" id="art"></div>
       </div>
     </div>
@@ -80,16 +80,16 @@
       </div>
       <div>
         <h3>Трасса</h3>
-        <p><code>@ L</code> означает уровень решения.
-        <code>решение</code> выбирает переменную, <code>юнит-пропагация</code> доопределяет литерал, <code>конфликт</code> закрывает ветку, <code>откат</code> возвращает назад.</p>
+        <p><code>@ L</code> означает уровень ветвления.
+        <code>ветвление</code> выбирает переменную, <code>юнит-пропагация</code> доопределяет литерал, <code>конфликт</code> закрывает ветку, <code>откат</code> возвращает назад.</p>
       </div>
       <div>
         <h3>Результат</h3>
         <p>SAT возвращает модель. UNSAT означает, что все ветки закрыты конфликтом и модели нет.
-        Счётчики показывают число решений, пропагаций, конфликтов и узлов.</p>
+        Счётчики показывают число ветвлений, пропагаций, конфликтов и узлов.</p>
       </div>
       <div>
-        <h3>Схема готовой задачи</h3>
+        <h3>Постановка задачи</h3>
         <p>В задаче о голубятнях показаны птицы и дырки, раскраска задаёт граф с двумя цветами, случайная 3-SAT показывает отношение <span data-tex="m/n"></span> и порог <span data-tex="4.26"></span>.</p>
       </div>
     </div>
@@ -367,7 +367,7 @@
       }
       const item = shown[i];
       const kind = item.type === "prop" ? "prop" : item.type;
-      const label = item.type === "prop" ? "юнит-пропагация" : (item.type === "decision" ? "решение" : (item.type === "conflict" ? "конфликт" : (item.type === "backtrack" ? "откат" : "SAT")));
+      const label = item.type === "prop" ? "юнит-пропагация" : (item.type === "decision" ? "ветвление" : (item.type === "conflict" ? "конфликт" : (item.type === "backtrack" ? "откат" : "SAT")));
       const line = el("div", { class: "ln" });
       line.appendChild(el("span", { class: "lv", text: "@" + item.level }));
       line.appendChild(el("span", { class: "kind " + kind, text: label }));
@@ -439,7 +439,7 @@
   function renderResult(result) {
     metricsNode.innerHTML = "";
     metricsNode.appendChild(el("div", { class: "metric" }, [
-      el("span", { class: "k", text: "решений" }), el("span", { class: "v", text: String(result.decisions) }),
+      el("span", { class: "k", text: "ветвлений" }), el("span", { class: "v", text: String(result.decisions) }),
     ]));
     metricsNode.appendChild(el("div", { class: "metric" }, [
       el("span", { class: "k", text: "пропагаций" }), el("span", { class: "v", text: String(result.propagations) }),

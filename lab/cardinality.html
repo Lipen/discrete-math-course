@@ -32,17 +32,17 @@
 <main class="lab-main">
   <section class="card">
     <div class="tabs" id="tabs">
-      <button data-tab="hotel" class="active">Отель</button>
-      <button data-tab="integers">Целые</button>
-      <button data-tab="diagonal">Диагональ</button>
+      <button data-tab="hotel" class="active" aria-pressed="true">Отель</button>
+      <button data-tab="integers" aria-pressed="false">Целые</button>
+      <button data-tab="diagonal" aria-pressed="false">Диагональ</button>
     </div>
 
     <div class="tab-panel" id="tab-hotel">
       <div class="scenario-switch" id="hotel-scenarios">
-        <button data-scenario="one" class="active">Один гость</button>
-        <button data-scenario="group">Группа</button>
-        <button data-scenario="bus">Бесконечный автобус</button>
-        <button data-scenario="buses">Бесконечно много автобусов</button>
+        <button data-scenario="one" class="active" aria-pressed="true">Один гость</button>
+        <button data-scenario="group" aria-pressed="false">Группа</button>
+        <button data-scenario="bus" aria-pressed="false">Бесконечный автобус</button>
+        <button data-scenario="buses" aria-pressed="false">Бесконечно много автобусов</button>
       </div>
 
       <div class="hotel-board">
@@ -196,7 +196,11 @@
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   function showTab(name) {
-    for (const button of tabs.querySelectorAll("button")) button.classList.toggle("active", button.dataset.tab === name);
+    for (const button of tabs.querySelectorAll("button")) {
+      const active = button.dataset.tab === name;
+      button.classList.toggle("active", active);
+      button.setAttribute("aria-pressed", String(active));
+    }
     for (const panel of document.querySelectorAll(".tab-panel")) panel.classList.toggle("hidden", panel.id !== "tab-" + name);
     if (name === "hotel") renderHotel();
     if (name === "integers") renderIntegers();
@@ -592,7 +596,11 @@
     stopAuto();
     scenario = name;
     step = 0;
-    for (const button of document.querySelectorAll("#hotel-scenarios button")) button.classList.toggle("active", button.dataset.scenario === name);
+    for (const button of document.querySelectorAll("#hotel-scenarios button")) {
+      const active = button.dataset.scenario === name;
+      button.classList.toggle("active", active);
+      button.setAttribute("aria-pressed", String(active));
+    }
     renderHotel();
   }
 
@@ -693,7 +701,11 @@
       tr.appendChild(texCell);
       tr.appendChild(el("td", { class: "left", text: label }));
       const actionCell = el("td", { class: "left" });
-      const button = el("button", { type: "button", text: "Показать" });
+      const button = el("button", {
+        type: "button",
+        text: "Показать",
+        "aria-label": "Показать сценарий: " + label,
+      });
       button.addEventListener("click", () => {
         if (target === "diagonal") {
           showTab("diagonal");

@@ -53,12 +53,10 @@
     </div>
 
     <p class="hint">
-      Нажатие на клетку переключает 0 и 1.
-      Shift+клик ставит X и запоминает прежнее значение.
-      Повторный Shift+клик на X возвращает это значение.
-      X обозначает безразличный набор: его можно покрывать, но не обязательно.
-      Состояние карты сохраняется до закрытия вкладки.
-      Сброс возвращает медиану трёх.
+      Клик переключает 0 и 1.
+      Shift+клик ставит X, повторный Shift+клик возвращает прежнее значение.
+      X можно покрывать, но не обязательно.
+      Карта сохраняется до закрытия вкладки, «Сброс» возвращает медиану трёх.
     </p>
 
     <div class="kmap-layout">
@@ -66,8 +64,8 @@
         <div class="kmap-left-head">
           <h3>Функция</h3>
           <div class="segmented view-switch" id="view-tabs">
-            <button type="button" data-view="map" class="active">Карта</button>
-            <button type="button" data-view="truth">Таблица истинности</button>
+            <button type="button" data-view="map" class="active" aria-pressed="true">Карта</button>
+            <button type="button" data-view="truth" aria-pressed="false">Таблица истинности</button>
           </div>
         </div>
         <div id="map-view">
@@ -96,8 +94,8 @@
         <div class="kmap-right-head">
           <h3 id="result-title">Минимальная ДНФ</h3>
           <div class="segmented form-switch" id="form-switch">
-            <button type="button" data-form="dnf" class="active">ДНФ</button>
-            <button type="button" data-form="cnf">КНФ</button>
+            <button type="button" data-form="dnf" class="active" aria-pressed="true">ДНФ</button>
+            <button type="button" data-form="cnf" aria-pressed="false">КНФ</button>
           </div>
         </div>
         <div class="status" id="result"></div>
@@ -197,7 +195,9 @@
 
   function syncFormSwitch() {
     for (const button of formSwitch.querySelectorAll("button")) {
-      button.classList.toggle("active", button.dataset.form === form);
+      const active = button.dataset.form === form;
+      button.classList.toggle("active", active);
+      button.setAttribute("aria-pressed", String(active));
     }
   }
 
@@ -1160,7 +1160,11 @@
 
   function setView(view) {
     currentView = view;
-    for (const button of viewTabs.querySelectorAll("button")) button.classList.toggle("active", button.dataset.view === view);
+    for (const button of viewTabs.querySelectorAll("button")) {
+      const active = button.dataset.view === view;
+      button.classList.toggle("active", active);
+      button.setAttribute("aria-pressed", String(active));
+    }
     $("#map-view").classList.toggle("hidden", view !== "map");
     $("#truth-view").classList.toggle("hidden", view !== "truth");
     if (view === "map") {

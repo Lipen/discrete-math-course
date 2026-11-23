@@ -387,8 +387,8 @@
     clear(orderNode);
     order.forEach((v, index) => {
       const chip = el("span", { class: "chip" }, Lab.math(nameTex(names[v])));
-      const up = el("button", { class: "up", text: "↑", title: "Выше", "data-focus-key": "order-up-" + v, disabled: index === 0 ? "" : undefined });
-      const down = el("button", { class: "down", text: "↓", title: "Ниже", "data-focus-key": "order-down-" + v, disabled: index === order.length - 1 ? "" : undefined });
+      const up = el("button", { class: "up", text: "↑", title: "Выше", "aria-label": names[v] + " выше", "data-focus-key": "order-up-" + v, disabled: index === 0 ? "" : undefined });
+      const down = el("button", { class: "down", text: "↓", title: "Ниже", "aria-label": names[v] + " ниже", "data-focus-key": "order-down-" + v, disabled: index === order.length - 1 ? "" : undefined });
       up.addEventListener("click", () => {
         if (index === 0) return;
         [order[index - 1], order[index]] = [order[index], order[index - 1]];

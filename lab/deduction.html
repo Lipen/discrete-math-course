@@ -33,10 +33,10 @@
     </div>
     <div class="goal-strip" id="goal"></div>
     <p class="proof-help">
-      Наведите на строку или нажмите на неё. Действия появятся под строкой и не закроют ссылки.
-      <b>Открыть подвывод</b> и <b>Закрыть подвывод</b> задают вложенность, стрелки слева меняют уровень строки.
-      Поддержаны <b>∧I/E</b>, <b>∨I</b>, <b>→I/E</b>, <b>¬I/E</b>, <b>⊥E</b>, <b>↔E</b> и <b>RAA</b>.
-      <b>∨E</b> и <b>↔I</b> остаются письменной работой.
+      Наведите на строку или нажмите на неё: действия появятся под строкой.
+      Стрелки слева меняют уровень, «Открыть подвывод» задаёт вложенность.
+      Проверка поддерживает <b>∧I/E</b>, <b>∨I</b>, <b>→I/E</b>, <b>¬I/E</b>, <b>⊥E</b>, <b>↔E</b> и <b>RAA</b>.
+      Для <b>∨E</b> и <b>↔I</b> оставьте письменный шаг.
     </p>
     <div class="fitch-board" id="proof" role="region" aria-label="Вывод в стиле Фитча"></div>
     <div class="status" id="status" role="status" aria-live="polite" style="margin-top:10px"></div>
@@ -392,6 +392,7 @@
       type: "button",
       "data-action": action,
       "data-index": String(index),
+      "aria-label": label + ", строка " + (index + 1),
       text: label,
     });
   }
@@ -449,13 +450,13 @@
     const box = el("div", { class: "fitch-actions", role: "toolbar", "aria-label": "Действия со строкой " + (index + 1) });
     if (line.rule !== "premise") {
       box.appendChild(actionButton("Изменить", "edit", index));
-      box.appendChild(actionButton("Выше", "above", index));
-      box.appendChild(actionButton("Ниже", "below", index));
+      box.appendChild(actionButton("Поднять", "above", index));
+      box.appendChild(actionButton("Добавить ниже", "below", index));
       box.appendChild(actionButton("Открыть подвывод", "subproof", index));
       if (enclosingAssumption(index) >= 0) box.appendChild(actionButton("Закрыть подвывод", "close", index));
       box.appendChild(actionButton("Удалить", "delete", index, "danger"));
     } else {
-      box.appendChild(actionButton("Ниже", "below", index));
+      box.appendChild(actionButton("Добавить ниже", "below", index));
       box.appendChild(actionButton("Открыть подвывод", "subproof", index));
     }
     return box;

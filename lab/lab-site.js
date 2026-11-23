@@ -139,15 +139,17 @@
     if (badge) badge.textContent = currentLab.topic;
 
     const header = document.querySelector(".lab-header");
-    if (header && !header.querySelector(".lab-watermark")) {
-      const watermark = document.createElement("div");
-      watermark.className = "lab-watermark";
-      watermark.setAttribute("aria-hidden", "true");
-      const mark = document.createElement("span");
-      mark.className = "wm-mark";
-      mark.textContent = currentLab.mark;
-      watermark.append(mark);
-      header.prepend(watermark);
+    if (header) {
+      if (!header.querySelector(".lab-watermark")) {
+        const watermark = document.createElement("div");
+        watermark.className = "lab-watermark";
+        watermark.setAttribute("aria-hidden", "true");
+        const mark = document.createElement("span");
+        mark.className = "wm-mark";
+        mark.textContent = currentLab.mark;
+        watermark.append(mark);
+        header.prepend(watermark);
+      }
 
       let meta = header.querySelector(".lab-meta");
       const hadMeta = Boolean(meta);
@@ -165,6 +167,12 @@
           pill.textContent = tag;
           meta.appendChild(pill);
         }
+      }
+      if (currentLab.top && !meta.querySelector(".pill.top")) {
+        const star = document.createElement("span");
+        star.className = "pill top";
+        star.innerHTML = '<span aria-hidden="true">★</span> эталон';
+        meta.prepend(star);
       }
     }
 
