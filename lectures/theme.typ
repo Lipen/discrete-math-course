@@ -67,6 +67,26 @@
 #let False = Red[`false`]
 #let T = Green[`T`]
 #let F = Red[`F`]
+#let YES = box(
+  inset: (x: 0.3em, y: 0pt),
+  radius: 2pt,
+  fill: colors.green.transparentize(85%),
+  text(
+    size: 0.9em,
+    fill: colors.green.darken(20%),
+    weight: "bold",
+  )[#sym.checkmark],
+)
+#let NO = box(
+  inset: (x: 0.3em, y: 0pt),
+  radius: 2pt,
+  fill: colors.red.transparentize(85%),
+  text(
+    size: 0.9em,
+    fill: colors.red.darken(20%),
+    weight: "bold",
+  )[#sym.crossmark],
+)
 
 #let power(x) = $cal(P)(#x)$
 
