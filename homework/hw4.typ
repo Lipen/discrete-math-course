@@ -1,4 +1,5 @@
 #import "theme.typ": *
+#import "@preview/cetz:0.5.2": canvas, draw
 #show: template
 
 #set page(
@@ -39,6 +40,76 @@
 #let Parity = math.op("Parity")
 #let shl = math.op("<<")
 #let shr = math.op(">>")
+
+#let minesweeper-board = {
+  let cell = 0.85
+  let gap = 0.04
+  let values = (
+    ("?", "?", "?", "?"),
+    ("?", "3", "1", "1"),
+    ("?", "1", "0", "0"),
+    ("?", "1", "0", "0"),
+  )
+  canvas({
+    draw.rect(
+      (0, 0),
+      (4 * cell, -4 * cell),
+      radius: 4pt,
+      fill: luma(92%),
+      stroke: none,
+    )
+    for r in range(4) {
+      for c in range(4) {
+        let v = values.at(r).at(c)
+        let x0 = c * cell + gap
+        let x1 = (c + 1) * cell - gap
+        let y0 = -r * cell - gap
+        let y1 = -(r + 1) * cell + gap
+        let center = ((x0 + x1) / 2, (y0 + y1) / 2)
+        if v == "?" {
+          draw.rect(
+            (x0, y0),
+            (x1, y1),
+            radius: 2pt,
+            fill: luma(82%),
+            stroke: 0.6pt + luma(55%),
+          )
+          draw.content(center, text(size: 11pt, fill: luma(45%))[?])
+        } else {
+          draw.rect(
+            (x0, y0),
+            (x1, y1),
+            radius: 2pt,
+            fill: luma(98%),
+            stroke: 0.4pt + luma(86%),
+          )
+          let color = if v == "0" {
+            luma(55%)
+          } else if v == "1" {
+            accent
+          } else if v == "2" {
+            green.darken(20%)
+          } else {
+            red.darken(15%)
+          }
+          draw.content(center, text(
+            size: 12pt,
+            weight: "bold",
+            fill: color,
+          )[#v])
+        }
+      }
+    }
+    draw.rect(
+      (0, 0),
+      (4 * cell, -4 * cell),
+      radius: 4pt,
+      fill: none,
+      stroke: 1pt + accent.lighten(40%),
+    )
+  })
+}
+
 #show table: set block(breakable: false)
 
 #Box[
@@ -229,15 +300,7 @@
 #Given[
   Поле $4 times 4$:
 
-  #table(
-    columns: 4,
-    align: center,
-    stroke: none,
-    [*?*], [*?*], [*?*], [*?*],
-    [*?*], [3], [1], [1],
-    [*?*], [1], [0], [0],
-    [*?*], [1], [0], [0],
-  )
+  #align(center)[#minesweeper-board]
 
   Число в открытой клетке равно количеству мин в восьми соседних клетках.
   Знак $?$ означает скрытую клетку.
