@@ -32,8 +32,8 @@
 У неё есть четыре основных записи, и цена у них разная.
 
 #table(
-  columns: (auto, 1fr, auto),
-  align: (left, left, center),
+  columns: 3,
+  align: left,
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*Запись*], [*Что хранит*], [*Размер*]),
   [таблица истинности], [восемь значений], [8 бит],
@@ -70,7 +70,7 @@
 
 #table(
   columns: 4,
-  align: center,
+  align: left,
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*$x$*], [*$y$*], [*$f$*], [*$f xor g$*]),
   $0$, $0$, $0$, $0$,
@@ -172,7 +172,7 @@ $
 
 #table(
   columns: 5,
-  align: center,
+  align: left,
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([], [*$1$*], [*$x$*], [*$y$*], [*$x y$*]),
   [$m_(00)$], [$1$], [$0$], [$0$], [$0$],
@@ -205,7 +205,7 @@ $
 
 #table(
   columns: 2,
-  align: (left, left),
+  align: left,
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*Функция*], [*АНФ*]),
   [$x and y$], [$x y$],
@@ -238,7 +238,7 @@ $
 
 #table(
   columns: 9,
-  align: center,
+  align: left,
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header(
     [*$S$*],
@@ -293,8 +293,8 @@ $
 Степень измеряет нелинейность функции.
 
 #table(
-  columns: (auto, auto, 1fr),
-  align: (left, center, left),
+  columns: 3,
+  align: left,
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*Функция*], [*Степень*], [*Что это значит*]),
   [$x xor y$], [$1$], [линейная],
@@ -385,7 +385,7 @@ fn anf(f: &mut [u8]) {
 
 #table(
   columns: 2,
-  align: (left, center),
+  align: left,
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*Проход*], [*Массив*]),
   [старт], [$1, 1, 0, 1$],
@@ -438,7 +438,7 @@ fn anf(f: &mut [u8]) {
 
 #table(
   columns: 2,
-  align: (center, left),
+  align: left,
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*Элемент*], [*Подмножество атомов*]),
   [$00$], [$emptyset$],
@@ -454,7 +454,7 @@ fn anf(f: &mut [u8]) {
 
 #table(
   columns: (auto, 1fr),
-  align: (left, left),
+  align: left,
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*Задача*], [*Что даёт АНФ*]),
   [криптоанализ], [степень S-блока как мера нелинейности],
@@ -545,7 +545,7 @@ fn anf(f: &mut [u8]) {
 
 #table(
   columns: 4,
-  align: center,
+  align: left,
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*Функция*], [*$T_0$*], [*$T_1$*], [*$S$*]),
   [$x and y$], [$+$], [$+$], [$-$],
@@ -568,7 +568,7 @@ fn anf(f: &mut [u8]) {
 
 #table(
   columns: 3,
-  align: center,
+  align: left,
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*Функция*], [*$M$*], [*$L$*]),
   [$x and y$], [$+$], [$-$],
@@ -583,7 +583,7 @@ XOR не монотонен, ведь при переходе от $(0,1)$ к $(
 
 #table(
   columns: 6,
-  align: center,
+  align: left,
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*Функция*], [*$T_0$*], [*$T_1$*], [*$S$*], [*$M$*], [*$L$*]),
   [$x and y$], [$+$], [$+$], [$-$], [$+$], [$-$],
@@ -721,7 +721,7 @@ $
 
 #table(
   columns: (auto, 1fr),
-  align: (left, left),
+  align: left,
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*Свидетель*], [*Что даёт*]),
   [$f_0, f_1$], [отрицание или константы],
@@ -737,7 +737,7 @@ $
 
 #table(
   columns: 2,
-  align: (left, left),
+  align: left,
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*Класс*], [*Почему вне*]),
   [$T_0$], [при $(0, 0)$ значение $1$],
@@ -847,7 +847,7 @@ $Q_0$ --- точка, $Q_1$ --- отрезок, $Q_2$ --- квадрат, $Q_3$ 
 
 #table(
   columns: 4,
-  align: (left, center, left, center),
+  align: left,
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*Моном*], [*Степень*], [*Субкуб*], [*Вершин*]),
   [$1$], [$0$], [весь $Q_3$], [$8$],
@@ -947,8 +947,8 @@ $
 == Итоги
 
 #table(
-  columns: (1fr, auto),
-  align: (left, left),
+  columns: 2,
+  align: left,
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*Вопрос*], [*Инструмент*]),
   [какая запись даёт единственные коэффициенты?], [АНФ],
@@ -981,7 +981,7 @@ $
 
 #table(
   columns: (auto, 1fr),
-  align: (left, left),
+  align: left,
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*Задача*], [*Где читать*]),
   [Понять векторы и кольцо],
