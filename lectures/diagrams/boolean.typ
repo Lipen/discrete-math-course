@@ -274,6 +274,11 @@
     height: 1.6em,
   )
   let wire(from, to) = edge(from, to, "-", stroke: edge-thin)
+  let schematic-wire(from, to) = edge(from, to, "-", stroke: (
+    paint: edge-thin.paint,
+    thickness: edge-thin.thickness,
+    dash: "dashed",
+  ))
   diagram(
     spacing: 2.2em,
     node(
@@ -302,10 +307,10 @@
     wire(<top>, <s>),
     wire(<top>, <m>),
     wire(<top>, <l>),
-    wire(<t0>, <bot>),
-    wire(<t1>, <bot>),
-    wire(<s>, <bot>),
-    wire(<m>, <bot>),
-    wire(<l>, <bot>),
+    schematic-wire(<t0>, <bot>),
+    schematic-wire(<t1>, <bot>),
+    schematic-wire(<s>, <bot>),
+    schematic-wire(<m>, <bot>),
+    schematic-wire(<l>, <bot>),
   )
 }
