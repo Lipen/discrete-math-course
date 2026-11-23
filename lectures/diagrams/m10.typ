@@ -1,4 +1,4 @@
-// Булевы функции: карта Карно функции большинства и ROBDD для XOR.
+// Булевы функции: куб Q3, цикл Грея, треугольник XOR, карта Карно и ROBDD.
 #import "@preview/cetz:0.5.2": canvas, draw
 #import "@preview/fletcher:0.5.8": diagram, edge, node
 #import "style.typ": *
@@ -119,3 +119,99 @@
     branch(<y-hi>, <t0>, 1, label-pos: 22%),
   )
 }
+
+// ── Q3 как куб: передняя грань z = 0, задняя z = 1 ──
+#let q3-layout = (
+  "000": (0.0, 0.0),
+  "100": (2.1, 0.0),
+  "010": (0.0, 2.1),
+  "110": (2.1, 2.1),
+  "001": (1.0, 1.0),
+  "101": (3.1, 1.0),
+  "011": (1.0, 3.1),
+  "111": (3.1, 3.1),
+)
+
+#let q3-edges = (
+  ("000", "100"),
+  ("000", "010"),
+  ("100", "110"),
+  ("010", "110"),
+  ("001", "101"),
+  ("001", "011"),
+  ("101", "111"),
+  ("011", "111"),
+  ("000", "001"),
+  ("100", "101"),
+  ("010", "011"),
+  ("110", "111"),
+)
+
+#let q3-cube(highlight: (), tone: cool) = canvas({
+  let on(v) = highlight.contains(v)
+  for (a, b) in q3-edges {
+    draw.line(
+      q3-layout.at(a),
+      q3-layout.at(b),
+      stroke: if on(a) and on(b) {
+        (paint: tone, thickness: 2.4pt, cap: "round")
+      } else {
+        edge-thin
+      },
+    )
+  }
+  for (name, pos) in q3-layout {
+    draw.circle(
+      pos,
+      radius: 0.34,
+      fill: if on(name) { tone.lighten(78%) } else { white },
+      stroke: if on(name) { 1.8pt + tone } else { 0.9pt + ink-soft },
+    )
+    draw.content(pos, text(0.70em, fill: ink)[#name])
+  }
+})
+
+#let q3-gray-cycle = canvas({
+  let cycle = (
+    ("000", "001"),
+    ("001", "011"),
+    ("011", "010"),
+    ("010", "110"),
+    ("110", "111"),
+    ("111", "101"),
+    ("101", "100"),
+    ("100", "000"),
+  )
+  for (a, b) in q3-edges {
+    draw.line(q3-layout.at(a), q3-layout.at(b), stroke: edge-thin)
+  }
+  for (a, b) in cycle {
+    draw.line(
+      q3-layout.at(a),
+      q3-layout.at(b),
+      stroke: (paint: warm, thickness: 2.6pt, cap: "round"),
+    )
+  }
+  for (name, pos) in q3-layout {
+    draw.circle(pos, radius: 0.34, fill: white, stroke: 0.9pt + ink-soft)
+    draw.content(pos, text(0.70em, fill: ink)[#name])
+  }
+})
+
+// ── Треугольник XOR: строки значений, первые элементы --- коэффициенты ──
+#let xor-triangle(rows: ()) = canvas({
+  let h = 0.82
+  for (r, row) in rows.enumerate() {
+    let offset = r * 0.5
+    for (i, val) in row.enumerate() {
+      draw.content(
+        (offset + i, -r * h),
+        text(
+          0.9em,
+          weight: if i == 0 { "bold" } else { "regular" },
+          fill: if i == 0 { ink } else { ink-soft },
+        )[#val],
+      )
+    }
+  }
+})
