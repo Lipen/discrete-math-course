@@ -33,8 +33,7 @@
 Функция $f(x, y, z)$ равна 1 на наборах $001$, $010$, $100$, $111$.
 СДНФ перечисляет эти наборы четырьмя конъюнкциями по три литерала.
 $
-  f = overline(x) overline(y) z or overline(x) y overline(z) \
-  or x overline(y) overline(z) or x y z .
+  f = overline(x) overline(y) z or overline(x) y overline(z) or x overline(y) overline(z) or x y z .
 $
 Алгебраическая нормальная форма (АНФ) записывает ту же функцию суммой произведений переменных по модулю 2.
 $
