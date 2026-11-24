@@ -25,22 +25,37 @@
 <main class="lab-main">
   <section class="card">
     <div class="controls">
-      <label>Переменных
-        <select id="arity">
-          <option value="2">2</option>
-          <option value="3" selected>3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-        </select>
-      </label>
+      <div class="field">
+        <span class="field-label">Переменных</span>
+        <div class="segmented arity-ribbon" id="arity" role="group" aria-label="Число переменных">
+          <button type="button" data-n="2" aria-pressed="false">2</button>
+          <button type="button" data-n="3" class="active" aria-pressed="true">3</button>
+          <button type="button" data-n="4" aria-pressed="false">4</button>
+          <button type="button" data-n="5" aria-pressed="false">5</button>
+        </div>
+      </div>
       <label>Готовая функция
         <select id="preset">
           <option value="custom">своя</option>
-          <option value="maj3" selected>медиана трёх</option>
-          <option value="sum3">Σm(0,1,2,5,6,7)</option>
-          <option value="odd4">нечётность четырёх</option>
-          <option value="even4">чётность четырёх</option>
-          <option value="maj5">медиана пяти</option>
+          <optgroup label="2 переменные">
+            <option value="and2">A ∧ B</option>
+            <option value="impl2">A → B</option>
+          </optgroup>
+          <optgroup label="3 переменные">
+            <option value="maj3" selected>медиана трёх</option>
+            <option value="sum3">Σm(0,1,2,5,6,7)</option>
+            <option value="xor3">A ⊕ B ⊕ C</option>
+            <option value="consensus">¬A·B ∨ A·C ∨ B·C</option>
+          </optgroup>
+          <optgroup label="4 переменные">
+            <option value="odd4">нечётность четырёх</option>
+            <option value="even4">чётность четырёх</option>
+            <option value="segA">сегмент a, с X</option>
+          </optgroup>
+          <optgroup label="5 переменных">
+            <option value="maj5">медиана пяти</option>
+            <option value="xor5">A ⊕ B ⊕ C ⊕ D ⊕ E</option>
+          </optgroup>
         </select>
       </label>
       <div class="btn-row">
@@ -89,7 +104,10 @@
         </div>
       </div>
       <div class="kmap-right">
-        <div class="kmap-right-head">
+        <h3>Функция</h3>
+        <div class="formula-box function-box" id="function-view"></div>
+        <p class="function-source" id="function-source"></p>
+        <div class="kmap-right-head" style="margin-top:18px">
           <h3 id="result-title">Минимальная ДНФ</h3>
           <div class="segmented form-switch" id="form-switch">
             <button type="button" data-form="dnf" class="active" aria-pressed="true">ДНФ</button>

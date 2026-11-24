@@ -3,11 +3,11 @@
 import { clear, el, focusSet, keepFocus, must, setPressed, svg } from "../core/dom";
 import { bitsOf, graySeq, mapLayout, mintermOf, popcount, type MapLayout } from "../core/bits";
 import { math } from "../core/math";
+import { presets, VARIABLES, type Preset } from "../domain/presets";
 
 type Form = "dnf" | "cnf";
 type View = "map" | "truth";
 
-interface Preset { n: number; ones: number[]; x: number[] }
 interface Cube { fixedMask: number; value: number }
 interface Prime extends Cube { covers: number[] }
 interface Solution { selected: number[]; terms: number; literals: number; expression: string; mask?: number }
@@ -24,19 +24,11 @@ interface SavedSession {
   solutionIndex: number;
 }
 
-const vars = ["A", "B", "C", "D", "E"];
+const vars = VARIABLES;
 const TERM_COUNT = 12;
 const TERM_CLASSES = Array.from({ length: TERM_COUNT }, (_, index) => "term-" + index);
 const STORAGE_KEY = "dm-lab:minimization:v1";
 const STORAGE_TTL = 8 * 60 * 60 * 1000;
-
-const presets: Record<string, Preset> = {
-  maj3: { n: 3, ones: [3, 5, 6, 7], x: [] },
-  sum3: { n: 3, ones: [0, 1, 2, 5, 6, 7], x: [] },
-  odd4: { n: 4, ones: [1, 2, 4, 7, 8, 11, 13, 14], x: [] },
-  even4: { n: 4, ones: [0, 3, 5, 6, 9, 10, 12, 15], x: [] },
-  maj5: { n: 5, ones: Array.from({ length: 32 }, (_, m) => m).filter((m) => popcount(m) >= 3), x: [] },
-};
 
 let n = 3;
 let state = new Array<number>(1 << n).fill(0);
@@ -53,13 +45,15 @@ function termClass(index: number): string {
 
 const focus = focusSet((key) => applyPrimeState(key));
 
-const arity = must<HTMLSelectElement>("#arity");
+const arity = must<HTMLElement>("#arity");
 const preset = must<HTMLSelectElement>("#preset");
 const mapNode = must<HTMLElement>("#map");
 const mapNote = must<HTMLElement>("#map-note");
 const mapAxis = must<HTMLElement>("#map-axis");
 const primesNode = must<HTMLElement>("#primes");
 const resultNode = must<HTMLElement>("#result");
+const functionView = must<HTMLElement>("#function-view");
+const functionSource = must<HTMLElement>("#function-source");
 const resultTitle = must<HTMLElement>("#result-title");
 const primesTitle = must<HTMLElement>("#primes-title");
 const metricsNode = must<HTMLElement>("#metrics");
@@ -70,6 +64,24 @@ const formSwitch = must<HTMLElement>("#form-switch");
 
 function markCustom(): void {
   preset.value = "custom";
+}
+
+function syncArity(): void {
+  for (const button of arity.querySelectorAll<HTMLButtonElement>("button[data-n]")) {
+    const active = Number(button.dataset.n) === n;
+    button.classList.toggle("active", active);
+    button.setAttribute("aria-pressed", String(active));
+  }
+}
+
+function setArity(next: number): void {
+  if (next === n) return;
+  n = next;
+  state = new Array<number>(1 << n).fill(0);
+  xMemory = new Array<number>(1 << n).fill(0);
+  markCustom();
+  syncArity();
+  renderAll();
 }
 
 function syncFormSwitch(): void {
@@ -154,13 +166,62 @@ function applyState(ones: number[], xs: number[]): void {
 function termText(prime: Cube): string {
   if (prime.fixedMask === 0) return "1";
   const parts: string[] = [];
-  for (let bit = 0; bit < n; bit++) {
+  for (let bit = n - 1; bit >= 0; bit--) {
     if (prime.fixedMask & (1 << bit)) {
       const name = vars[n - 1 - bit];
       parts.push((prime.value & (1 << bit)) ? name : "\\neg " + name);
     }
   }
   return parts.join(" \\cdot ");
+}
+
+function matchesPreset(p: Preset): boolean {
+  if (p.n !== n) return false;
+  const ones = new Set(p.ones);
+  const xs = new Set(p.x);
+  for (let m = 0; m < (1 << n); m++) {
+    const expected = xs.has(m) ? 2 : ones.has(m) ? 1 : 0;
+    if (state[m] !== expected) return false;
+  }
+  return true;
+}
+
+function presetLabel(): string {
+  const option = preset.selectedOptions[0];
+  return option ? option.textContent.trim() : preset.value;
+}
+
+function customFormula(): string {
+  const ones: number[] = [];
+  const xs: number[] = [];
+  for (let m = 0; m < state.length; m++) {
+    if (state[m] === 1) ones.push(m);
+    else if (state[m] === 2) xs.push(m);
+  }
+  if (ones.length === (1 << n)) return "1";
+  const parts: string[] = [];
+  if (ones.length === 0) {
+    parts.push("0");
+  } else if (ones.length <= 4) {
+    const allBits = (1 << n) - 1;
+    parts.push(ones.map((m) => termText({ fixedMask: allBits, value: m })).join(" \\lor "));
+  } else {
+    parts.push("\\Sigma m(" + ones.join(",") + ")");
+  }
+  if (xs.length > 0 && xs.length < (1 << n)) parts.push("\\Sigma X(" + xs.join(",") + ")");
+  return parts.join(" \\;+\\; ");
+}
+
+function renderFunction(): void {
+  const chosen = presets[preset.value];
+  const matched = chosen !== undefined && matchesPreset(chosen);
+  const line = el("div", { class: "formula-line" });
+  line.appendChild(el("span", { class: "formula-prefix" }, math("f =", false)));
+  line.appendChild(math(matched ? chosen.formula : customFormula(), false));
+  functionView.replaceChildren(line);
+  functionSource.textContent = matched
+    ? "готовая функция: " + presetLabel()
+    : "функция по таблице истинности";
 }
 
 function targetValue(): number {
@@ -170,7 +231,7 @@ function targetValue(): number {
 function clauseText(prime: Cube): string {
   if (prime.fixedMask === 0) return "0";
   const literals: string[] = [];
-  for (let bit = 0; bit < n; bit++) {
+  for (let bit = n - 1; bit >= 0; bit--) {
     if (!(prime.fixedMask & (1 << bit))) continue;
     const name = vars[n - 1 - bit];
     literals.push((prime.value & (1 << bit)) ? "\\neg " + name : name);
@@ -1040,6 +1101,7 @@ function paint(keepSolution?: boolean): void {
   resultTitle.textContent = form === "dnf" ? "Минимальная ДНФ" : "Минимальная КНФ";
   primesTitle.textContent = form === "dnf" ? "Простые импликанты" : "Простые импликаты";
   primes = findPrimes();
+  renderFunction();
   renderMap();
   renderTruth();
   const result = computeMinimum();
@@ -1087,18 +1149,18 @@ function applyPreset(name: string): void {
   const p = presets[name];
   if (!p) return;
   n = p.n;
-  arity.value = String(n);
+  syncArity();
   applyState(p.ones, p.x);
   preset.value = name;
   renderAll();
 }
 
-arity.addEventListener("change", () => {
-  n = Number(arity.value);
-  state = new Array<number>(1 << n).fill(0);
-  xMemory = new Array<number>(1 << n).fill(0);
-  markCustom();
-  renderAll();
+arity.addEventListener("click", (event) => {
+  if (!(event.target instanceof Element)) return;
+  const button = event.target.closest<HTMLButtonElement>("button[data-n]");
+  if (!button) return;
+  const next = Number(button.dataset.n);
+  if (Number.isInteger(next)) setArity(next);
 });
 
 preset.addEventListener("change", () => {
@@ -1134,7 +1196,7 @@ must<HTMLButtonElement>("#fill").addEventListener("click", () => {
 must<HTMLButtonElement>("#reset").addEventListener("click", () => {
   try { sessionStorage.removeItem(STORAGE_KEY); } catch {}
   n = 3;
-  arity.value = "3";
+  syncArity();
   form = "dnf";
   syncFormSwitch();
   solutionIndex = 0;
@@ -1151,7 +1213,7 @@ window.addEventListener("resize", () => {
 const saved = readSession();
 if (saved) {
   n = saved.n;
-  arity.value = String(n);
+  syncArity();
   form = saved.form;
   syncFormSwitch();
   state = saved.state.slice();

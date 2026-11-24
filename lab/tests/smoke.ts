@@ -67,6 +67,16 @@ for (const page of pages) {
       if (before === after) failures.push(`${page}: переключение элемента не изменило метрики`);
     }
 
+    if (page === "minimization.html") {
+      const before = await tab.locator("#function-view").textContent();
+      await tab.selectOption("#preset", "consensus");
+      const after = await tab.locator("#function-view").textContent();
+      if (before === after) failures.push(`${page}: выбор функции не изменил блок «Функция»`);
+      await tab.click('#arity button[data-n="4"]');
+      const pressed = await tab.getAttribute('#arity button[data-n="4"]', "aria-pressed");
+      if (pressed !== "true") failures.push(`${page}: лента переменных не переключилась`);
+    }
+
     const beforeTheme = await tab.evaluate(() => document.documentElement.dataset.theme);
     await tab.click("#theme");
     const afterTheme = await tab.evaluate(() => document.documentElement.dataset.theme);
