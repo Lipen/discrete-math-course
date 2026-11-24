@@ -36,8 +36,8 @@
 
 #let nand = sym.arrow.t
 #let nor = sym.arrow.b
-#let shl = math.op("<<")
-#let shr = math.op(">>")
+#let shl = $<<$
+#let shr = $>>$
 
 #let minesweeper-board = {
   let cell = 1.0
