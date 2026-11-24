@@ -2,6 +2,9 @@
   "name": "dm-lab",
   "private": true,
   "type": "module",
+  "engines": {
+    "bun": ">=1.4.0"
+  },
   "scripts": {
     "build": "bun run build.ts",
     "dev": "bun run dev.ts",
@@ -11,9 +14,8 @@
     "verify": "bun run check && bun test && bun run build.ts --strict && bun run smoke"
   },
   "devDependencies": {
-    "@types/bun": "latest",
+    "@types/bun": "^1.4.5",
     "playwright": "^1.65.1",
-    "playwright-core": "^1.49.0",
     "typescript": "^5.7.0"
   }
 }

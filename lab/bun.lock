@@ -5,9 +5,8 @@
     "": {
       "name": "dm-lab",
       "devDependencies": {
-        "@types/bun": "latest",
+        "@types/bun": "^1.4.5",
         "playwright": "^1.65.1",
-        "playwright-core": "^1.49.0",
         "typescript": "^5.7.0",
       },
     },
