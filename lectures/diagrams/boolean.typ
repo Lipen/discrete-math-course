@@ -207,6 +207,20 @@
   let first-len = if rows.len() > 0 { rows.at(0).len() } else { 1 }
   let center = (first-len - 1) * dx / 2
 
+  for row-index in range(0, rows.len() - 1) {
+    let row = rows.at(row-index)
+    let next = rows.at(row-index + 1)
+    let offset = row-index * dx / 2 - center
+    let next-offset = (row-index + 1) * dx / 2 - center
+    for i in range(next.len()) {
+      let child = (next-offset + i * dx, -(row-index + 1) * dy)
+      let left = (offset + i * dx, -row-index * dy)
+      let right = (offset + (i + 1) * dx, -row-index * dy)
+      draw.line(left, child, stroke: (paint: ink-soft, thickness: 0.6pt))
+      draw.line(right, child, stroke: (paint: ink-soft, thickness: 0.6pt))
+    }
+  }
+
   for (row-index, row) in rows.enumerate() {
     let tone = tones.at(calc.rem(row-index, tones.len()))
     let offset = row-index * dx / 2 - center
