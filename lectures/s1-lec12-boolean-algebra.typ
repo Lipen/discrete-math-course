@@ -412,9 +412,9 @@ $
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*Коэффициент*], [*Сумма по $T subset.eq S$*]),
   [$a_emptyset$], [$f(emptyset) = 0$],
-  [$a_x$], [$f({x}) = 1$],
-  [$a_y$], [$f({y}) = 1$],
-  [$a_(x y)$], [$f({x, y}) xor f({x}) xor f({y}) xor f(emptyset) = 0$],
+  [$a_x$], [$f(emptyset) xor f({x}) = 0 xor 1 = 1$],
+  [$a_y$], [$f(emptyset) xor f({y}) = 0 xor 1 = 1$],
+  [$a_(x y)$], [$f(emptyset) xor f({x}) xor f({y}) xor f({x, y}) = 0 xor 1 xor 1 xor 0 = 0$],
 )
 
 Обратное преобразование вернуло исходные коэффициенты.
