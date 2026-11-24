@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Предикаты и кванторы · лаборатория</title>
+<!-- @head -->
+</head>
+<body>
+<header class="lab-header">
+  <nav class="lab-nav">
+    <a href="index.html">← Все лаборатории</a>
+    <span class="sep">/</span>
+    <span class="here">Предикаты и кванторы</span>
+  </nav>
+  <p class="eyebrow">Кванторы</p>
+  <h1>Свидетель или контрпример?</h1>
+  <p class="lead">
+    Конечная модель с двумя предикатами.
+    Включите элементы в P и Q и проверьте, что означают ∀ и ∃: все элементы, хотя бы один или найденный нарушитель.
+    Рядом видно, как отрицание переставляет кванторы.
+  </p>
+  <div class="lab-meta">
+    <span class="pill info">∀ и ∃</span>
+    <span class="pill">свидетель</span>
+    <span class="pill">отрицание кванторов</span>
+  </div>
+</header>
+
+<main class="lab-main">
+  <section class="card">
+    <div class="toolbar">
+      <label class="field">Домен
+        <select id="domain-size">
+          <option value="2">2</option>
+          <option value="3" selected>3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+        </select>
+      </label>
+      <label class="field grow">Формула
+        <select id="preset"></select>
+      </label>
+      <div class="btn-row">
+        <button id="random">Случайная модель</button>
+        <button id="reset">Сброс</button>
+      </div>
+    </div>
+
+    <div class="split">
+      <div>
+        <h3>Модель</h3>
+        <p class="hint">Нажатие на элемент переключает его принадлежность предикату.</p>
+        <div class="panel" style="margin-bottom:10px">
+          <div class="panel-head" style="margin-bottom:6px"><h3 style="font-size:15px">P(x)</h3><span class="pill info" id="p-size"></span></div>
+          <div class="toggle-grid" id="p-grid"></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head" style="margin-bottom:6px"><h3 style="font-size:15px">Q(x)</h3><span class="pill info" id="q-size"></span></div>
+          <div class="toggle-grid" id="q-grid"></div>
+        </div>
+      </div>
+      <div>
+        <h3>Формула</h3>
+        <div class="formula-box" id="formula-tex" style="min-height:46px"></div>
+        <div class="status" id="verdict" style="margin-top:10px"></div>
+        <div class="metric-row" id="metrics"></div>
+        <h3 style="margin-top:16px">Значения тела</h3>
+        <div id="rows"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Отрицание кванторов</h2>
+    <p class="hint">Две записи должны иметь одно и то же значение на любой модели.</p>
+    <div class="split">
+      <div class="panel">
+        <div class="formula-box" id="neg-left"></div>
+        <div class="status" id="neg-left-status" style="margin-top:8px"></div>
+      </div>
+      <div class="panel">
+        <div class="formula-box" id="neg-right"></div>
+        <div class="status" id="neg-right-status" style="margin-top:8px"></div>
+      </div>
+    </div>
+    <div class="status" id="neg-verdict" style="margin-top:10px"></div>
+  </section>
+
+  <section class="card">
+    <h2>Что здесь показано</h2>
+    <div class="theory-grid">
+      <div>
+        <h3>Всеобщность</h3>
+        <p><span data-tex="\forall x\,P(x)"></span> истинно, когда каждый элемент домена лежит в P.
+        Один элемент вне P уже контрпример.</p>
+      </div>
+      <div>
+        <h3>Существование</h3>
+        <p><span data-tex="\exists x\,P(x)"></span> истинно, когда в P есть хотя бы один элемент.
+        Этот элемент и есть свидетель.</p>
+      </div>
+      <div>
+        <h3>Отрицание кванторов</h3>
+        <p><span data-tex="\neg\forall x\,P(x)"></span> равносильно <span data-tex="\exists x\,\neg P(x)"></span>.
+        Отрицание всеобщности утверждает существование нарушителя.</p>
+      </div>
+      <div>
+        <h3>Ограниченная всеобщность</h3>
+        <p><span data-tex="\forall x\,(P(x)\to Q(x))"></span> истинно, если нет элемента из P вне Q.
+        Нарушитель является контрпримером к включению P ⊆ Q.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">Лаборатория · Кванторы</footer>
+
+<script src="vendor/katex/katex.min.js"></script>
+<script src="site.js"></script>
+<script src="predicates.js"></script>
+</body>
+</html>

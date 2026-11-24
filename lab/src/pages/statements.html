@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Высказывания и связки · лаборатория</title>
+<!-- @head -->
+</head>
+<body>
+<header class="lab-header">
+  <nav class="lab-nav">
+    <a href="index.html">← Все лаборатории</a>
+    <span class="sep">/</span>
+    <span class="here">Высказывания и связки</span>
+  </nav>
+  <p class="eyebrow">Логика высказываний</p>
+  <h1>Формула, таблица истинности и дерево разбора</h1>
+  <p class="lead">
+    Введите формулу или выберите готовую.
+    Формула разбирается по связкам.
+    Видны таблица истинности, дерево разбора и классификация.
+  </p>
+  <div class="lab-meta">
+    <span class="pill info">разбор формулы</span>
+    <span class="pill">таблица истинности</span>
+    <span class="pill">законы логики</span>
+  </div>
+</header>
+
+<main class="lab-main">
+  <section class="card">
+    <div class="toolbar">
+      <label class="field grow">Формула
+        <input id="formula" class="formula-input" value="A → (B → A)" spellcheck="false" autocomplete="off">
+      </label>
+      <button id="build" class="active">Построить</button>
+    </div>
+    <div class="btn-row" id="presets"></div>
+    <div class="formula-box" id="formula-tex" style="margin-top:12px"></div>
+    <div class="status" id="parse-status" style="margin-top:10px"></div>
+  </section>
+
+  <section class="card">
+    <div class="split">
+      <div>
+        <h3>Таблица истинности</h3>
+        <div class="tt-wrap" id="truth-table"></div>
+        <div class="status" id="classification" style="margin-top:10px"></div>
+      </div>
+      <div>
+        <h3>Дерево разбора</h3>
+        <div class="cube-wrap" id="tree"></div>
+        <p class="hint">Листья задают переменные. Внутренняя вершина задаёт связку, её дети задают подформулы.</p>
+        <div class="metric-row" id="metrics"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Проверить закон</h2>
+    <p class="hint">Две формулы эквивалентны, если на каждом наборе переменных их значения совпадают.</p>
+    <div class="toolbar">
+      <label class="field grow">Левая часть
+        <input id="law-left" class="formula-input" value="¬(A ∧ B)" spellcheck="false" autocomplete="off">
+      </label>
+      <label class="field grow">Правая часть
+        <input id="law-right" class="formula-input" value="¬A ∨ ¬B" spellcheck="false" autocomplete="off">
+      </label>
+      <button id="law-check" class="active">Сравнить</button>
+    </div>
+    <div class="btn-row" id="law-presets"></div>
+    <div class="status" id="law-status" style="margin-top:10px"></div>
+    <div class="tt-wrap" id="law-table" style="margin-top:10px"></div>
+  </section>
+
+  <section class="card">
+    <h2>Что здесь показано</h2>
+    <div class="theory-grid">
+      <div>
+        <h3>Разбор и дерево</h3>
+        <p>Формула читается по старшинству связок.
+        Дерево разбора делает чтение явным. Лист задаёт переменную, внутренняя вершина операцию.</p>
+      </div>
+      <div>
+        <h3>Таблица истинности</h3>
+        <p>На каждом наборе переменных формула получает одно значение.
+        Строки таблицы перечисляют все наборы, последний столбец даёт значение формулы.</p>
+      </div>
+      <div>
+        <h3>Классификация</h3>
+        <p>Тавтология истинна на всех наборах, противоречие ложно на всех, остальные формулы выполнимы, но не общезначимы.</p>
+      </div>
+      <div>
+        <h3>Эквивалентность</h3>
+        <p>Две формулы эквивалентны, когда их столбцы значений совпадают.
+        Первое расхождение даёт конкретный контрпример.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">Лаборатория · Логика высказываний</footer>
+
+<script src="vendor/katex/katex.min.js"></script>
+<script src="site.js"></script>
+<script src="statements.js"></script>
+</body>
+</html>

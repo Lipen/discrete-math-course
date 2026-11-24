@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Порядок и диаграмма Хассе · лаборатория</title>
+<!-- @head -->
+</head>
+<body>
+<header class="lab-header">
+  <nav class="lab-nav">
+    <a href="index.html">← Все лаборатории</a>
+    <span class="sep">/</span>
+    <span class="here">Порядок и диаграмма Хассе</span>
+  </nav>
+  <p class="eyebrow">Порядок</p>
+  <h1>Покрытия, границы и цепи</h1>
+  <p class="lead">
+    Отношение порядка на маленьком множестве.
+    Проверяются рефлексивность, антисимметричность и транзитивность.
+    Строятся диаграмма Хассе, минимумы, максимумы, границы и линейное продолжение.
+  </p>
+  <div class="lab-meta">
+    <span class="pill info">Хассе</span>
+    <span class="pill">границы</span>
+    <span class="pill">цепи</span>
+  </div>
+</header>
+
+<main class="lab-main">
+  <section class="card">
+    <div class="toolbar">
+      <label class="field">Элементов
+        <select id="size">
+          <option value="3">3</option>
+          <option value="4" selected>4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+        </select>
+      </label>
+      <div class="btn-row">
+        <button id="divisors">Порядок делителей</button>
+        <button id="identity">Только диагональ</button>
+        <button id="random-order">Случайный порядок</button>
+      </div>
+    </div>
+
+    <div class="split-wide-left">
+      <div>
+        <h3>Матрица</h3>
+        <p class="hint">Пара (i, j) означает i ≤ j. Нажатие переключает пару.</p>
+        <div id="matrix"></div>
+        <div class="post-grid" id="properties" style="margin-top:12px"></div>
+        <div class="status" id="kind" style="margin-top:8px"></div>
+      </div>
+      <div>
+        <h3>Диаграмма Хассе</h3>
+        <div class="graph-wrap" id="hasse"></div>
+        <p class="hint">Ребро соединяет покрытие: между элементами нет третьего. Наведение на вершину подсвечивает сравнимые элементы.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Элементы и границы</h2>
+    <div class="split">
+      <div>
+        <h3>Выбранное подмножество</h3>
+        <div class="toggle-grid" id="subset"></div>
+        <div class="metric-row" id="bound-metrics"></div>
+        <div id="bounds"></div>
+      </div>
+      <div>
+        <h3>Крайние элементы</h3>
+        <div id="extrema"></div>
+        <h3 style="margin-top:16px">Цепи</h3>
+        <div class="formula-box" id="longest-chain"></div>
+        <div class="formula-box" id="linear-extension" style="margin-top:8px"></div>
+        <p class="hint">Линейное продолжение задаёт топологическую сортировку порядка. Длинная цепь показывает максимальную вложенную башню.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Что здесь показано</h2>
+    <div class="theory-grid">
+      <div>
+        <h3>Частичный порядок</h3>
+        <p>Рефлексивность, антисимметричность и транзитивность.
+        Если хотя бы одно свойство сломано, диаграмма Хассе не строится.</p>
+      </div>
+      <div>
+        <h3>Покрытия</h3>
+        <p>Диаграмма рисует только покрытия.
+        Транзитивные следствия убраны, иначе граф стал бы полным.</p>
+      </div>
+      <div>
+        <h3>Границы</h3>
+        <p>Нижняя граница подмножества лежит под каждым его элементом, верхняя лежит над каждым.
+        Наибольшая нижняя и наименьшая верхняя границы единственны, если существуют.</p>
+      </div>
+      <div>
+        <h3>Цепи</h3>
+        <p>Цепь задаёт множество попарно сравнимых элементов.
+        Линейное продолжение упорядочивает все элементы так, что порядок не нарушается.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">Лаборатория · Порядок</footer>
+
+<script src="vendor/katex/katex.min.js"></script>
+<script src="site.js"></script>
+<script src="order.js"></script>
+</body>
+</html>

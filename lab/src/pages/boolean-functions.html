@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Булевы функции · лаборатория</title>
+<!-- @head -->
+</head>
+<body>
+<header class="lab-header">
+  <nav class="lab-nav">
+    <a href="index.html">← Все лаборатории</a>
+    <span class="sep">/</span>
+    <span class="here">Булевы функции</span>
+  </nav>
+  <p class="eyebrow">Булевы функции</p>
+  <h1>Одна функция, четыре взгляда</h1>
+  <p class="lead">
+    Таблица истинности, вектор значений, полином Жегалкина и классы Поста описывают одну функцию.
+    Измените выход, и все четыре представления перестроятся вместе.
+  </p>
+</header>
+
+<main class="lab-main">
+  <section class="card">
+    <div class="controls">
+      <label>Переменных
+        <select id="arity">
+          <option value="2">2</option>
+          <option value="3" selected>3</option>
+          <option value="4">4</option>
+        </select>
+      </label>
+      <label>Готовая функция
+        <select id="preset">
+          <option value="custom">своя</option>
+          <option value="and2">A ∧ B</option>
+          <option value="or2">A ∨ B</option>
+          <option value="xor2">A ⊕ B</option>
+          <option value="nand2">A ↑ B (И-НЕ)</option>
+          <option value="nor2">A ↓ B (ИЛИ-НЕ)</option>
+          <option value="impl2">A → B</option>
+          <option value="maj3" selected>медиана трёх</option>
+          <option value="parity3">чётность трёх</option>
+        </select>
+      </label>
+      <div class="btn-row">
+        <button id="zero">Все нули</button>
+        <button id="ones">Все единицы</button>
+        <button id="random">Случайно</button>
+      </div>
+    </div>
+
+    <div class="split">
+      <div>
+        <h3>Таблица истинности</h3>
+        <p class="hint">Нажатие на значение в последнем столбце переключает бит.</p>
+        <div class="tt-wrap" id="table"></div>
+      </div>
+
+      <div>
+        <h3>Вектор значений</h3>
+        <div class="vector" id="vector"></div>
+        <div class="metric-row" id="metrics"></div>
+
+        <h3>Полином Жегалкина</h3>
+        <div class="anf" id="anf"></div>
+        <p class="hint">Мономы складываются по модулю 2. Порядок мономов: степень, затем двоичный код.</p>
+
+        <h3>Классы Поста</h3>
+        <div class="post-grid" id="post"></div>
+        <div class="status" id="verdict"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Куб и карта</h2>
+    <div class="split">
+      <div>
+        <h3>Гиперкуб</h3>
+        <div class="cube-wrap" id="cube"></div>
+        <p class="hint" id="cube-hint"></p>
+      </div>
+      <div>
+        <h3>Карта Карно</h3>
+        <div class="map-wrap">
+          <div class="map" id="map"></div>
+          <div class="map-note" id="map-note"></div>
+        </div>
+        <p class="hint">Клетка задаёт минтерм, нажатие переключает значение. Строки и столбцы упорядочены по коду Грея, поэтому соседние клетки отличаются одной переменной.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Что здесь показано</h2>
+    <div class="theory-grid">
+      <div>
+        <h3>Таблица и вектор</h3>
+        <p>Строка таблицы задаёт вход, последний столбец даёт значение функции.
+        Весь последний столбец образует вектор значений.
+        Поточечные XOR и AND считаются по этому вектору.</p>
+      </div>
+      <div>
+        <h3>Полином Жегалкина</h3>
+        <p>Моном задаёт произведение переменных, мономы складываются по XOR.
+        Счётчики показывают число термов СДНФ и мономов АНФ для текущей функции.</p>
+      </div>
+      <div>
+        <h3>Классы Поста</h3>
+        <p>Пять меток показывают, лежит ли функция в <span data-tex="T_0"></span>, <span data-tex="T_1"></span>, <span data-tex="S"></span>, <span data-tex="M"></span> и <span data-tex="L"></span>.
+        Вердикт использует критерий Поста: набор полон, если не лежит целиком ни в одном из пяти классов.</p>
+      </div>
+      <div>
+        <h3>Куб и карта</h3>
+        <p>Вершина куба задаёт минтерм, ребро меняет один бит.
+        Карта раскладывает куб по коду Грея, поэтому соседние клетки, включая клетки на противоположных краях, отличаются одной переменной.
+        Склейка клеток задаёт подкуб, то есть терм ДНФ.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">Лаборатория · Булевы функции</footer>
+<script src="vendor/katex/katex.min.js"></script>
+<script src="site.js"></script>
+<script src="boolean-functions.js"></script>
+</body>
+</html>

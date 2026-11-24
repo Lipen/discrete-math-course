@@ -1,0 +1,420 @@
+/* ROBDD lab: diagrams for variable orders, metrics and order comparison. */
+
+import { popcount } from "../core/bits";
+import { clear, el, keepFocus, must, svg } from "../core/dom";
+import { math } from "../core/math";
+
+interface Preset {
+  n: number;
+  names: string[];
+  formula: string;
+  values: (m: number) => boolean;
+}
+
+interface BddNode {
+  id: number;
+  v: number;
+  lo: number;
+  hi: number;
+  level: number;
+}
+
+interface BddModel {
+  nodes: BddNode[];
+  root: number;
+}
+
+const presets: Record<string, Preset> = {
+  pairs3: {
+    n: 6,
+    names: ["x1", "x2", "x3", "x4", "x5", "x6"],
+    formula: "(x_1 \\land x_2) \\lor (x_3 \\land x_4) \\lor (x_5 \\land x_6)",
+    values: (m) => Boolean((m & 1 && m & 2) || (m & 4 && m & 8) || (m & 16 && m & 32)),
+  },
+  maj3: {
+    n: 3,
+    names: ["x1", "x2", "x3"],
+    formula: "\\operatorname{maj}(x_1, x_2, x_3)",
+    values: (m) => popcount(m) >= 2,
+  },
+  xor4: {
+    n: 4,
+    names: ["x1", "x2", "x3", "x4"],
+    formula: "x_1 \\oplus x_2 \\oplus x_3 \\oplus x_4",
+    values: (m) => (popcount(m) % 2) === 1,
+  },
+  mux: {
+    n: 3,
+    names: ["a", "b", "s"],
+    formula: "(s \\land b) \\lor (\\neg s \\land a)",
+    values: (m) => ((m >> 2) & 1 ? ((m >> 1) & 1 ? 1 : 0) : (m & 1 ? 1 : 0)) === 1,
+  },
+  eq4: {
+    n: 4,
+    names: ["a1", "a2", "b1", "b2"],
+    formula: "(a_1 = b_1) \\land (a_2 = b_2)",
+    values: (m) => {
+      const a1 = m & 1, a2 = (m >> 1) & 1, b1 = (m >> 2) & 1, b2 = (m >> 3) & 1;
+      return a1 === b1 && a2 === b2;
+    },
+  },
+};
+
+let key = "pairs3";
+let n = presets[key].n;
+let names = presets[key].names.slice();
+let values: number[] = [];
+let order: number[] = [];
+let current: BddModel | null = null;
+
+const presetNode = must<HTMLSelectElement>("#preset");
+const formulaNode = must<HTMLElement>("#formula");
+const diagramNode = must<HTMLElement>("#diagram");
+const metricsNode = must<HTMLElement>("#metrics");
+const orderNode = must<HTMLElement>("#order");
+const compareNode = must<HTMLElement>("#compare");
+
+function loadPreset(name: string): void {
+  const p = presets[name];
+  key = name;
+  n = p.n;
+  names = p.names.slice();
+  values = [];
+  for (let m = 0; m < (1 << n); m++) values.push(p.values(m) ? 1 : 0);
+  order = [];
+  for (let i = 0; i < n; i++) order.push(i);
+  formulaNode.replaceChildren(math(p.formula));
+  presetNode.value = name;
+  renderAll();
+}
+
+function buildBDD(): BddModel {
+  const nodes: BddNode[] = [];
+  const unique = new Map<string, number>();
+  const memo = new Map<string, number>();
+
+  function build(level: number, list: number[]): number {
+    let same = true;
+    const first = values[list[0]];
+    for (const m of list) {
+      if (values[m] !== first) { same = false; break; }
+    }
+    if (same) return first ? 1 : 0;
+
+    const memoKey = level + ":" + list.join(",");
+    const cached = memo.get(memoKey);
+    if (cached !== undefined) return cached;
+
+    const v = order[level];
+    const zero: number[] = [];
+    const one: number[] = [];
+    for (const m of list) {
+      if ((m >> v) & 1) one.push(m); else zero.push(m);
+    }
+    const lo = build(level + 1, zero);
+    const hi = build(level + 1, one);
+    if (lo === hi) {
+      memo.set(memoKey, lo);
+      return lo;
+    }
+    const nodeKey = v + ":" + lo + ":" + hi;
+    const existing = unique.get(nodeKey);
+    if (existing !== undefined) {
+      memo.set(memoKey, existing);
+      return existing;
+    }
+    const id = nodes.length + 2;
+    nodes.push({ id, v, lo, hi, level });
+    unique.set(nodeKey, id);
+    memo.set(memoKey, id);
+    return id;
+  }
+
+  const all: number[] = [];
+  for (let m = 0; m < (1 << n); m++) all.push(m);
+  const root = build(0, all);
+  return { nodes, root };
+}
+
+function nodeMap(nodes: BddNode[]): Map<number, BddNode> {
+  const map = new Map<number, BddNode>();
+  for (const node of nodes) map.set(node.id, node);
+  return map;
+}
+
+function renderDiagram(model: BddModel, byId: Map<number, BddNode>): void {
+  const nodes = model.nodes;
+  const levels = new Map<number, BddNode[]>();
+  for (const node of nodes) {
+    if (!levels.has(node.level)) levels.set(node.level, []);
+    levels.get(node.level)?.push(node);
+  }
+  const maxLevel = nodes.length ? Math.max(...nodes.map((node) => node.level)) : 0;
+  const maxCount = Math.max(1, ...Array.from(levels.values()).map((list) => list.length));
+  const width = Math.max(820, maxCount * 86 + 160);
+  const height = (maxLevel + 2) * 92 + 70;
+
+  const coords = new Map<number, { x: number; y: number }>();
+  for (const [level, list] of levels) {
+    list.sort((a, b) => a.id - b.id);
+    list.forEach((node, index) => {
+      coords.set(node.id, {
+        x: (width * (index + 1)) / (list.length + 1),
+        y: 54 + level * 92,
+      });
+    });
+  }
+
+  const terminalY = height - 54;
+  const terminalCoords: Record<number, { x: number; y: number }> = { 0: { x: width * 0.28, y: terminalY }, 1: { x: width * 0.72, y: terminalY } };
+
+  function targetCoords(id: number): { x: number; y: number } | undefined {
+    if (id === 0 || id === 1) return terminalCoords[id];
+    return coords.get(id);
+  }
+
+  const root = svg("svg", {
+    viewBox: "0 0 " + width + " " + height,
+    role: "group",
+    "aria-label": "Диаграмма решений",
+    style: "min-width:" + Math.min(width, 820) + "px",
+  });
+
+  for (const node of nodes) {
+    const from = coords.get(node.id);
+    if (!from) continue;
+    const edges: Array<[string, number]> = [["lo", node.lo], ["hi", node.hi]];
+    for (const [which, target] of edges) {
+      const to = targetCoords(target);
+      if (!to) continue;
+      const midY = (from.y + to.y) / 2;
+      const path = svg("path", {
+        d: "M " + from.x + " " + from.y + " C " + from.x + " " + midY + ", " + to.x + " " + midY + ", " + to.x + " " + to.y,
+        class: "bdd-edge " + which,
+        fill: "none",
+        "data-from": String(node.id),
+        "data-to": String(target),
+      });
+      root.appendChild(path);
+      const label = svg("text", {
+        x: (from.x + to.x) / 2 + (which === "lo" ? -8 : 8),
+        y: midY,
+        "text-anchor": "middle",
+        "font-size": 10,
+        fill: "#6b6558",
+      }, which === "lo" ? "0" : "1");
+      root.appendChild(label);
+    }
+  }
+
+  function targetText(target: number): string {
+    if (target === 0 || target === 1) return String(target);
+    const targetNode = byId.get(target);
+    return targetNode ? names[targetNode.v] : String(target);
+  }
+
+  for (const node of nodes) {
+    const p = coords.get(node.id);
+    if (!p) continue;
+    const group = svg("g", {
+      class: "bdd-node",
+      "data-id": String(node.id),
+      tabindex: "0",
+      role: "img",
+      "aria-label": "Узел " + names[node.v] + ", ноль ведёт к " + targetText(node.lo) + ", единица ведёт к " + targetText(node.hi),
+    });
+    group.appendChild(svg("circle", {
+      cx: p.x, cy: p.y, r: 22,
+      fill: "#ffffff",
+      stroke: "#7b7366",
+      "stroke-width": 1.5,
+    }));
+    const label = svg("text", {
+      x: p.x, y: p.y + 5,
+      "text-anchor": "middle",
+      "font-family": "var(--mono)",
+      "font-size": 12,
+      "font-weight": 650,
+      fill: "#1d2733",
+    });
+    const nameMatch = names[node.v].match(/^([A-Za-z]+)(\d+)$/);
+    if (nameMatch) {
+      label.appendChild(document.createTextNode(nameMatch[1]));
+      label.appendChild(svg("tspan", { "baseline-shift": "sub", "font-size": "9" }, nameMatch[2]));
+    } else {
+      label.appendChild(document.createTextNode(names[node.v]));
+    }
+    group.appendChild(label);
+    root.appendChild(group);
+  }
+
+  const terminals: Array<[string, { x: number; y: number }]> = [["0", terminalCoords[0]], ["1", terminalCoords[1]]];
+  for (const [value, p] of terminals) {
+    const group = svg("g", { class: "bdd-terminal", "data-id": value });
+    group.appendChild(svg("rect", {
+      x: p.x - 22, y: p.y - 18, width: 44, height: 36, rx: 8,
+      fill: value === "1" ? "#e6f2ec" : "#f1eee7",
+      stroke: value === "1" ? "#2f7d5c" : "#8c8374",
+      "stroke-width": 1.5,
+    }));
+    group.appendChild(svg("text", {
+      x: p.x, y: p.y + 6,
+      "text-anchor": "middle",
+      "font-family": "var(--mono)",
+      "font-size": 16,
+      "font-weight": 700,
+      fill: value === "1" ? "#2f7d5c" : "#5f6d7c",
+    }, value));
+    root.appendChild(group);
+  }
+
+  function highlight(id: number, on: boolean): void {
+    const nodeEl = root.querySelector('.bdd-node[data-id="' + id + '"]');
+    if (nodeEl) nodeEl.classList.toggle("hl", on);
+    const node = byId.get(id);
+    if (node) {
+      for (const target of [node.lo, node.hi]) {
+        const targetEl = root.querySelector('[data-id="' + target + '"]');
+        if (targetEl) targetEl.classList.toggle("neighbor", on);
+        const edge = root.querySelector('[data-from="' + id + '"][data-to="' + target + '"]');
+        if (edge) edge.classList.toggle("hl", on);
+      }
+    }
+    for (const other of nodes) {
+      if (other.lo === id || other.hi === id) {
+        const parentEl = root.querySelector('.bdd-node[data-id="' + other.id + '"]');
+        if (parentEl) parentEl.classList.toggle("neighbor", on);
+        const edge = root.querySelector('[data-from="' + other.id + '"][data-to="' + id + '"]');
+        if (edge) edge.classList.toggle("hl", on);
+      }
+    }
+  }
+
+  root.querySelectorAll(".bdd-node").forEach((nodeEl) => {
+    const id = Number(nodeEl.getAttribute("data-id"));
+    nodeEl.addEventListener("mouseenter", () => highlight(id, true));
+    nodeEl.addEventListener("mouseleave", () => highlight(id, false));
+    nodeEl.addEventListener("focus", () => highlight(id, true));
+    nodeEl.addEventListener("blur", () => highlight(id, false));
+  });
+
+  clear(diagramNode);
+  diagramNode.appendChild(root);
+}
+
+function renderMetrics(model: BddModel): void {
+  const maxLevel = model.nodes.length ? Math.max(...model.nodes.map((node) => node.level)) : 0;
+  metricsNode.innerHTML = "";
+  metricsNode.appendChild(el("div", { class: "metric" }, [
+    el("span", { class: "k", text: "узлов" }), el("span", { class: "v", text: String(model.nodes.length) }),
+  ]));
+  metricsNode.appendChild(el("div", { class: "metric" }, [
+    el("span", { class: "k", text: "уровней" }), el("span", { class: "v", text: String(maxLevel + 1) }),
+  ]));
+  metricsNode.appendChild(el("div", { class: "metric" }, [
+    el("span", { class: "k", text: "переменных" }), el("span", { class: "v", text: String(n) }),
+  ]));
+}
+
+function nameTex(name: string): string {
+  const match = name.match(/^([A-Za-z]+)(\d+)$/);
+  return match ? match[1] + "_" + match[2] : name;
+}
+
+function renderOrder(): void {
+  clear(orderNode);
+  order.forEach((v, index) => {
+    const chip = el("span", { class: "chip" }, math(nameTex(names[v])));
+    const up = el("button", { class: "up", text: "↑", title: "Выше", "aria-label": names[v] + " выше", "data-focus-key": "order-up-" + v, disabled: index === 0 ? "" : undefined });
+    const down = el("button", { class: "down", text: "↓", title: "Ниже", "aria-label": names[v] + " ниже", "data-focus-key": "order-down-" + v, disabled: index === order.length - 1 ? "" : undefined });
+    up.addEventListener("click", () => {
+      if (index === 0) return;
+      [order[index - 1], order[index]] = [order[index], order[index - 1]];
+      renderAll();
+    });
+    down.addEventListener("click", () => {
+      if (index === order.length - 1) return;
+      [order[index + 1], order[index]] = [order[index], order[index + 1]];
+      renderAll();
+    });
+    chip.appendChild(up);
+    chip.appendChild(down);
+    orderNode.appendChild(chip);
+  });
+}
+
+function countFor(orderToTry: number[]): number {
+  const saved = order;
+  order = orderToTry.slice();
+  const model = buildBDD();
+  order = saved;
+  return model.nodes.length;
+}
+
+function orderTitle(orderToShow: number[]): string {
+  return orderToShow.map((v) => nameTex(names[v])).join(" < ");
+}
+
+function renderCompare(): void {
+  clear(compareNode);
+  const natural: number[] = [];
+  for (let i = 0; i < n; i++) natural.push(i);
+  const reverse = natural.slice().reverse();
+  const interleaved: number[] = [];
+  for (let i = 0; i < n; i += 2) interleaved.push(i);
+  for (let i = 1; i < n; i += 2) interleaved.push(i);
+  const grouped: number[] = [];
+  for (let i = 0; i < n; i += 4) {
+    grouped.push(i);
+    if (i + 1 < n) grouped.push(i + 1);
+    if (i + 2 < n) grouped.push(i + 2);
+    if (i + 3 < n) grouped.push(i + 3);
+  }
+  const candidates: Array<{ name: string; arr: number[] }> = [
+    { name: "естественный", arr: natural },
+    { name: "обратный", arr: reverse },
+    { name: "через один", arr: interleaved },
+    { name: "блоками", arr: grouped },
+  ];
+  const seen = new Set<string>();
+  const table = el("table", { class: "data compare" });
+  const thead = el("thead");
+  thead.appendChild(el("tr", {}, [
+    el("th", { class: "left", text: "порядок" }),
+    el("th", { text: "узлов" }),
+  ]));
+  table.appendChild(thead);
+  const tbody = el("tbody");
+  for (const candidate of candidates) {
+    const sig = candidate.arr.join(",");
+    if (seen.has(sig)) continue;
+    seen.add(sig);
+    const isCurrent = candidate.arr.every((v, i) => v === order[i]);
+    const row = el("tr", { class: isCurrent ? "current" : "" });
+    const orderCell = el("td", { class: "left" });
+    orderCell.appendChild(math(orderTitle(candidate.arr)));
+    row.appendChild(orderCell);
+    row.appendChild(el("td", { class: "mono", text: String(countFor(candidate.arr)) }));
+    tbody.appendChild(row);
+  }
+  table.appendChild(tbody);
+  compareNode.appendChild(el("p", { class: "hint", text: "Текущий порядок выделен. Число узлов считается той же функцией и тем же построением." }));
+  compareNode.appendChild(table);
+}
+
+function paint(): void {
+  current = buildBDD();
+  const byId = nodeMap(current.nodes);
+  renderDiagram(current, byId);
+  renderMetrics(current);
+  renderOrder();
+  renderCompare();
+}
+
+function renderAll(): void {
+  keepFocus(paint);
+}
+
+presetNode.addEventListener("change", () => loadPreset(presetNode.value));
+
+loadPreset(key);

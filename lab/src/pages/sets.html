@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Множества · лаборатория</title>
+<!-- @head -->
+</head>
+<body>
+<header class="lab-header">
+  <nav class="lab-nav">
+    <a href="index.html">← Все лаборатории</a>
+    <span class="sep">/</span>
+    <span class="here">Множества и диаграммы</span>
+  </nav>
+  <p class="eyebrow">Множества</p>
+  <h1>Множества, операции и диаграммы Венна</h1>
+  <p class="lead">
+    Задайте три множества на общем универсуме.
+    Видны результат операции, таблица принадлежности, диаграмма Венна, булеан и проверка тождества на всех вариантах принадлежности.
+  </p>
+  <div class="lab-meta">
+    <span class="pill info">операции</span>
+    <span class="pill">Венн</span>
+    <span class="pill">тождества</span>
+  </div>
+</header>
+
+<main class="lab-main">
+  <section class="card">
+    <div class="toolbar">
+      <label class="field">Универсум
+        <select id="universe-size">
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6" selected>6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+        </select>
+      </label>
+      <label class="field grow">Операция
+        <select id="operation">
+          <option value="union">A ∪ B</option>
+          <option value="inter">A ∩ B</option>
+          <option value="diff">A ∖ B</option>
+          <option value="symdiff">A △ B</option>
+          <option value="compl">Aᶜ</option>
+          <option value="mix" selected>A ∩ (B ∪ C)</option>
+        </select>
+      </label>
+      <div class="btn-row">
+        <button id="random">Случайно</button>
+        <button id="reset">Сброс</button>
+      </div>
+    </div>
+
+    <div class="split-wide-left">
+      <div>
+        <h3>Элементы</h3>
+        <p class="hint">Нажатие на число переключает принадлежность. Цвет показывает множество.</p>
+        <div class="panel" style="margin-bottom:8px">
+          <div class="panel-head"><h3 style="font-size:15px">A</h3><span class="pill info" id="a-size"></span></div>
+          <div class="toggle-grid" id="a-grid"></div>
+        </div>
+        <div class="panel" style="margin-bottom:8px">
+          <div class="panel-head"><h3 style="font-size:15px">B</h3><span class="pill info" id="b-size"></span></div>
+          <div class="toggle-grid" id="b-grid"></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h3 style="font-size:15px">C</h3><span class="pill info" id="c-size"></span></div>
+          <div class="toggle-grid" id="c-grid"></div>
+        </div>
+      </div>
+      <div>
+        <h3>Диаграмма Венна</h3>
+        <div class="venn-wrap" id="venn"></div>
+        <h3 style="margin-top:14px">Результат</h3>
+        <div class="formula-box" id="result-set" style="min-height:40px"></div>
+        <div class="metric-row" id="metrics"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Таблица принадлежности</h2>
+    <div class="tt-wrap" id="membership"></div>
+  </section>
+
+  <section class="card">
+    <h2>Тождества и булеан</h2>
+    <div class="split">
+      <div>
+        <h3>Проверка тождества</h3>
+        <div class="toolbar">
+          <label class="field grow">Закон
+            <select id="identity"></select>
+          </label>
+        </div>
+        <div class="formula-box" id="identity-formula"></div>
+        <div class="status" id="identity-status" style="margin-top:8px"></div>
+      </div>
+      <div>
+        <h3>Булеан</h3>
+        <div class="toolbar">
+          <label class="field">Множество
+            <select id="power-set">
+              <option value="A">A</option>
+              <option value="B">B</option>
+              <option value="C">C</option>
+            </select>
+          </label>
+        </div>
+        <div class="metric-row" id="power-metrics"></div>
+        <div class="formula-box" id="power-list" style="max-height:180px;overflow:auto"></div>
+      </div>
+    </div>
+    <h3 style="margin-top:18px">Декартово произведение A × B</h3>
+    <div class="formula-box" id="product" style="max-height:150px;overflow:auto"></div>
+  </section>
+
+  <section class="card">
+    <h2>Что здесь показано</h2>
+    <div class="theory-grid">
+      <div>
+        <h3>Операции</h3>
+        <p>Объединение собирает элементы из обоих множеств, пересечение оставляет общие, разность убирает B, симметрическая разность оставляет элементы, попавшие ровно в одно множество.</p>
+      </div>
+      <div>
+        <h3>Венн</h3>
+        <p>Круги задают множества, точки задают элементы универсума.
+        Положение точки задаёт её принадлежность A, B и C.</p>
+      </div>
+      <div>
+        <h3>Тождество</h3>
+        <p>Тождество множеств проверяется на всех вариантах принадлежности элемента.
+        Если хотя бы один вариант различает стороны, это контрпример.</p>
+      </div>
+      <div>
+        <h3>Булеан</h3>
+        <p>Булеан выбранного множества <span data-tex="S"></span> имеет размер <span data-tex="2^{|S|}"></span>.
+        Список показывает подмножества, а не только число.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">Лаборатория · Множества</footer>
+
+<script src="vendor/katex/katex.min.js"></script>
+<script src="site.js"></script>
+<script src="sets.js"></script>
+</body>
+</html>
