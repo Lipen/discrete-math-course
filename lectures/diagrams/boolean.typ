@@ -332,36 +332,6 @@
   )
 }
 
-// ── Теорема Стоуна: булеан двух атомов ──
-#let stone-diamond = canvas({
-  let pos = (
-    "11": (0, 2.0),
-    "01": (-1.35, 1.0),
-    "10": (1.35, 1.0),
-    "00": (0, 0),
-  )
-  let atoms = ("01", "10")
-
-  for (a, b) in (("00", "01"), ("00", "10"), ("01", "11"), ("10", "11")) {
-    draw.line(pos.at(a), pos.at(b), stroke: edge-thin)
-  }
-
-  for (name, p) in pos {
-    let is-atom = atoms.contains(name)
-    draw.circle(
-      p,
-      radius: 0.46,
-      fill: if is-atom { green.lighten(82%) } else { white },
-      stroke: if is-atom {
-        (paint: green, thickness: 1.8pt)
-      } else {
-        (paint: ink-soft, thickness: 0.9pt)
-      },
-    )
-    draw.content(p, text(0.76em, fill: ink)[#name])
-  }
-})
-
 // ── Раунд AES: SubBytes, ShiftRows, MixColumns, AddRoundKey ──
 #let aes-round = canvas({
   let w = 2.4

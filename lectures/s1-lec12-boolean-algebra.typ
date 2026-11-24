@@ -2,7 +2,7 @@
 #import "theme.typ": *
 #import "diagrams/ghosts.typ": boolfun-ghost
 #import "diagrams/boolean.typ": (
-  aes-round, post-lattice-scheme, q3-cube, q3-gray-cycle, stone-diamond,
+  aes-round, post-lattice-scheme, q3-cube, q3-gray-cycle,
   superposition-diagram, xor-triangle,
 )
 #show: slides.with(
@@ -723,35 +723,25 @@ $
 
 == Теорема Стоуна в действии
 
-Проверим теорему на четырёхэлементной алгебре ${0, 1}^2$.
-Она устроена как булеан двух атомов.
+Возьмём алгебру всех булевых функций от трёх переменных.
+В ней $2^8 = 256$ элементов, поэтому покажем несколько соответствий.
+$
+  S_f = {A mid(|) f(A)=1} .
+$
+Это таблица истинности $f$.
 
-#grid(
-  columns: (auto, auto),
-  gutter: 2em,
-  align(center)[
-    #table(
-      columns: 2,
-      align: (center, center),
-      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-      table.header([*Элемент*], [*Подмножество атомов*]),
-      [$00$], [$emptyset$],
-      [$01$], [${01}$],
-      [$10$], [${10}$],
-      [$11$], [${01, 10}$],
-    )
-  ],
-  align(center)[#stone-diamond],
+#table(
+  columns: 2,
+  align: (left, left),
+  stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+  table.header([*Функция*], [*$S_f$*]),
+  [$m_101$], [${(1,0,1)}$],
+  [$x and y$], [${(1,1,0), (1,1,1)}$],
+  [$not x$], [${(0,0,0), (0,0,1), (0,1,0), (0,1,1)}$],
 )
 
-Зелёные вершины --- атомы $01$ и $10$.
-Дизъюнкция превращается в объединение, конъюнкция --- в пересечение, дополнение --- в разность.
-
-#note[
-  Для трёх переменных $S_f = {A mid(|) f(A)=1}$.
-  Например, $f=x and y$ даёт $S_f={(1,1,0), (1,1,1)}$.
-  Это ровно минтермы под $f$.
-]
+Атом $m_A$ переходит в одноэлементное множество ${A}$.
+Пересечение, объединение и дополнение переходят в те же операции над множествами.
 
 == Два базиса
 
