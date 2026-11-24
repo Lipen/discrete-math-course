@@ -380,7 +380,7 @@
 
 // ── Раунд AES: SubBytes, ShiftRows, MixColumns, AddRoundKey ──
 #let aes-round = canvas({
-  let w = 1.75
+  let w = 2.4
   let h = 0.8
   let stage(x, label, tone: cool) = {
     draw.rect(
@@ -390,7 +390,7 @@
       stroke: (paint: tone, thickness: 1pt),
       radius: 3pt,
     )
-    draw.content((x, 0), text(0.72em, weight: "bold")[#label])
+    draw.content((x, 0), text(0.70em, weight: "bold")[#label])
   }
   let arrow(x1, x2) = draw.line(
     (x1, 0),
@@ -400,17 +400,15 @@
   )
 
   stage(0, [SubBytes], tone: green)
-  stage(2.2, [ShiftRows])
-  stage(4.4, [MixColumns])
-  stage(6.6, [AddRoundKey])
+  stage(2.9, [ShiftRows])
+  stage(5.8, [MixColumns])
+  stage(8.7, [AddRoundKey])
 
-  arrow(0.9, 1.3)
-  arrow(3.1, 3.5)
-  arrow(5.3, 5.7)
-  arrow(-1.2, -0.9)
-  arrow(7.5, 7.8)
+  arrow(1.25, 1.65)
+  arrow(4.15, 4.55)
+  arrow(7.05, 7.45)
+  arrow(-1.4, -1.2)
+  arrow(9.95, 10.15)
 
-  mark((-1.55, 0), [состояние])
-  mark((8.15, 0), [состояние])
-  mark((3.3, -0.85), [10/12/14 раундов], tone: ink-soft)
+  mark((4.35, -0.85), [10/12/14 раундов], tone: ink-soft)
 })
