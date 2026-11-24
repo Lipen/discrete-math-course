@@ -41,12 +41,12 @@ lab-dev:
 
 # Build the site hub (site/dist); rebuilds the lab first
 site: lab
-    python3 site/build.py
+    uv run site/build.py
 
 # Build the site with local copies of the PDFs and serve it on http://localhost:8765
 site-serve: lab
-    python3 site/build.py --preview
-    python3 -m http.server -d site/dist 8765
+    uv run site/build.py --preview
+    bun site/serve.ts site/dist 8765
 
 # Build all homeworks
 homework:
