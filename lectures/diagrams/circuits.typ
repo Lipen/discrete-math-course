@@ -112,7 +112,7 @@
 
   lab((-2.75, 2.6), $A$)
   lab((-2.75, 1.2), $B$)
-  lab((1.5, -0.95), $C_"in"$, anchor: "north")
+  lab((1.75, -1.0), $C_"in"$, anchor: "west")
   lab((3.65, 1.6), $S$, anchor: "west")
   lab((5.65, 0.4), $C_"out"$, anchor: "west")
 })
