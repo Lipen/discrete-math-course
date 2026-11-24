@@ -347,3 +347,70 @@
     schematic-wire(<l>, <bot>),
   )
 }
+
+// ── Теорема Стоуна: булеан двух атомов ──
+#let stone-diamond = canvas({
+  let pos = (
+    "11": (0, 2.0),
+    "01": (-1.35, 1.0),
+    "10": (1.35, 1.0),
+    "00": (0, 0),
+  )
+  let atoms = ("01", "10")
+
+  for (a, b) in (("00", "01"), ("00", "10"), ("01", "11"), ("10", "11")) {
+    draw.line(pos.at(a), pos.at(b), stroke: edge-thin)
+  }
+
+  for (name, p) in pos {
+    let is-atom = atoms.contains(name)
+    draw.circle(
+      p,
+      radius: 0.46,
+      fill: if is-atom { green.lighten(82%) } else { white },
+      stroke: if is-atom {
+        (paint: green, thickness: 1.8pt)
+      } else {
+        (paint: ink-soft, thickness: 0.9pt)
+      },
+    )
+    draw.content(p, text(0.76em, fill: ink)[#name])
+  }
+})
+
+// ── Раунд AES: SubBytes, ShiftRows, MixColumns, AddRoundKey ──
+#let aes-round = canvas({
+  let w = 1.75
+  let h = 0.8
+  let stage(x, label, tone: cool) = {
+    draw.rect(
+      (x - w / 2, -h / 2),
+      (x + w / 2, h / 2),
+      fill: tone.lighten(90%),
+      stroke: (paint: tone, thickness: 1pt),
+      radius: 3pt,
+    )
+    draw.content((x, 0), text(0.72em, weight: "bold")[#label])
+  }
+  let arrow(x1, x2) = draw.line(
+    (x1, 0),
+    (x2, 0),
+    stroke: edge-plain,
+    mark: (end: "stealth"),
+  )
+
+  stage(0, [SubBytes], tone: green)
+  stage(2.2, [ShiftRows])
+  stage(4.4, [MixColumns])
+  stage(6.6, [AddRoundKey])
+
+  arrow(0.9, 1.3)
+  arrow(3.1, 3.5)
+  arrow(5.3, 5.7)
+  arrow(-1.2, -0.9)
+  arrow(7.5, 7.8)
+
+  mark((-1.55, 0), [состояние])
+  mark((8.15, 0), [состояние])
+  mark((3.3, -0.85), [10/12/14 раундов], tone: ink-soft)
+})
