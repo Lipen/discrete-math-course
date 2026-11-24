@@ -245,7 +245,7 @@
     width: 2.4em,
     height: 1.7em,
   )
-  let wire(from, to) = edge(from, to, "->", stroke: edge-plain)
+  let wire(from, to) = edge(from, to, "-}>", stroke: edge-plain)
   diagram(
     spacing: 2.2em,
     node(
@@ -255,6 +255,8 @@
       fill: none,
       stroke: none,
       inset: 2pt,
+      width: 4.4em,
+      height: 1.4em,
     ),
     box((2, -1.3), <g1>, $g_1$),
     box((2, 0), <g2>, $g_2$),
@@ -267,6 +269,8 @@
       fill: none,
       stroke: none,
       inset: 2pt,
+      width: 1.6em,
+      height: 1.4em,
     ),
     wire(<in>, <g1>),
     wire(<in>, <g2>),
