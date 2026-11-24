@@ -827,7 +827,7 @@ $
 == AES и S-блок
 
 АНФ применяется в криптоанализе блочных шифров.
-AES (*Advanced Encryption Standard*) --- симметричный блочный шифр.
+AES (Advanced Encryption Standard) --- симметричный блочный шифр.
 - Блок 128 бит, ключ 128, 192 или 256 бит.
 - Раунд состоит из SubBytes, ShiftRows, MixColumns и AddRoundKey.
 
@@ -863,7 +863,7 @@ S-блок --- подстановка 8 бит в 8 бит внутри SubBytes
 
 В современном процессоре миллиарды транзисторов.
 Любую цифровую схему можно собрать из одного типа вентиля.
-Это вентиль И-НЕ (англ. NAND), $x nand y = not (x and y)$.
+Это вентиль И-НЕ (_NAND_), $x nand y = not (x and y)$.
 
 $
   x nand x = overline(x), quad (x nand y) nand (x nand y) = x and y .
