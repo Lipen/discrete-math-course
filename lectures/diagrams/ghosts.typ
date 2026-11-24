@@ -1956,12 +1956,12 @@
 // ── Диаграмма решений: корень, развилка, общий лист ──
 #let bdd-ghost(c) = canvas({
   let st = ink-stroke(c)
-  draw.circle((2, 0), radius: 0.2, name: "r", stroke: st)
-  draw.circle((0.9, 1.1), radius: 0.2, name: "a", stroke: st)
-  draw.circle((3.1, 1.1), radius: 0.2, name: "b", stroke: st)
-  draw.circle((2, 2.2), radius: 0.2, name: "z", stroke: st)
-  draw.circle((0.8, 3.2), radius: 0.2, name: "zero", stroke: st)
-  draw.circle((3.2, 3.2), radius: 0.2, name: "one", stroke: st)
+  draw.circle((2, 3.2), radius: 0.2, name: "r", stroke: st)
+  draw.circle((0.9, 2.1), radius: 0.2, name: "a", stroke: st)
+  draw.circle((3.1, 2.1), radius: 0.2, name: "b", stroke: st)
+  draw.circle((2, 1.0), radius: 0.2, name: "z", stroke: st)
+  draw.circle((0.8, 0), radius: 0.2, name: "zero", stroke: st)
+  draw.circle((3.2, 0), radius: 0.2, name: "one", stroke: st)
   for p in (
     ("r", "a"),
     ("r", "b"),
