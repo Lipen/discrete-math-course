@@ -2852,7 +2852,6 @@ svg g.bdd-node:focus-visible circle {
 
 .sitebar-theme { border-color: var(--line); background: var(--card); }
 .sitebar-theme svg { display: none; width: 17px; height: 17px; }
-:root[data-pref="auto"] .sitebar-theme .i-auto,
 :root[data-pref="light"] .sitebar-theme .i-light,
 :root[data-pref="dark"] .sitebar-theme .i-dark { display: block; }
 
