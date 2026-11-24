@@ -105,7 +105,7 @@
           draw.line((x0 + b, y1 + b), (x1 - b, y1 + b), stroke: 1pt + luma(52%))
           draw.line((x1 - b, y0 - b), (x1 - b, y1 + b), stroke: 1pt + luma(52%))
           draw.content(center, text(
-            size: 16pt,
+            size: 1.4em,
             weight: "bold",
             fill: rgb("#1e3a8a"),
           )[?])
@@ -140,7 +140,7 @@
             rgb("#b91c1c")
           }
           draw.content(center, text(
-            size: if v == "0" { 14pt } else { 16pt },
+            size: if v == "0" { 1.2em } else { 1.4em },
             weight: "bold",
             fill: color,
           )[#v])
@@ -149,14 +149,14 @@
     }
     for c in range(m) {
       draw.content(
-        (ox + c * cell + cell / 2, 0.26),
-        text(size: 9pt, fill: luma(45%))[#letters.at(c)],
+        (ox + c * cell + cell / 2, 0.30),
+        text(fill: luma(30%))[#letters.at(c)],
       )
     }
     for r in range(n) {
       draw.content(
-        (-0.26, oy - r * cell - cell / 2),
-        text(size: 9pt, fill: luma(45%))[#(r + 1)],
+        (-0.30, oy - r * cell - cell / 2),
+        text(fill: luma(30%))[#(r + 1)],
       )
     }
   })
