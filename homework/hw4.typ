@@ -559,10 +559,10 @@
 
   Принятые слова:
 
-  - С одной ошибкой: #raw(ecc-one-rows.at(0)) \
-    #raw(ecc-one-rows.at(1) + " " + ecc-one-rows.at(2))
-  - С двумя ошибками: #raw(ecc-two-rows.at(0)) \
-    #raw(ecc-two-rows.at(1) + " " + ecc-two-rows.at(2))
+  - С одной ошибкой: \
+    #raw(ecc-one-rows.join(" "))
+  - С двумя ошибками: \
+    #raw(ecc-two-rows.join(" "))
 ]
 
 #tasklist("ecc")[
