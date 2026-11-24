@@ -123,9 +123,6 @@ export function mountSiteBar(catalog: Catalog): void {
   }
 
   function decorateHeader(current: LabEntry): void {
-    const badge = $(".lab-header .eyebrow");
-    if (badge) badge.textContent = current.topic;
-
     const header = $(".lab-header");
     if (header) {
       if (!header.querySelector(".lab-watermark")) {
@@ -151,8 +148,5 @@ export function mountSiteBar(catalog: Catalog): void {
         meta.prepend(star);
       }
     }
-
-    const footer = $(".footer");
-    if (footer) footer.textContent = "Лаборатория · " + current.topic;
   }
 }

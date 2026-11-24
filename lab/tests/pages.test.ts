@@ -89,6 +89,39 @@ describe("page wiring", () => {
     expect(problems).toEqual([]);
   });
 
+  test("page markup has one language, one h1 and unique ids", async () => {
+    const problems: string[] = [];
+    for (const file of await pageFiles()) {
+      if (!file.endsWith(".html")) continue;
+      const html = await readFile(join(pagesDir, file), "utf8");
+      if (!html.includes('<html lang="ru">')) problems.push(`${file}: нет lang="ru"`);
+      const h1 = html.match(/<h1\b/g)?.length || 0;
+      if (h1 !== 1) problems.push(`${file}: заголовков h1 ${h1}`);
+      const ids = Array.from(html.matchAll(/\bid="([^"]+)"/g), (match) => match[1]);
+      const unique = new Set(ids);
+      if (unique.size !== ids.length) {
+        const duplicates = ids.filter((id, index) => ids.indexOf(id) !== index);
+        problems.push(`${file}: повторяются id ${Array.from(new Set(duplicates)).join(", ")}`);
+      }
+      if (/\son(?:click|input|change|submit|keydown|keyup|mousedown|mouseup|mouseover|mouseout|focus|blur)=/i.test(html)) {
+        problems.push(`${file}: обработчик записан в разметке`);
+      }
+    }
+    expect(problems).toEqual([]);
+  });
+
+  test("every lab page carries its own header label and footer", async () => {
+    const problems: string[] = [];
+    for (const lab of catalog.labs) {
+      const html = await readFile(join(pagesDir, lab.file), "utf8");
+      const eyebrow = html.match(/<p class="eyebrow">([^<]+)<\/p>/)?.[1]?.trim();
+      const footer = html.match(/<footer class="footer">([^<]+)<\/footer>/)?.[1]?.trim();
+      if (!eyebrow) problems.push(`${lab.file}: пустой eyebrow`);
+      if (!footer) problems.push(`${lab.file}: пустой footer`);
+    }
+    expect(problems).toEqual([]);
+  });
+
   test("pages with static formulas import the math renderer", async () => {
     const problems: string[] = [];
     for (const file of await pageFiles()) {
