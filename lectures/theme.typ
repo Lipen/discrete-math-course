@@ -8,6 +8,7 @@
   accent-strong: oklch(45%, 0.17, 250deg), // заголовки
   amber: oklch(70%, 0.17, 80deg), // ключевые выводы
   warn: oklch(60%, 0.17, 40deg), // предупреждения
+  note: oklch(52%, 0.09, 210deg), // пояснения
   green: oklch(50%, 0.16, 150deg), // определения
   red: oklch(50%, 0.2, 25deg), // ложь в таблицах истинности
   violet: oklch(55%, 0.17, 300deg), // теоремы
@@ -246,11 +247,7 @@
     gap: 0.8em,
   )
 }
-#let note(..args) = context {
-  let m = mod-state.final()
-  let c = if m != none { module-accents.at(m) } else { colors.accent }
-  Block(..args, color: c)
-}
+#let note(..args) = Block(..args, color: colors.note)
 
 // === Заголовок текущей секции ===
 // focus-slide берёт заголовок из последнего h1 перед собой.
