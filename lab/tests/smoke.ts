@@ -98,6 +98,19 @@ for (const page of pages) {
       if (active !== 1) failures.push(`${page}: активных шагов ${active}`);
     }
 
+    if (page === "relations.html") {
+      await tab.click("#clear");
+      await tab.click("[data-closure=reflexive]");
+      const delta = await tab.locator("#closure-delta").textContent();
+      if (!delta?.includes("добавлено")) failures.push(`${page}: замыкание не показало добавку`);
+    }
+
+    if (page === "order.html") {
+      await tab.click("#subset button");
+      const selected = await tab.locator("#hasse .selected").count();
+      if (selected < 1) failures.push(`${page}: подмножество не подсветилось на диаграмме`);
+    }
+
     const beforeTheme = await tab.evaluate(() => document.documentElement.dataset.theme);
     await tab.click("#theme");
     const afterTheme = await tab.evaluate(() => document.documentElement.dataset.theme);

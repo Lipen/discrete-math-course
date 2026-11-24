@@ -32,6 +32,8 @@ const classesNode = must<HTMLElement>("#classes");
 const closureStatus = must<HTMLElement>("#closure-status");
 const squareNode = must<HTMLElement>("#square");
 const inverseNode = must<HTMLElement>("#inverse");
+const pairsNode = must<HTMLElement>("#relation-pairs");
+const deltaNode = must<HTMLElement>("#closure-delta");
 
 function defaultMatrix(size: number): Sets.Matrix {
   const matrix: Sets.Matrix = Array.from({ length: size }, () => new Array<boolean>(size).fill(false));
@@ -109,7 +111,7 @@ function renderGraph(): void {
     markerHeight: "6",
     orient: "auto-start-reverse",
   });
-  marker.appendChild(svg("path", { d: "M 0 0 L 10 5 L 0 10 z", fill: "#6a4c93" }));
+  marker.appendChild(svg("path", { d: "M 0 0 L 10 5 L 0 10 z", class: "rel-arrow-head" }));
   defs.appendChild(marker);
   root.appendChild(defs);
 
@@ -139,8 +141,7 @@ function renderGraph(): void {
               " " +
               (a.y - 20),
             fill: "none",
-            stroke: "#6a4c93",
-            "stroke-width": 1.5,
+            class: "rel-edge rel-loop",
             "marker-end": "url(#rel-arrow)",
           }),
         );
@@ -159,8 +160,7 @@ function renderGraph(): void {
           svg("path", {
             d: "M " + a.x + " " + a.y + " Q " + (mx + ox) + " " + (my + oy) + " " + b.x + " " + b.y,
             fill: "none",
-            stroke: "#6a4c93",
-            "stroke-width": 1.4,
+            class: "rel-edge",
             "marker-end": "url(#rel-arrow)",
           }),
         );
@@ -168,8 +168,7 @@ function renderGraph(): void {
           svg("path", {
             d: "M " + b.x + " " + b.y + " Q " + (mx - ox) + " " + (my - oy) + " " + a.x + " " + a.y,
             fill: "none",
-            stroke: "#6a4c93",
-            "stroke-width": 1.4,
+            class: "rel-edge",
             "marker-end": "url(#rel-arrow)",
           }),
         );
@@ -180,8 +179,7 @@ function renderGraph(): void {
             y1: a.y,
             x2: b.x,
             y2: b.y,
-            stroke: "#6a4c93",
-            "stroke-width": 1.4,
+            class: "rel-edge",
             "marker-end": "url(#rel-arrow)",
           }),
         );
@@ -191,7 +189,7 @@ function renderGraph(): void {
 
   for (let i = 0; i < n; i++) {
     const p = coords[i];
-    root.appendChild(svg("circle", { cx: p.x, cy: p.y, r: 23, fill: "#fff", stroke: "#7b7366", "stroke-width": 1.5 }));
+    root.appendChild(svg("circle", { cx: p.x, cy: p.y, r: 24, class: "rel-node" }));
     root.appendChild(
       svg(
         "text",
@@ -199,10 +197,7 @@ function renderGraph(): void {
           x: p.x,
           y: p.y + 5,
           "text-anchor": "middle",
-          "font-family": "var(--mono)",
-          "font-size": 14,
-          "font-weight": 700,
-          fill: "#1d2733",
+          class: "rel-node-label",
         },
         String(i + 1),
       ),
@@ -275,6 +270,7 @@ function renderComposition(): { square: Sets.Matrix; inverse: Sets.Matrix } {
 function paint(): void {
   renderMatrix();
   renderGraph();
+  pairsNode.replaceChildren(math("R = " + pairsText(R), false));
   const { equivalence } = renderProperties();
   renderClasses(equivalence);
   renderComposition();
@@ -285,13 +281,35 @@ function renderAll(): void {
 }
 
 function applyClosure(kind: string): void {
+  const before = new Set(Sets.relationPairs(R).map(([a, b]) => a + "," + b));
+  const messages: Record<string, string> = {
+    reflexive: "Применено рефлексивное замыкание.",
+    symmetric: "Применено симметричное замыкание.",
+    transitive: "Применено транзитивное замыкание.",
+    equivalence: "Применено замыкание до эквивалентности.",
+  };
   if (kind === "reflexive") R = Sets.reflexiveClosure(R);
   else if (kind === "symmetric") R = Sets.symmetricClosure(R);
   else if (kind === "transitive") R = Sets.transitiveClosure(R);
   else if (kind === "equivalence") {
     R = Sets.transitiveClosure(Sets.symmetricClosure(Sets.reflexiveClosure(R)));
   }
-  status(closureStatus, "Замыкание применено: " + kind + ".", "ok");
+  const added = Sets.relationPairs(R).filter(([a, b]) => !before.has(a + "," + b));
+  status(closureStatus, messages[kind] ?? "Замыкание применено.", "ok");
+  clear(deltaNode);
+  if (added.length) {
+    deltaNode.appendChild(el("span", { class: "rel-delta-label", text: "добавлено" }));
+    deltaNode.appendChild(
+      el(
+        "div",
+        { class: "formula-box" },
+        math("\\{" + added.map(([a, b]) => "(" + a + "," + b + ")").join(",\\ ") + "\\}", false),
+      ),
+    );
+  } else {
+    deltaNode.appendChild(el("span", { class: "rel-delta-label", text: "уже замкнуто" }));
+    deltaNode.appendChild(el("span", { class: "hint", text: "Новых пар не появилось." }));
+  }
   renderAll();
 }
 

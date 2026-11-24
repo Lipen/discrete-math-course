@@ -37,6 +37,9 @@ const boundMetrics = must<HTMLElement>("#bound-metrics");
 const extremaNode = must<HTMLElement>("#extrema");
 const longestNode = must<HTMLElement>("#longest-chain");
 const linearNode = must<HTMLElement>("#linear-extension");
+const elementsCount = must<HTMLElement>("#order-elements");
+const coversCount = must<HTMLElement>("#order-covers");
+const heightCount = must<HTMLElement>("#order-height");
 
 function divisibility(size: number): Sets.Matrix {
   const matrix: Sets.Matrix = Array.from({ length: size }, () => new Array<boolean>(size).fill(false));
@@ -176,9 +179,17 @@ function renderHasse(isPoset: boolean): void {
       const faded = active && !isFocus && !comparable;
       const circle = circles[i];
       const text = texts[i];
-      circle.style.fill = isFocus ? "var(--ink)" : comparable ? relatedFill : "var(--card)";
-      circle.style.stroke = isFocus ? "var(--ink)" : comparable ? "var(--accent)" : idleStroke;
-      circle.style.strokeWidth = isFocus ? "3" : comparable ? "2.4" : "1.5";
+      const isSelected = selected.has(i + 1);
+      circle.classList.toggle("selected", isSelected);
+      circle.style.fill = isFocus
+        ? "var(--ink)"
+        : isSelected
+          ? "var(--accent-soft)"
+          : comparable
+            ? relatedFill
+            : "var(--card)";
+      circle.style.stroke = isFocus || isSelected || comparable ? "var(--accent)" : idleStroke;
+      circle.style.strokeWidth = isFocus ? "3" : isSelected || comparable ? "2.4" : "1.5";
       circle.style.opacity = faded ? "0.4" : "1";
       text.style.fill = isFocus ? "var(--card)" : "var(--ink)";
       text.style.opacity = faded ? "0.4" : "1";
@@ -380,12 +391,20 @@ function renderExtrema(isPoset: boolean): void {
   );
 }
 
+function renderRail(node: HTMLElement, values: number[], separator: string): void {
+  clear(node);
+  values.forEach((value, index) => {
+    if (index > 0) node.appendChild(el("span", { class: "chain-sep", text: separator }));
+    node.appendChild(el("span", { class: "chain-chip", text: String(value) }));
+  });
+}
+
 function renderChains(isPoset: boolean): void {
   clear(longestNode);
   clear(linearNode);
   if (!isPoset) {
-    longestNode.textContent = "Нужен частичный порядок.";
-    linearNode.textContent = "Нужен частичный порядок.";
+    longestNode.textContent = "нужен частичный порядок";
+    linearNode.textContent = "нужен частичный порядок";
     return;
   }
   const cover = coverMatrix();
@@ -406,7 +425,7 @@ function renderChains(isPoset: boolean): void {
       }
     }
   }
-  linearNode.replaceChildren(math("\\text{линейное продолжение} = (" + order.join(", ") + ")", false));
+  renderRail(linearNode, order, "→");
 
   const memo = new Map<number, number[]>();
   function longestFrom(i: number): number[] {
@@ -427,12 +446,29 @@ function renderChains(isPoset: boolean): void {
     const candidate = longestFrom(i);
     if (candidate.length > longest.length) longest = candidate;
   }
-  longestNode.replaceChildren(math("\\text{длинная цепь} = (" + longest.join(" < ") + ")", false));
+  renderRail(longestNode, longest, "<");
+}
+
+function renderMetrics(isPoset: boolean): void {
+  elementsCount.textContent = String(n);
+  if (!isPoset) {
+    coversCount.textContent = "—";
+    heightCount.textContent = "—";
+    return;
+  }
+  const cover = coverMatrix();
+  let count = 0;
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < n; j++) if (cover[i][j]) count++;
+  }
+  coversCount.textContent = String(count);
+  heightCount.textContent = String(Math.max(0, ...rankOf(cover)) + 1);
 }
 
 function paint(): void {
   renderMatrix();
   const isPoset = renderProperties();
+  renderMetrics(isPoset);
   renderHasse(isPoset);
   renderSubset(isPoset);
   renderExtrema(isPoset);

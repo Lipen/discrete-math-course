@@ -16,9 +16,9 @@
   <p class="eyebrow">Отношения</p>
   <h1>Матрица, граф и классы</h1>
   <p class="lead">
-    Отношение на маленьком множестве задаётся клетками матрицы.
-    Нажимайте на пары, следите за графом и свойствами, применяйте замыкания.
-    Для эквивалентности видны классы и фактор-множество.
+    Отношение задаётся клетками матрицы.
+    Меняйте пары и смотрите, как вместе с матрицей перестраиваются граф, свойства, классы и фактор-множество.
+    Замыкания показывают минимальную добавку, которая делает отношение замкнутым.
   </p>
   <div class="lab-meta">
     <span class="pill info">свойства</span>
@@ -27,84 +27,133 @@
   </div>
 </header>
 
-<main class="lab-main">
-  <section class="card">
-    <div class="toolbar">
+<main class="lab-main relations-page">
+  <section class="rel-stage">
+    <div class="rel-toolbar">
       <div class="field">
         <span class="field-label">Элементов</span>
         <div class="segmented" id="size" role="group" aria-label="Число элементов"></div>
       </div>
-      <div class="btn-row">
+      <div class="rel-actions">
         <button id="blocks">Блоки эквивалентности</button>
         <button id="random">Случайно</button>
         <button id="clear">Очистить</button>
       </div>
+      <div class="rel-pairs" id="relation-pairs" aria-live="polite"></div>
     </div>
 
-    <div class="split-wide-left">
-      <div>
-        <h3>Матрица</h3>
-        <p class="hint">Строка i, столбец j: пара (i, j) в отношении. Нажатие переключает пару.</p>
-        <div id="matrix"></div>
-        <h3 style="margin-top:18px">Замыкания</h3>
-        <div class="btn-row">
-          <button data-closure="reflexive">рефлексивное</button>
-          <button data-closure="symmetric">симметричное</button>
-          <button data-closure="transitive">транзитивное</button>
-          <button data-closure="equivalence">до эквивалентности</button>
+    <div class="rel-workbench">
+      <article class="rel-panel rel-editor">
+        <header class="rel-panel-head">
+          <div>
+            <span class="panel-kicker">01 / Матрица</span>
+            <h2>Отношение R</h2>
+          </div>
+          <span class="rel-hint">строка → столбец</span>
+        </header>
+        <p class="hint">Клетка (i, j) означает пару (i, j). Нажатие переключает пару.</p>
+        <div class="rel-matrix" id="matrix"></div>
+
+        <div class="rel-closure">
+          <div class="rel-closure-head">
+            <span class="panel-kicker">02 / Замыкания</span>
+            <span class="rel-hint">минимальная добавка</span>
+          </div>
+          <div class="rel-closure-actions">
+            <button data-closure="reflexive">рефлексивное</button>
+            <button data-closure="symmetric">симметричное</button>
+            <button data-closure="transitive">транзитивное</button>
+            <button data-closure="equivalence">до эквивалентности</button>
+          </div>
+          <div class="status" id="closure-status"></div>
+          <div class="rel-delta" id="closure-delta"><span class="rel-delta-label">добавка</span><span class="hint">примените замыкание</span></div>
         </div>
-        <div class="status" id="closure-status" style="margin-top:8px"></div>
-      </div>
-      <div>
-        <h3>Граф</h3>
-        <div class="graph-wrap" id="graph"></div>
-      </div>
+      </article>
+
+      <article class="rel-panel rel-graph-panel">
+        <header class="rel-panel-head">
+          <div>
+            <span class="panel-kicker">03 / Граф</span>
+            <h2>Ориентированный граф</h2>
+          </div>
+          <span class="rel-hint">петли и парные дуги</span>
+        </header>
+        <div class="graph-wrap rel-graph" id="graph"></div>
+        <div class="rel-legend">
+          <span><i class="lg-node"></i>элемент</span>
+          <span><i class="lg-edge"></i>пара</span>
+          <span><i class="lg-loop"></i>петля</span>
+        </div>
+        <p class="hint">Две встречные дуги означают пару в обе стороны. Петля — рефлексивную пару.</p>
+      </article>
     </div>
   </section>
 
-  <section class="card">
-    <h2>Свойства и классы</h2>
-    <div class="split">
-      <div>
-        <div class="post-grid" id="properties"></div>
-        <div class="status" id="kind" style="margin-top:10px"></div>
-        <h3 style="margin-top:16px">Классы эквивалентности</h3>
-        <div id="classes"></div>
-      </div>
-      <div>
-        <h3>Композиция и обратное</h3>
+  <section class="rel-readout">
+    <article class="rel-read rel-kind">
+      <header class="rel-panel-head">
+        <div>
+          <span class="panel-kicker">04 / Диагноз</span>
+          <h2>Какое это отношение</h2>
+        </div>
+      </header>
+      <div class="rel-badges" id="properties"></div>
+      <div class="status" id="kind"></div>
+    </article>
+
+    <article class="rel-read rel-classes">
+      <header class="rel-panel-head">
+        <div>
+          <span class="panel-kicker">05 / Классы</span>
+          <h2>Эквивалентность</h2>
+        </div>
+      </header>
+      <div class="rel-classes-body" id="classes"></div>
+    </article>
+
+    <article class="rel-read rel-compose">
+      <header class="rel-panel-head">
+        <div>
+          <span class="panel-kicker">06 / Операции</span>
+          <h2>Композиция и обратное</h2>
+        </div>
+      </header>
+      <div class="rel-operation">
+        <span class="rel-op-label">R²</span>
         <div class="formula-box" id="square"></div>
-        <div class="formula-box" id="inverse" style="margin-top:8px"></div>
-        <div class="btn-row" style="margin-top:8px">
-          <button id="apply-square">R ← R²</button>
-          <button id="apply-inverse">R ← R⁻¹</button>
-        </div>
-        <p class="hint">R² задаёт один шаг композиции R∘R. Обратное отношение получается транспонированием матрицы.</p>
+        <button id="apply-square">R ← R²</button>
       </div>
-    </div>
+      <div class="rel-operation">
+        <span class="rel-op-label">R⁻¹</span>
+        <div class="formula-box" id="inverse"></div>
+        <button id="apply-inverse">R ← R⁻¹</button>
+      </div>
+      <p class="hint">R² это один шаг композиции R∘R. Обратное отношение получается транспонированием.</p>
+    </article>
   </section>
 
-  <section class="card">
-    <h2>Что здесь показано</h2>
-    <div class="theory-grid">
-      <div>
+  <section class="rel-theory">
+    <div class="rel-theory-head">
+      <span class="panel-kicker">07 / Справочник</span>
+      <p>Что именно проверяет лаборатория.</p>
+    </div>
+    <div class="rel-theory-grid">
+      <article>
         <h3>Свойства</h3>
-        <p>Рефлексивность требует наличия диагонали, симметричность пары в обе стороны, транзитивность закрывает путь длины два.</p>
-      </div>
-      <div>
+        <p>Рефлексивность требует диагонали, симметричность — обратных пар, транзитивность — замыкания пути длины два.</p>
+      </article>
+      <article>
         <h3>Замыкание</h3>
-        <p>Замыкание добавляет минимально необходимое: диагональ, обратные пары или транзитивные следствия.</p>
-      </div>
-      <div>
+        <p>Замыкание добавляет минимум: диагональ, обратные пары или транзитивные следствия. Плашка показывает, что именно добавилось.</p>
+      </article>
+      <article>
         <h3>Эквивалентность</h3>
-        <p>Эквивалентность разбивает множество на классы.
-        Классы не пересекаются и покрывают всё множество.</p>
-      </div>
-      <div>
+        <p>Эквивалентность разбивает множество на непересекающиеся классы, которые покрывают всё множество.</p>
+      </article>
+      <article>
         <h3>Фактор</h3>
-        <p>Фактор-множество состоит из классов.
-        Внутри класса элементы неразличимы для отношения, между классами связей нет.</p>
-      </div>
+        <p>Фактор-множество состоит из классов. Внутри класса элементы неразличимы для отношения.</p>
+      </article>
     </div>
   </section>
 </main>
