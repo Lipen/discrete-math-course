@@ -248,8 +248,24 @@
   arrow(1.25, 1.65)
   arrow(4.15, 4.55)
   arrow(7.05, 7.45)
-  arrow(-1.4, -1.2)
-  arrow(9.95, 10.15)
 
-  mark((4.35, -0.85), [10/12/14 раундов], tone: ink-soft)
+  arrow(-2.8, -1.2)
+  arrow(9.9, 11.3)
+
+  draw.content((-2.0, 0.55), text(0.62em, fill: ink-soft)[вход])
+  draw.content((10.6, 0.55), text(0.62em, fill: ink-soft)[выход])
+
+  draw.line((10.4, 0), (10.4, -1.7), stroke: edge-plain)
+  draw.line((10.4, -1.7), (-2.0, -1.7), stroke: edge-plain)
+  draw.line(
+    (-2.0, -1.7),
+    (-2.0, 0),
+    stroke: edge-plain,
+    mark: (end: "stealth"),
+  )
+  draw.circle((10.4, 0), radius: 0.055, fill: ink)
+  draw.circle((-2.0, 0), radius: 0.055, fill: ink)
+
+  mark((4.2, -1.35), [следующий раунд], tone: ink-soft)
+  mark((4.2, -2.0), [10/12/14 раундов], tone: ink-soft)
 })
