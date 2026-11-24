@@ -185,20 +185,26 @@
     fill: color.lighten(90%),
   )
 }
-#let TagCore = Tag("Минимум", green)
-#let TagChallenge = Tag("База", purple)
+#let TagCore = Tag("База", green)
+#let TagChallenge = Tag("Челлендж", purple)
 #let TagBonus = Tag("Бонус", yellow)
 
 // ── Заголовок задачи: тег вне heading, чтобы не попадать в PDF bookmarks ──
-#let task-heading(title, tag) = block(
-  width: 100%,
-  sticky: true,
-  above: heading-above,
-  below: heading-below,
-)[
-  #place(right + horizon, dy: -0.2em)[#tag]
-  #heading(level: 2)[#title]
-]
+#let task-heading(title, ..tag) = {
+  let tag = tag.pos()
+  let tag = if tag.len() > 0 { tag.at(0) } else { none }
+  block(
+    width: 100%,
+    sticky: true,
+    above: heading-above,
+    below: heading-below,
+  )[
+    #if tag != none {
+      place(right + horizon, dy: -0.2em)[#tag]
+    }
+    #heading(level: 2)[#title]
+  ]
+}
 
 // ── Цветовые помощники и логические ярлыки ──
 #let Green(x) = text(green.darken(20%), x)
