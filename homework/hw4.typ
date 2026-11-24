@@ -558,23 +558,11 @@
   #raw(ecc-hex)
 
   Принятые слова:
-  #align(center)[
-    #table(
-      columns: (auto, auto),
-      column-gutter: 1.5em,
-      align: (center, center),
-      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-      table.header(
-        [#align(center)[*С одной ошибкой*]],
-        [#align(center)[*С двумя ошибками*]],
-      ),
-      [#raw(ecc-one-rows.at(0))], [#raw(ecc-two-rows.at(0))],
 
-      [#raw(ecc-one-rows.at(1))], [#raw(ecc-two-rows.at(1))],
-
-      [#raw(ecc-one-rows.at(2))], [#raw(ecc-two-rows.at(2))],
-    )
-  ]
+  - С одной ошибкой: #raw(ecc-one-rows.at(0)) \
+    #raw(ecc-one-rows.at(1) + " " + ecc-one-rows.at(2))
+  - С двумя ошибками: #raw(ecc-two-rows.at(0)) \
+    #raw(ecc-two-rows.at(1) + " " + ecc-two-rows.at(2))
 ]
 
 #tasklist("ecc")[
