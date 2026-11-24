@@ -185,8 +185,8 @@
     fill: color.lighten(90%),
   )
 }
-#let TagCore = Tag("База", green)
-#let TagChallenge = Tag("Челлендж", purple)
+#let TagCore = Tag("Минимум", green)
+#let TagChallenge = Tag("База", purple)
 #let TagBonus = Tag("Бонус", yellow)
 
 // ── Заголовок задачи: тег вне heading, чтобы не попадать в PDF bookmarks ──
