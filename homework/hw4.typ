@@ -40,71 +40,112 @@
 #let shr = math.op(">>")
 
 #let minesweeper-board = {
-  let cell = 0.85
-  let gap = 0.04
+  let cell = 1.0
+  let pad = 0.16
+  let bevel = 0.06
+  let b = 0.035
   let values = (
     ("?", "?", "?", "?"),
     ("?", "3", "1", "1"),
     ("?", "1", "0", "0"),
     ("?", "1", "0", "0"),
   )
+  let n = values.len()
+  let m = values.at(0).len()
+  let inner-w = m * cell
+  let inner-h = n * cell
+  let outer-w = inner-w + 2 * pad
+  let outer-h = inner-h + 2 * pad
+  let ox = pad
+  let oy = -pad
   canvas({
+    draw.rect((0, 0), (outer-w, -outer-h), fill: luma(58%), stroke: none)
     draw.rect(
-      (0, 0),
-      (4 * cell, -4 * cell),
-      radius: 4pt,
-      fill: luma(92%),
+      (bevel, -bevel),
+      (outer-w - bevel, -outer-h + bevel),
+      fill: luma(82%),
       stroke: none,
     )
-    for r in range(4) {
-      for c in range(4) {
+    draw.line((0, 0), (outer-w, 0), stroke: 1.5pt + luma(97%))
+    draw.line((0, 0), (0, -outer-h), stroke: 1.5pt + luma(97%))
+    draw.line((0, -outer-h), (outer-w, -outer-h), stroke: 1.5pt + luma(45%))
+    draw.line((outer-w, 0), (outer-w, -outer-h), stroke: 1.5pt + luma(45%))
+    for r in range(n) {
+      for c in range(m) {
         let v = values.at(r).at(c)
-        let x0 = c * cell + gap
-        let x1 = (c + 1) * cell - gap
-        let y0 = -r * cell - gap
-        let y1 = -(r + 1) * cell + gap
+        let x0 = ox + c * cell
+        let y0 = oy - r * cell
+        let x1 = x0 + cell
+        let y1 = y0 - cell
+        if v == "?" {
+          draw.rect((x0, y0), (x1, y1), fill: luma(58%), stroke: none)
+          draw.rect(
+            (x0 + b, y0 - b),
+            (x1 - b, y1 + b),
+            fill: luma(80%),
+            stroke: none,
+          )
+        } else {
+          draw.rect((x0, y0), (x1, y1), fill: luma(88%), stroke: none)
+        }
+      }
+    }
+    for r in range(n) {
+      for c in range(m) {
+        let v = values.at(r).at(c)
+        let x0 = ox + c * cell
+        let y0 = oy - r * cell
+        let x1 = x0 + cell
+        let y1 = y0 - cell
         let center = ((x0 + x1) / 2, (y0 + y1) / 2)
         if v == "?" {
-          draw.rect(
-            (x0, y0),
-            (x1, y1),
-            radius: 2pt,
-            fill: luma(82%),
-            stroke: 0.6pt + luma(55%),
-          )
-          draw.content(center, text(size: 11pt, fill: luma(45%))[?])
+          draw.line((x0 + b, y0 - b), (x1 - b, y0 - b), stroke: 1pt + luma(97%))
+          draw.line((x0 + b, y0 - b), (x0 + b, y1 + b), stroke: 1pt + luma(97%))
+          draw.line((x0 + b, y1 + b), (x1 - b, y1 + b), stroke: 1pt + luma(52%))
+          draw.line((x1 - b, y0 - b), (x1 - b, y1 + b), stroke: 1pt + luma(52%))
+          draw.content(center, text(
+            size: 16pt,
+            weight: "bold",
+            fill: rgb("#1e3a8a"),
+          )[?])
         } else {
-          draw.rect(
-            (x0, y0),
-            (x1, y1),
-            radius: 2pt,
-            fill: luma(98%),
-            stroke: 0.4pt + luma(86%),
+          draw.line(
+            (x0 + b, y0 - b),
+            (x1 - b, y0 - b),
+            stroke: 0.8pt + luma(70%),
+          )
+          draw.line(
+            (x0 + b, y0 - b),
+            (x0 + b, y1 + b),
+            stroke: 0.8pt + luma(70%),
+          )
+          draw.line(
+            (x0 + b, y1 + b),
+            (x1 - b, y1 + b),
+            stroke: 0.8pt + luma(97%),
+          )
+          draw.line(
+            (x1 - b, y0 - b),
+            (x1 - b, y1 + b),
+            stroke: 0.8pt + luma(97%),
           )
           let color = if v == "0" {
             luma(55%)
           } else if v == "1" {
-            accent
+            rgb("#1d4ed8")
           } else if v == "2" {
-            green.darken(20%)
+            rgb("#15803d")
           } else {
-            red.darken(15%)
+            rgb("#b91c1c")
           }
           draw.content(center, text(
-            size: 12pt,
+            size: if v == "0" { 14pt } else { 16pt },
             weight: "bold",
             fill: color,
           )[#v])
         }
       }
     }
-    draw.rect(
-      (0, 0),
-      (4 * cell, -4 * cell),
-      radius: 4pt,
-      fill: none,
-      stroke: 1pt + accent.lighten(40%),
-    )
   })
 }
 
