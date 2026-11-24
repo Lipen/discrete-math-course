@@ -29,25 +29,14 @@
 <main class="lab-main">
   <section class="card">
     <div class="toolbar">
-      <label class="field">Универсум
-        <select id="universe-size">
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="6" selected>6</option>
-          <option value="7">7</option>
-          <option value="8">8</option>
-        </select>
-      </label>
-      <label class="field grow">Операция
-        <select id="operation">
-          <option value="union">A ∪ B</option>
-          <option value="inter">A ∩ B</option>
-          <option value="diff">A ∖ B</option>
-          <option value="symdiff">A △ B</option>
-          <option value="compl">Aᶜ</option>
-          <option value="mix" selected>A ∩ (B ∪ C)</option>
-        </select>
-      </label>
+      <div class="field">
+        <span class="field-label">Универсум</span>
+        <div class="segmented" id="universe-size" role="group" aria-label="Размер универсума"></div>
+      </div>
+      <div class="field grow">
+        <span class="field-label">Операция</span>
+        <div class="segmented" id="operation" role="group" aria-label="Операция над множествами"></div>
+      </div>
       <div class="btn-row">
         <button id="random">Случайно</button>
         <button id="reset">Сброс</button>
@@ -102,13 +91,10 @@
       <div>
         <h3>Булеан</h3>
         <div class="toolbar">
-          <label class="field">Множество
-            <select id="power-set">
-              <option value="A">A</option>
-              <option value="B">B</option>
-              <option value="C">C</option>
-            </select>
-          </label>
+          <div class="field">
+            <span class="field-label">Множество</span>
+            <div class="segmented" id="power-set" role="group" aria-label="Множество для булеана"></div>
+          </div>
         </div>
         <div class="metric-row" id="power-metrics"></div>
         <div class="formula-box" id="power-list" style="max-height:180px;overflow:auto"></div>

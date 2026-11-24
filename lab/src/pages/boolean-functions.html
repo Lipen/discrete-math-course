@@ -24,24 +24,25 @@
 <main class="lab-main">
   <section class="card">
     <div class="controls">
-      <label>Переменных
-        <select id="arity">
-          <option value="2">2</option>
-          <option value="3" selected>3</option>
-          <option value="4">4</option>
-        </select>
-      </label>
+      <div class="field">
+        <span class="field-label">Переменных</span>
+        <div class="segmented" id="arity" role="group" aria-label="Число переменных"></div>
+      </div>
       <label>Готовая функция
         <select id="preset">
           <option value="custom">своя</option>
-          <option value="and2">A ∧ B</option>
-          <option value="or2">A ∨ B</option>
-          <option value="xor2">A ⊕ B</option>
-          <option value="nand2">A ↑ B (И-НЕ)</option>
-          <option value="nor2">A ↓ B (ИЛИ-НЕ)</option>
-          <option value="impl2">A → B</option>
-          <option value="maj3" selected>медиана трёх</option>
-          <option value="parity3">чётность трёх</option>
+          <optgroup label="2 переменные">
+            <option value="and2">A ∧ B</option>
+            <option value="or2">A ∨ B</option>
+            <option value="xor2">A ⊕ B</option>
+            <option value="nand2">A ↑ B (И-НЕ)</option>
+            <option value="nor2">A ↓ B (ИЛИ-НЕ)</option>
+            <option value="impl2">A → B</option>
+          </optgroup>
+          <optgroup label="3 переменные">
+            <option value="maj3" selected>медиана трёх</option>
+            <option value="parity3">чётность трёх</option>
+          </optgroup>
         </select>
       </label>
       <div class="btn-row">

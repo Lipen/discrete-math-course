@@ -41,6 +41,10 @@ for (const page of pages) {
         buttons: count("button"),
         status: text(".status"),
         meter: text(".metric-row"),
+        segmented: Array.from(document.querySelectorAll<HTMLElement>(".segmented[role='group']")).map((group) => ({
+          id: group.id || group.className,
+          active: group.querySelectorAll("button[aria-pressed='true']").length,
+        })),
       };
     });
 
@@ -49,6 +53,9 @@ for (const page of pages) {
     if (!state.theme) failures.push(`${page}: тема не применена`);
     if (state.katexNodes > 0 && state.katex === 0) failures.push(`${page}: KaTeX не отрендерил ${state.katexNodes} узлов`);
     if (state.main < 200) failures.push(`${page}: пустое содержимое (${state.main})`);
+    for (const group of state.segmented) {
+      if (group.active !== 1) failures.push(`${page}: ${group.id} активных кнопок ${group.active}`);
+    }
 
     if (page === "index.html") {
       if (state.cards !== 18) failures.push(`${page}: карточек ${state.cards}, ожидалось 18`);

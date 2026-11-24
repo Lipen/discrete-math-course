@@ -2,6 +2,7 @@
 
 import { clear, el, keepFocus, must, setPressed, status, svg } from "../core/dom";
 import { math } from "../core/math";
+import { ribbon } from "../core/segmented";
 import * as Sets from "../domain/sets";
 
 interface Identity {
@@ -26,8 +27,25 @@ let A = new Set<number>([1, 2, 3]);
 let B = new Set<number>([3, 4, 5]);
 let C = new Set<number>([2, 5, 6]);
 
-const sizeSelect = must<HTMLSelectElement>("#universe-size");
-const opSelect = must<HTMLSelectElement>("#operation");
+const sizeControl = ribbon(must<HTMLElement>("#universe-size"), [
+  { value: "4", label: "4" },
+  { value: "5", label: "5" },
+  { value: "6", label: "6" },
+  { value: "7", label: "7" },
+  { value: "8", label: "8" },
+], "6", (value) => {
+  n = Number(value);
+  normalizeSets();
+  renderAll();
+});
+const opControl = ribbon(must<HTMLElement>("#operation"), [
+  { value: "union", label: "A ∪ B" },
+  { value: "inter", label: "A ∩ B" },
+  { value: "diff", label: "A ∖ B" },
+  { value: "symdiff", label: "A △ B" },
+  { value: "compl", label: "Aᶜ" },
+  { value: "mix", label: "A ∩ (B ∪ C)" },
+], "mix", () => renderAll());
 const aGrid = must<HTMLElement>("#a-grid");
 const bGrid = must<HTMLElement>("#b-grid");
 const cGrid = must<HTMLElement>("#c-grid");
@@ -41,7 +59,11 @@ const membershipNode = must<HTMLElement>("#membership");
 const identitySelect = must<HTMLSelectElement>("#identity");
 const identityFormula = must<HTMLElement>("#identity-formula");
 const identityStatus = must<HTMLElement>("#identity-status");
-const powerSelect = must<HTMLSelectElement>("#power-set");
+const powerControl = ribbon(must<HTMLElement>("#power-set"), [
+  { value: "A", label: "A" },
+  { value: "B", label: "B" },
+  { value: "C", label: "C" },
+], "A", () => renderPower());
 const powerMetrics = must<HTMLElement>("#power-metrics");
 const powerList = must<HTMLElement>("#power-list");
 const productNode = must<HTMLElement>("#product");
@@ -56,7 +78,7 @@ function normalizeSets(): void {
 }
 
 function operationResult(): Set<number> {
-  switch (opSelect.value) {
+  switch (opControl.value()) {
     case "union": return Sets.union(A, B);
     case "inter": return Sets.inter(A, B);
     case "diff": return Sets.diff(A, B);
@@ -68,7 +90,7 @@ function operationResult(): Set<number> {
 }
 
 function operationTex(): string {
-  switch (opSelect.value) {
+  switch (opControl.value()) {
     case "union": return "A \\cup B";
     case "inter": return "A \\cap B";
     case "diff": return "A \\setminus B";
@@ -79,7 +101,7 @@ function operationTex(): string {
 }
 
 function operationLabel(): string {
-  switch (opSelect.value) {
+  switch (opControl.value()) {
     case "union": return "A ∪ B";
     case "inter": return "A ∩ B";
     case "diff": return "A ∖ B";
@@ -212,7 +234,7 @@ function renderIdentity(): void {
 }
 
 function renderPower(): void {
-  const which = powerSelect.value;
+  const which = powerControl.value();
   const set = which === "A" ? A : (which === "B" ? B : C);
   const subsets = Sets.powerSet(set);
   powerMetrics.innerHTML = "";
@@ -248,15 +270,7 @@ function renderAll(): void {
   keepFocus(paint);
 }
 
-sizeSelect.addEventListener("change", () => {
-  n = Number(sizeSelect.value);
-  normalizeSets();
-  renderAll();
-});
-
-opSelect.addEventListener("change", renderAll);
 identitySelect.addEventListener("change", renderIdentity);
-powerSelect.addEventListener("change", renderPower);
 
 must<HTMLButtonElement>("#random").addEventListener("click", () => {
   A = new Set(universe.filter(() => Math.random() < 0.5));
@@ -267,7 +281,7 @@ must<HTMLButtonElement>("#random").addEventListener("click", () => {
 
 must<HTMLButtonElement>("#reset").addEventListener("click", () => {
   n = 6;
-  sizeSelect.value = "6";
+  sizeControl.set("6");
   universe = Sets.range(n);
   A = new Set([1, 2, 3]);
   B = new Set([3, 4, 5]);

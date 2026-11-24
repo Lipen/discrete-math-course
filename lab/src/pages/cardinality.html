@@ -52,14 +52,10 @@
             <button id="hotel-next" class="active">Дальше</button>
             <button id="hotel-auto">Авто</button>
             <button id="hotel-reset">Сброс</button>
-            <label class="inline-field" id="group-wrap">Группа
-              <select id="group-size">
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-              </select>
-            </label>
+            <div class="field" id="group-wrap">
+              <span class="field-label">Группа</span>
+              <div class="segmented" id="group-size" role="group" aria-label="Размер группы"></div>
+            </div>
           </div>
           <div class="hotel-steps" id="hotel-steps" aria-label="Шаги сценария"></div>
           <div class="hotel-stage" id="hotel-stage"></div>

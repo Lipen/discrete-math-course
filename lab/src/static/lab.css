@@ -333,16 +333,18 @@ table.data td.left, table.data th.left { text-align: left; }
 table.data tr.hl td { background: #fff7e3; }
 table.data tr.selected td { background: var(--accent-soft); }
 
-.tt-wrap { max-height: 440px; overflow: auto; border: 1px solid var(--line-soft); border-radius: 8px; }
+.tt-wrap { max-height: min(58vh, 440px); overflow: auto; border: 1px solid var(--line-soft); border-radius: 8px; }
+.tt-wrap table.data th, .tt-wrap table.data td { padding: 3px 7px; }
+.tt-wrap table.data th { position: sticky; top: 0; z-index: 1; background: #fcfbf8; }
 
 button.bit {
-  width: 34px;
-  height: 28px;
+  width: 30px;
+  height: 24px;
   padding: 0;
   border-radius: 6px;
   font-family: var(--mono);
   font-weight: 700;
-  font-size: 14px;
+  font-size: 13px;
 }
 button.bit.on { background: var(--accent); border-color: var(--accent); color: #fff; }
 button.bit.x { background: var(--amber-soft); border-color: #d7b26e; color: #7c5210; }
@@ -2010,7 +2012,7 @@ button, .btn { border-radius: 9px; font-size: 13px; padding: 7px 12px; }
 .finite-room.waiting { border-style: dashed; border-color: var(--red); background: var(--red-soft); }
 
 /* Stable hotel controls, step rail and movement list. */
-.hotel-controls button { min-width: 82px; justify-content: center; }
+.hotel-controls > button { min-width: 82px; justify-content: center; }
 #hotel-prev { min-width: 82px; }
 #hotel-next { min-width: 92px; }
 #hotel-auto { min-width: 70px; }

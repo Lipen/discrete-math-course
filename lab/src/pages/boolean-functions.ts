@@ -3,6 +3,7 @@
 import { bitsOf, fmt, mapLayout, mintermOf, popcount } from "../core/bits";
 import { activate, clear, el, keepFocus, must, setPressed, status, svg } from "../core/dom";
 import { math } from "../core/math";
+import { ribbon } from "../core/segmented";
 
 interface Preset {
   n: number;
@@ -32,8 +33,17 @@ let n = 3;
 let values = presets.maj3.vals.slice();
 const vars = ["A", "B", "C", "D"];
 
-const arity = must<HTMLSelectElement>("#arity");
 const preset = must<HTMLSelectElement>("#preset");
+const arity = ribbon(must<HTMLElement>("#arity"), [
+  { value: "2", label: "2" },
+  { value: "3", label: "3" },
+  { value: "4", label: "4" },
+], "3", (value) => {
+  n = Number(value);
+  values = Array.from({ length: 1 << n }, () => 0);
+  markCustom();
+  renderAll();
+});
 const tableNode = must<HTMLElement>("#table");
 const vectorNode = must<HTMLElement>("#vector");
 const metricsNode = must<HTMLElement>("#metrics");
@@ -294,17 +304,10 @@ function applyPreset(name: string): void {
   if (!p) return;
   n = p.n;
   values = p.vals.slice();
-  arity.value = String(n);
+  arity.set(String(n));
   preset.value = name;
   renderAll();
 }
-
-arity.addEventListener("change", () => {
-  n = Number(arity.value);
-  values = Array.from({ length: 1 << n }, () => 0);
-  markCustom();
-  renderAll();
-});
 
 preset.addEventListener("change", () => {
   if (preset.value !== "custom") applyPreset(preset.value);

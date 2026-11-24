@@ -1,5 +1,6 @@
 import { clear, el, keepFocus, must, setPressed, status } from "../core/dom";
 import { math } from "../core/math";
+import { ribbon } from "../core/segmented";
 import * as FOL from "../domain/fol";
 
 const presets: Array<[string, string]> = [
@@ -16,7 +17,17 @@ let n = 3;
 let model = FOL.initialModel(n);
 let ast: FOL.Formula | null = null;
 
-const domainSelect = must<HTMLSelectElement>("#domain-size");
+ribbon(must<HTMLElement>("#domain-size"), [
+  { value: "2", label: "2" },
+  { value: "3", label: "3" },
+  { value: "4", label: "4" },
+  { value: "5", label: "5" },
+  { value: "6", label: "6" },
+], "3", (value) => {
+  n = Number(value);
+  model = FOL.initialModel(n);
+  renderAll();
+});
 const presetSelect = must<HTMLSelectElement>("#preset");
 const pGrid = must<HTMLElement>("#p-grid");
 const qGrid = must<HTMLElement>("#q-grid");
@@ -147,12 +158,6 @@ function paint(): void {
 function renderAll(): void {
   keepFocus(paint);
 }
-
-domainSelect.addEventListener("change", () => {
-  n = Number(domainSelect.value);
-  model = FOL.initialModel(n);
-  renderAll();
-});
 
 presetSelect.addEventListener("change", () => setFormula(presetSelect.value));
 

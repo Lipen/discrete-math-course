@@ -30,20 +30,14 @@
 <main class="lab-main">
   <section class="card">
     <div class="toolbar">
-      <label class="field">Домен
-        <select id="domain-size">
-          <option value="3">3</option>
-          <option value="4" selected>4</option>
-          <option value="5">5</option>
-        </select>
-      </label>
-      <label class="field">Кодомен
-        <select id="codomain-size">
-          <option value="3">3</option>
-          <option value="4" selected>4</option>
-          <option value="5">5</option>
-        </select>
-      </label>
+      <div class="field">
+        <span class="field-label">Домен</span>
+        <div class="segmented" id="domain-size" role="group" aria-label="Размер домена"></div>
+      </div>
+      <div class="field">
+        <span class="field-label">Кодомен</span>
+        <div class="segmented" id="codomain-size" role="group" aria-label="Размер кодомена"></div>
+      </div>
       <div class="btn-row">
         <button id="bijection">Биекция</button>
         <button id="surjection">Сюръекция</button>

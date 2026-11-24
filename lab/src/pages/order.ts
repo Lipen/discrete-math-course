@@ -2,6 +2,7 @@
 
 import { clear, el, keepFocus, must, setPressed, status, svg } from "../core/dom";
 import { math } from "../core/math";
+import { ribbon } from "../core/segmented";
 import * as Sets from "../domain/sets";
 
 let n = 4;
@@ -9,7 +10,18 @@ let R: Sets.Matrix = [];
 let focus: number | null = null;
 let selected = new Set([2, 3]);
 
-const sizeSelect = must<HTMLSelectElement>("#size");
+ribbon(must<HTMLElement>("#size"), [
+  { value: "3", label: "3" },
+  { value: "4", label: "4" },
+  { value: "5", label: "5" },
+  { value: "6", label: "6" },
+], "4", (value) => {
+  n = Number(value);
+  focus = null;
+  R = divisibility(n);
+  selected = new Set([2, 3].filter((x) => x <= n));
+  renderAll();
+});
 const matrixNode = must<HTMLElement>("#matrix");
 const propertiesNode = must<HTMLElement>("#properties");
 const kindNode = must<HTMLElement>("#kind");
@@ -326,14 +338,6 @@ function paint(): void {
 function renderAll(): void {
   keepFocus(paint);
 }
-
-sizeSelect.addEventListener("change", () => {
-  n = Number(sizeSelect.value);
-  focus = null;
-  R = divisibility(n);
-  selected = new Set([2, 3].filter((x) => x <= n));
-  renderAll();
-});
 
 must<HTMLButtonElement>("#divisors").addEventListener("click", () => { focus = null; R = divisibility(n); renderAll(); });
 must<HTMLButtonElement>("#identity").addEventListener("click", () => { focus = null; R = diagonal(n); renderAll(); });

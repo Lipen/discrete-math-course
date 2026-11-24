@@ -2,12 +2,23 @@
 
 import { $$, clear, el, keepFocus, must, setPressed, status, svg } from "../core/dom";
 import { math } from "../core/math";
+import { ribbon } from "../core/segmented";
 import * as Sets from "../domain/sets";
 
 let n = 4;
 let R: Sets.Matrix = [];
 
-const sizeSelect = must<HTMLSelectElement>("#size");
+ribbon(must<HTMLElement>("#size"), [
+  { value: "3", label: "3" },
+  { value: "4", label: "4" },
+  { value: "5", label: "5" },
+  { value: "6", label: "6" },
+], "4", (value) => {
+  n = Number(value);
+  R = defaultMatrix(n);
+  status(closureStatus, "", "");
+  renderAll();
+});
 const matrixNode = must<HTMLElement>("#matrix");
 const graphNode = must<HTMLElement>("#graph");
 const propertiesNode = must<HTMLElement>("#properties");
@@ -209,13 +220,6 @@ function applyClosure(kind: string): void {
   status(closureStatus, "Замыкание применено: " + kind + ".", "ok");
   renderAll();
 }
-
-sizeSelect.addEventListener("change", () => {
-  n = Number(sizeSelect.value);
-  R = defaultMatrix(n);
-  status(closureStatus, "", "");
-  renderAll();
-});
 
 for (const button of $$<HTMLButtonElement>("[data-closure]")) {
   button.addEventListener("click", () => applyClosure(button.dataset.closure ?? ""));

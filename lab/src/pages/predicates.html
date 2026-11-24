@@ -30,15 +30,10 @@
 <main class="lab-main">
   <section class="card">
     <div class="toolbar">
-      <label class="field">Домен
-        <select id="domain-size">
-          <option value="2">2</option>
-          <option value="3" selected>3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="6">6</option>
-        </select>
-      </label>
+      <div class="field">
+        <span class="field-label">Домен</span>
+        <div class="segmented" id="domain-size" role="group" aria-label="Размер домена"></div>
+      </div>
       <label class="field grow">Формула
         <select id="preset"></select>
       </label>

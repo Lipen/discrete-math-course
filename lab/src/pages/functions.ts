@@ -2,6 +2,7 @@
 
 import { clear, el, keepFocus, must, setPressed, status, svg } from "../core/dom";
 import { math } from "../core/math";
+import { ribbon } from "../core/segmented";
 import * as Sets from "../domain/sets";
 
 let m = 4;
@@ -10,8 +11,26 @@ let f: Sets.Mapping = {};
 let domainSubset = new Set([1, 2]);
 let codomainSubset = new Set([1, 2]);
 
-const domainSelect = must<HTMLSelectElement>("#domain-size");
-const codomainSelect = must<HTMLSelectElement>("#codomain-size");
+ribbon(must<HTMLElement>("#domain-size"), [
+  { value: "3", label: "3" },
+  { value: "4", label: "4" },
+  { value: "5", label: "5" },
+], "4", (value) => {
+  m = Number(value);
+  domainSubset = new Set(Sets.range(m).slice(0, 2));
+  resetMapping();
+  renderAll();
+});
+ribbon(must<HTMLElement>("#codomain-size"), [
+  { value: "3", label: "3" },
+  { value: "4", label: "4" },
+  { value: "5", label: "5" },
+], "4", (value) => {
+  k = Number(value);
+  codomainSubset = new Set(Sets.range(k).slice(0, 2));
+  resetMapping();
+  renderAll();
+});
 const mappingNode = must<HTMLElement>("#mapping");
 const propertiesNode = must<HTMLElement>("#properties");
 const kindNode = must<HTMLElement>("#kind");
@@ -202,20 +221,6 @@ function paint(): void {
 function renderAll(): void {
   keepFocus(paint);
 }
-
-domainSelect.addEventListener("change", () => {
-  m = Number(domainSelect.value);
-  domainSubset = new Set(Sets.range(m).slice(0, 2));
-  resetMapping();
-  renderAll();
-});
-
-codomainSelect.addEventListener("change", () => {
-  k = Number(codomainSelect.value);
-  codomainSubset = new Set(Sets.range(k).slice(0, 2));
-  resetMapping();
-  renderAll();
-});
 
 must<HTMLButtonElement>("#bijection").addEventListener("click", () => setMapping("bijection"));
 must<HTMLButtonElement>("#surjection").addEventListener("click", () => setMapping("surjection"));

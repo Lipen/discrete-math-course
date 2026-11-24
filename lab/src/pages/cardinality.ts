@@ -2,6 +2,7 @@
 
 import { activate, clear, el, keepFocus, must, status as setStatus } from "../core/dom";
 import { math } from "../core/math";
+import { ribbon } from "../core/segmented";
 
 const ROOM_COUNT = 10;
 const BUS_ROWS = 4;
@@ -67,7 +68,16 @@ const equation = must<HTMLElement>("#hotel-equation");
 const callout = must<HTMLElement>("#hotel-callout");
 const log = must<HTMLElement>("#hotel-log");
 const groupWrap = must<HTMLElement>("#group-wrap");
-const groupSelect = must<HTMLSelectElement>("#group-size");
+ribbon(must<HTMLElement>("#group-size"), [
+  { value: "2", label: "2" },
+  { value: "3", label: "3" },
+  { value: "4", label: "4" },
+  { value: "5", label: "5" },
+], String(groupSize), (value) => {
+  groupSize = Number(value);
+  step = 0;
+  renderHotel();
+});
 const nextButton = must<HTMLButtonElement>("#hotel-next");
 const prevButton = must<HTMLButtonElement>("#hotel-prev");
 const autoButton = must<HTMLButtonElement>("#hotel-auto");
@@ -534,12 +544,6 @@ autoButton.addEventListener("click", () => {
 
 must<HTMLButtonElement>("#hotel-reset").addEventListener("click", () => {
   stopAuto();
-  step = 0;
-  renderHotel();
-});
-
-groupSelect.addEventListener("change", () => {
-  groupSize = Number(groupSelect.value);
   step = 0;
   renderHotel();
 });

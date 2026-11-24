@@ -30,14 +30,10 @@
 <main class="lab-main">
   <section class="card">
     <div class="toolbar">
-      <label class="field">Элементов
-        <select id="size">
-          <option value="3">3</option>
-          <option value="4" selected>4</option>
-          <option value="5">5</option>
-          <option value="6">6</option>
-        </select>
-      </label>
+      <div class="field">
+        <span class="field-label">Элементов</span>
+        <div class="segmented" id="size" role="group" aria-label="Число элементов"></div>
+      </div>
       <div class="btn-row">
         <button id="blocks">Блоки эквивалентности</button>
         <button id="random">Случайно</button>
