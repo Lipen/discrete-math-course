@@ -494,15 +494,14 @@ def main() -> int:
             linked += 1
     for name in ("theme.css", "ui.js", "icon.svg", "404.css", "404.js"):
         shutil.copy2(SITE / name, DIST / name)
-    lab_source = ROOT / "lab"
-    if lab_source.is_dir():
-        lab_dist = DIST / "lab"
-        shutil.rmtree(lab_dist, ignore_errors=True)
-        shutil.copytree(
-            lab_source,
-            lab_dist,
-            ignore=shutil.ignore_patterns("AGENTS.md"),
+    lab_build = ROOT / "lab" / "dist"
+    if not lab_build.is_dir():
+        raise SystemExit(
+            "Нет lab/dist: соберите лаборатории командой `just lab` (cd lab && bun run build)."
         )
+    lab_dist = DIST / "lab"
+    shutil.rmtree(lab_dist, ignore_errors=True)
+    shutil.copytree(lab_build, lab_dist)
 
     tabs, sections = [], []
     for number, semester in enumerate(content["semesters"], start=1):

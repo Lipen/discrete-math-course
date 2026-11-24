@@ -204,9 +204,44 @@ jobs:
           name: pdf-tex
           path: "tex/*.pdf"
 
+  build-lab:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: cd lab && bun install --frozen-lockfile
+
+      - name: Typecheck
+        run: cd lab && bunx tsc --noEmit
+
+      - name: Unit tests
+        run: cd lab && bun test
+
+      - name: Build
+        run: cd lab && bun run build.ts --strict
+
+      - name: Install smoke browser
+        run: cd lab && bunx playwright install --with-deps chromium
+
+      - name: Smoke
+        run: cd lab && bun run smoke
+
+      - name: Upload lab build
+        uses: actions/upload-artifact@v4
+        with:
+          name: lab-dist
+          path: lab/dist/
+
   deploy:
     runs-on: ubuntu-latest
-    needs: [lint, build-course, build-typst, build-tex]
+    needs: [lint, build-course, build-typst, build-tex, build-lab]
     concurrency:
       group: "pages"
       cancel-in-progress: false
@@ -223,6 +258,12 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends python3-yaml
+
+      - name: Place lab build
+        run: |
+          rm -rf lab/dist
+          mkdir -p lab/dist
+          cp -r lab-dist/. lab/dist/
 
       - name: Build site
         run: python3 site/build.py
