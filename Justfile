@@ -2,56 +2,54 @@
 default:
     @just --list
 
-# Build everything (book, lectures, course docs, homeworks)
+[doc('Build every PDF deliverable: book, lectures, course, homework.')]
 all: book lectures course homework
 
-# Build the book
+[doc('Build the book.')]
 book:
     just book/build
 
-# Build all lectures
+[doc('Build all lecture decks.')]
 lectures:
     just lectures/all
 
-# Build all course documents
+[doc('Build the course documents.')]
 course:
     just course/all
 
-# Build the lab bundles and pages into lab/dist
-lab:
-    cd lab && bun run build
+[doc('Build the homework sets.')]
+homework:
+    just homework/all
 
-# Strict lab build: every page must be on the new pipeline
-lab-strict:
+# Strict on purpose: a page without <!-- @head --> fails the build instead of shipping stale markup.
+[doc('Build the lab into lab/dist.')]
+lab:
     cd lab && bun run build.ts --strict
 
-# Typecheck, unit tests and strict build of the lab
+[doc('Typecheck, test and build the lab.')]
 lab-check:
     cd lab && bunx tsc --noEmit
     cd lab && bun test
-    cd lab && bun run build.ts --strict
+    just lab
 
-# Browser smoke over lab/dist
+[doc('Run the browser smoke over lab/dist.')]
 lab-smoke:
     cd lab && bun run smoke
 
-# Rebuild the lab on change and serve it on http://localhost:8765
+[doc('Serve the lab on http://localhost:8765, rebuilding on change.')]
 lab-dev:
     cd lab && bun run dev
 
-# Build the site hub (site/dist); rebuilds the lab first
+# site/build.py copies lab/dist, so the hub is never built against a missing lab.
+[doc('Build the site hub into site/dist.')]
 site: lab
     uv run site/build.py
 
-# Build the site with local copies of the PDFs and serve it on http://localhost:8765
+[doc('Build and serve the site with local PDFs on http://localhost:8765.')]
 site-serve: lab
     uv run site/build.py --preview
     bun site/serve.ts site/dist 8765
 
-# Build all homeworks
-homework:
-    just homework/all
-
-# Run all Rust crate tests
+[doc('Run the Rust crate tests.')]
 test:
     just code/test
