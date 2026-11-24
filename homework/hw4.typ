@@ -52,6 +52,7 @@
   )
   let n = values.len()
   let m = values.at(0).len()
+  let letters = ("а", "б", "в", "г")
   let inner-w = m * cell
   let inner-h = n * cell
   let outer-w = inner-w + 2 * pad
@@ -145,6 +146,18 @@
           )[#v])
         }
       }
+    }
+    for c in range(m) {
+      draw.content(
+        (ox + c * cell + cell / 2, 0.26),
+        text(size: 9pt, fill: luma(45%))[#letters.at(c)],
+      )
+    }
+    for r in range(n) {
+      draw.content(
+        (-0.26, oy - r * cell - cell / 2),
+        text(size: 9pt, fill: luma(45%))[#(r + 1)],
+      )
     }
   })
 }
