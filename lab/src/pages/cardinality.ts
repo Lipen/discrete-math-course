@@ -1,6 +1,6 @@
 /* Cardinality lab: Hilbert hotel, integer numbering and the Cantor diagonal. */
 
-import { activate, clear, el, keepFocus, must, status as setStatus } from "../core/dom";
+import { clear, el, keepFocus, must, status as setStatus } from "../core/dom";
 import { math } from "../core/math";
 import { ribbon } from "../core/segmented";
 
@@ -38,7 +38,6 @@ interface Move { label: string; room: number; kind: Kind }
 interface HotelState {
   rooms: Room[];
   sources: Source[];
-  mapping: Transfer[];
   arrows: Transfer[];
   note: string;
   localHint: string;
@@ -66,7 +65,6 @@ const statusNode = must<HTMLElement>("#hotel-status");
 const formula = must<HTMLElement>("#hotel-formula");
 const equation = must<HTMLElement>("#hotel-equation");
 const callout = must<HTMLElement>("#hotel-callout");
-const log = must<HTMLElement>("#hotel-log");
 const groupWrap = must<HTMLElement>("#group-wrap");
 ribbon(must<HTMLElement>("#group-size"), [
   { value: "2", label: "2" },
@@ -77,10 +75,8 @@ ribbon(must<HTMLElement>("#group-size"), [
   groupSize = Number(value);
   step = 0;
   renderHotel();
+  startAuto();
 });
-const nextButton = must<HTMLButtonElement>("#hotel-next");
-const prevButton = must<HTMLButtonElement>("#hotel-prev");
-const autoButton = must<HTMLButtonElement>("#hotel-auto");
 const stepsNode = must<HTMLElement>("#hotel-steps");
 const movesNode = must<HTMLElement>("#hotel-moves");
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -92,7 +88,7 @@ function showTab(name: string): void {
     button.setAttribute("aria-pressed", String(active));
   }
   for (const panel of document.querySelectorAll<HTMLElement>(".tab-panel")) panel.classList.toggle("hidden", panel.id !== "tab-" + name);
-  if (name === "hotel") renderHotel();
+  if (name === "hotel") { renderHotel(); startAuto(); } else { stopAuto(); }
   if (name === "integers") renderIntegers();
   if (name === "diagonal") renderDiagonal();
 }
@@ -108,7 +104,20 @@ function stopAuto(): void {
     clearInterval(hotelTimer);
     hotelTimer = null;
   }
-  autoButton.textContent = "Авто";
+}
+
+function startAuto(): void {
+  stopAuto();
+  if (reduceMotion) {
+    step = stateFor(scenario, step).maxStep;
+    paintHotel();
+    return;
+  }
+  hotelTimer = window.setInterval(() => {
+    const max = stateFor(scenario, step).maxStep;
+    step = step >= max ? 0 : step + 1;
+    renderHotel();
+  }, 2400);
 }
 
 function roomList(n: number): Room[] {
@@ -118,7 +127,6 @@ function roomList(n: number): Room[] {
 function stateFor(s: string, currentStep: number): HotelState {
   const rooms = roomList(ROOM_COUNT);
   let sources: Source[] = [];
-  let mapping: Transfer[] = [];
   let arrows: Transfer[] = [];
   let note = "";
   let localHint = "";
@@ -138,16 +146,14 @@ function stateFor(s: string, currentStep: number): HotelState {
     } else {
       rooms[0] = { guest: "", kind: currentStep === 1 ? "free" : "new" };
       for (let i = 1; i < ROOM_COUNT; i++) rooms[i] = { guest: "G" + i, kind: "old" };
-      for (let i = 1; i < ROOM_COUNT; i++) mapping.push({ row: "old", label: "G" + i, fromRoom: i, room: i + 1, kind: "old" });
+      for (let i = 1; i < ROOM_COUNT; i++) arrows.push({ row: "old", label: "G" + i, fromRoom: i, room: i + 1, kind: "old" });
       if (currentStep === 1) {
-        arrows = mapping.slice();
         note = "Каждый жилец переезжает на одну комнату вправо. Комната 1 пуста, новый гость ждёт снаружи.";
         equationTex = "\\left|\\mathbb{N}\\right| + 1 = \\left|\\mathbb{N}\\right|";
         formulaTex = "g(n) = n + 1";
       } else {
         rooms[0] = { guest: "новый", kind: "new" };
         const newGuest: Transfer = { row: "new", label: "новый", fromIndex: 0, room: 1, kind: "new" };
-        mapping.push(newGuest);
         arrows = [newGuest];
         note = "Новый гость занимает комнату 1. Никто не потерян: старый гость n теперь в комнате n+1.";
         equationTex = "\\left|\\mathbb{N}\\right| + 1 = \\left|\\mathbb{N}\\right|";
@@ -167,44 +173,47 @@ function stateFor(s: string, currentStep: number): HotelState {
     } else if (currentStep === 1) {
       for (let i = 0; i < k; i++) rooms[i] = { guest: "", kind: "free" };
       for (let i = k; i < ROOM_COUNT; i++) rooms[i] = { guest: "G" + (i - k + 1), kind: "old" };
-      for (let i = 1; i <= ROOM_COUNT - k; i++) mapping.push({ row: "old", label: "G" + i, fromRoom: i, room: i + k, kind: "old" });
-      arrows = mapping.slice();
+      for (let i = 1; i <= ROOM_COUNT - k; i++) arrows.push({ row: "old", label: "G" + i, fromRoom: i, room: i + k, kind: "old" });
       note = "Жильцы сдвигаются вправо. Первые " + k + " комнат свободны, новые гости ждут снаружи.";
       equationTex = "\\left|\\mathbb{N}\\right| + " + k + " = \\left|\\mathbb{N}\\right|";
       formulaTex = "g(n) = n + " + k;
     } else {
       for (let i = 0; i < k; i++) rooms[i] = { guest: "N" + (i + 1), kind: "new" };
       for (let i = k; i < ROOM_COUNT; i++) rooms[i] = { guest: "G" + (i - k + 1), kind: "old" };
-      for (let i = 1; i <= ROOM_COUNT - k; i++) mapping.push({ row: "old", label: "G" + i, fromRoom: i, room: i + k, kind: "old" });
-      const arrivals: Transfer[] = [];
       for (let i = 1; i <= k; i++) {
         const guest: Transfer = { row: "new", label: "N" + i, fromIndex: i - 1, room: i, kind: "new" };
-        mapping.push(guest);
-        arrivals.push(guest);
+        arrows.push(guest);
       }
-      arrows = arrivals;
       note = "Новые гости занимают первые " + k + " комнат. Жильцы остаются в сдвинутых комнатах.";
       equationTex = "\\left|\\mathbb{N}\\right| + " + k + " = \\left|\\mathbb{N}\\right|";
       formulaTex = "G_n \\mapsto n + " + k + ", \\quad N_j \\mapsto j";
     }
     calloutText = "Сдвиг на конечное k ничего не меняет: натуральный ряд сдвигом на k снова покрывает всё, кроме первых k мест, а эти места заняли новые гости.";
   } else if (s === "bus") {
-    maxStep = 1;
-    sources = currentStep === 0 ? Array.from({ length: 5 }, (_, i) => ({ row: "bus", label: "B" + (i + 1) })) : [];
-    localHint = "Бесконечный автобус: каждому пассажиру нужна комната.";
+    maxStep = 2;
+    const shown = 5;
+    sources = Array.from({ length: shown }, (_, i) => ({ row: "bus", label: "B" + (i + 1) }));
+    localHint = "Сначала жильцы переезжают в чётные комнаты, затем пассажиры занимают нечётные.";
     if (currentStep === 0) {
       note = "В отеле заняты все комнаты. У автобуса бесконечно много пассажиров.";
       equationTex = "\\left|\\mathbb{N}\\right| + \\left|\\mathbb{N}\\right| = \\left|\\mathbb{N}\\right|";
       formulaTex = "G_n \\mapsto 2n, \\quad B_n \\mapsto 2n - 1";
-    } else {
-      for (let i = 1; i <= 5; i++) {
+    } else if (currentStep === 1) {
+      for (let i = 1; i <= shown; i++) {
+        rooms[2 * i - 2] = { guest: "", kind: "free" };
         rooms[2 * i - 1] = { guest: "G" + i, kind: "old" };
-        rooms[2 * i - 2] = { guest: "B" + i, kind: "bus" };
-        mapping.push({ row: "old", label: "G" + i, fromRoom: i, room: 2 * i, kind: "old" });
-        mapping.push({ row: "bus", label: "B" + i, fromIndex: i - 1, room: 2 * i - 1, kind: "bus" });
+        arrows.push({ row: "old", label: "G" + i, fromRoom: i, room: 2 * i, kind: "old" });
       }
-      arrows = mapping.slice();
-      note = "Старые жильцы идут в чётные комнаты, пассажиры автобуса в нечётные. Обе последовательности не пересекаются и покрывают все комнаты.";
+      note = "Жильцы переезжают на чётные места: G_n → 2n. Нечётные комнаты свободны, автобус ждёт.";
+      equationTex = "\\left|\\mathbb{N}\\right| + \\left|\\mathbb{N}\\right| = \\left|\\mathbb{N}\\right|";
+      formulaTex = "G_n \\mapsto 2n, \\quad B_n \\mapsto 2n - 1";
+    } else {
+      for (let i = 1; i <= shown; i++) {
+        rooms[2 * i - 2] = { guest: "B" + i, kind: "bus" };
+        rooms[2 * i - 1] = { guest: "G" + i, kind: "old" };
+        arrows.push({ row: "bus", label: "B" + i, fromIndex: i - 1, room: 2 * i - 1, kind: "bus" });
+      }
+      note = "Пассажиры занимают нечётные комнаты: B_n → 2n − 1. Каждая комната снова занята ровно одним гостем.";
       equationTex = "\\left|\\mathbb{N}\\right| + \\left|\\mathbb{N}\\right| = \\left|\\mathbb{N}\\right|";
       formulaTex = "G_n \\mapsto 2n, \\quad B_n \\mapsto 2n - 1";
     }
@@ -230,7 +239,7 @@ function stateFor(s: string, currentStep: number): HotelState {
     calloutText = "Старых жильцов можно отправить в чётные комнаты, а пары (автобус, место) в нечётные. Счётное объединение счётных множеств счётно: диагональная нумерация превращает двумерную таблицу в один список.";
   }
 
-  return { rooms, sources, mapping, arrows, note, localHint, equationTex, formulaTex, calloutText, maxStep, currentStep };
+  return { rooms, sources, arrows, note, localHint, equationTex, formulaTex, calloutText, maxStep, currentStep };
 }
 
 function sourceY(row: string): number {
@@ -247,13 +256,13 @@ function roomX(index: number): number {
 
 function hotelSvg(state: HotelState): string {
   const parts: string[] = [];
-  parts.push('<svg class="hotel-svg" viewBox="0 0 920 360" role="img" aria-label="Схема переезда гостей в отеле">');
+  parts.push('<svg class="hotel-svg" viewBox="0 0 920 380" role="img" aria-label="Схема переезда гостей в отеле">');
   parts.push('<defs>');
   for (const kind of ["old", "new", "bus"] as const) {
-    parts.push('<marker id="arrow-' + kind + '" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="' + COLORS[kind] + '"></path></marker>');
+    parts.push('<marker id="hotel-arrow-' + kind + '" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="' + COLORS[kind] + '"></path></marker>');
   }
   parts.push('</defs>');
-  parts.push('<rect x="16" y="12" width="888" height="176" rx="14" fill="#fcfbf8" stroke="#d9d3c6" stroke-width="1.2"></rect>');
+  parts.push('<rect x="16" y="12" width="888" height="100" rx="14" fill="#fcfbf8" stroke="#d9d3c6" stroke-width="1.2"></rect>');
   parts.push('<text x="30" y="31" font-size="10" font-weight="700" letter-spacing=".12em" fill="#5e6a75">ОТЕЛЬ</text>');
 
   for (let i = 0; i < state.rooms.length; i++) {
@@ -267,6 +276,19 @@ function hotelSvg(state: HotelState): string {
     parts.push('<text x="' + (x + 37) + '" y="57" text-anchor="middle" font-size="9" fill="#5e6a75">комната ' + (i + 1) + '</text>');
     parts.push('<text x="' + (x + 37) + '" y="80" text-anchor="middle" font-size="12" font-weight="700" fill="' + (isFree ? COLORS.free : '#18222d') + '">' + (isFree ? "пусто" : room.guest) + '</text>');
     parts.push('</g>');
+  }
+
+  const exitKind = new Map<number, string>();
+  const entryKind = new Map<number, string>();
+  for (const arrow of state.arrows) {
+    if (arrow.fromRoom) exitKind.set(arrow.fromRoom, COLORS[arrow.kind]);
+    entryKind.set(arrow.room, COLORS[arrow.kind]);
+  }
+  for (const [room, color] of exitKind) {
+    parts.push('<circle cx="' + (roomX(room - 1) + 14) + '" cy="98" r="2.5" fill="' + color + '"></circle>');
+  }
+  for (const [room, color] of entryKind) {
+    parts.push('<circle cx="' + (roomX(room - 1) + 60) + '" cy="98" r="2.5" fill="' + color + '"></circle>');
   }
 
   const rows: Record<string, Source[]> = {};
@@ -309,30 +331,25 @@ function hotelSvg(state: HotelState): string {
 
   const arrowParts: string[] = [];
   for (const arrow of state.arrows) {
-    let x1 = 0;
-    let y1 = 0;
-    let x2 = 0;
-    let y2 = 0;
     let path = "";
     if (arrow.fromRoom) {
-      x1 = roomX(arrow.fromRoom - 1) + 37;
-      x2 = roomX(arrow.room - 1) + 37;
-      y1 = y2 = 100;
-      const drop = Math.min(70, 14 + Math.abs(x2 - x1) * 0.32);
-      path = 'M ' + x1 + ' ' + y1 + ' C ' + x1 + ' ' + (y1 + drop) + ', ' + x2 + ' ' + (y2 + drop) + ', ' + x2 + ' ' + y2;
+      const to = arrow.room;
+      const x1 = roomX(arrow.fromRoom - 1) + 14;
+      const x2 = roomX(to - 1) + 60;
+      const lane = 106 + Math.min(5, Math.max(1, to - arrow.fromRoom)) * 9 + (arrow.fromRoom % 3) * 7;
+      path = 'M ' + x1 + ' 98 C ' + x1 + ' ' + lane + ', ' + x2 + ' ' + lane + ', ' + x2 + ' 98';
     } else {
       const rowSources = rows[arrow.row] || [];
       let fromIndex = arrow.fromIndex;
       if (fromIndex === undefined) fromIndex = rowSources.findIndex((source) => source.label === arrow.label);
       if (fromIndex < 0) continue;
-      x1 = sourceX(fromIndex) + 36;
-      y1 = sourceY(arrow.row) + 17;
-      x2 = roomX(arrow.room - 1) + 37;
-      y2 = 100;
-      const mid = (y1 + y2) / 2;
-      path = 'M ' + x1 + ' ' + y1 + ' C ' + x1 + ' ' + mid + ', ' + x2 + ' ' + mid + ', ' + x2 + ' ' + y2;
+      const x1 = sourceX(fromIndex) + 36;
+      const y1 = sourceY(arrow.row);
+      const x2 = roomX(arrow.room - 1) + 60;
+      const lift = arrow.row === "bus" ? 64 : 44;
+      path = 'M ' + x1 + ' ' + y1 + ' C ' + x1 + ' ' + (y1 - lift) + ', ' + x2 + ' 170, ' + x2 + ' 98';
     }
-    arrowParts.push('<path class="hotel-arrow" d="' + path + '" stroke="' + COLORS[arrow.kind] + '" marker-end="url(#arrow-' + arrow.kind + ')"></path>');
+    arrowParts.push('<path class="hotel-arrow" d="' + path + '" stroke="' + COLORS[arrow.kind] + '" marker-end="url(#hotel-arrow-' + arrow.kind + ')"></path>');
     if (!reduceMotion) {
       const tokenText = arrow.label === "новый" ? "N" : arrow.label;
       arrowParts.push('<g class="hotel-token" aria-hidden="true"><circle r="8" fill="' + COLORS[arrow.kind] + '"></circle><text x="0" y="3" text-anchor="middle" font-size="8" font-weight="700" fill="#fff">' + tokenText + '</text><animateMotion dur="0.95s" begin="0s" fill="freeze" path="' + path + '"></animateMotion><animate attributeName="opacity" values="1;1;0" keyTimes="0;0.9;1" dur="1.05s" fill="freeze"></animate></g>');
@@ -400,7 +417,7 @@ function renderBusGrid(): void {
 
 function renderMoves(state: HotelState): void {
   clear(movesNode);
-  let moves: Move[] = state.mapping.map((move) => ({ label: move.label, room: move.room, kind: move.kind }));
+  let moves: Move[];
   if (scenario === "buses" && step > 0) {
     const diagonal = step - 1;
     moves = [];
@@ -411,6 +428,8 @@ function renderMoves(state: HotelState): void {
         }
       }
     }
+  } else {
+    moves = state.arrows.map((arrow) => ({ label: arrow.label, room: arrow.room, kind: arrow.kind }));
   }
   if (!moves.length) {
     movesNode.appendChild(el("p", { class: "hint", text: "Пока никто не двигался." }));
@@ -423,9 +442,32 @@ function renderMoves(state: HotelState): void {
       el("span", { class: "move-to", text: "комната " + move.room }),
     ]));
   }
-  if (scenario === "one" && step > 0) {
+  if (scenario === "one" && step === 1) {
     movesNode.appendChild(el("p", { class: "hint", text: "G10 уезжает в комнату 11 и дальше, за пределы окна." }));
+  } else if (scenario === "group" && step === 1) {
+    movesNode.appendChild(el("p", { class: "hint", text: "Последние " + groupSize + " жильцов уезжают за пределы окна." }));
+  } else if (scenario === "bus" && step === 1) {
+    movesNode.appendChild(el("p", { class: "hint", text: "G6 и дальше уезжают в комнаты 12, 14, …" }));
   }
+}
+
+function stepTitle(index: number): string {
+  if (scenario === "buses") return index === 0 ? "Старт" : "Диагональ " + (index - 1);
+  if (scenario === "bus") return ["Занято", "Чётные", "Нечётные"][index] ?? "";
+  return ["Занято", "Сдвиг", "Заселение"][index] ?? "";
+}
+
+function stepDetail(index: number): string {
+  if (scenario === "one") {
+    return ["свободных комнат нет", "жилец n переезжает в n+1", "новый гость в комнате 1"][index] ?? "";
+  }
+  if (scenario === "group") {
+    return ["снаружи " + groupSize + " гостей", "сдвиг на " + groupSize, "первые " + groupSize + " комнат заняты"][index] ?? "";
+  }
+  if (scenario === "bus") {
+    return ["автобус ждёт", "жильцы в чётные: G_n → 2n", "пассажиры в нечётные: B_n → 2n − 1"][index] ?? "";
+  }
+  return index === 0 ? "ничего не размещено" : "пары диагонали получают комнаты";
 }
 
 function paintHotel(): void {
@@ -433,38 +475,19 @@ function paintHotel(): void {
   groupWrap.classList.toggle("hidden", scenario !== "group");
   title.textContent = scenario === "one" ? "Один гость" : (scenario === "group" ? "Конечная группа" : (scenario === "bus" ? "Бесконечный автобус" : "Бесконечно много автобусов"));
   hint.textContent = state.localHint;
-  clear(log);
   clear(stepsNode);
-  const descriptions: string[] = scenario === "one"
-    ? ["Комнаты заняты", "Жильцы сдвигаются на одну", "Новый гость в комнате 1"]
-    : scenario === "group"
-      ? ["Комнаты заняты", "Сдвиг на " + groupSize, "Новые гости в первых " + groupSize + " комнатах"]
-      : scenario === "bus"
-        ? ["Комнаты заняты, автобус ждёт", "Жильцы в чётные, автобус в нечётные"]
-        : Array.from({ length: state.maxStep + 1 }, (_, i) => i === 0 ? "Ничего не размещено" : "Диагональ " + (i - 1));
   for (let i = 0; i <= state.maxStep; i++) {
-    const li = el("li", { class: i === step ? "current" : "" });
-    const stepButton = el("button", {
-      class: "hotel-log-button",
-      type: "button",
-      text: descriptions[i] || "",
-      "data-focus-key": "hotel-log-" + i,
-    });
-    stepButton.title = "Перейти к шагу " + i;
-    if (i === step) stepButton.setAttribute("aria-current", "step");
-    activate(stepButton, () => { stopAuto(); step = i; renderHotel(); }, "Перейти к шагу " + i + ": " + (descriptions[i] || ""));
-    li.appendChild(stepButton);
-    log.appendChild(li);
-    const chip = el("button", {
+    const item = el("li", {
       class: "hotel-step" + (i === step ? " active" : "") + (i < step ? " done" : ""),
-      type: "button",
-      text: scenario === "buses" ? (i === 0 ? "S" : String(i - 1)) : String(i),
-      title: descriptions[i] || "",
-      "data-focus-key": "hotel-step-" + i,
-    });
-    if (i === step) chip.setAttribute("aria-current", "step");
-    chip.addEventListener("click", () => { stopAuto(); step = i; renderHotel(); });
-    stepsNode.appendChild(chip);
+      "aria-current": i === step ? "step" : undefined,
+    }, [
+      el("b", { text: scenario === "buses" ? (i === 0 ? "S" : String(i - 1)) : String(i) }),
+      el("span", {}, [
+        el("strong", { text: stepTitle(i) }),
+        el("small", { text: stepDetail(i) }),
+      ]),
+    ]);
+    stepsNode.appendChild(item);
   }
 
   if (scenario === "buses") {
@@ -481,10 +504,6 @@ function paintHotel(): void {
   equation.replaceChildren(math(state.equationTex, true));
   callout.textContent = state.calloutText;
   renderMoves(state);
-  nextButton.disabled = step >= state.maxStep;
-  prevButton.disabled = step <= 0;
-  autoButton.disabled = step >= state.maxStep;
-  nextButton.textContent = "Дальше";
 }
 
 function renderHotel(): void {
@@ -501,51 +520,13 @@ function setScenario(name: string): void {
     button.setAttribute("aria-pressed", String(active));
   }
   renderHotel();
+  startAuto();
 }
 
 must<HTMLElement>("#hotel-scenarios").addEventListener("click", (event) => {
   if (!(event.target instanceof Element)) return;
   const button = event.target.closest<HTMLButtonElement>("button[data-scenario]");
   if (button && button.dataset.scenario) setScenario(button.dataset.scenario);
-});
-
-prevButton.addEventListener("click", () => {
-  stopAuto();
-  if (step <= 0) return;
-  step -= 1;
-  renderHotel();
-});
-
-nextButton.addEventListener("click", () => {
-  stopAuto();
-  const max = stateFor(scenario, step).maxStep;
-  if (step >= max) return;
-  step += 1;
-  renderHotel();
-});
-
-autoButton.addEventListener("click", () => {
-  if (hotelTimer !== null) {
-    stopAuto();
-    return;
-  }
-  autoButton.textContent = "Стоп";
-  hotelTimer = window.setInterval(() => {
-    const max = stateFor(scenario, step).maxStep;
-    if (step >= max) {
-      stopAuto();
-      return;
-    }
-    step += 1;
-    renderHotel();
-    if (step >= max) stopAuto();
-  }, 1050);
-});
-
-must<HTMLButtonElement>("#hotel-reset").addEventListener("click", () => {
-  stopAuto();
-  step = 0;
-  renderHotel();
 });
 
 function renderFinite(): void {

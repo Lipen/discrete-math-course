@@ -84,6 +84,13 @@ for (const page of pages) {
       if (pressed !== "true") failures.push(`${page}: лента переменных не переключилась`);
     }
 
+    if (page === "cardinality.html") {
+      const steps = await tab.locator("#hotel-steps .hotel-step").count();
+      const active = await tab.locator("#hotel-steps .hotel-step.active").count();
+      if (steps < 2) failures.push(`${page}: шагов ${steps}, ожидалось не меньше двух`);
+      if (active !== 1) failures.push(`${page}: активных шагов ${active}`);
+    }
+
     const beforeTheme = await tab.evaluate(() => document.documentElement.dataset.theme);
     await tab.click("#theme");
     const afterTheme = await tab.evaluate(() => document.documentElement.dataset.theme);

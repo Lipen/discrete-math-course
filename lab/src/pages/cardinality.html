@@ -42,26 +42,19 @@
         <button data-scenario="bus" aria-pressed="false">Бесконечный автобус</button>
         <button data-scenario="buses" aria-pressed="false">Бесконечно много автобусов</button>
       </div>
+      <div class="field hotel-group" id="group-wrap">
+        <span class="field-label">Группа</span>
+        <div class="segmented" id="group-size" role="group" aria-label="Размер группы"></div>
+      </div>
 
       <div class="hotel-board">
         <div>
           <h3 id="hotel-title">Один гость</h3>
           <p class="hint" id="hotel-hint"></p>
-          <div class="hotel-controls">
-            <button id="hotel-prev">Назад</button>
-            <button id="hotel-next" class="active">Дальше</button>
-            <button id="hotel-auto">Авто</button>
-            <button id="hotel-reset">Сброс</button>
-            <div class="field" id="group-wrap">
-              <span class="field-label">Группа</span>
-              <div class="segmented" id="group-size" role="group" aria-label="Размер группы"></div>
-            </div>
-          </div>
-          <div class="hotel-steps" id="hotel-steps" aria-label="Шаги сценария"></div>
           <div class="hotel-stage" id="hotel-stage"></div>
           <p class="hint hotel-legend">
             Гости стоят внутри комнат.
-            Стрелка ведёт из старой комнаты в новую.
+            Стрелка выходит из левой нижней точки комнаты и входит в правую нижнюю точку следующей.
             «Вход» означает место снаружи, откуда гость попадает в отель.
           </p>
           <div class="status" id="hotel-status" style="margin-top:10px"></div>
@@ -69,8 +62,8 @@
         </div>
 
         <aside class="hotel-aside">
-          <h3>Ход</h3>
-          <ol class="hotel-log" id="hotel-log"></ol>
+          <h3>Шаги</h3>
+          <ol class="hotel-steps" id="hotel-steps" aria-label="Шаги сценария"></ol>
           <h3 class="hotel-subhead">Кто куда</h3>
           <div class="hotel-moves" id="hotel-moves"></div>
           <div class="hotel-equation" id="hotel-equation"></div>

@@ -1746,12 +1746,9 @@ button, .btn { border-radius: 9px; font-size: 13px; padding: 7px 12px; }
   font-size: 12px;
 }
 
-.hotel-controls {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
-  margin: 10px 0;
+.hotel-group {
+  max-width: 260px;
+  margin: 0 0 12px;
 }
 
 .inline-field {
@@ -1785,13 +1782,9 @@ button, .btn { border-radius: 9px; font-size: 13px; padding: 7px 12px; }
 
 .hotel-arrow {
   fill: none;
-  stroke-width: 1.6;
+  stroke-width: 1.8;
   stroke-linecap: round;
-  stroke-dasharray: 6 5;
-  animation: hotel-flow 1.3s linear infinite;
 }
-
-@keyframes hotel-flow { to { stroke-dashoffset: -22; } }
 
 .h-room { animation: hotel-pop .32s ease both; }
 @keyframes hotel-pop {
@@ -1807,32 +1800,6 @@ button, .btn { border-radius: 9px; font-size: 13px; padding: 7px 12px; }
   border-left: 1px solid var(--line-soft);
   padding-left: 18px;
 }
-
-.hotel-log {
-  margin: 0 0 14px;
-  padding-left: 19px;
-  color: var(--muted);
-  font-size: 13px;
-}
-
-.hotel-log li { margin: 5px 0; }
-.hotel-log li.current { color: var(--accent); font-weight: 700; }
-.hotel-log-button {
-  display: inline;
-  padding: 0;
-  border: 0;
-  border-radius: 3px;
-  background: none;
-  color: inherit;
-  font: inherit;
-  text-align: left;
-  cursor: pointer;
-  text-decoration: underline;
-  text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
-  text-underline-offset: 2px;
-}
-.hotel-log-button:hover { color: var(--accent); }
-.hotel-log-button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 .hotel-equation {
   padding: 10px 12px;
@@ -2011,37 +1978,57 @@ button, .btn { border-radius: 9px; font-size: 13px; padding: 7px 12px; }
 
 .finite-room.waiting { border-style: dashed; border-color: var(--red); background: var(--red-soft); }
 
-/* Stable hotel controls, step rail and movement list. */
-.hotel-controls > button { min-width: 82px; justify-content: center; }
-#hotel-prev { min-width: 82px; }
-#hotel-next { min-width: 92px; }
-#hotel-auto { min-width: 70px; }
-#hotel-reset { min-width: 70px; }
-
+/* Hotel step storyboard. */
 .hotel-steps {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 5px;
-  min-height: 36px;
-  margin: 8px 0 10px;
+  list-style: none;
+  margin: 0 0 14px;
+  padding: 0;
+  display: grid;
+  gap: 6px;
 }
 
 .hotel-step {
-  width: 30px;
-  height: 30px;
-  padding: 0;
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  gap: 9px;
+  align-items: start;
+  padding: 8px 10px;
+  border: 1px solid var(--line-soft);
+  border-radius: 9px;
+  background: var(--card);
+  color: var(--muted);
+  transition: border-color .16s, background .16s, box-shadow .16s;
+}
+
+.hotel-step b {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--line);
   border-radius: 50%;
+  background: var(--card);
   font-family: var(--mono);
   font-size: 11px;
   font-weight: 700;
-  color: var(--muted);
-  background: #fff;
 }
 
-.hotel-step.done { background: var(--green-soft); border-color: #b9d8c9; color: var(--green); }
-.hotel-step.active { background: var(--accent); border-color: var(--accent); color: #fff; }
-.hotel-step:hover { border-color: var(--accent); }
+.hotel-step strong { display: block; font-size: 12.5px; color: var(--ink); }
+.hotel-step small { display: block; margin-top: 2px; font-size: 11px; line-height: 1.35; }
+
+.hotel-step.done {
+  border-color: color-mix(in srgb, var(--green) 30%, var(--line));
+  background: var(--green-soft);
+}
+.hotel-step.done b { border-color: color-mix(in srgb, var(--green) 40%, var(--line)); color: var(--green); }
+
+.hotel-step.active {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 7%, var(--card));
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 14%, transparent);
+}
+.hotel-step.active b { border-color: var(--accent); background: var(--accent); color: var(--card); }
+.hotel-step.active strong { color: var(--accent); }
 
 #hotel-status { min-height: 58px; }
 #hotel-formula { min-height: 54px; }
@@ -2078,8 +2065,6 @@ button, .btn { border-radius: 9px; font-size: 13px; padding: 7px 12px; }
 
 @media (max-width: 700px) {
   .hotel-moves { grid-template-columns: 1fr; }
-  .hotel-controls button { min-width: 72px; }
-  #hotel-next { min-width: 82px; }
 }
 
 .hotel-moves .hint { grid-column: 1 / -1; margin: 4px 0 0; }
