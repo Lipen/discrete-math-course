@@ -4,10 +4,13 @@ import { readdir } from "node:fs/promises";
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
 import { chromium } from "playwright";
+import { catalog } from "../src/catalog";
 
 const dist = join(import.meta.dir, "..", "dist");
 const failures: string[] = [];
 const rows: string[] = [];
+const expectedLabs = catalog.labs.length;
+const expectedLogic = catalog.labsOf("logic").length;
 
 const browser = await chromium.launch();
 const pages = (await readdir(dist)).filter((name) => name.endsWith(".html")).sort();
@@ -58,11 +61,11 @@ for (const page of pages) {
     }
 
     if (page === "index.html") {
-      if (state.cards !== 18) failures.push(`${page}: карточек ${state.cards}, ожидалось 18`);
+      if (state.cards !== expectedLabs) failures.push(`${page}: карточек ${state.cards}, ожидалось ${expectedLabs}`);
       if (state.modules !== 5) failures.push(`${page}: модулей ${state.modules}, ожидалось 5`);
       await tab.click(".filter[data-module='logic']");
       const visible = await tab.evaluate(() => Array.from(document.querySelectorAll<HTMLElement>(".lab-card")).filter((card) => !card.hidden).length);
-      if (visible !== 5) failures.push(`${page}: фильтр логики показал ${visible} карточек, ожидалось 5`);
+      if (visible !== expectedLogic) failures.push(`${page}: фильтр логики показал ${visible} карточек, ожидалось ${expectedLogic}`);
     } else {
       if (state.pager !== 1) failures.push(`${page}: нет навигации по соседним лабораториям`);
     }

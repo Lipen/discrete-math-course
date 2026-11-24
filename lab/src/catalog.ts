@@ -109,25 +109,11 @@ const labs: LabEntry[] = [
     tags: ["биекция", "N×N", "диагональ"],
   },
   {
-    id: "transfinite", file: "transfinite.html", module: "infinity", mark: "ω",
-    topic: "Ординалы",
-    title: "За пределом конечного",
-    blurb: "Пределы, следующие ординалы и нормальная форма: счёт продолжается за ω.",
-    tags: ["ω", "предел", "Кантор"],
-  },
-  {
     id: "statements", file: "statements.html", module: "logic", mark: "¬",
     topic: "Высказывания",
     title: "Формула и дерево разбора",
     blurb: "Таблица истинности, дерево разбора и проверка законов: связки в одном окне.",
     tags: ["таблица", "дерево", "закон"],
-  },
-  {
-    id: "predicates", file: "predicates.html", module: "logic", mark: "∃",
-    topic: "Предикаты",
-    title: "Свидетель или контрпример?",
-    blurb: "Домен, предикаты и кванторы. Одна формула проверяется на модели, отрицание кванторов видно рядом.",
-    tags: ["кванторы", "модель", "свидетель"],
   },
   {
     id: "fol", file: "fol.html", module: "logic", mark: "∀",
@@ -177,13 +163,6 @@ const labs: LabEntry[] = [
     title: "DPLL по шагам",
     blurb: "CNF, юнит-пропагация, конфликт и откат. Трасса и счётчики показывают цену поиска.",
     tags: ["CNF", "DPLL", "откат"],
-  },
-  {
-    id: "circuits", file: "circuits.html", module: "boolean", mark: "&",
-    topic: "Схемы",
-    title: "Схема и проверка",
-    blurb: "Вентили, размер и глубина, таблица истинности и эталонный выход на одном полотне.",
-    tags: ["вентили", "глубина", "проверка"],
   },
   {
     id: "hamming", file: "hamming.html", module: "codes", mark: "7,4", top: true,
