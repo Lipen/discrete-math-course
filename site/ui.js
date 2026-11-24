@@ -1,6 +1,6 @@
 // Переключатель темы и кнопка «наверх».
-const NAMES = { auto: "авто", light: "светлая", dark: "тёмная" };
-const ORDER = ["auto", "light", "dark"];
+const NAMES = { light: "светлая", dark: "тёмная" };
+const ORDER = ["light", "dark"];
 const theme = document.getElementById("theme");
 
 if (theme && window.__theme) {

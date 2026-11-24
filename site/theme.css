@@ -118,7 +118,6 @@ a:hover { color: var(--accent); }
 }
 .theme:hover { color: var(--accent); border-color: var(--accent); }
 .theme svg { width: 1.05rem; height: 1.05rem; display: none; }
-:root[data-pref="auto"] .theme .i-auto,
 :root[data-pref="light"] .theme .i-light,
 :root[data-pref="dark"] .theme .i-dark { display: block; }
 
