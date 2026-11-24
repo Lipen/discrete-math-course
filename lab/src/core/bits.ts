@@ -6,10 +6,6 @@ export function bitsOf(value: number, width: number): number[] {
   return out;
 }
 
-export function bin(value: number, width: number): string {
-  return bitsOf(value, width).join("");
-}
-
 export function popcount(value: number): number {
   let count = 0;
   let x = value;
@@ -24,12 +20,6 @@ export function graySeq(width: number): number[] {
   const out: number[] = [];
   const size = 1 << width;
   for (let i = 0; i < size; i++) out.push(i ^ (i >> 1));
-  return out;
-}
-
-export function truthRows(n: number): number[][] {
-  const out: number[][] = [];
-  for (let m = 0; m < (1 << n); m++) out.push(bitsOf(m, n));
   return out;
 }
 

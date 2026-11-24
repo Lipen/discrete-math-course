@@ -69,14 +69,6 @@ export function clear<T extends Element>(node: T): T {
   return node;
 }
 
-export function escapeHtml(text: unknown): string {
-  return String(text)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}
-
 export function status(node: Element | null, text: string, kind?: string): void {
   if (!node) return;
   node.className = "status" + (kind ? " " + kind : "");
@@ -125,10 +117,6 @@ export function keepFocus(render: () => void): void {
   }
   const fallback = next.parentElement && next.parentElement.querySelector<HTMLElement>("button:not([disabled])");
   if (fallback) fallback.focus({ preventScroll: true });
-}
-
-export function setActive(buttons: Iterable<Element>, active: Element): void {
-  for (const button of buttons) button.classList.toggle("active", button === active);
 }
 
 export interface FocusSet {
@@ -184,14 +172,4 @@ export function focusSet(onChange: (key: string | null) => void): FocusSet {
     emit();
   }
   return { bind, clear: clearKeys, activeKey };
-}
-
-export function downloadText(name: string, text: string, type?: string): void {
-  const blob = new Blob([text], { type: type || "text/plain;charset=utf-8" });
-  const url = URL.createObjectURL(blob);
-  const link = el("a", { href: url, download: name });
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
 }

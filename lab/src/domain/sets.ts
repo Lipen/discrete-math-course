@@ -8,10 +8,6 @@ export function range(n: number): number[] {
   return Array.from({ length: n }, (_, i) => i + 1);
 }
 
-export function make(values: Iterable<number>): NumSet {
-  return new Set(values);
-}
-
 export function list(set: NumSet): number[] {
   return Array.from(set).sort((a, b) => a - b);
 }
@@ -46,10 +42,6 @@ export function equal(a: NumSet, b: NumSet): boolean {
 
 export function card(a: NumSet): number {
   return a.size;
-}
-
-export function fmtSet(a: NumSet): string {
-  return "{" + list(a).join(", ") + "}";
 }
 
 export function powerSet(a: NumSet): number[][] {

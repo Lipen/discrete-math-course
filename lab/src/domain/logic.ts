@@ -11,8 +11,6 @@ export type PropAst =
   | { type: "impl"; a: PropAst; b: PropAst }
   | { type: "iff"; a: PropAst; b: PropAst };
 
-export type PropBinary = Extract<PropAst, { type: "and" | "or" | "impl" | "iff" }>;
-
 export interface TruthRow {
   bits: number[];
   env: PropEnv;
