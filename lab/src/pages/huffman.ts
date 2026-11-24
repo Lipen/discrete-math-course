@@ -33,10 +33,31 @@ interface Stats {
 }
 
 const presets: Record<string, [string, number][]> = {
-  classic: [["A", 45], ["B", 13], ["C", 12], ["D", 16], ["E", 9], ["F", 5]],
-  equal: [["A", 1], ["B", 1], ["C", 1], ["D", 1]],
-  skew: [["A", 70], ["B", 10], ["C", 10], ["D", 5], ["E", 5]],
-  two: [["A", 1], ["B", 1]],
+  classic: [
+    ["A", 45],
+    ["B", 13],
+    ["C", 12],
+    ["D", 16],
+    ["E", 9],
+    ["F", 5],
+  ],
+  equal: [
+    ["A", 1],
+    ["B", 1],
+    ["C", 1],
+    ["D", 1],
+  ],
+  skew: [
+    ["A", 70],
+    ["B", 10],
+    ["C", 10],
+    ["D", 5],
+    ["E", 5],
+  ],
+  two: [
+    ["A", 1],
+    ["B", 1],
+  ],
 };
 
 let entries: Entry[] = [];
@@ -71,7 +92,8 @@ function parseFrequencies(text: string): Entry[] {
     if (!match) throw new Error("Строка " + (i + 1) + ": ожидается имя и положительный вес.");
     const symbol = match[1].trim();
     const weight = Number(match[2].replace(",", "."));
-    if (!Number.isFinite(weight) || weight <= 0) throw new Error("Строка " + (i + 1) + ": вес должен быть положительным.");
+    if (!Number.isFinite(weight) || weight <= 0)
+      throw new Error("Строка " + (i + 1) + ": вес должен быть положительным.");
     if (seen.has(symbol)) throw new Error("Символ «" + symbol + "» повторяется.");
     seen.add(symbol);
     rows.push({ symbol, weight });
@@ -178,23 +200,46 @@ function renderTree(): void {
   }
   layout(tree, 0);
 
+  function coord(map: Map<TreeNode, number>, node: TreeNode): number {
+    const value = map.get(node);
+    if (value === undefined) throw new Error("Узел вне раскладки дерева");
+    return value;
+  }
+
   const root = svg("svg", { viewBox: "0 0 " + width + " " + height, role: "img", "aria-label": "Дерево Хаффмана" });
 
   function drawEdges(node: TreeNode | null): void {
     if (!node || (!node.left && !node.right)) return;
-    const links: [TreeNode | null, string][] = [[node.left, "0"], [node.right, "1"]];
+    const links: [TreeNode | null, string][] = [
+      [node.left, "0"],
+      [node.right, "1"],
+    ];
     for (const [child, bit] of links) {
       if (!child) continue;
-      root.appendChild(svg("line", {
-        x1: xs.get(node)!, y1: ys.get(node)! + 22,
-        x2: xs.get(child)!, y2: ys.get(child)! - 22,
-        stroke: "#b7ae9e", "stroke-width": 1.5,
-      }));
-      root.appendChild(svg("text", {
-        x: (xs.get(node)! + xs.get(child)!) / 2 + (bit === "0" ? -9 : 9),
-        y: (ys.get(node)! + ys.get(child)!) / 2,
-        "text-anchor": "middle", "font-family": "var(--mono)", "font-size": 10, fill: "#6b6558",
-      }, bit));
+      root.appendChild(
+        svg("line", {
+          x1: coord(xs, node),
+          y1: coord(ys, node) + 22,
+          x2: coord(xs, child),
+          y2: coord(ys, child) - 22,
+          stroke: "#b7ae9e",
+          "stroke-width": 1.5,
+        }),
+      );
+      root.appendChild(
+        svg(
+          "text",
+          {
+            x: (coord(xs, node) + coord(xs, child)) / 2 + (bit === "0" ? -9 : 9),
+            y: (coord(ys, node) + coord(ys, child)) / 2,
+            "text-anchor": "middle",
+            "font-family": "var(--mono)",
+            "font-size": 10,
+            fill: "#6b6558",
+          },
+          bit,
+        ),
+      );
       drawEdges(child);
     }
   }
@@ -202,30 +247,77 @@ function renderTree(): void {
 
   function drawNodes(node: TreeNode | null): void {
     if (!node) return;
-    const x = xs.get(node)!;
-    const y = ys.get(node)!;
+    const x = coord(xs, node);
+    const y = coord(ys, node);
     if (!node.left && !node.right) {
       const code = codes.get(node) || "";
-      root.appendChild(svg("rect", {
-        x: x - 30, y: y - 21, width: 60, height: 42, rx: 9,
-        fill: "#fbf0dc", stroke: "#c79a4e", "stroke-width": 1.5,
-      }));
-      root.appendChild(svg("text", {
-        x, y: y - 3, "text-anchor": "middle", "font-family": "var(--mono)",
-        "font-size": 12, "font-weight": 700, fill: "#1d2733",
-      }, node.symbol));
-      root.appendChild(svg("text", {
-        x, y: y + 13, "text-anchor": "middle", "font-family": "var(--mono)",
-        "font-size": 10, fill: "#7c5210",
-      }, String(node.weight) + " · " + code));
+      root.appendChild(
+        svg("rect", {
+          x: x - 30,
+          y: y - 21,
+          width: 60,
+          height: 42,
+          rx: 9,
+          fill: "#fbf0dc",
+          stroke: "#c79a4e",
+          "stroke-width": 1.5,
+        }),
+      );
+      root.appendChild(
+        svg(
+          "text",
+          {
+            x,
+            y: y - 3,
+            "text-anchor": "middle",
+            "font-family": "var(--mono)",
+            "font-size": 12,
+            "font-weight": 700,
+            fill: "#1d2733",
+          },
+          node.symbol,
+        ),
+      );
+      root.appendChild(
+        svg(
+          "text",
+          {
+            x,
+            y: y + 13,
+            "text-anchor": "middle",
+            "font-family": "var(--mono)",
+            "font-size": 10,
+            fill: "#7c5210",
+          },
+          String(node.weight) + " · " + code,
+        ),
+      );
     } else {
-      root.appendChild(svg("circle", {
-        cx: x, cy: y, r: 20, fill: "#f1eee7", stroke: "#8c8374", "stroke-width": 1.4,
-      }));
-      root.appendChild(svg("text", {
-        x, y: y + 5, "text-anchor": "middle", "font-family": "var(--mono)",
-        "font-size": 11, "font-weight": 650, fill: "#1d2733",
-      }, String(node.weight)));
+      root.appendChild(
+        svg("circle", {
+          cx: x,
+          cy: y,
+          r: 20,
+          fill: "#f1eee7",
+          stroke: "#8c8374",
+          "stroke-width": 1.4,
+        }),
+      );
+      root.appendChild(
+        svg(
+          "text",
+          {
+            x,
+            y: y + 5,
+            "text-anchor": "middle",
+            "font-family": "var(--mono)",
+            "font-size": 11,
+            "font-weight": 650,
+            fill: "#1d2733",
+          },
+          String(node.weight),
+        ),
+      );
     }
     drawNodes(node.left);
     drawNodes(node.right);
@@ -247,13 +339,15 @@ function renderCodes(): void {
   rows.sort((a, b) => a.code.length - b.code.length || a.symbol.localeCompare(b.symbol));
   const table = el("table", { class: "data" });
   const thead = el("thead");
-  thead.appendChild(el("tr", {}, [
-    el("th", { class: "left", text: "символ" }),
-    el("th", { text: "вес" }),
-    el("th", { text: "вероятность" }),
-    el("th", { class: "left", text: "код" }),
-    el("th", { text: "длина" }),
-  ]));
+  thead.appendChild(
+    el("tr", {}, [
+      el("th", { class: "left", text: "символ" }),
+      el("th", { text: "вес" }),
+      el("th", { text: "вероятность" }),
+      el("th", { class: "left", text: "код" }),
+      el("th", { text: "длина" }),
+    ]),
+  );
   table.appendChild(thead);
   const tbody = el("tbody");
   for (const row of rows) {
@@ -282,9 +376,12 @@ function renderCost(): void {
   costNode.appendChild(metric("L", ", средняя длина", fmt(stats.L, 3)));
   costNode.appendChild(metric("H", ", энтропия", fmt(stats.H, 3)));
   costNode.appendChild(metric("L - H", "", fmt(stats.gap, 3)));
-  costNode.appendChild(el("div", { class: "metric" }, [
-    el("span", { class: "k", text: "символов" }), el("span", { class: "v", text: String(entries.length) }),
-  ]));
+  costNode.appendChild(
+    el("div", { class: "metric" }, [
+      el("span", { class: "k", text: "символов" }),
+      el("span", { class: "v", text: String(entries.length) }),
+    ]),
+  );
 }
 
 function nodeLabel(node: TreeNode): string {
@@ -293,17 +390,15 @@ function nodeLabel(node: TreeNode): string {
 
 function renderMerges(): void {
   clear(mergesNode);
-  if (!stats || !stats.merges.length) {
+  if (!stats?.merges.length) {
     mergesNode.appendChild(el("p", { class: "muted", text: "Для одного символа слияний нет." }));
     return;
   }
   const table = el("table", { class: "data" });
   const thead = el("thead");
-  thead.appendChild(el("tr", {}, [
-    el("th", { text: "шаг" }),
-    el("th", { class: "left", text: "слияние" }),
-    el("th", { text: "вес" }),
-  ]));
+  thead.appendChild(
+    el("tr", {}, [el("th", { text: "шаг" }), el("th", { class: "left", text: "слияние" }), el("th", { text: "вес" })]),
+  );
   table.appendChild(thead);
   const body = el("tbody");
   stats.merges.forEach((merge, index) => {

@@ -2,9 +2,24 @@
 
 import { describe, expect, test } from "bun:test";
 import {
-  compose, diff, equivalenceClasses, functionProps, inter, invert, isPartialOrder,
-  list, powerSet, reflexiveClosure, relationMatrix, relationProperties, subset,
-  symmetricClosure, symmetricClosure as symmetric, transitiveClosure, transitiveReduction, union,
+  compose,
+  diff,
+  equivalenceClasses,
+  functionProps,
+  inter,
+  invert,
+  isPartialOrder,
+  list,
+  powerSet,
+  reflexiveClosure,
+  relationMatrix,
+  relationProperties,
+  subset,
+  symmetricClosure as symmetric,
+  symmetricClosure,
+  transitiveClosure,
+  transitiveReduction,
+  union,
 } from "../src/domain/sets";
 
 describe("set operations", () => {
@@ -24,7 +39,10 @@ describe("set operations", () => {
 });
 
 describe("relations", () => {
-  const matrix = relationMatrix(3, [[1, 2], [2, 3]]);
+  const matrix = relationMatrix(3, [
+    [1, 2],
+    [2, 3],
+  ]);
 
   test("properties of the raw relation", () => {
     const props = relationProperties(matrix);
@@ -54,8 +72,20 @@ describe("relations", () => {
   });
 
   test("equivalence classes on a block diagonal relation", () => {
-    const equivalence = relationMatrix(4, [[1, 1], [2, 2], [3, 3], [4, 4], [1, 2], [2, 1], [3, 4], [4, 3]]);
-    expect(equivalenceClasses(equivalence)).toEqual([[1, 2], [3, 4]]);
+    const equivalence = relationMatrix(4, [
+      [1, 1],
+      [2, 2],
+      [3, 3],
+      [4, 4],
+      [1, 2],
+      [2, 1],
+      [3, 4],
+      [4, 3],
+    ]);
+    expect(equivalenceClasses(equivalence)).toEqual([
+      [1, 2],
+      [3, 4],
+    ]);
   });
 
   test("partial order needs reflexivity", () => {

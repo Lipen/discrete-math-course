@@ -26,9 +26,10 @@ homework:
 lab:
     cd lab && bun run build.ts --strict
 
-[doc('Typecheck, test and build the lab.')]
+[doc('Typecheck, lint, test and build the lab.')]
 lab-check:
     cd lab && bunx tsc --noEmit
+    cd lab && bun run lint
     cd lab && bun test
     just lab
 

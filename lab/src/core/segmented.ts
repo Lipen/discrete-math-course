@@ -23,12 +23,14 @@ export function ribbon(
   container.classList.add("segmented");
   if (!container.hasAttribute("role")) container.setAttribute("role", "group");
 
-  const buttons = options.map((option) => el("button", {
-    type: "button",
-    "data-value": option.value,
-    text: option.label,
-    "aria-pressed": "false",
-  }));
+  const buttons = options.map((option) =>
+    el("button", {
+      type: "button",
+      "data-value": option.value,
+      text: option.label,
+      "aria-pressed": "false",
+    }),
+  );
   container.replaceChildren(...buttons);
 
   function paint(): void {

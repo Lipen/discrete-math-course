@@ -82,9 +82,9 @@ export function mountSiteBar(catalog: Catalog): void {
     }
     const firstH3 = main.querySelector("h3");
     if (!firstH3) return;
-    const headingBefore = $$("h2", main).some((heading) => (
-      heading.compareDocumentPosition(firstH3) & Node.DOCUMENT_POSITION_FOLLOWING
-    ));
+    const headingBefore = $$("h2", main).some(
+      (heading) => heading.compareDocumentPosition(firstH3) & Node.DOCUMENT_POSITION_FOLLOWING,
+    );
     if (headingBefore) return;
     const card = firstH3.closest("section.card") || main;
     const heading = el("h2", { class: "sr-only", text: "Интерактивная модель" });
@@ -118,7 +118,8 @@ export function mountSiteBar(catalog: Catalog): void {
     }
 
     const footer = $(".footer");
-    if (footer && footer.parentNode) footer.parentNode.insertBefore(nav, footer);
+    const parent = footer?.parentNode;
+    if (footer && parent) parent.insertBefore(nav, footer);
     else document.body.appendChild(nav);
   }
 
@@ -136,7 +137,8 @@ export function mountSiteBar(catalog: Catalog): void {
       if (!meta) {
         meta = el("div", { class: "lab-meta" });
         const lead = header.querySelector(".lead");
-        if (lead && lead.parentNode) lead.parentNode.insertBefore(meta, lead.nextSibling);
+        const leadParent = lead?.parentNode;
+        if (lead && leadParent) leadParent.insertBefore(meta, lead.nextSibling);
         else header.appendChild(meta);
       }
       if (!hadMeta) {

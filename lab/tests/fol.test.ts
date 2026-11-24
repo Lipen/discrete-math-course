@@ -1,8 +1,8 @@
 /* First-order parsing and evaluation on finite models. */
 
 import { describe, expect, test } from "bun:test";
-import { evalFormula, freeVars, initialModel, parse, quantifierRows, toTex } from "../src/domain/fol";
 import type { Model } from "../src/domain/fol";
+import { evalFormula, freeVars, initialModel, parse, quantifierRows, toTex } from "../src/domain/fol";
 
 function model(): Model {
   return {
@@ -54,7 +54,10 @@ describe("evaluation", () => {
 
   test("quantifier rows expose each witness", () => {
     const rows = quantifierRows(parse("exists x P(x)"), model());
-    expect(rows).toEqual([{ value: 1, truth: true }, { value: 2, truth: false }]);
+    expect(rows).toEqual([
+      { value: 1, truth: true },
+      { value: 2, truth: false },
+    ]);
   });
 
   test("free variable without assignment throws", () => {

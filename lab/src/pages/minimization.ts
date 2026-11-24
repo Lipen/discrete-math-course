@@ -1,19 +1,46 @@
 /* Minimization lab: Karnaugh map, prime implicants and the exact minimum. */
 
+import { bitsOf, graySeq, type MapLayout, mapLayout, mintermOf, popcount } from "../core/bits";
 import { clear, el, focusSet, keepFocus, must, setPressed, svg } from "../core/dom";
-import { bitsOf, graySeq, mapLayout, mintermOf, popcount, type MapLayout } from "../core/bits";
 import { math } from "../core/math";
-import { presets, VARIABLES, type Preset } from "../domain/presets";
+import { type Preset, presets, VARIABLES } from "../domain/presets";
 
 type Form = "dnf" | "cnf";
 type View = "map" | "truth";
 
-interface Cube { fixedMask: number; value: number }
-interface Prime extends Cube { covers: number[] }
-interface Solution { selected: number[]; terms: number; literals: number; expression: string; mask?: number }
-interface Result extends Solution { solutions: Solution[]; solutionIndex: number; essentials: Set<number> }
-interface OpenEdges { top: boolean; bottom: boolean; left: boolean; right: boolean }
-interface BadgeRequest { group: SVGElement; left: number; top: number; right: number; bottom: number; termNumber: number }
+interface Cube {
+  fixedMask: number;
+  value: number;
+}
+interface Prime extends Cube {
+  covers: number[];
+}
+interface Solution {
+  selected: number[];
+  terms: number;
+  literals: number;
+  expression: string;
+  mask?: number;
+}
+interface Result extends Solution {
+  solutions: Solution[];
+  solutionIndex: number;
+  essentials: Set<number>;
+}
+interface OpenEdges {
+  top: boolean;
+  bottom: boolean;
+  left: boolean;
+  right: boolean;
+}
+interface BadgeRequest {
+  group: SVGElement;
+  left: number;
+  top: number;
+  right: number;
+  bottom: number;
+  termNumber: number;
+}
 interface SavedSession {
   n: number;
   state: number[];
@@ -94,29 +121,33 @@ function syncFormSwitch(): void {
 
 function saveSession(): void {
   try {
-    sessionStorage.setItem(STORAGE_KEY, JSON.stringify({
-      v: 1,
-      n,
-      state,
-      xMemory,
-      form,
-      view: currentView,
-      preset: preset.value,
-      solutionIndex,
-      savedAt: Date.now(),
-    }));
-  } catch {
-  }
+    sessionStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({
+        v: 1,
+        n,
+        state,
+        xMemory,
+        form,
+        view: currentView,
+        preset: preset.value,
+        solutionIndex,
+        savedAt: Date.now(),
+      }),
+    );
+  } catch {}
 }
 
 function isTriState(values: unknown, size: number): values is number[] {
-  return Array.isArray(values) && values.length === size
-    && values.every((value) => value === 0 || value === 1 || value === 2);
+  return (
+    Array.isArray(values) &&
+    values.length === size &&
+    values.every((value) => value === 0 || value === 1 || value === 2)
+  );
 }
 
 function isBitState(values: unknown, size: number): values is number[] {
-  return Array.isArray(values) && values.length === size
-    && values.every((value) => value === 0 || value === 1);
+  return Array.isArray(values) && values.length === size && values.every((value) => value === 0 || value === 1);
 }
 
 function readSession(): SavedSession | null {
@@ -141,7 +172,8 @@ function readSession(): SavedSession | null {
     const storedView = data.view;
     const view: View = storedView === "truth" ? "truth" : "map";
     const storedIndex = data.solutionIndex;
-    const solutionIndex = typeof storedIndex === "number" && Number.isInteger(storedIndex) && storedIndex >= 0 ? storedIndex : 0;
+    const solutionIndex =
+      typeof storedIndex === "number" && Number.isInteger(storedIndex) && storedIndex >= 0 ? storedIndex : 0;
     return {
       n: storedN,
       state: storedState,
@@ -169,7 +201,7 @@ function termText(prime: Cube): string {
   for (let bit = n - 1; bit >= 0; bit--) {
     if (prime.fixedMask & (1 << bit)) {
       const name = vars[n - 1 - bit];
-      parts.push((prime.value & (1 << bit)) ? name : "\\neg " + name);
+      parts.push(prime.value & (1 << bit) ? name : "\\neg " + name);
     }
   }
   return parts.join(" \\cdot ");
@@ -179,7 +211,7 @@ function matchesPreset(p: Preset): boolean {
   if (p.n !== n) return false;
   const ones = new Set(p.ones);
   const xs = new Set(p.x);
-  for (let m = 0; m < (1 << n); m++) {
+  for (let m = 0; m < 1 << n; m++) {
     const expected = xs.has(m) ? 2 : ones.has(m) ? 1 : 0;
     if (state[m] !== expected) return false;
   }
@@ -198,7 +230,7 @@ function customFormula(): string {
     if (state[m] === 1) ones.push(m);
     else if (state[m] === 2) xs.push(m);
   }
-  if (ones.length === (1 << n)) return "1";
+  if (ones.length === 1 << n) return "1";
   const parts: string[] = [];
   if (ones.length === 0) {
     parts.push("0");
@@ -208,7 +240,7 @@ function customFormula(): string {
   } else {
     parts.push("\\Sigma m(" + ones.join(",") + ")");
   }
-  if (xs.length > 0 && xs.length < (1 << n)) parts.push("\\Sigma X(" + xs.join(",") + ")");
+  if (xs.length > 0 && xs.length < 1 << n) parts.push("\\Sigma X(" + xs.join(",") + ")");
   return parts.join(" \\;+\\; ");
 }
 
@@ -219,9 +251,7 @@ function renderFunction(): void {
   line.appendChild(el("span", { class: "formula-prefix" }, math("f =", false)));
   line.appendChild(math(matched ? chosen.formula : customFormula(), false));
   functionView.replaceChildren(line);
-  functionSource.textContent = matched
-    ? "готовая функция: " + presetLabel()
-    : "функция по таблице истинности";
+  functionSource.textContent = matched ? "готовая функция: " + presetLabel() : "функция по таблице истинности";
 }
 
 function targetValue(): number {
@@ -234,7 +264,7 @@ function clauseText(prime: Cube): string {
   for (let bit = n - 1; bit >= 0; bit--) {
     if (!(prime.fixedMask & (1 << bit))) continue;
     const name = vars[n - 1 - bit];
-    literals.push((prime.value & (1 << bit)) ? "\\neg " + name : name);
+    literals.push(prime.value & (1 << bit) ? "\\neg " + name : name);
   }
   const body = literals.join(" \\lor ");
   return literals.length > 1 ? "\\left( " + body + " \\right)" : body;
@@ -286,12 +316,15 @@ function renderKeepingPosition(m: number): void {
   const previousBehavior = root.style.scrollBehavior;
   root.style.scrollBehavior = "auto";
   renderAll();
-  const selector = currentView === "truth"
-    ? '#truth-table .truth-bit[data-m="' + m + '"]'
-    : '.map-cell[data-m="' + m + '"]';
+  const selector =
+    currentView === "truth" ? '#truth-table .truth-bit[data-m="' + m + '"]' : '.map-cell[data-m="' + m + '"]';
   const next = document.querySelector<HTMLElement>(selector);
   if (next) {
-    try { next.focus({ preventScroll: true }); } catch { next.focus(); }
+    try {
+      next.focus({ preventScroll: true });
+    } catch {
+      next.focus();
+    }
   }
   window.scrollTo(x, y);
   requestAnimationFrame(() => {
@@ -323,13 +356,15 @@ function toggleMinterm(m: number, shift: boolean): void {
 
 function coveredMinterms(prime: Cube): number[] {
   const out: number[] = [];
-  for (let m = 0; m < (1 << n); m++) {
+  for (let m = 0; m < 1 << n; m++) {
     if ((m & prime.fixedMask) === prime.value) out.push(m);
   }
   return out;
 }
 
-function cubeKey(fixedMask: number, value: number): string { return fixedMask + ":" + value; }
+function cubeKey(fixedMask: number, value: number): string {
+  return fixedMask + ":" + value;
+}
 
 function findPrimes(): Prime[] {
   const target = targetValue();
@@ -355,9 +390,12 @@ function findPrimes(): Prime[] {
   for (const cube of cubes) {
     let ok = true;
     let hasOne = false;
-    for (let m = 0; m < (1 << n); m++) {
+    for (let m = 0; m < 1 << n; m++) {
       if ((m & cube.fixedMask) !== cube.value) continue;
-      if (state[m] !== target && state[m] !== 2) { ok = false; break; }
+      if (state[m] !== target && state[m] !== 2) {
+        ok = false;
+        break;
+      }
       if (state[m] === target) hasOne = true;
     }
     if (ok && hasOne) {
@@ -373,7 +411,10 @@ function findPrimes(): Prime[] {
     for (let bit = 0; bit < n; bit++) {
       if (!(cube.fixedMask & (1 << bit))) continue;
       const key = cubeKey(cube.fixedMask & ~(1 << bit), cube.value & ~(1 << bit));
-      if (validKeys.has(key)) { isPrime = false; break; }
+      if (validKeys.has(key)) {
+        isPrime = false;
+        break;
+      }
     }
     if (isPrime) out.push(cube);
   }
@@ -382,22 +423,41 @@ function findPrimes(): Prime[] {
 }
 
 function solutionKey(selected: number[]): string {
-  return selected.slice().sort((a, b) => a - b).join(",");
+  return selected
+    .slice()
+    .sort((a, b) => a - b)
+    .join(",");
 }
 
 function computeMinimum(): Result {
   const target = targetValue();
   const needed: number[] = [];
-  for (let m = 0; m < (1 << n); m++) if (state[m] === target) needed.push(m);
+  for (let m = 0; m < 1 << n; m++) if (state[m] === target) needed.push(m);
 
   if (needed.length === 0) {
     const expression = form === "dnf" ? "0" : "1";
     const solution: Solution = { selected: [], terms: 0, literals: 0, mask: 0, expression };
-    return { selected: [], terms: 0, literals: 0, expression, solutions: [solution], solutionIndex: 0, essentials: new Set<number>() };
+    return {
+      selected: [],
+      terms: 0,
+      literals: 0,
+      expression,
+      solutions: [solution],
+      solutionIndex: 0,
+      essentials: new Set<number>(),
+    };
   }
   if (primes.length === 0) {
     const solution: Solution = { selected: [], terms: 0, literals: 0, mask: 0, expression: form === "dnf" ? "0" : "1" };
-    return { selected: [], terms: 0, literals: 0, expression: solution.expression, solutions: [solution], solutionIndex: 0, essentials: new Set<number>() };
+    return {
+      selected: [],
+      terms: 0,
+      literals: 0,
+      expression: solution.expression,
+      solutions: [solution],
+      solutionIndex: 0,
+      essentials: new Set<number>(),
+    };
   }
 
   const limit = 1 << n;
@@ -438,7 +498,7 @@ function computeMinimum(): Result {
 
   function expressionOf(selected: number[]): string {
     return selected
-      .map((index) => form === "dnf" ? termText(primes[index]) : clauseText(primes[index]))
+      .map((index) => (form === "dnf" ? termText(primes[index]) : clauseText(primes[index])))
       .join(form === "dnf" ? " \\lor " : " \\land ");
   }
 
@@ -535,7 +595,15 @@ function computeMinimum(): Result {
 
   if (!bestKeys.length) {
     const solution: Solution = { selected: [], terms: 0, literals: 0, mask: 0, expression: form === "dnf" ? "0" : "1" };
-    return { selected: [], terms: 0, literals: 0, expression: solution.expression, solutions: [solution], solutionIndex: 0, essentials };
+    return {
+      selected: [],
+      terms: 0,
+      literals: 0,
+      expression: solution.expression,
+      solutions: [solution],
+      solutionIndex: 0,
+      essentials,
+    };
   }
 
   const solutions: Solution[] = bestKeys.map((key) => {
@@ -575,13 +643,14 @@ function buildGrid(grid: HTMLElement, layer: number | null): void {
       const inner = mintermOf(r, c, layout.colBits);
       const m = fullMinterm(inner, layer);
       const value = state[m];
-      const cls = value === 1 ? " v1" : (value === 2 ? " vx" : "");
+      const cls = value === 1 ? " v1" : value === 2 ? " vx" : "";
       const cell = el("div", {
         class: "map-cell" + cls,
         "data-m": String(m),
         role: "button",
         tabindex: "0",
-        "aria-label": "минтерм " + m + (layer === null ? "" : ", слой E=" + layer) + ", значение " + (value === 2 ? "X" : value),
+        "aria-label":
+          "минтерм " + m + (layer === null ? "" : ", слой E=" + layer) + ", значение " + (value === 2 ? "X" : value),
         "data-focus-key": "kmap-" + m,
       });
       cell.appendChild(el("span", { class: "idx", text: String(m) }));
@@ -600,7 +669,12 @@ function buildGrid(grid: HTMLElement, layer: number | null): void {
   }
 }
 
-function makeSheet(layer: number | null): { sheet: HTMLDivElement; top: HTMLDivElement; left: HTMLDivElement; grid: HTMLDivElement } {
+function makeSheet(layer: number | null): {
+  sheet: HTMLDivElement;
+  top: HTMLDivElement;
+  left: HTMLDivElement;
+  grid: HTMLDivElement;
+} {
   const sheet = el("div", { class: "map-sheet" });
   const top = el("div", { class: "map-anno map-anno-top" });
   const left = el("div", { class: "map-anno map-anno-left" });
@@ -616,8 +690,8 @@ function renderAxisBars(sheet: HTMLElement, top: HTMLElement, left: HTMLElement,
   const axis = axisVars();
   const track = 18;
   const gap = 4;
-  sheet.style.gridTemplateColumns = (axis.row.length * track + gap) + "px auto";
-  sheet.style.gridTemplateRows = (axis.col.length * track + gap) + "px auto";
+  sheet.style.gridTemplateColumns = axis.row.length * track + gap + "px auto";
+  sheet.style.gridTemplateRows = axis.col.length * track + gap + "px auto";
   const colHeads = Array.from(grid.querySelectorAll<HTMLElement>(".map-head"));
   const rowHeads = Array.from(grid.querySelectorAll<HTMLElement>(".map-rowhead"));
   for (let j = 0; j < axis.col.length; j++) {
@@ -628,8 +702,8 @@ function renderAxisBars(sheet: HTMLElement, top: HTMLElement, left: HTMLElement,
       if (!first || !last) continue;
       const bar = el("div", { class: "axis-bar axis-bar-top" });
       bar.style.left = first.offsetLeft + "px";
-      bar.style.width = (last.offsetLeft + last.offsetWidth - first.offsetLeft) + "px";
-      bar.style.top = (j * track) + "px";
+      bar.style.width = last.offsetLeft + last.offsetWidth - first.offsetLeft + "px";
+      bar.style.top = j * track + "px";
       bar.appendChild(el("span", { class: "axis-bar-label", text: axis.col[j] }));
       top.appendChild(bar);
     }
@@ -642,8 +716,8 @@ function renderAxisBars(sheet: HTMLElement, top: HTMLElement, left: HTMLElement,
       if (!first || !last) continue;
       const bar = el("div", { class: "axis-bar axis-bar-left" });
       bar.style.top = first.offsetTop + "px";
-      bar.style.height = (last.offsetTop + last.offsetHeight - first.offsetTop) + "px";
-      bar.style.left = (j * track) + "px";
+      bar.style.height = last.offsetTop + last.offsetHeight - first.offsetTop + "px";
+      bar.style.left = j * track + "px";
       bar.appendChild(el("span", { class: "axis-bar-label", text: axis.row[j] }));
       left.appendChild(bar);
     }
@@ -687,7 +761,8 @@ function renderMap(): void {
   const grouping = form === "dnf" ? "единицы" : "нули";
   let note: string;
   if (n === 5) {
-    note = "Два слоя по E. Внутри слоя карта замкнута в тор: верхний край соседний с нижним, левый с правым. Одинаковые клетки слоёв отличаются только переменной E.";
+    note =
+      "Два слоя по E. Внутри слоя карта замкнута в тор: верхний край соседний с нижним, левый с правым. Одинаковые клетки слоёв отличаются только переменной E.";
   } else if (n === 4) {
     note = "Карта замкнута в тор: верхний край соседний с нижним, левый с правым.";
   } else {
@@ -705,7 +780,7 @@ function renderTruth(): void {
   thead.appendChild(headRow);
   truthTable.appendChild(thead);
   const tbody = el("tbody");
-  for (let m = 0; m < (1 << n); m++) {
+  for (let m = 0; m < 1 << n; m++) {
     const bits = bitsOf(m, n);
     const row = el("tr");
     for (const bit of bits) row.appendChild(el("td", { class: "mono", text: String(bit) }));
@@ -759,7 +834,10 @@ function cyclicSegments(indices: Set<number>, total: number): Array<[number, num
   if (indices.size === total) return [[0, total - 1]];
   let start = -1;
   for (let i = 0; i < total; i++) {
-    if (!indices.has(i) && indices.has((i + 1) % total)) { start = (i + 1) % total; break; }
+    if (!indices.has(i) && indices.has((i + 1) % total)) {
+      start = (i + 1) % total;
+      break;
+    }
   }
   if (start < 0) return [[0, total - 1]];
   const sequence: number[] = [];
@@ -783,17 +861,30 @@ function cyclicSegments(indices: Set<number>, total: number): Array<[number, num
   const out: Array<[number, number]> = [];
   for (const [a, b] of runs) {
     if (a <= b) out.push([a, b]);
-    else { out.push([a, total - 1]); out.push([0, b]); }
+    else {
+      out.push([a, total - 1]);
+      out.push([0, b]);
+    }
   }
   return out;
 }
 
-function drawFrame(root: Element, left: number, top: number, right: number, bottom: number, open: OpenEdges, options: { primeIndex: number; selected: boolean }): SVGElement {
+function drawFrame(
+  root: Element,
+  left: number,
+  top: number,
+  right: number,
+  bottom: number,
+  open: OpenEdges,
+  options: { primeIndex: number; selected: boolean },
+): SVGElement {
   const gap = 5;
   const radius = Math.min(8, (right - left) / 2, (bottom - top) / 2);
   const d: string[] = [];
-  const segment = (x1: number, y1: number, x2: number, y2: number) => d.push("M " + x1 + " " + y1 + " L " + x2 + " " + y2);
-  const arc = (x1: number, y1: number, cx: number, cy: number, x2: number, y2: number) => d.push("M " + x1 + " " + y1 + " Q " + cx + " " + cy + " " + x2 + " " + y2);
+  const segment = (x1: number, y1: number, x2: number, y2: number) =>
+    d.push("M " + x1 + " " + y1 + " L " + x2 + " " + y2);
+  const arc = (x1: number, y1: number, cx: number, cy: number, x2: number, y2: number) =>
+    d.push("M " + x1 + " " + y1 + " Q " + cx + " " + cy + " " + x2 + " " + y2);
   if (!open.top) segment(left + (open.left ? gap : radius), top, right - (open.right ? gap : radius), top);
   if (!open.bottom) segment(left + (open.left ? gap : radius), bottom, right - (open.right ? gap : radius), bottom);
   if (!open.left) segment(left, top + (open.top ? gap : radius), left, bottom - (open.bottom ? gap : radius));
@@ -887,7 +978,9 @@ function renderFrames(result: Result | null): void {
   const layout = gridLayout();
   const rowAt = new Map<number, number>(layout.rows.map((code, index): [number, number] => [code, index]));
   const colAt = new Map<number, number>(layout.cols.map((code, index): [number, number] => [code, index]));
-  const selectedOrdinal = new Map<number, number>(result.selected.map((primeIndex, position): [number, number] => [primeIndex, position + 1]));
+  const selectedOrdinal = new Map<number, number>(
+    result.selected.map((primeIndex, position): [number, number] => [primeIndex, position + 1]),
+  );
   const inset = 3;
 
   for (const grid of grids) {
@@ -913,7 +1006,7 @@ function renderFrames(result: Result | null): void {
       const rows = new Set<number>();
       const cols = new Set<number>();
       for (const m of covers) {
-        const inner = layer === null ? m : (m >> 1);
+        const inner = layer === null ? m : m >> 1;
         const rowCode = inner >> layout.colBits;
         const colCode = inner & ((1 << layout.colBits) - 1);
         const rowIndex = rowAt.get(rowCode);
@@ -937,12 +1030,20 @@ function renderFrames(result: Result | null): void {
           const top = first.offsetTop + inset;
           const right = last.offsetLeft + last.offsetWidth - inset;
           const bottom = last.offsetTop + last.offsetHeight - inset;
-          const group = drawFrame(root, left, top, right, bottom, {
-            top: rowWrap && r0 === 0,
-            bottom: rowWrap && r1 === layout.rows.length - 1,
-            left: colWrap && c0 === 0,
-            right: colWrap && c1 === layout.cols.length - 1,
-          }, { primeIndex, selected });
+          const group = drawFrame(
+            root,
+            left,
+            top,
+            right,
+            bottom,
+            {
+              top: rowWrap && r0 === 0,
+              bottom: rowWrap && r1 === layout.rows.length - 1,
+              left: colWrap && c0 === 0,
+              right: colWrap && c1 === layout.cols.length - 1,
+            },
+            { primeIndex, selected },
+          );
           if (selected && firstSegment && ordinal !== undefined) {
             badgeRequests.push({ group, left, top, right, bottom, termNumber: ordinal });
           }
@@ -959,20 +1060,20 @@ function renderFrames(result: Result | null): void {
 function renderPrimes(result: Result): void {
   clear(primesNode);
   if (primes.length === 0) {
-    const message = form === "dnf"
-      ? "Простых импликант нет: функция равна нулю."
-      : "Клауз нет: функция равна единице.";
+    const message = form === "dnf" ? "Простых импликант нет: функция равна нулю." : "Клауз нет: функция равна единице.";
     primesNode.appendChild(el("p", { class: "muted", text: message }));
     return;
   }
   const table = el("table", { class: "data" });
   const thead = el("thead");
-  thead.appendChild(el("tr", {}, [
-    el("th", { class: "left", text: form === "dnf" ? "терм" : "клауза" }),
-    el("th", { class: "left", text: form === "dnf" ? "покрывает" : "покрывает нули" }),
-    el("th", { text: "лит." }),
-    el("th", { class: "left", text: "статус" }),
-  ]));
+  thead.appendChild(
+    el("tr", {}, [
+      el("th", { class: "left", text: form === "dnf" ? "терм" : "клауза" }),
+      el("th", { class: "left", text: form === "dnf" ? "покрывает" : "покрывает нули" }),
+      el("th", { text: "лит." }),
+      el("th", { class: "left", text: "статус" }),
+    ]),
+  );
   table.appendChild(thead);
   const tbody = el("tbody");
   for (let i = 0; i < primes.length; i++) {
@@ -1016,17 +1117,20 @@ function renderResult(result: Result): void {
     const line = el("div", { class: "formula-line" });
     line.appendChild(el("span", { class: "formula-prefix" }, math("f =", false)));
     result.selected.forEach((primeIndex, position) => {
-      if (position > 0) line.appendChild(el("span", { class: "formula-or" }, math(form === "dnf" ? "\\lor" : "\\land", false)));
+      if (position > 0)
+        line.appendChild(el("span", { class: "formula-or" }, math(form === "dnf" ? "\\lor" : "\\land", false)));
       const term = el("span", {
         class: "formula-term " + termClass(primeIndex),
         "data-prime": String(primeIndex),
         "data-focus-key": "term-" + primeIndex,
         tabindex: "0",
       });
-      term.appendChild(el("span", {
-        class: "term-no " + termClass(primeIndex),
-        text: String(position + 1),
-      }));
+      term.appendChild(
+        el("span", {
+          class: "term-no " + termClass(primeIndex),
+          text: String(position + 1),
+        }),
+      );
       term.appendChild(math(form === "dnf" ? termText(primes[primeIndex]) : clauseText(primes[primeIndex]), false));
       focus.bind(term, primeIndex);
       line.appendChild(term);
@@ -1034,18 +1138,24 @@ function renderResult(result: Result): void {
     resultNode.replaceChildren(line);
   }
   metricsNode.innerHTML = "";
-  metricsNode.appendChild(el("div", { class: "metric" }, [
-    el("span", { class: "k", text: form === "dnf" ? "термов" : "клауз" }),
-    el("span", { class: "v", text: String(result.terms) }),
-  ]));
-  metricsNode.appendChild(el("div", { class: "metric" }, [
-    el("span", { class: "k", text: "литералов" }),
-    el("span", { class: "v", text: String(result.literals) }),
-  ]));
-  metricsNode.appendChild(el("div", { class: "metric" }, [
-    el("span", { class: "k", text: "простых" }),
-    el("span", { class: "v", text: String(primes.length) }),
-  ]));
+  metricsNode.appendChild(
+    el("div", { class: "metric" }, [
+      el("span", { class: "k", text: form === "dnf" ? "термов" : "клауз" }),
+      el("span", { class: "v", text: String(result.terms) }),
+    ]),
+  );
+  metricsNode.appendChild(
+    el("div", { class: "metric" }, [
+      el("span", { class: "k", text: "литералов" }),
+      el("span", { class: "v", text: String(result.literals) }),
+    ]),
+  );
+  metricsNode.appendChild(
+    el("div", { class: "metric" }, [
+      el("span", { class: "k", text: "простых" }),
+      el("span", { class: "v", text: String(primes.length) }),
+    ]),
+  );
 }
 
 function renderSolutions(result: Result): void {
@@ -1055,12 +1165,18 @@ function renderSolutions(result: Result): void {
     return;
   }
   solutionsNode.classList.remove("hidden");
-  solutionsNode.appendChild(el("div", {
-    class: "solution-meta",
-    text: "Вариант " + (result.solutionIndex + 1) + " из " + result.solutions.length,
-  }));
+  solutionsNode.appendChild(
+    el("div", {
+      class: "solution-meta",
+      text: "Вариант " + (result.solutionIndex + 1) + " из " + result.solutions.length,
+    }),
+  );
   if (result.solutions.length <= 12) {
-    const strip = el("div", { class: "solution-strip", role: "tablist", "aria-label": "Равноценные минимальные варианты" });
+    const strip = el("div", {
+      class: "solution-strip",
+      role: "tablist",
+      "aria-label": "Равноценные минимальные варианты",
+    });
     result.solutions.forEach((_solution, index) => {
       const dot = el("button", {
         class: "solution-dot" + (index === result.solutionIndex ? " active" : ""),
@@ -1081,11 +1197,13 @@ function renderSolutions(result: Result): void {
   } else {
     const select = el("select", { class: "solution-select", "aria-label": "Равноценные минимальные варианты" });
     result.solutions.forEach((_solution, index) => {
-      select.appendChild(el("option", {
-        value: String(index),
-        text: "Вариант " + (index + 1),
-        selected: index === result.solutionIndex ? "selected" : undefined,
-      }));
+      select.appendChild(
+        el("option", {
+          value: String(index),
+          text: "Вариант " + (index + 1),
+          selected: index === result.solutionIndex ? "selected" : undefined,
+        }),
+      );
     });
     select.addEventListener("change", () => {
       solutionIndex = Number(select.value);
@@ -1194,7 +1312,9 @@ must<HTMLButtonElement>("#fill").addEventListener("click", () => {
 });
 
 must<HTMLButtonElement>("#reset").addEventListener("click", () => {
-  try { sessionStorage.removeItem(STORAGE_KEY); } catch {}
+  try {
+    sessionStorage.removeItem(STORAGE_KEY);
+  } catch {}
   n = 3;
   syncArity();
   form = "dnf";
@@ -1219,9 +1339,7 @@ if (saved) {
   state = saved.state.slice();
   xMemory = saved.xMemory.slice();
   solutionIndex = saved.solutionIndex;
-  preset.value = Array.from(preset.options).some((option) => option.value === saved.preset)
-    ? saved.preset
-    : "custom";
+  preset.value = Array.from(preset.options).some((option) => option.value === saved.preset) ? saved.preset : "custom";
   renderAll(true);
   setView(saved.view);
 } else {

@@ -21,20 +21,25 @@ model.preds.R = new Set(["1,1", "2,2", "3,1"]);
 
 let ast: FOL.Formula | null = null;
 
-const domainSize = ribbon(must<HTMLElement>("#domain-size"), [
-  { value: "2", label: "2" },
-  { value: "3", label: "3" },
-  { value: "4", label: "4" },
-  { value: "5", label: "5" },
-], "3", (value) => {
-  n = Number(value);
-  model = FOL.initialModel(n);
-  model.preds.P = new Set([1]);
-  model.preds.Q = new Set(FOL.initialModel(n).domain.slice(0, 2));
-  model.preds.R = new Set();
-  for (const i of model.domain) model.preds.R.add(i + "," + i);
-  renderAll();
-});
+const domainSize = ribbon(
+  must<HTMLElement>("#domain-size"),
+  [
+    { value: "2", label: "2" },
+    { value: "3", label: "3" },
+    { value: "4", label: "4" },
+    { value: "5", label: "5" },
+  ],
+  "3",
+  (value) => {
+    n = Number(value);
+    model = FOL.initialModel(n);
+    model.preds.P = new Set([1]);
+    model.preds.Q = new Set(FOL.initialModel(n).domain.slice(0, 2));
+    model.preds.R = new Set();
+    for (const i of model.domain) model.preds.R.add(i + "," + i);
+    renderAll();
+  },
+);
 const presetSelect = must<HTMLSelectElement>("#preset");
 const pGrid = must<HTMLElement>("#p-grid");
 const qGrid = must<HTMLElement>("#q-grid");
@@ -54,7 +59,8 @@ for (const text of presets) presetSelect.appendChild(el("option", { value: text,
 
 function toggleSet(name: "P" | "Q", value: number): void {
   const set = model.preds[name];
-  if (set.has(value)) set.delete(value); else set.add(value);
+  if (set.has(value)) set.delete(value);
+  else set.add(value);
   renderAll();
 }
 
@@ -101,7 +107,8 @@ function renderR(): void {
       });
       setPressed(button, model.preds.R.has(key));
       button.addEventListener("click", () => {
-        if (model.preds.R.has(key)) model.preds.R.delete(key); else model.preds.R.add(key);
+        if (model.preds.R.has(key)) model.preds.R.delete(key);
+        else model.preds.R.add(key);
         renderAll();
       });
       td.appendChild(button);
@@ -137,7 +144,9 @@ function renderFormula(): void {
   status(verdict, "Значение в модели: " + (value ? "истина" : "ложь") + ".", value ? "ok" : "bad");
   clear(rowsNode);
   if (formula.type !== "forall" && formula.type !== "exists") {
-    rowsNode.appendChild(el("p", { class: "hint", text: "Верхний квантор не один. Значение посчитано по всему дереву формулы." }));
+    rowsNode.appendChild(
+      el("p", { class: "hint", text: "Верхний квантор не один. Значение посчитано по всему дереву формулы." }),
+    );
     return;
   }
   const rows = FOL.quantifierRows(formula, model);
@@ -160,7 +169,9 @@ function renderFormula(): void {
   rowsNode.appendChild(table);
   if (formula.type === "forall") {
     const bad = rows.find((row) => !row.truth);
-    rowsNode.appendChild(el("p", { class: "hint", text: bad ? "Контрпример: " + bad.value + "." : "Все элементы удовлетворяют телу." }));
+    rowsNode.appendChild(
+      el("p", { class: "hint", text: bad ? "Контрпример: " + bad.value + "." : "Все элементы удовлетворяют телу." }),
+    );
   } else {
     const good = rows.find((row) => row.truth);
     rowsNode.appendChild(el("p", { class: "hint", text: good ? "Свидетель: " + good.value + "." : "Свидетеля нет." }));
@@ -176,9 +187,13 @@ function renderOrder(): void {
   orderRight.replaceChildren(math(FOL.toTex(rightAst), false));
   status(orderLeftStatus, "Значение: " + (left ? "истина" : "ложь"), left ? "ok" : "bad");
   status(orderRightStatus, "Значение: " + (right ? "истина" : "ложь"), right ? "ok" : "bad");
-  status(orderVerdict, left === right
-    ? "На этой модели значения совпали. Совпадение на одной модели не делает формулы равносильными."
-    : "Значения различны. Вторая формула сильнее: она требует один y для всех x.", "warn");
+  status(
+    orderVerdict,
+    left === right
+      ? "На этой модели значения совпали. Совпадение на одной модели не делает формулы равносильными."
+      : "Значения различны. Вторая формула сильнее: она требует один y для всех x.",
+    "warn",
+  );
 }
 
 function paint(): void {

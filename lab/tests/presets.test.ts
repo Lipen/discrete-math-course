@@ -1,10 +1,10 @@
 /* Presets are data: every hand-written truth table must match its declared function. */
 
 import { describe, expect, test } from "bun:test";
-import { evaluate, parse } from "../src/domain/logic";
 import type { PropAst } from "../src/domain/logic";
-import { presets, VARIABLES } from "../src/domain/presets";
+import { evaluate, parse } from "../src/domain/logic";
 import type { Preset } from "../src/domain/presets";
+import { presets, VARIABLES } from "../src/domain/presets";
 
 function popcount(value: number): number {
   let count = 0;

@@ -221,6 +221,9 @@ jobs:
       - name: Typecheck
         run: cd lab && bunx tsc --noEmit
 
+      - name: Lint and format
+        run: cd lab && bun run lint
+
       - name: Unit tests
         run: cd lab && bun test
 

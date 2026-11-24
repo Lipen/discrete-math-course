@@ -54,7 +54,8 @@ for (const page of pages) {
     if (!state.title) failures.push(`${page}: пустой заголовок`);
     if (state.sitebar !== 1) failures.push(`${page}: sitebar=${state.sitebar}`);
     if (!state.theme) failures.push(`${page}: тема не применена`);
-    if (state.katexNodes > 0 && state.katex === 0) failures.push(`${page}: KaTeX не отрендерил ${state.katexNodes} узлов`);
+    if (state.katexNodes > 0 && state.katex === 0)
+      failures.push(`${page}: KaTeX не отрендерил ${state.katexNodes} узлов`);
     if (state.main < 200) failures.push(`${page}: пустое содержимое (${state.main})`);
     for (const group of state.segmented) {
       if (group.active !== 1) failures.push(`${page}: ${group.id} активных кнопок ${group.active}`);
@@ -64,8 +65,11 @@ for (const page of pages) {
       if (state.cards !== expectedLabs) failures.push(`${page}: карточек ${state.cards}, ожидалось ${expectedLabs}`);
       if (state.modules !== 5) failures.push(`${page}: модулей ${state.modules}, ожидалось 5`);
       await tab.click(".filter[data-module='logic']");
-      const visible = await tab.evaluate(() => Array.from(document.querySelectorAll<HTMLElement>(".lab-card")).filter((card) => !card.hidden).length);
-      if (visible !== expectedLogic) failures.push(`${page}: фильтр логики показал ${visible} карточек, ожидалось ${expectedLogic}`);
+      const visible = await tab.evaluate(
+        () => Array.from(document.querySelectorAll<HTMLElement>(".lab-card")).filter((card) => !card.hidden).length,
+      );
+      if (visible !== expectedLogic)
+        failures.push(`${page}: фильтр логики показал ${visible} карточек, ожидалось ${expectedLogic}`);
     } else {
       if (state.pager !== 1) failures.push(`${page}: нет навигации по соседним лабораториям`);
     }
@@ -100,7 +104,9 @@ for (const page of pages) {
     if (beforeTheme === afterTheme) failures.push(`${page}: переключатель темы не сработал`);
 
     if (errors.length) failures.push(`${page}: ошибки консоли: ${errors.slice(0, 3).join(" | ")}`);
-    rows.push(`${page.padEnd(22)} ${state.buttons.toString().padStart(3)} кнопок  ${state.main.toString().padStart(5)} символов`);
+    rows.push(
+      `${page.padEnd(22)} ${state.buttons.toString().padStart(3)} кнопок  ${state.main.toString().padStart(5)} символов`,
+    );
   } catch (error) {
     failures.push(`${page}: ${String(error)}`);
   } finally {

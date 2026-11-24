@@ -23,14 +23,16 @@ function appendChildren(node: Element, children: Child | Child[]): void {
   const list = Array.isArray(children) ? children : [children];
   for (const child of list) {
     if (child === null || child === undefined) continue;
-    node.appendChild(typeof child === "string" || typeof child === "number"
-      ? document.createTextNode(String(child))
-      : child);
+    node.appendChild(
+      typeof child === "string" || typeof child === "number" ? document.createTextNode(String(child)) : child,
+    );
   }
 }
 
 export function el<K extends keyof HTMLElementTagNameMap>(
-  tag: K, attrs?: Attrs | null, children?: Child | Child[],
+  tag: K,
+  attrs?: Attrs | null,
+  children?: Child | Child[],
 ): HTMLElementTagNameMap[K];
 export function el(tag: string, attrs?: Attrs | null, children?: Child | Child[]): HTMLElement;
 export function el(tag: string, attrs?: Attrs | null, children?: Child | Child[]): HTMLElement {
@@ -104,7 +106,7 @@ export function setPressed(node: Element | null, pressed: boolean): Element | nu
 
 export function keepFocus(render: () => void): void {
   const active = document.activeElement;
-  const key = active && active.getAttribute("data-focus-key");
+  const key = active?.getAttribute("data-focus-key");
   render();
   if (!key) return;
   const next = $$("[data-focus-key]").find((node) => node.getAttribute("data-focus-key") === key);
@@ -115,7 +117,7 @@ export function keepFocus(render: () => void): void {
       return;
     }
   }
-  const fallback = next.parentElement && next.parentElement.querySelector<HTMLElement>("button:not([disabled])");
+  const fallback = next.parentElement?.querySelector<HTMLElement>("button:not([disabled])");
   if (fallback) fallback.focus({ preventScroll: true });
 }
 

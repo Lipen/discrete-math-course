@@ -47,7 +47,7 @@ export function card(a: NumSet): number {
 export function powerSet(a: NumSet): number[][] {
   const items = list(a);
   const out: number[][] = [];
-  for (let mask = 0; mask < (1 << items.length); mask++) {
+  for (let mask = 0; mask < 1 << items.length; mask++) {
     const subsetItems: number[] = [];
     for (let i = 0; i < items.length; i++) if (mask & (1 << i)) subsetItems.push(items[i]);
     out.push(subsetItems);
@@ -80,7 +80,11 @@ export interface RelationProperties {
 
 export function relationProperties(matrix: Matrix): RelationProperties {
   const n = matrix.length;
-  let reflexive = true, irreflexive = true, symmetric = true, antisymmetric = true, transitive = true;
+  let reflexive = true,
+    irreflexive = true,
+    symmetric = true,
+    antisymmetric = true,
+    transitive = true;
   for (let i = 0; i < n; i++) {
     if (!matrix[i][i]) reflexive = false;
     if (matrix[i][i]) irreflexive = false;
@@ -95,7 +99,10 @@ export function relationProperties(matrix: Matrix): RelationProperties {
     for (let j = 0; j < n; j++) {
       if (!matrix[i][j]) continue;
       for (let k = 0; k < n; k++) {
-        if (matrix[j][k] && !matrix[i][k]) { transitive = false; break; }
+        if (matrix[j][k] && !matrix[i][k]) {
+          transitive = false;
+          break;
+        }
       }
       if (!transitive) break;
     }
@@ -142,7 +149,10 @@ export function equivalenceClasses(matrix: Matrix): number[][] {
     if (seen.has(i)) continue;
     const cls: number[] = [];
     for (let j = 0; j < n; j++) {
-      if (matrix[i][j] && matrix[j][i]) { cls.push(j + 1); seen.add(j); }
+      if (matrix[i][j] && matrix[j][i]) {
+        cls.push(j + 1);
+        seen.add(j);
+      }
     }
     if (cls.length) out.push(cls);
   }

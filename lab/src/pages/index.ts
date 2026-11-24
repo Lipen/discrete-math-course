@@ -1,7 +1,7 @@
 /* Hub page: catalog by module, filters, poster. */
 
-import { catalog } from "../catalog";
 import type { ModuleEntry } from "../catalog";
+import { catalog } from "../catalog";
 import { el, must } from "../core/dom";
 
 const listNode = must<HTMLElement>("#module-list");

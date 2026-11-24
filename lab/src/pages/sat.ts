@@ -79,7 +79,11 @@ function triangleColoring(): PresetData {
     clauses.push([varOf(v, 0), varOf(v, 1)]);
     clauses.push([-varOf(v, 0), -varOf(v, 1)]);
   }
-  const edges: Array<[number, number]> = [[0, 1], [1, 2], [0, 2]];
+  const edges: Array<[number, number]> = [
+    [0, 1],
+    [1, 2],
+    [0, 2],
+  ];
   for (const [u, v] of edges) {
     for (let c = 0; c < 2; c++) clauses.push([-varOf(u, c), -varOf(v, c)]);
   }
@@ -87,8 +91,9 @@ function triangleColoring(): PresetData {
 }
 
 function mulberry32(seed: number): () => number {
-  return function () {
-    let t = seed += 0x6D2B79F5;
+  return () => {
+    seed += 0x6d2b79f5;
+    let t = seed;
     t = Math.imul(t ^ (t >>> 15), t | 1);
     t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
     return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
@@ -199,8 +204,14 @@ function solveCnf(clauses: number[][], n: number): SolveResult {
     let unassignedLit = 0;
     for (const lit of clause) {
       const value = litValue(lit);
-      if (value === 1) { satisfied = true; break; }
-      if (value === 0) { unassigned++; unassignedLit = lit; }
+      if (value === 1) {
+        satisfied = true;
+        break;
+      }
+      if (value === 0) {
+        unassigned++;
+        unassignedLit = lit;
+      }
     }
     return { satisfied, unassigned, unassignedLit };
   }
@@ -278,7 +289,9 @@ function renderTrace(trace: TraceItem[], upto: number): void {
     return;
   }
   if (!upto) {
-    traceNode.appendChild(el("div", { class: "muted", text: "Трасса скрыта. Нажмите «Следующий шаг», чтобы разобрать решение." }));
+    traceNode.appendChild(
+      el("div", { class: "muted", text: "Трасса скрыта. Нажмите «Следующий шаг», чтобы разобрать решение." }),
+    );
     traceHint.textContent = "Шаг 0 из " + trace.length + ".";
     traceStepButton.disabled = false;
     traceAllButton.disabled = false;
@@ -298,7 +311,16 @@ function renderTrace(trace: TraceItem[], upto: number): void {
     }
     const item = shown[i];
     const kind = item.type === "prop" ? "prop" : item.type;
-    const label = item.type === "prop" ? "юнит-пропагация" : (item.type === "decision" ? "ветвление" : (item.type === "conflict" ? "конфликт" : (item.type === "backtrack" ? "откат" : "SAT")));
+    const label =
+      item.type === "prop"
+        ? "юнит-пропагация"
+        : item.type === "decision"
+          ? "ветвление"
+          : item.type === "conflict"
+            ? "конфликт"
+            : item.type === "backtrack"
+              ? "откат"
+              : "SAT";
     const line = el("div", { class: "ln" });
     line.appendChild(el("span", { class: "lv", text: "@" + item.level }));
     line.appendChild(el("span", { class: "kind " + kind, text: label }));
@@ -313,14 +335,18 @@ function renderTrace(trace: TraceItem[], upto: number): void {
 function renderArt(kind: ArtKind): void {
   clear(artNode);
   if (kind === "pigeon") {
-    artNode.appendChild(el("p", { class: "small muted", text: "Три птицы, две дырки. Переменная x(i,h): птица i сидит в дырке h." }));
+    artNode.appendChild(
+      el("p", { class: "small muted", text: "Три птицы, две дырки. Переменная x(i,h): птица i сидит в дырке h." }),
+    );
     const table = el("table", { class: "data" });
     const thead = el("thead");
-    thead.appendChild(el("tr", {}, [
-      el("th", { class: "left", text: "птица" }),
-      el("th", { text: "дырка 1" }),
-      el("th", { text: "дырка 2" }),
-    ]));
+    thead.appendChild(
+      el("tr", {}, [
+        el("th", { class: "left", text: "птица" }),
+        el("th", { text: "дырка 1" }),
+        el("th", { text: "дырка 2" }),
+      ]),
+    );
     table.appendChild(thead);
     const tbody = el("tbody");
     for (let p = 0; p < 3; p++) {
@@ -332,56 +358,98 @@ function renderArt(kind: ArtKind): void {
     table.appendChild(tbody);
     artNode.appendChild(table);
   } else if (kind === "color") {
-    artNode.appendChild(el("p", { class: "small muted", text: "Треугольник, два цвета. Соседние вершины должны получить разные цвета." }));
+    artNode.appendChild(
+      el("p", { class: "small muted", text: "Треугольник, два цвета. Соседние вершины должны получить разные цвета." }),
+    );
     const root = svg("svg", { viewBox: "0 0 320 220", role: "img", "aria-label": "Раскраска треугольника" });
-    const pts: Record<number, { x: number; y: number }> = { 0: { x: 160, y: 34 }, 1: { x: 54, y: 178 }, 2: { x: 266, y: 178 } };
-    const edges: Array<[number, number]> = [[0, 1], [1, 2], [2, 0]];
+    const pts: Record<number, { x: number; y: number }> = {
+      0: { x: 160, y: 34 },
+      1: { x: 54, y: 178 },
+      2: { x: 266, y: 178 },
+    };
+    const edges: Array<[number, number]> = [
+      [0, 1],
+      [1, 2],
+      [2, 0],
+    ];
     for (const [u, v] of edges) {
-      root.appendChild(svg("line", { x1: pts[u].x, y1: pts[u].y, x2: pts[v].x, y2: pts[v].y, stroke: "#9d9586", "stroke-width": 2 }));
+      root.appendChild(
+        svg("line", { x1: pts[u].x, y1: pts[u].y, x2: pts[v].x, y2: pts[v].y, stroke: "#9d9586", "stroke-width": 2 }),
+      );
     }
     const colors = ["#2d5fa8", "#a76a12"];
     for (let v = 0; v < 3; v++) {
       const p = pts[v];
-      root.appendChild(svg("circle", { cx: p.x, cy: p.y, r: 24, fill: "#fff", stroke: "#7b7366", "stroke-width": 1.5 }));
-      root.appendChild(svg("text", { x: p.x, y: p.y + 5, "text-anchor": "middle", "font-size": 13, "font-weight": 700, fill: "#1d2733" }, String(v + 1)));
+      root.appendChild(
+        svg("circle", { cx: p.x, cy: p.y, r: 24, fill: "#fff", stroke: "#7b7366", "stroke-width": 1.5 }),
+      );
+      root.appendChild(
+        svg(
+          "text",
+          { x: p.x, y: p.y + 5, "text-anchor": "middle", "font-size": 13, "font-weight": 700, fill: "#1d2733" },
+          String(v + 1),
+        ),
+      );
       for (let c = 0; c < 2; c++) {
         const cx = p.x + (c === 0 ? -18 : 18);
         const cy = p.y + 38;
         root.appendChild(svg("circle", { cx, cy, r: 7, fill: colors[c], opacity: 0.85 }));
-        root.appendChild(svg("text", { x: cx, y: cy + 20, "text-anchor": "middle", "font-size": 9, fill: "#5f6d7c" }, "x" + (v * 2 + c + 1)));
+        root.appendChild(
+          svg(
+            "text",
+            { x: cx, y: cy + 20, "text-anchor": "middle", "font-size": 9, fill: "#5f6d7c" },
+            "x" + (v * 2 + c + 1),
+          ),
+        );
       }
     }
     artNode.appendChild(root);
   } else {
     const ratio = currentRatio === null ? 0 : currentRatio;
-    artNode.appendChild(el("p", { class: "small muted", text: "Случайная 3-SAT: n = 6, m = 25, отношение m/n = " + fmt(ratio, 2) + "." }));
+    artNode.appendChild(
+      el("p", { class: "small muted", text: "Случайная 3-SAT: n = 6, m = 25, отношение m/n = " + fmt(ratio, 2) + "." }),
+    );
     const bar = el("div", { class: "gaugeline" });
     const marker = el("div", { class: "gauge-marker" });
     marker.style.left = Math.max(0, Math.min(100, (ratio / 8) * 100)) + "%";
     bar.appendChild(marker);
     artNode.appendChild(bar);
-    artNode.appendChild(el("div", { class: "gauge-label" }, [
-      el("span", { text: "0" }),
-      el("span", { text: "порог 4.26" }),
-      el("span", { text: "8" }),
-    ]));
+    artNode.appendChild(
+      el("div", { class: "gauge-label" }, [
+        el("span", { text: "0" }),
+        el("span", { text: "порог 4.26" }),
+        el("span", { text: "8" }),
+      ]),
+    );
   }
 }
 
 function renderResult(result: SolveResult): void {
   metricsNode.innerHTML = "";
-  metricsNode.appendChild(el("div", { class: "metric" }, [
-    el("span", { class: "k", text: "ветвлений" }), el("span", { class: "v", text: String(result.decisions) }),
-  ]));
-  metricsNode.appendChild(el("div", { class: "metric" }, [
-    el("span", { class: "k", text: "пропагаций" }), el("span", { class: "v", text: String(result.propagations) }),
-  ]));
-  metricsNode.appendChild(el("div", { class: "metric" }, [
-    el("span", { class: "k", text: "конфликтов" }), el("span", { class: "v", text: String(result.conflicts) }),
-  ]));
-  metricsNode.appendChild(el("div", { class: "metric" }, [
-    el("span", { class: "k", text: "узлов" }), el("span", { class: "v", text: String(result.nodes) }),
-  ]));
+  metricsNode.appendChild(
+    el("div", { class: "metric" }, [
+      el("span", { class: "k", text: "ветвлений" }),
+      el("span", { class: "v", text: String(result.decisions) }),
+    ]),
+  );
+  metricsNode.appendChild(
+    el("div", { class: "metric" }, [
+      el("span", { class: "k", text: "пропагаций" }),
+      el("span", { class: "v", text: String(result.propagations) }),
+    ]),
+  );
+  metricsNode.appendChild(
+    el("div", { class: "metric" }, [
+      el("span", { class: "k", text: "конфликтов" }),
+      el("span", { class: "v", text: String(result.conflicts) }),
+    ]),
+  );
+  metricsNode.appendChild(
+    el("div", { class: "metric" }, [
+      el("span", { class: "k", text: "узлов" }),
+      el("span", { class: "v", text: String(result.nodes) }),
+    ]),
+  );
   if (result.model) {
     status(resultNode, "SAT. Модель: " + formatModel(result.model), "ok");
   } else {
@@ -415,7 +483,7 @@ function solveCurrent(): void {
   status(parseStatus, "Переменных: " + currentN + ", клауз: " + currentClauses.length + ".", "ok");
   const result = solveCnf(currentClauses, currentN);
   renderResult(result);
-  renderArt(currentPreset === "random" ? "random" : (currentPreset === "color" ? "color" : "pigeon"));
+  renderArt(currentPreset === "random" ? "random" : currentPreset === "color" ? "color" : "pigeon");
 }
 
 presetNode.addEventListener("change", () => {

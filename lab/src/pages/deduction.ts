@@ -4,8 +4,15 @@ import { clear, el, must, status } from "../core/dom";
 import { math } from "../core/math";
 import * as Logic from "../domain/logic";
 
-interface Exercise { title: string; premises: string[]; goal: string }
-interface Rule { id: string; label: string }
+interface Exercise {
+  title: string;
+  premises: string[];
+  goal: string;
+}
+interface Rule {
+  id: string;
+  label: string;
+}
 
 interface Line {
   ast: Logic.PropAst | null;
@@ -26,7 +33,10 @@ interface Candidate {
   depth: number;
 }
 
-interface Source { line: Line; ast: Logic.PropAst }
+interface Source {
+  line: Line;
+  ast: Logic.PropAst;
+}
 
 type StepStatus = "ok" | "warning" | "error";
 
@@ -113,7 +123,9 @@ const addRowButton = must<HTMLButtonElement>("#add-row");
 const addSubproofButton = must<HTMLButtonElement>("#add-subproof");
 const resetButton = must<HTMLButtonElement>("#reset");
 
-exercises.forEach((exercise, index) => exerciseSelect.appendChild(el("option", { value: String(index), text: exercise.title + "   ⊢ " + exercise.goal })));
+exercises.forEach((exercise, index) => {
+  exerciseSelect.appendChild(el("option", { value: String(index), text: exercise.title + "   ⊢ " + exercise.goal }));
+});
 
 function errorText(error: unknown): string {
   return error instanceof Error ? error.message : String(error);
@@ -152,7 +164,10 @@ function refsLabel(refs: number[]): string {
   let prev = refs[0];
   for (let i = 1; i < refs.length; i++) {
     const value = refs[i];
-    if (value === prev + 1) { prev = value; continue; }
+    if (value === prev + 1) {
+      prev = value;
+      continue;
+    }
     parts.push(start === prev ? String(start) : start + "-" + prev);
     start = prev = value;
   }
@@ -162,10 +177,14 @@ function refsLabel(refs: number[]): string {
 
 function parseRefs(text: string): number[] {
   const out: number[] = [];
-  for (const token of String(text || "").split(",").map((item) => item.trim()).filter(Boolean)) {
+  for (const token of String(text || "")
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean)) {
     if (token.includes("-")) {
       const [a, b] = token.split("-").map(Number);
-      if (!Number.isInteger(a) || !Number.isInteger(b) || a > b || a < 1) throw new Error("Плохой диапазон ссылок: " + token);
+      if (!Number.isInteger(a) || !Number.isInteger(b) || a > b || a < 1)
+        throw new Error("Плохой диапазон ссылок: " + token);
       for (let i = a; i <= b; i++) out.push(i);
     } else {
       const value = Number(token);
@@ -199,16 +218,19 @@ function validate(candidate: Candidate, previous: Line[]): { ast: Logic.PropAst 
   const depth = Number(candidate.depth);
   const refs = candidate.refs || [];
   function source(number: number): Source {
-    if (!Number.isInteger(number) || number < 1 || number > previous.length) throw new Error("Ссылка на несуществующую строку.");
+    if (!Number.isInteger(number) || number < 1 || number > previous.length)
+      throw new Error("Ссылка на несуществующую строку.");
     const line = previous[number - 1];
     if (!line.ast) stepWarn("Ссылка на строку " + number + " без разобранной формулы.");
     return { line, ast: line.ast };
   }
   function accessible(number: number, sourceLine: Source): Source {
     for (let i = number; i < previous.length; i++) {
-      if (previous[i].depth < sourceLine.line.depth) throw new Error("Ссылка на строку " + number + " уже закрыта: подвывод закончился раньше.");
+      if (previous[i].depth < sourceLine.line.depth)
+        throw new Error("Ссылка на строку " + number + " уже закрыта: подвывод закончился раньше.");
     }
-    if (depth < sourceLine.line.depth) throw new Error("Нельзя ссылаться на строку " + number + " из закрытого подвывода.");
+    if (depth < sourceLine.line.depth)
+      throw new Error("Нельзя ссылаться на строку " + number + " из закрытого подвывода.");
     return sourceLine;
   }
   function needAccessible(count: number): Source[] {
@@ -228,7 +250,8 @@ function validate(candidate: Candidate, previous: Line[]): { ast: Logic.PropAst 
   }
   if (depth > 0) {
     if (candidate.rule === "assumption") {
-      if (hasOpenAssumption(depth)) throw new Error("Подвывод этой глубины уже открыт. Закройте его или выберите большую глубину.");
+      if (hasOpenAssumption(depth))
+        throw new Error("Подвывод этой глубины уже открыт. Закройте его или выберите большую глубину.");
       if (depth > 1 && !hasOpenAssumption(depth - 1)) throw new Error("Сначала откройте внешний подвывод.");
     } else if (!hasOpenAssumption(depth)) {
       throw new Error("На глубине " + depth + " нет открытого допущения.");
@@ -246,13 +269,15 @@ function validate(candidate: Candidate, previous: Line[]): { ast: Logic.PropAst 
   }
   if (candidate.rule === "andi") {
     const [left, right] = needAccessible(2);
-    if (!same(ast, { type: "and", a: left.ast, b: right.ast })) throw new Error("Заключение должно быть конъюнкцией указанных формул.");
+    if (!same(ast, { type: "and", a: left.ast, b: right.ast }))
+      throw new Error("Заключение должно быть конъюнкцией указанных формул.");
     return { ast };
   }
   if (candidate.rule === "ande") {
     const [sourceLine] = needAccessible(1);
     if (sourceLine.ast.type !== "and") throw new Error("Нужна ссылка на конъюнкцию.");
-    if (!same(ast, sourceLine.ast.a) && !same(ast, sourceLine.ast.b)) throw new Error("Из конъюнкции выводится только её часть.");
+    if (!same(ast, sourceLine.ast.a) && !same(ast, sourceLine.ast.b))
+      throw new Error("Из конъюнкции выводится только её часть.");
     return { ast };
   }
   if (candidate.rule === "ori") {
@@ -273,7 +298,7 @@ function validate(candidate: Candidate, previous: Line[]): { ast: Logic.PropAst 
   if (candidate.rule === "notE") {
     const [one, two] = needAccessible(2);
     if (!(ast.type === "const" && ast.value === false)) throw new Error("¬E даёт ⊥.");
-    const neg = one.ast.type === "not" ? one.ast : (two.ast.type === "not" ? two.ast : null);
+    const neg = one.ast.type === "not" ? one.ast : two.ast.type === "not" ? two.ast : null;
     const other = neg === one.ast ? two.ast : one.ast;
     if (!neg || !same(neg.a, other)) throw new Error("Нужны формула и её отрицание.");
     return { ast };
@@ -286,7 +311,10 @@ function validate(candidate: Candidate, previous: Line[]): { ast: Logic.PropAst 
   if (candidate.rule === "iffE") {
     const [sourceLine] = needAccessible(1);
     if (sourceLine.ast.type !== "iff") throw new Error("↔E требует ссылку на эквивалентность.");
-    const ok = ast.type === "impl" && ((same(ast.a, sourceLine.ast.a) && same(ast.b, sourceLine.ast.b)) || (same(ast.a, sourceLine.ast.b) && same(ast.b, sourceLine.ast.a)));
+    const ok =
+      ast.type === "impl" &&
+      ((same(ast.a, sourceLine.ast.a) && same(ast.b, sourceLine.ast.b)) ||
+        (same(ast.a, sourceLine.ast.b) && same(ast.b, sourceLine.ast.a)));
     if (!ok) throw new Error("Из φ↔ψ выводится φ→ψ или ψ→φ.");
     return { ast };
   }
@@ -295,19 +323,23 @@ function validate(candidate: Candidate, previous: Line[]): { ast: Logic.PropAst 
     if (!contiguous(refs)) throw new Error("Диапазон подвывода должен идти подряд.");
     const start = source(refs[0]);
     const end = source(refs[refs.length - 1]);
-    if (end.line !== previous[previous.length - 1]) throw new Error("Подвывод должен заканчиваться прямо перед этой строкой.");
+    if (end.line !== previous[previous.length - 1])
+      throw new Error("Подвывод должен заканчиваться прямо перед этой строкой.");
     if (start.line.rule !== "assumption") throw new Error("Подвывод должен начинаться с допущения.");
-    if (start.line.depth !== depth + 1 || end.line.depth !== depth + 1) throw new Error("Глубина подвывода не совпадает.");
+    if (start.line.depth !== depth + 1 || end.line.depth !== depth + 1)
+      throw new Error("Глубина подвывода не совпадает.");
     for (const ref of refs) {
       if (source(ref).line.depth < depth + 1) throw new Error("Подвывод выходит за свою глубину.");
     }
     if (candidate.rule === "implI") {
-      if (ast.type !== "impl" || !same(ast.a, start.ast) || !same(ast.b, end.ast)) throw new Error("→I: из допущения φ и вывода ψ получается φ → ψ.");
+      if (ast.type !== "impl" || !same(ast.a, start.ast) || !same(ast.b, end.ast))
+        throw new Error("→I: из допущения φ и вывода ψ получается φ → ψ.");
     } else if (candidate.rule === "notI") {
       if (ast.type !== "not" || !same(ast.a, start.ast)) throw new Error("¬I: из допущения φ и ⊥ получается ¬φ.");
       if (end.ast.type !== "const" || end.ast.value !== false) throw new Error("¬I требует ⊥ в конце подвывода.");
     } else {
-      if (start.ast.type !== "not" || !same(start.ast.a, ast)) throw new Error("RAA: из допущения ¬φ и ⊥ получается φ.");
+      if (start.ast.type !== "not" || !same(start.ast.a, ast))
+        throw new Error("RAA: из допущения ¬φ и ⊥ получается φ.");
       if (end.ast.type !== "const" || end.ast.value !== false) throw new Error("RAA требует ⊥ в конце подвывода.");
     }
     return { ast };
@@ -331,7 +363,12 @@ function analyzeLines(): Validity[] {
         return { status: "warning", ok: false, warning: "Формула не разобрана: " + errorText(error) };
       }
     }
-    if (!line.rule) return { status: "warning", ok: false, warning: "Шаг не обоснован." + (line.refsError ? " Ссылки не разобраны: " + line.refsError : "") };
+    if (!line.rule)
+      return {
+        status: "warning",
+        ok: false,
+        warning: "Шаг не обоснован." + (line.refsError ? " Ссылки не разобраны: " + line.refsError : ""),
+      };
     if (line.refsError) return { status: "warning", ok: false, warning: "Ссылки не разобраны: " + line.refsError };
     try {
       validate({ formula, ast, rule: line.rule, refs: line.refs, depth: line.depth }, lines.slice(0, index));
@@ -366,7 +403,7 @@ function subproofEnd(index: number): number {
 
 function ruleLabel(line: Line): string {
   if (line.rule === "premise") return "посылка";
-  return line.rule ? (ruleById.get(line.rule)?.label || line.rule) : "не указано";
+  return line.rule ? ruleById.get(line.rule)?.label || line.rule : "не указано";
 }
 
 function lineDepthBars(depth: number): HTMLElement {
@@ -419,10 +456,14 @@ function levelCell(line: Line, index: number): HTMLElement {
     if (!(event.target instanceof Element)) return;
     if (!event.target.closest("button")) box.focus();
   });
-  box.appendChild(el("span", { class: "fitch-level-value", text: String(line.depth), "aria-label": "Уровень " + line.depth }));
+  box.appendChild(
+    el("span", { class: "fitch-level-value", text: String(line.depth), "aria-label": "Уровень " + line.depth }),
+  );
   const pop = el("div", { class: "fitch-level-pop", role: "group", "aria-label": "Уровень строки " + (index + 1) });
   pop.appendChild(less);
-  pop.appendChild(el("span", { class: "fitch-level-value", text: String(line.depth), "aria-label": "Уровень " + line.depth }));
+  pop.appendChild(
+    el("span", { class: "fitch-level-value", text: String(line.depth), "aria-label": "Уровень " + line.depth }),
+  );
   pop.appendChild(more);
   box.appendChild(pop);
   return box;
@@ -439,7 +480,11 @@ function enclosingAssumption(index: number): number {
 }
 
 function lineActions(line: Line, index: number): HTMLElement {
-  const box = el("div", { class: "fitch-actions", role: "toolbar", "aria-label": "Действия со строкой " + (index + 1) });
+  const box = el("div", {
+    class: "fitch-actions",
+    role: "toolbar",
+    "aria-label": "Действия со строкой " + (index + 1),
+  });
   if (line.rule !== "premise") {
     box.appendChild(actionButton("Изменить", "edit", index));
     box.appendChild(actionButton("Поднять", "above", index));
@@ -456,7 +501,12 @@ function lineActions(line: Line, index: number): HTMLElement {
 
 function renderRow(line: Line, index: number, validity: Validity): HTMLElement {
   const row = el("div", {
-    class: "fitch-row" + (line.rule === "premise" ? " premise" : "") + (line.lemmaTitle ? " lemma" : "") + (validity.status === "error" ? " invalid" : (validity.status === "warning" ? " warning" : "")) + (composer && composer.mode === "edit" && composer.index === index ? " editing" : ""),
+    class:
+      "fitch-row" +
+      (line.rule === "premise" ? " premise" : "") +
+      (line.lemmaTitle ? " lemma" : "") +
+      (validity.status === "error" ? " invalid" : validity.status === "warning" ? " warning" : "") +
+      (composer && composer.mode === "edit" && composer.index === index ? " editing" : ""),
     role: "group",
     tabindex: "0",
     "aria-label": "Строка " + (index + 1),
@@ -471,20 +521,29 @@ function renderRow(line: Line, index: number, validity: Validity): HTMLElement {
   const formula = el("div", { class: "fitch-formula" });
   if (line.ast) formula.appendChild(math(texOf(line.ast), false));
   else formula.appendChild(el("span", { class: "fitch-raw", text: line.formula.trim() || "…" }));
-  if (line.lemmaTitle) formula.appendChild(el("span", { class: "fitch-lemma-tag", text: "подвывод · " + line.lemmaTitle }));
+  if (line.lemmaTitle)
+    formula.appendChild(el("span", { class: "fitch-lemma-tag", text: "подвывод · " + line.lemmaTitle }));
   formulaBox.appendChild(formula);
-  if (validity.status === "warning") formulaBox.appendChild(el("div", { class: "fitch-warning", text: validity.warning }));
+  if (validity.status === "warning")
+    formulaBox.appendChild(el("div", { class: "fitch-warning", text: validity.warning }));
   if (validity.status === "error") formulaBox.appendChild(el("div", { class: "fitch-error", text: validity.error }));
   formulaCell.appendChild(formulaBox);
   row.appendChild(formulaCell);
 
   const ruleCell = el("div", { class: "fitch-rule-cell" });
-  ruleCell.appendChild(el("span", { class: "fitch-rule" + (line.rule === "assumption" ? " assumption" : "") + (line.rule ? "" : " unspecified"), text: ruleLabel(line) }));
+  ruleCell.appendChild(
+    el("span", {
+      class: "fitch-rule" + (line.rule === "assumption" ? " assumption" : "") + (line.rule ? "" : " unspecified"),
+      text: ruleLabel(line),
+    }),
+  );
   row.appendChild(ruleCell);
 
-  const refsText = line.refs.length ? refsLabel(line.refs) : (line.refsRaw || "·");
-  const refsTitle = line.refs.length ? "Ссылки" : (line.refsError ? "Ссылки не разобраны" : "Ссылок нет");
-  row.appendChild(el("div", { class: "fitch-refs-cell", title: refsTitle }, [el("span", { class: "fitch-refs", text: refsText })]));
+  const refsText = line.refs.length ? refsLabel(line.refs) : line.refsRaw || "·";
+  const refsTitle = line.refs.length ? "Ссылки" : line.refsError ? "Ссылки не разобраны" : "Ссылок нет";
+  row.appendChild(
+    el("div", { class: "fitch-refs-cell", title: refsTitle }, [el("span", { class: "fitch-refs", text: refsText })]),
+  );
   row.appendChild(lineActions(line, index));
   row.addEventListener("click", (event) => {
     if (!(event.target instanceof Element)) return;
@@ -517,15 +576,27 @@ function renderComposer(): HTMLFormElement | null {
   box.appendChild(head);
 
   const grid = el("div", { class: "composer-grid" });
-  grid.appendChild(el("div", { class: "composer-fixed" }, [
-    el("span", { text: "Уровень" }),
-    el("b", { text: String(state.depth) }),
-  ]));
+  grid.appendChild(
+    el("div", { class: "composer-fixed" }, [el("span", { text: "Уровень" }), el("b", { text: String(state.depth) })]),
+  );
   if (isSubproof) {
-    grid.appendChild(el("div", { class: "composer-fixed" }, [el("span", { text: "Правило" }), el("b", { text: "допущение" })]));
+    grid.appendChild(
+      el("div", { class: "composer-fixed" }, [el("span", { text: "Правило" }), el("b", { text: "допущение" })]),
+    );
   }
-  const formulaField = el("label", { class: "composer-field composer-formula" }, [el("span", { text: isSubproof ? "Допущение подвывода" : "Формула" })]);
-  formulaField.appendChild(el("input", { "data-field": "formula", class: "formula-input", value: state.formula || "", placeholder: isSubproof ? "например, A" : "например, A → B", spellcheck: "false", autocomplete: "off" }));
+  const formulaField = el("label", { class: "composer-field composer-formula" }, [
+    el("span", { text: isSubproof ? "Допущение подвывода" : "Формула" }),
+  ]);
+  formulaField.appendChild(
+    el("input", {
+      "data-field": "formula",
+      class: "formula-input",
+      value: state.formula || "",
+      placeholder: isSubproof ? "например, A" : "например, A → B",
+      spellcheck: "false",
+      autocomplete: "off",
+    }),
+  );
   grid.appendChild(formulaField);
 
   if (!isSubproof) {
@@ -534,7 +605,9 @@ function renderComposer(): HTMLFormElement | null {
     rule.appendChild(el("option", { value: "", text: "не указано", selected: state.rule ? undefined : "selected" }));
     for (const item of rules) {
       if (item.id === "premise") continue;
-      rule.appendChild(el("option", { value: item.id, text: item.label, selected: item.id === state.rule ? "selected" : undefined }));
+      rule.appendChild(
+        el("option", { value: item.id, text: item.label, selected: item.id === state.rule ? "selected" : undefined }),
+      );
     }
     ruleField.appendChild(rule);
     grid.appendChild(ruleField);
@@ -542,22 +615,50 @@ function renderComposer(): HTMLFormElement | null {
 
   if (!isSubproof) {
     const refsField = el("label", { class: "composer-field" }, [el("span", { text: "Ссылки" })]);
-    refsField.appendChild(el("input", { "data-field": "refs", class: "formula-input", value: state.refsText || "", placeholder: "1,2 или 3-5", spellcheck: "false", autocomplete: "off" }));
+    refsField.appendChild(
+      el("input", {
+        "data-field": "refs",
+        class: "formula-input",
+        value: state.refsText || "",
+        placeholder: "1,2 или 3-5",
+        spellcheck: "false",
+        autocomplete: "off",
+      }),
+    );
     grid.appendChild(refsField);
   }
 
   if (showTitle) {
     const titleField = el("label", { class: "composer-field wide" }, [el("span", { text: "Название подвывода" })]);
-    titleField.appendChild(el("input", { "data-field": "title", class: "formula-input", value: state.title || "", placeholder: "например, вспомогательный факт", autocomplete: "off" }));
+    titleField.appendChild(
+      el("input", {
+        "data-field": "title",
+        class: "formula-input",
+        value: state.title || "",
+        placeholder: "например, вспомогательный факт",
+        autocomplete: "off",
+      }),
+    );
     grid.appendChild(titleField);
   }
   box.appendChild(grid);
 
-  if (isClose) box.appendChild(el("p", { class: "composer-note", text: "Ссылки уже заполнены диапазоном подвывода. Измените правило, если закрываете его через ¬I или RAA." }));
+  if (isClose)
+    box.appendChild(
+      el("p", {
+        class: "composer-note",
+        text: "Ссылки уже заполнены диапазоном подвывода. Измените правило, если закрываете его через ¬I или RAA.",
+      }),
+    );
 
   const preview = el("div", { class: "composer-preview", "data-role": "preview" });
   const message = el("span", { class: "composer-msg", "data-role": "message" });
-  const submit = el("button", { class: "active", type: "submit", "data-role": "submit", text: isEdit ? "Сохранить" : (isSubproof ? "Открыть подвывод" : "Добавить") });
+  const submit = el("button", {
+    class: "active",
+    type: "submit",
+    "data-role": "submit",
+    text: isEdit ? "Сохранить" : isSubproof ? "Открыть подвывод" : "Добавить",
+  });
   const foot = el("div", { class: "composer-foot" }, [
     preview,
     message,
@@ -580,10 +681,12 @@ function renderProof(validity?: Validity[]): void {
   ]);
   proofNode.appendChild(head);
   if (!lines.length && !composer) {
-    proofNode.appendChild(el("div", { class: "fitch-empty" }, [
-      el("b", { text: "Пока пусто." }),
-      el("span", { text: "Добавьте строку или откройте подвывод, чтобы начать рассуждение." }),
-    ]));
+    proofNode.appendChild(
+      el("div", { class: "fitch-empty" }, [
+        el("b", { text: "Пока пусто." }),
+        el("span", { text: "Добавьте строку или откройте подвывод, чтобы начать рассуждение." }),
+      ]),
+    );
   }
   let inserted = false;
   lines.forEach((line, index) => {
@@ -614,19 +717,35 @@ function renderState(note?: string, noteKind?: string): { validity: Validity[]; 
   const errorCount = validity.filter((item) => item.status === "error").length;
   const warningCount = validity.filter((item) => item.status === "warning").length;
   const parts = [lines.length + " " + plural(lines.length, "строка", "строки", "строк")];
-  if (warningCount) parts.push(warningCount + " " + plural(warningCount, "предупреждение", "предупреждения", "предупреждений"));
+  if (warningCount)
+    parts.push(warningCount + " " + plural(warningCount, "предупреждение", "предупреждения", "предупреждений"));
   if (errorCount) parts.push(errorCount + " " + plural(errorCount, "ошибка", "ошибки", "ошибок"));
   else if (!warningCount) parts.push("ошибок нет");
   countNode.textContent = parts.join(" · ");
   const reached = bad < 0 && lines.some((line) => line.depth === 0 && line.ast && same(line.ast, goalAst()));
   if (bad >= 0) {
-    status(statusNode, "Доказательство содержит ошибку. Строка " + (bad + 1) + ": " + (validity[bad].error || ""), "bad");
+    status(
+      statusNode,
+      "Доказательство содержит ошибку. Строка " + (bad + 1) + ": " + (validity[bad].error || ""),
+      "bad",
+    );
   } else if (reached && warningCount === 0) {
     status(statusNode, "Цель достигнута: формула выведена на глубине 0 без ошибок.", "ok");
   } else if (reached) {
-    status(statusNode, "Цель достигнута, но доказательство неполное. Строка " + (firstWarning + 1) + ": " + (validity[firstWarning].warning || ""), "warn");
+    status(
+      statusNode,
+      "Цель достигнута, но доказательство неполное. Строка " +
+        (firstWarning + 1) +
+        ": " +
+        (validity[firstWarning].warning || ""),
+      "warn",
+    );
   } else if (firstWarning >= 0) {
-    status(statusNode, "Доказательство неполное. Строка " + (firstWarning + 1) + ": " + (validity[firstWarning].warning || ""), "warn");
+    status(
+      statusNode,
+      "Доказательство неполное. Строка " + (firstWarning + 1) + ": " + (validity[firstWarning].warning || ""),
+      "warn",
+    );
   } else {
     status(statusNode, note || "Ошибок нет. Цель пока не достигнута.", noteKind || "");
   }
@@ -643,8 +762,18 @@ function plural(n: number, one: string, few: string, many: string): string {
 }
 
 function openComposer(mode: ComposerMode, options: ComposerOptions): void {
-  composer = { mode, at: options.at, depth: options.depth, formula: options.formula || "", rule: options.rule || "", refsText: options.refsText || "", title: options.title, index: options.index };
-  if (mode === "subproof" && !composer.title) composer.title = "№" + (lines.filter((line) => line.lemmaTitle).length + 1);
+  composer = {
+    mode,
+    at: options.at,
+    depth: options.depth,
+    formula: options.formula || "",
+    rule: options.rule || "",
+    refsText: options.refsText || "",
+    title: options.title,
+    index: options.index,
+  };
+  if (mode === "subproof" && !composer.title)
+    composer.title = "№" + (lines.filter((line) => line.lemmaTitle).length + 1);
   renderState("Заполните строку: проверка появится сразу.", "info");
   focusComposer();
 }
@@ -664,12 +793,13 @@ function composerValues(): { depth: number; formula: string; rule: string; refsT
   if (!box) return null;
   const state = composer;
   if (!state) return null;
-  const field = (name: string): HTMLInputElement | HTMLSelectElement | null => box.querySelector<HTMLInputElement | HTMLSelectElement>("[data-field=" + name + "]");
+  const field = (name: string): HTMLInputElement | HTMLSelectElement | null =>
+    box.querySelector<HTMLInputElement | HTMLSelectElement>("[data-field=" + name + "]");
   return {
     depth: state.depth,
     formula: field("formula")?.value || "",
-    rule: state.mode === "subproof" ? "assumption" : (field("rule")?.value || ""),
-    refsText: state.mode === "subproof" ? "" : (field("refs")?.value || ""),
+    rule: state.mode === "subproof" ? "assumption" : field("rule")?.value || "",
+    refsText: state.mode === "subproof" ? "" : field("refs")?.value || "",
     title: field("title")?.value || state.title || "",
   };
 }
@@ -751,9 +881,12 @@ function updateDraft(): void {
     field.classList.remove("ok", "warn", "error");
     if (fieldState) field.classList.add(fieldState);
   };
-  mark(formulaInput, formulaWarning ? "warn" : (ast ? "ok" : ""));
-  mark(refsInput, refsError ? "error" : (!formulaWarning && rule && stepState === "warning" ? "warn" : (refs.length ? "ok" : "")));
-  mark(ruleInput, state.mode === "subproof" ? "ok" : (!rule ? "warn" : (stepState === "error" ? "error" : "ok")));
+  mark(formulaInput, formulaWarning ? "warn" : ast ? "ok" : "");
+  mark(
+    refsInput,
+    refsError ? "error" : !formulaWarning && rule && stepState === "warning" ? "warn" : refs.length ? "ok" : "",
+  );
+  mark(ruleInput, state.mode === "subproof" ? "ok" : !rule ? "warn" : stepState === "error" ? "error" : "ok");
 
   if (stepState === "ok") {
     message.textContent = "Проверено.";
@@ -811,7 +944,10 @@ function saveComposer(): void {
   const draft = state.draft;
   if (!draft) return;
   pushHistory();
-  const lemmaTitle = (state.mode === "subproof" || (state.mode === "edit" && state.title !== undefined)) ? (draft.title || "").trim() || undefined : undefined;
+  const lemmaTitle =
+    state.mode === "subproof" || (state.mode === "edit" && state.title !== undefined)
+      ? (draft.title || "").trim() || undefined
+      : undefined;
   if (state.mode === "edit") {
     const index = state.index;
     if (index === undefined) return;
@@ -833,11 +969,11 @@ function saveComposer(): void {
   for (const line of lines) {
     const isRange = ["implI", "notI", "raa"].includes(line.rule) && line.refs.length >= 2;
     const insideRange = isRange && at > line.refs[0] - 1 && at <= line.refs[line.refs.length - 1];
-    line.refs = line.refs.map((ref) => ref > at ? ref + 1 : ref);
+    line.refs = line.refs.map((ref) => (ref > at ? ref + 1 : ref));
     if (insideRange) line.refs.push(at + 1);
     line.refs.sort((a, b) => a - b);
   }
-  const refs = draft.refs.map((ref) => ref > at ? ref + 1 : ref);
+  const refs = draft.refs.map((ref) => (ref > at ? ref + 1 : ref));
   lines.splice(at, 0, {
     ast: draft.ast,
     formula: draft.formula,
@@ -863,7 +999,11 @@ function deleteLine(index: number): void {
     return !(isRange && lineNo > other.refs[0] && lineNo < other.refs[other.refs.length - 1]);
   });
   if (usedBy >= 0) {
-    status(statusNode, "Строка " + lineNo + " используется в строке " + (usedBy + 1) + ". Сначала измените ссылки.", "bad");
+    status(
+      statusNode,
+      "Строка " + lineNo + " используется в строке " + (usedBy + 1) + ". Сначала измените ссылки.",
+      "bad",
+    );
     return;
   }
   if (line.rule === "assumption" && subproofEnd(index) > index) {
@@ -872,7 +1012,7 @@ function deleteLine(index: number): void {
   }
   pushHistory();
   for (const other of lines) {
-    other.refs = other.refs.filter((ref) => ref !== lineNo).map((ref) => ref > lineNo ? ref - 1 : ref);
+    other.refs = other.refs.filter((ref) => ref !== lineNo).map((ref) => (ref > lineNo ? ref - 1 : ref));
   }
   lines.splice(index, 1);
   composer = null;
@@ -888,7 +1028,11 @@ function changeDepth(index: number, delta: number): void {
     return;
   }
   try {
-    if (line.ast && line.rule) validate({ formula: line.formula, ast: line.ast, rule: line.rule, refs: line.refs, depth: next }, lines.slice(0, index));
+    if (line.ast && line.rule)
+      validate(
+        { formula: line.formula, ast: line.ast, rule: line.rule, refs: line.refs, depth: next },
+        lines.slice(0, index),
+      );
   } catch (error) {
     if (!(error instanceof StepError && error.kind === "warning")) {
       status(statusNode, errorText(error), "bad");
@@ -900,7 +1044,10 @@ function changeDepth(index: number, delta: number): void {
     const end = subproofEnd(index);
     const closers = lines
       .map((other, otherIndex) => ({ other, otherIndex }))
-      .filter(({ other, otherIndex }) => otherIndex > end && ["implI", "notI", "raa"].includes(other.rule) && other.refs[0] === index + 1);
+      .filter(
+        ({ other, otherIndex }) =>
+          otherIndex > end && ["implI", "notI", "raa"].includes(other.rule) && other.refs[0] === index + 1,
+      );
     for (let i = index; i <= end; i++) lines[i].depth += delta;
     for (const { other } of closers) other.depth += delta;
   } else {
@@ -945,7 +1092,7 @@ function openEdit(index: number): void {
     depth: line.depth,
     formula: line.formula,
     rule: line.rule,
-    refsText: line.refs.length ? refsLabel(line.refs) : (line.refsRaw || ""),
+    refsText: line.refs.length ? refsLabel(line.refs) : line.refsRaw || "",
     title: line.lemmaTitle,
   });
 }

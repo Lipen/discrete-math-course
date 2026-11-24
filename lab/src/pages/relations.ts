@@ -8,17 +8,22 @@ import * as Sets from "../domain/sets";
 let n = 4;
 let R: Sets.Matrix = [];
 
-ribbon(must<HTMLElement>("#size"), [
-  { value: "3", label: "3" },
-  { value: "4", label: "4" },
-  { value: "5", label: "5" },
-  { value: "6", label: "6" },
-], "4", (value) => {
-  n = Number(value);
-  R = defaultMatrix(n);
-  status(closureStatus, "", "");
-  renderAll();
-});
+ribbon(
+  must<HTMLElement>("#size"),
+  [
+    { value: "3", label: "3" },
+    { value: "4", label: "4" },
+    { value: "5", label: "5" },
+    { value: "6", label: "6" },
+  ],
+  "4",
+  (value) => {
+    n = Number(value);
+    R = defaultMatrix(n);
+    status(closureStatus, "", "");
+    renderAll();
+  },
+);
 const matrixNode = must<HTMLElement>("#matrix");
 const graphNode = must<HTMLElement>("#graph");
 const propertiesNode = must<HTMLElement>("#properties");
@@ -95,7 +100,15 @@ function renderGraph(): void {
   }
   const root = svg("svg", { viewBox: "0 0 " + width + " " + height, role: "img", "aria-label": "Граф отношения" });
   const defs = svg("defs");
-  const marker = svg("marker", { id: "rel-arrow", viewBox: "0 0 10 10", refX: "9", refY: "5", markerWidth: "6", markerHeight: "6", orient: "auto-start-reverse" });
+  const marker = svg("marker", {
+    id: "rel-arrow",
+    viewBox: "0 0 10 10",
+    refX: "9",
+    refY: "5",
+    markerWidth: "6",
+    markerHeight: "6",
+    orient: "auto-start-reverse",
+  });
   marker.appendChild(svg("path", { d: "M 0 0 L 10 5 L 0 10 z", fill: "#6a4c93" }));
   defs.appendChild(marker);
   root.appendChild(defs);
@@ -106,10 +119,31 @@ function renderGraph(): void {
       const a = coords[i];
       const b = coords[j];
       if (i === j) {
-        root.appendChild(svg("path", {
-          d: "M " + (a.x - 12) + " " + (a.y - 20) + " C " + (a.x - 45) + " " + (a.y - 70) + ", " + (a.x + 45) + " " + (a.y - 70) + ", " + (a.x + 12) + " " + (a.y - 20),
-          fill: "none", stroke: "#6a4c93", "stroke-width": 1.5, "marker-end": "url(#rel-arrow)",
-        }));
+        root.appendChild(
+          svg("path", {
+            d:
+              "M " +
+              (a.x - 12) +
+              " " +
+              (a.y - 20) +
+              " C " +
+              (a.x - 45) +
+              " " +
+              (a.y - 70) +
+              ", " +
+              (a.x + 45) +
+              " " +
+              (a.y - 70) +
+              ", " +
+              (a.x + 12) +
+              " " +
+              (a.y - 20),
+            fill: "none",
+            stroke: "#6a4c93",
+            "stroke-width": 1.5,
+            "marker-end": "url(#rel-arrow)",
+          }),
+        );
         continue;
       }
       const mutual = R[j][i] && i < j;
@@ -119,21 +153,38 @@ function renderGraph(): void {
         const dx = b.x - a.x;
         const dy = b.y - a.y;
         const len = Math.hypot(dx, dy) || 1;
-        const ox = -dy / len * 20;
-        const oy = dx / len * 20;
-        root.appendChild(svg("path", {
-          d: "M " + a.x + " " + a.y + " Q " + (mx + ox) + " " + (my + oy) + " " + b.x + " " + b.y,
-          fill: "none", stroke: "#6a4c93", "stroke-width": 1.4, "marker-end": "url(#rel-arrow)",
-        }));
-        root.appendChild(svg("path", {
-          d: "M " + b.x + " " + b.y + " Q " + (mx - ox) + " " + (my - oy) + " " + a.x + " " + a.y,
-          fill: "none", stroke: "#6a4c93", "stroke-width": 1.4, "marker-end": "url(#rel-arrow)",
-        }));
+        const ox = (-dy / len) * 20;
+        const oy = (dx / len) * 20;
+        root.appendChild(
+          svg("path", {
+            d: "M " + a.x + " " + a.y + " Q " + (mx + ox) + " " + (my + oy) + " " + b.x + " " + b.y,
+            fill: "none",
+            stroke: "#6a4c93",
+            "stroke-width": 1.4,
+            "marker-end": "url(#rel-arrow)",
+          }),
+        );
+        root.appendChild(
+          svg("path", {
+            d: "M " + b.x + " " + b.y + " Q " + (mx - ox) + " " + (my - oy) + " " + a.x + " " + a.y,
+            fill: "none",
+            stroke: "#6a4c93",
+            "stroke-width": 1.4,
+            "marker-end": "url(#rel-arrow)",
+          }),
+        );
       } else {
-        root.appendChild(svg("line", {
-          x1: a.x, y1: a.y, x2: b.x, y2: b.y,
-          stroke: "#6a4c93", "stroke-width": 1.4, "marker-end": "url(#rel-arrow)",
-        }));
+        root.appendChild(
+          svg("line", {
+            x1: a.x,
+            y1: a.y,
+            x2: b.x,
+            y2: b.y,
+            stroke: "#6a4c93",
+            "stroke-width": 1.4,
+            "marker-end": "url(#rel-arrow)",
+          }),
+        );
       }
     }
   }
@@ -141,10 +192,21 @@ function renderGraph(): void {
   for (let i = 0; i < n; i++) {
     const p = coords[i];
     root.appendChild(svg("circle", { cx: p.x, cy: p.y, r: 23, fill: "#fff", stroke: "#7b7366", "stroke-width": 1.5 }));
-    root.appendChild(svg("text", {
-      x: p.x, y: p.y + 5, "text-anchor": "middle",
-      "font-family": "var(--mono)", "font-size": 14, "font-weight": 700, fill: "#1d2733",
-    }, String(i + 1)));
+    root.appendChild(
+      svg(
+        "text",
+        {
+          x: p.x,
+          y: p.y + 5,
+          "text-anchor": "middle",
+          "font-family": "var(--mono)",
+          "font-size": 14,
+          "font-weight": 700,
+          fill: "#1d2733",
+        },
+        String(i + 1),
+      ),
+    );
   }
   graphNode.appendChild(root);
 }
@@ -172,15 +234,24 @@ function renderProperties(): { p: Sets.RelationProperties; equivalence: boolean 
 function renderClasses(equivalence: boolean): void {
   clear(classesNode);
   if (!equivalence) {
-    classesNode.appendChild(el("p", { class: "hint", text: "Классы появятся, когда отношение станет рефлексивным, симметричным и транзитивным." }));
+    classesNode.appendChild(
+      el("p", {
+        class: "hint",
+        text: "Классы появятся, когда отношение станет рефлексивным, симметричным и транзитивным.",
+      }),
+    );
     return;
   }
   const classes = Sets.equivalenceClasses(R);
   for (const cls of classes) {
-    classesNode.appendChild(el("span", { class: "pill info", text: "{" + cls.join(", ") + "}", style: "margin:0 4px 6px 0" }));
+    classesNode.appendChild(
+      el("span", { class: "pill info", text: "{" + cls.join(", ") + "}", style: "margin:0 4px 6px 0" }),
+    );
   }
   const quotient = classes.map((cls) => "\\{" + cls.join(",") + "\\}").join(", ");
-  classesNode.appendChild(el("div", { class: "formula-box", style: "margin-top:8px" }, math("A/{\\sim} = \\{" + quotient + "\\}", false)));
+  classesNode.appendChild(
+    el("div", { class: "formula-box", style: "margin-top:8px" }, math("A/{\\sim} = \\{" + quotient + "\\}", false)),
+  );
 }
 
 function renderComposition(): { square: Sets.Matrix; inverse: Sets.Matrix } {
@@ -188,7 +259,10 @@ function renderComposition(): { square: Sets.Matrix; inverse: Sets.Matrix } {
   for (let i = 0; i < n; i++) {
     for (let j = 0; j < n; j++) {
       for (let k = 0; k < n; k++) {
-        if (R[i][k] && R[k][j]) { square[i][j] = true; break; }
+        if (R[i][k] && R[k][j]) {
+          square[i][j] = true;
+          break;
+        }
       }
     }
   }

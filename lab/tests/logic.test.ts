@@ -50,7 +50,12 @@ describe("truth tables", () => {
   test("truthTable honours an explicit variable order", () => {
     const table = truthTable(parse("a & b"), ["b", "a"]);
     expect(table.vars).toEqual(["b", "a"]);
-    expect(table.rows.map((row) => row.bits)).toEqual([[0, 0], [0, 1], [1, 0], [1, 1]]);
+    expect(table.rows.map((row) => row.bits)).toEqual([
+      [0, 0],
+      [0, 1],
+      [1, 0],
+      [1, 1],
+    ]);
   });
 });
 
@@ -83,7 +88,10 @@ describe("rendering", () => {
   test("tree labels use symbols", () => {
     expect(tree(parse("p -> q"))).toEqual({
       label: "→",
-      children: [{ label: "p", children: [] }, { label: "q", children: [] }],
+      children: [
+        { label: "p", children: [] },
+        { label: "q", children: [] },
+      ],
     });
   });
 });

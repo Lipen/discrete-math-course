@@ -10,18 +10,23 @@ let R: Sets.Matrix = [];
 let focus: number | null = null;
 let selected = new Set([2, 3]);
 
-ribbon(must<HTMLElement>("#size"), [
-  { value: "3", label: "3" },
-  { value: "4", label: "4" },
-  { value: "5", label: "5" },
-  { value: "6", label: "6" },
-], "4", (value) => {
-  n = Number(value);
-  focus = null;
-  R = divisibility(n);
-  selected = new Set([2, 3].filter((x) => x <= n));
-  renderAll();
-});
+ribbon(
+  must<HTMLElement>("#size"),
+  [
+    { value: "3", label: "3" },
+    { value: "4", label: "4" },
+    { value: "5", label: "5" },
+    { value: "6", label: "6" },
+  ],
+  "4",
+  (value) => {
+    n = Number(value);
+    focus = null;
+    R = divisibility(n);
+    selected = new Set([2, 3].filter((x) => x <= n));
+    renderAll();
+  },
+);
 const matrixNode = must<HTMLElement>("#matrix");
 const propertiesNode = must<HTMLElement>("#properties");
 const kindNode = must<HTMLElement>("#kind");
@@ -111,7 +116,12 @@ function rankOf(cover: Sets.Matrix): number[] {
 function renderHasse(isPoset: boolean): void {
   clear(hasseNode);
   if (!isPoset) {
-    hasseNode.appendChild(el("p", { class: "muted", text: "Отношение не является частичным порядком. Диаграмма Хассе не строится, пока не исправлены свойства." }));
+    hasseNode.appendChild(
+      el("p", {
+        class: "muted",
+        text: "Отношение не является частичным порядком. Диаграмма Хассе не строится, пока не исправлены свойства.",
+      }),
+    );
     return;
   }
   const cover = coverMatrix();
@@ -119,7 +129,8 @@ function renderHasse(isPoset: boolean): void {
   const layers = new Map<number, number[]>();
   for (let i = 0; i < n; i++) {
     const layer = layers.get(rank[i]);
-    if (layer) layer.push(i); else layers.set(rank[i], [i]);
+    if (layer) layer.push(i);
+    else layers.set(rank[i], [i]);
   }
   const maxRank = Math.max(0, ...rank);
   const width = 520;
@@ -142,8 +153,12 @@ function renderHasse(isPoset: boolean): void {
       const b = coords.get(j);
       if (!a || !b) continue;
       const line = svg("line", {
-        x1: a.x, y1: a.y - 20, x2: b.x, y2: b.y + 20,
-        stroke: "#b7ae9e", "stroke-width": 1.6,
+        x1: a.x,
+        y1: a.y - 20,
+        x2: b.x,
+        y2: b.y + 20,
+        stroke: "#b7ae9e",
+        "stroke-width": 1.6,
       });
       root.appendChild(line);
       edges.push({ from: i, to: j, node: line });
@@ -156,7 +171,7 @@ function renderHasse(isPoset: boolean): void {
     const relatedFill = "color-mix(in srgb, var(--accent) 28%, var(--card))";
     const active = focus !== null;
     for (let i = 0; i < n; i++) {
-      const comparable = focus === null ? false : (R[focus][i] || R[i][focus]);
+      const comparable = focus === null ? false : R[focus][i] || R[i][focus];
       const isFocus = focus === i;
       const faded = active && !isFocus && !comparable;
       const circle = circles[i];
@@ -182,10 +197,18 @@ function renderHasse(isPoset: boolean): void {
     const circle = svg("circle", { cx: p.x, cy: p.y, r: 21, style: "cursor:pointer" });
     circles.push(circle);
     root.appendChild(circle);
-    const text = svg("text", {
-      x: p.x, y: p.y + 5, "text-anchor": "middle",
-      "font-family": "var(--mono)", "font-size": 13, "font-weight": 700,
-    }, String(i + 1));
+    const text = svg(
+      "text",
+      {
+        x: p.x,
+        y: p.y + 5,
+        "text-anchor": "middle",
+        "font-family": "var(--mono)",
+        "font-size": 13,
+        "font-weight": 700,
+      },
+      String(i + 1),
+    );
     texts.push(text);
     root.appendChild(text);
     const comparableList: number[] = [];
@@ -193,19 +216,37 @@ function renderHasse(isPoset: boolean): void {
       if (j !== i && (R[i][j] || R[j][i])) comparableList.push(j + 1);
     }
     const hit = svg("circle", {
-      cx: p.x, cy: p.y, r: 23, fill: "transparent",
-      tabindex: "0", role: "img", style: "cursor:pointer",
+      cx: p.x,
+      cy: p.y,
+      r: 23,
+      fill: "transparent",
+      tabindex: "0",
+      role: "img",
+      style: "cursor:pointer",
       "data-focus-key": "hasse-" + (i + 1),
-      "aria-label": "Элемент " + (i + 1) + (comparableList.length
-        ? ", сравним с " + comparableList.join(", ")
-        : ", не сравним ни с кем"),
+      "aria-label":
+        "Элемент " +
+        (i + 1) +
+        (comparableList.length ? ", сравним с " + comparableList.join(", ") : ", не сравним ни с кем"),
     });
-    hit.addEventListener("mouseenter", () => { focus = i; paintFocus(); });
+    hit.addEventListener("mouseenter", () => {
+      focus = i;
+      paintFocus();
+    });
     hit.addEventListener("mouseleave", () => {
-      if (document.activeElement !== hit) { focus = null; paintFocus(); }
+      if (document.activeElement !== hit) {
+        focus = null;
+        paintFocus();
+      }
     });
-    hit.addEventListener("focus", () => { focus = i; paintFocus(); });
-    hit.addEventListener("blur", () => { focus = null; paintFocus(); });
+    hit.addEventListener("focus", () => {
+      focus = i;
+      paintFocus();
+    });
+    hit.addEventListener("blur", () => {
+      focus = null;
+      paintFocus();
+    });
     root.appendChild(hit);
   }
   paintFocus();
@@ -219,7 +260,11 @@ function renderProperties(): boolean {
   propertiesNode.appendChild(el("span", { class: "pill " + (p.antisymmetric ? "ok" : "no"), text: "антисимметрично" }));
   propertiesNode.appendChild(el("span", { class: "pill " + (p.transitive ? "ok" : "no"), text: "транзитивно" }));
   const isPoset = p.reflexive && p.antisymmetric && p.transitive;
-  status(kindNode, isPoset ? "Частичный порядок. Диаграмма Хассе построена." : "Это не частичный порядок: исправьте свойства.", isPoset ? "ok" : "bad");
+  status(
+    kindNode,
+    isPoset ? "Частичный порядок. Диаграмма Хассе построена." : "Это не частичный порядок: исправьте свойства.",
+    isPoset ? "ok" : "bad",
+  );
   return isPoset;
 }
 
@@ -236,7 +281,8 @@ function renderSubset(isPoset: boolean): void {
     });
     setPressed(button, selected.has(value));
     button.addEventListener("click", () => {
-      if (selected.has(value)) selected.delete(value); else selected.add(value);
+      if (selected.has(value)) selected.delete(value);
+      else selected.add(value);
       renderAll();
     });
     subsetNode.appendChild(button);
@@ -264,13 +310,47 @@ function renderSubset(isPoset: boolean): void {
   const lub = upper.find((x) => upper.every((y) => R[y - 1][x - 1]));
   clear(boundsNode);
   boundsNode.appendChild(el("p", { class: "hint", text: "Подмножество S = {" + chosen.join(", ") + "}" }));
-  boundsNode.appendChild(el("div", { class: "formula-box" }, math("\\text{нижние} = \\{" + lower.join(",") + "\\},\\quad \\text{верхние} = \\{" + upper.join(",") + "\\}", false)));
-  boundsNode.appendChild(el("p", { class: "hint", text: glb ? "Наибольшая нижняя граница: " + glb + "." : "Наибольшей нижней границы нет." }));
-  boundsNode.appendChild(el("p", { class: "hint", text: lub ? "Наименьшая верхняя граница: " + lub + "." : "Наименьшей верхней границы нет." }));
+  boundsNode.appendChild(
+    el(
+      "div",
+      { class: "formula-box" },
+      math(
+        "\\text{нижние} = \\{" + lower.join(",") + "\\},\\quad \\text{верхние} = \\{" + upper.join(",") + "\\}",
+        false,
+      ),
+    ),
+  );
+  boundsNode.appendChild(
+    el("p", {
+      class: "hint",
+      text: glb ? "Наибольшая нижняя граница: " + glb + "." : "Наибольшей нижней границы нет.",
+    }),
+  );
+  boundsNode.appendChild(
+    el("p", {
+      class: "hint",
+      text: lub ? "Наименьшая верхняя граница: " + lub + "." : "Наименьшей верхней границы нет.",
+    }),
+  );
   boundMetrics.innerHTML = "";
-  boundMetrics.appendChild(el("div", { class: "metric" }, [el("span", { class: "k", text: "|S|" }), el("span", { class: "v", text: String(chosen.length) })]));
-  boundMetrics.appendChild(el("div", { class: "metric" }, [el("span", { class: "k", text: "нижних" }), el("span", { class: "v", text: String(lower.length) })]));
-  boundMetrics.appendChild(el("div", { class: "metric" }, [el("span", { class: "k", text: "верхних" }), el("span", { class: "v", text: String(upper.length) })]));
+  boundMetrics.appendChild(
+    el("div", { class: "metric" }, [
+      el("span", { class: "k", text: "|S|" }),
+      el("span", { class: "v", text: String(chosen.length) }),
+    ]),
+  );
+  boundMetrics.appendChild(
+    el("div", { class: "metric" }, [
+      el("span", { class: "k", text: "нижних" }),
+      el("span", { class: "v", text: String(lower.length) }),
+    ]),
+  );
+  boundMetrics.appendChild(
+    el("div", { class: "metric" }, [
+      el("span", { class: "k", text: "верхних" }),
+      el("span", { class: "v", text: String(upper.length) }),
+    ]),
+  );
 }
 
 function renderExtrema(isPoset: boolean): void {
@@ -291,7 +371,13 @@ function renderExtrema(isPoset: boolean): void {
     if (!hasPred) minimal.push(i);
     if (!hasSucc) maximal.push(i);
   }
-  extremaNode.appendChild(el("div", { class: "formula-box" }, math("\\min = \\{" + minimal.join(",") + "\\},\\quad \\max = \\{" + maximal.join(",") + "\\}", false)));
+  extremaNode.appendChild(
+    el(
+      "div",
+      { class: "formula-box" },
+      math("\\min = \\{" + minimal.join(",") + "\\},\\quad \\max = \\{" + maximal.join(",") + "\\}", false),
+    ),
+  );
 }
 
 function renderChains(isPoset: boolean): void {
@@ -357,9 +443,21 @@ function renderAll(): void {
   keepFocus(paint);
 }
 
-must<HTMLButtonElement>("#divisors").addEventListener("click", () => { focus = null; R = divisibility(n); renderAll(); });
-must<HTMLButtonElement>("#identity").addEventListener("click", () => { focus = null; R = diagonal(n); renderAll(); });
-must<HTMLButtonElement>("#random-order").addEventListener("click", () => { focus = null; R = randomOrder(n); renderAll(); });
+must<HTMLButtonElement>("#divisors").addEventListener("click", () => {
+  focus = null;
+  R = divisibility(n);
+  renderAll();
+});
+must<HTMLButtonElement>("#identity").addEventListener("click", () => {
+  focus = null;
+  R = diagonal(n);
+  renderAll();
+});
+must<HTMLButtonElement>("#random-order").addEventListener("click", () => {
+  focus = null;
+  R = randomOrder(n);
+  renderAll();
+});
 
 R = divisibility(n);
 selected = new Set([2, 3].filter((x) => x <= n));

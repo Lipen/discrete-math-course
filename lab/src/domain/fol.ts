@@ -1,12 +1,8 @@
 /* First-order formulas over a finite model with P, Q and R. */
 
-export type Term =
-  | { type: "const"; value: number }
-  | { type: "var"; name: string };
+export type Term = { type: "const"; value: number } | { type: "var"; name: string };
 
-export type Atom =
-  | { type: "atom"; pred: "P" | "Q" | "R"; args: Term[] }
-  | { type: "eq"; a: Term; b: Term };
+export type Atom = { type: "atom"; pred: "P" | "Q" | "R"; args: Term[] } | { type: "eq"; a: Term; b: Term };
 
 export type Formula =
   | { type: "const"; value: boolean }
@@ -36,7 +32,16 @@ export interface QuantifierRow {
 }
 
 const PREC: Record<Formula["type"], number> = {
-  iff: 1, impl: 2, or: 3, and: 4, not: 5, forall: 6, exists: 6, atom: 7, const: 7, eq: 7,
+  iff: 1,
+  impl: 2,
+  or: 3,
+  and: 4,
+  not: 5,
+  forall: 6,
+  exists: 6,
+  atom: 7,
+  const: 7,
+  eq: 7,
 };
 
 /** Quantifiers bind tighter than any connective in the parser, so render them parenthesized there. */
@@ -75,13 +80,40 @@ function tokenize(input: string): Token[] {
   let i = 0;
   while (i < source.length) {
     const ch = source[i];
-    if (/\s/.test(ch)) { i++; continue; }
-    if (ch === "(" || ch === ")" || ch === "," || ch === "=") { tokens.push({ type: ch }); i++; continue; }
-    if (ch === "!") { tokens.push({ type: "not" }); i++; continue; }
-    if (ch === "&") { tokens.push({ type: "and" }); i++; continue; }
-    if (ch === "|") { tokens.push({ type: "or" }); i++; continue; }
-    if (source.startsWith("<->", i)) { tokens.push({ type: "iff" }); i += 3; continue; }
-    if (source.startsWith("->", i)) { tokens.push({ type: "impl" }); i += 2; continue; }
+    if (/\s/.test(ch)) {
+      i++;
+      continue;
+    }
+    if (ch === "(" || ch === ")" || ch === "," || ch === "=") {
+      tokens.push({ type: ch });
+      i++;
+      continue;
+    }
+    if (ch === "!") {
+      tokens.push({ type: "not" });
+      i++;
+      continue;
+    }
+    if (ch === "&") {
+      tokens.push({ type: "and" });
+      i++;
+      continue;
+    }
+    if (ch === "|") {
+      tokens.push({ type: "or" });
+      i++;
+      continue;
+    }
+    if (source.startsWith("<->", i)) {
+      tokens.push({ type: "iff" });
+      i += 3;
+      continue;
+    }
+    if (source.startsWith("->", i)) {
+      tokens.push({ type: "impl" });
+      i += 2;
+      continue;
+    }
     if (/[0-9]/.test(ch)) {
       let j = i + 1;
       while (j < source.length && /[0-9]/.test(source[j])) j++;
@@ -121,30 +153,45 @@ export function parse(input: string): Formula {
 
   function parseIff(): Formula {
     let left = parseImpl();
-    while (peek("iff")) { pos++; left = { type: "iff", a: left, b: parseImpl() }; }
+    while (peek("iff")) {
+      pos++;
+      left = { type: "iff", a: left, b: parseImpl() };
+    }
     return left;
   }
 
   function parseImpl(): Formula {
     const left = parseOr();
-    if (peek("impl")) { pos++; return { type: "impl", a: left, b: parseImpl() }; }
+    if (peek("impl")) {
+      pos++;
+      return { type: "impl", a: left, b: parseImpl() };
+    }
     return left;
   }
 
   function parseOr(): Formula {
     let left = parseAnd();
-    while (peek("or")) { pos++; left = { type: "or", a: left, b: parseAnd() }; }
+    while (peek("or")) {
+      pos++;
+      left = { type: "or", a: left, b: parseAnd() };
+    }
     return left;
   }
 
   function parseAnd(): Formula {
     let left = parseUnary();
-    while (peek("and")) { pos++; left = { type: "and", a: left, b: parseUnary() }; }
+    while (peek("and")) {
+      pos++;
+      left = { type: "and", a: left, b: parseUnary() };
+    }
     return left;
   }
 
   function parseUnary(): Formula {
-    if (peek("not")) { pos++; return { type: "not", a: parseUnary() }; }
+    if (peek("not")) {
+      pos++;
+      return { type: "not", a: parseUnary() };
+    }
     if (peek("forall") || peek("exists")) {
       const token = tokens[pos++];
       if (token.type !== "forall" && token.type !== "exists") throw new Error("Ожидался квантор.");
@@ -188,7 +235,10 @@ export function parse(input: string): Formula {
         const args: Term[] = [];
         if (!peek(")")) {
           args.push(parseTerm());
-          while (peek(",")) { pos++; args.push(parseTerm()); }
+          while (peek(",")) {
+            pos++;
+            args.push(parseTerm());
+          }
         }
         take(")");
         if (name === "P" || name === "Q") {
@@ -246,7 +296,8 @@ function termValue(term: Term, env: Env): number {
 
 export function evalFormula(ast: Formula, env: Env, model: Model): boolean {
   switch (ast.type) {
-    case "const": return ast.value;
+    case "const":
+      return ast.value;
     case "atom": {
       if (ast.pred === "P" || ast.pred === "Q") {
         return model.preds[ast.pred].has(termValue(ast.args[0], env));
@@ -255,12 +306,18 @@ export function evalFormula(ast: Formula, env: Env, model: Model): boolean {
       const b = termValue(ast.args[1], env);
       return model.preds.R.has(a + "," + b);
     }
-    case "eq": return termValue(ast.a, env) === termValue(ast.b, env);
-    case "not": return !evalFormula(ast.a, env, model);
-    case "and": return evalFormula(ast.a, env, model) && evalFormula(ast.b, env, model);
-    case "or": return evalFormula(ast.a, env, model) || evalFormula(ast.b, env, model);
-    case "impl": return !evalFormula(ast.a, env, model) || evalFormula(ast.b, env, model);
-    case "iff": return evalFormula(ast.a, env, model) === evalFormula(ast.b, env, model);
+    case "eq":
+      return termValue(ast.a, env) === termValue(ast.b, env);
+    case "not":
+      return !evalFormula(ast.a, env, model);
+    case "and":
+      return evalFormula(ast.a, env, model) && evalFormula(ast.b, env, model);
+    case "or":
+      return evalFormula(ast.a, env, model) || evalFormula(ast.b, env, model);
+    case "impl":
+      return !evalFormula(ast.a, env, model) || evalFormula(ast.b, env, model);
+    case "iff":
+      return evalFormula(ast.a, env, model) === evalFormula(ast.b, env, model);
     case "forall":
       return model.domain.every((value) => evalFormula(ast.body, { ...env, [ast.variable]: value }, model));
     case "exists":
@@ -274,19 +331,39 @@ function termTex(term: Term): string {
 
 export function toTex(ast: Formula, parentPrec?: number): string {
   const quantifier = ast.type === "forall" || ast.type === "exists";
-  const prec = quantifier ? QUANT_PREC : (PREC[ast.type] || 0);
+  const prec = quantifier ? QUANT_PREC : PREC[ast.type] || 0;
   let body: string;
   switch (ast.type) {
-    case "const": body = ast.value ? "\\top" : "\\bot"; break;
-    case "eq": body = termTex(ast.a) + " = " + termTex(ast.b); break;
-    case "atom": body = ast.pred + "(" + ast.args.map(termTex).join(", ") + ")"; break;
-    case "not": body = "\\neg " + toTex(ast.a, PREC.not); break;
-    case "and": body = toTex(ast.a, PREC.and) + " \\land " + toTex(ast.b, PREC.and); break;
-    case "or": body = toTex(ast.a, PREC.or) + " \\lor " + toTex(ast.b, PREC.or); break;
-    case "impl": body = toTex(ast.a, PREC.impl + 1) + " \\to " + toTex(ast.b, PREC.impl); break;
-    case "iff": body = toTex(ast.a, PREC.iff + 1) + " \\leftrightarrow " + toTex(ast.b, PREC.iff); break;
-    case "forall": body = "\\forall " + ast.variable + "\\," + quantifierBody(ast.body); break;
-    case "exists": body = "\\exists " + ast.variable + "\\," + quantifierBody(ast.body); break;
+    case "const":
+      body = ast.value ? "\\top" : "\\bot";
+      break;
+    case "eq":
+      body = termTex(ast.a) + " = " + termTex(ast.b);
+      break;
+    case "atom":
+      body = ast.pred + "(" + ast.args.map(termTex).join(", ") + ")";
+      break;
+    case "not":
+      body = "\\neg " + toTex(ast.a, PREC.not);
+      break;
+    case "and":
+      body = toTex(ast.a, PREC.and) + " \\land " + toTex(ast.b, PREC.and);
+      break;
+    case "or":
+      body = toTex(ast.a, PREC.or) + " \\lor " + toTex(ast.b, PREC.or);
+      break;
+    case "impl":
+      body = toTex(ast.a, PREC.impl + 1) + " \\to " + toTex(ast.b, PREC.impl);
+      break;
+    case "iff":
+      body = toTex(ast.a, PREC.iff + 1) + " \\leftrightarrow " + toTex(ast.b, PREC.iff);
+      break;
+    case "forall":
+      body = "\\forall " + ast.variable + "\\," + quantifierBody(ast.body);
+      break;
+    case "exists":
+      body = "\\exists " + ast.variable + "\\," + quantifierBody(ast.body);
+      break;
   }
   const needParens = parentPrec !== undefined && prec < parentPrec;
   return needParens ? "\\left(" + body + "\\right)" : body;

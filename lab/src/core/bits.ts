@@ -32,7 +32,7 @@ export interface MapLayout {
 }
 
 export function mapLayout(n: number): MapLayout {
-  const rowBits = n <= 2 ? 1 : (n === 3 ? 1 : 2);
+  const rowBits = n <= 2 ? 1 : n === 3 ? 1 : 2;
   const colBits = n - rowBits;
   return { n, rowBits, colBits, rows: graySeq(rowBits), cols: graySeq(colBits) };
 }

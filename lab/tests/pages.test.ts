@@ -103,7 +103,9 @@ describe("page wiring", () => {
         const duplicates = ids.filter((id, index) => ids.indexOf(id) !== index);
         problems.push(`${file}: повторяются id ${Array.from(new Set(duplicates)).join(", ")}`);
       }
-      if (/\son(?:click|input|change|submit|keydown|keyup|mousedown|mouseup|mouseover|mouseout|focus|blur)=/i.test(html)) {
+      if (
+        /\son(?:click|input|change|submit|keydown|keyup|mousedown|mouseup|mouseover|mouseout|focus|blur)=/i.test(html)
+      ) {
         problems.push(`${file}: обработчик записан в разметке`);
       }
     }

@@ -14,11 +14,41 @@ interface Identity {
 }
 
 const identities: Identity[] = [
-  { id: "de-morgan", name: "де Морган: (A ∩ B)ᶜ = Aᶜ ∪ Bᶜ", tex: "(A \\cap B)^{c} = A^{c} \\cup B^{c}", left: (a, b) => !(a && b), right: (a, b) => !a || !b },
-  { id: "de-morgan-2", name: "де Морган: (A ∪ B)ᶜ = Aᶜ ∩ Bᶜ", tex: "(A \\cup B)^{c} = A^{c} \\cap B^{c}", left: (a, b) => !(a || b), right: (a, b) => !a && !b },
-  { id: "distrib", name: "дистрибутивность: A ∩ (B ∪ C) = (A ∩ B) ∪ (A ∩ C)", tex: "A \\cap (B \\cup C) = (A \\cap B) \\cup (A \\cap C)", left: (a, b, c) => Boolean(a && (b || c)), right: (a, b, c) => Boolean((a && b) || (a && c)) },
-  { id: "absorb", name: "поглощение: A ∪ (A ∩ B) = A", tex: "A \\cup (A \\cap B) = A", left: (a, b) => a || Boolean(a && b), right: (a) => a },
-  { id: "diff", name: "разность: A ∖ B = A ∩ Bᶜ", tex: "A \\setminus B = A \\cap B^{c}", left: (a, b) => Boolean(a && !b), right: (a, b) => Boolean(a && !b) },
+  {
+    id: "de-morgan",
+    name: "де Морган: (A ∩ B)ᶜ = Aᶜ ∪ Bᶜ",
+    tex: "(A \\cap B)^{c} = A^{c} \\cup B^{c}",
+    left: (a, b) => !(a && b),
+    right: (a, b) => !a || !b,
+  },
+  {
+    id: "de-morgan-2",
+    name: "де Морган: (A ∪ B)ᶜ = Aᶜ ∩ Bᶜ",
+    tex: "(A \\cup B)^{c} = A^{c} \\cap B^{c}",
+    left: (a, b) => !(a || b),
+    right: (a, b) => !a && !b,
+  },
+  {
+    id: "distrib",
+    name: "дистрибутивность: A ∩ (B ∪ C) = (A ∩ B) ∪ (A ∩ C)",
+    tex: "A \\cap (B \\cup C) = (A \\cap B) \\cup (A \\cap C)",
+    left: (a, b, c) => Boolean(a && (b || c)),
+    right: (a, b, c) => Boolean((a && b) || (a && c)),
+  },
+  {
+    id: "absorb",
+    name: "поглощение: A ∪ (A ∩ B) = A",
+    tex: "A \\cup (A \\cap B) = A",
+    left: (a, b) => a || Boolean(a && b),
+    right: (a) => a,
+  },
+  {
+    id: "diff",
+    name: "разность: A ∖ B = A ∩ Bᶜ",
+    tex: "A \\setminus B = A \\cap B^{c}",
+    left: (a, b) => Boolean(a && !b),
+    right: (a, b) => Boolean(a && !b),
+  },
 ];
 
 let n = 6;
@@ -27,25 +57,35 @@ let A = new Set<number>([1, 2, 3]);
 let B = new Set<number>([3, 4, 5]);
 let C = new Set<number>([2, 5, 6]);
 
-const sizeControl = ribbon(must<HTMLElement>("#universe-size"), [
-  { value: "4", label: "4" },
-  { value: "5", label: "5" },
-  { value: "6", label: "6" },
-  { value: "7", label: "7" },
-  { value: "8", label: "8" },
-], "6", (value) => {
-  n = Number(value);
-  normalizeSets();
-  renderAll();
-});
-const opControl = ribbon(must<HTMLElement>("#operation"), [
-  { value: "union", label: "A ∪ B" },
-  { value: "inter", label: "A ∩ B" },
-  { value: "diff", label: "A ∖ B" },
-  { value: "symdiff", label: "A △ B" },
-  { value: "compl", label: "Aᶜ" },
-  { value: "mix", label: "A ∩ (B ∪ C)" },
-], "mix", () => renderAll());
+const sizeControl = ribbon(
+  must<HTMLElement>("#universe-size"),
+  [
+    { value: "4", label: "4" },
+    { value: "5", label: "5" },
+    { value: "6", label: "6" },
+    { value: "7", label: "7" },
+    { value: "8", label: "8" },
+  ],
+  "6",
+  (value) => {
+    n = Number(value);
+    normalizeSets();
+    renderAll();
+  },
+);
+const opControl = ribbon(
+  must<HTMLElement>("#operation"),
+  [
+    { value: "union", label: "A ∪ B" },
+    { value: "inter", label: "A ∩ B" },
+    { value: "diff", label: "A ∖ B" },
+    { value: "symdiff", label: "A △ B" },
+    { value: "compl", label: "Aᶜ" },
+    { value: "mix", label: "A ∩ (B ∪ C)" },
+  ],
+  "mix",
+  () => renderAll(),
+);
 const aGrid = must<HTMLElement>("#a-grid");
 const bGrid = must<HTMLElement>("#b-grid");
 const cGrid = must<HTMLElement>("#c-grid");
@@ -59,11 +99,16 @@ const membershipNode = must<HTMLElement>("#membership");
 const identitySelect = must<HTMLSelectElement>("#identity");
 const identityFormula = must<HTMLElement>("#identity-formula");
 const identityStatus = must<HTMLElement>("#identity-status");
-const powerControl = ribbon(must<HTMLElement>("#power-set"), [
-  { value: "A", label: "A" },
-  { value: "B", label: "B" },
-  { value: "C", label: "C" },
-], "A", () => renderPower());
+const powerControl = ribbon(
+  must<HTMLElement>("#power-set"),
+  [
+    { value: "A", label: "A" },
+    { value: "B", label: "B" },
+    { value: "C", label: "C" },
+  ],
+  "A",
+  () => renderPower(),
+);
 const powerMetrics = must<HTMLElement>("#power-metrics");
 const powerList = must<HTMLElement>("#power-list");
 const productNode = must<HTMLElement>("#product");
@@ -79,35 +124,54 @@ function normalizeSets(): void {
 
 function operationResult(): Set<number> {
   switch (opControl.value()) {
-    case "union": return Sets.union(A, B);
-    case "inter": return Sets.inter(A, B);
-    case "diff": return Sets.diff(A, B);
-    case "symdiff": return Sets.symdiff(A, B);
-    case "compl": return Sets.complement(A, universe);
-    case "mix": return Sets.inter(A, Sets.union(B, C));
-    default: return new Set();
+    case "union":
+      return Sets.union(A, B);
+    case "inter":
+      return Sets.inter(A, B);
+    case "diff":
+      return Sets.diff(A, B);
+    case "symdiff":
+      return Sets.symdiff(A, B);
+    case "compl":
+      return Sets.complement(A, universe);
+    case "mix":
+      return Sets.inter(A, Sets.union(B, C));
+    default:
+      return new Set();
   }
 }
 
 function operationTex(): string {
   switch (opControl.value()) {
-    case "union": return "A \\cup B";
-    case "inter": return "A \\cap B";
-    case "diff": return "A \\setminus B";
-    case "symdiff": return "A \\triangle B";
-    case "compl": return "A^{c}";
-    default: return "A \\cap (B \\cup C)";
+    case "union":
+      return "A \\cup B";
+    case "inter":
+      return "A \\cap B";
+    case "diff":
+      return "A \\setminus B";
+    case "symdiff":
+      return "A \\triangle B";
+    case "compl":
+      return "A^{c}";
+    default:
+      return "A \\cap (B \\cup C)";
   }
 }
 
 function operationLabel(): string {
   switch (opControl.value()) {
-    case "union": return "A ∪ B";
-    case "inter": return "A ∩ B";
-    case "diff": return "A ∖ B";
-    case "symdiff": return "A △ B";
-    case "compl": return "Aᶜ";
-    default: return "A ∩ (B ∪ C)";
+    case "union":
+      return "A ∪ B";
+    case "inter":
+      return "A ∩ B";
+    case "diff":
+      return "A ∖ B";
+    case "symdiff":
+      return "A △ B";
+    case "compl":
+      return "Aᶜ";
+    default:
+      return "A ∩ (B ∪ C)";
   }
 }
 
@@ -124,12 +188,13 @@ function renderGrid(node: HTMLElement, set: Set<number>, label: "A" | "B" | "C")
     });
     setPressed(button, active);
     button.addEventListener("click", () => {
-      if (set.has(value)) set.delete(value); else set.add(value);
+      if (set.has(value)) set.delete(value);
+      else set.add(value);
       renderAll();
     });
     node.appendChild(button);
   }
-  const sizeNode = label === "A" ? aSize : (label === "B" ? bSize : cSize);
+  const sizeNode = label === "A" ? aSize : label === "B" ? bSize : cSize;
   sizeNode.textContent = "|" + label + "| = " + set.size;
 }
 
@@ -144,14 +209,32 @@ function renderVenn(): void {
     { cx: 270, cy: 300, r: 130, fill: "#0f766e", label: "C", lx: 270, ly: 410 },
   ];
   for (const circle of circles) {
-    root.appendChild(svg("circle", {
-      cx: circle.cx, cy: circle.cy, r: circle.r,
-      fill: circle.fill, opacity: .1, stroke: circle.fill, "stroke-width": 1.5,
-    }));
-    root.appendChild(svg("text", {
-      x: circle.lx, y: circle.ly, "text-anchor": "middle",
-      "font-family": "var(--mono)", "font-size": 15, "font-weight": 700, fill: circle.fill,
-    }, circle.label));
+    root.appendChild(
+      svg("circle", {
+        cx: circle.cx,
+        cy: circle.cy,
+        r: circle.r,
+        fill: circle.fill,
+        opacity: 0.1,
+        stroke: circle.fill,
+        "stroke-width": 1.5,
+      }),
+    );
+    root.appendChild(
+      svg(
+        "text",
+        {
+          x: circle.lx,
+          y: circle.ly,
+          "text-anchor": "middle",
+          "font-family": "var(--mono)",
+          "font-size": 15,
+          "font-weight": 700,
+          fill: circle.fill,
+        },
+        circle.label,
+      ),
+    );
   }
   const anchors: Record<string, { x: number; y: number }> = {
     "000": { x: 45, y: 42 },
@@ -172,16 +255,29 @@ function renderVenn(): void {
   for (const key of Object.keys(groups)) {
     const anchor = anchors[key];
     groups[key].forEach((value, index) => {
-      root.appendChild(svg("circle", {
-        cx: anchor.x + (index % 3) * 17,
-        cy: anchor.y + Math.floor(index / 3) * 17,
-        r: 7, fill: "#fff", stroke: "#1d2733", "stroke-width": 1,
-      }));
-      root.appendChild(svg("text", {
-        x: anchor.x + (index % 3) * 17,
-        y: anchor.y + 4 + Math.floor(index / 3) * 17,
-        "text-anchor": "middle", "font-family": "var(--mono)", "font-size": 9,
-      }, String(value)));
+      root.appendChild(
+        svg("circle", {
+          cx: anchor.x + (index % 3) * 17,
+          cy: anchor.y + Math.floor(index / 3) * 17,
+          r: 7,
+          fill: "#fff",
+          stroke: "#1d2733",
+          "stroke-width": 1,
+        }),
+      );
+      root.appendChild(
+        svg(
+          "text",
+          {
+            x: anchor.x + (index % 3) * 17,
+            y: anchor.y + 4 + Math.floor(index / 3) * 17,
+            "text-anchor": "middle",
+            "font-family": "var(--mono)",
+            "font-size": 9,
+          },
+          String(value),
+        ),
+      );
     });
   }
   vennNode.appendChild(root);
@@ -224,10 +320,23 @@ function renderIdentity(): void {
     const c = Boolean(pattern & 1);
     const left = Boolean(item.left(a, b, c));
     const right = Boolean(item.right(a, b, c));
-    if (left !== right) { firstBad = { a, b, c }; break; }
+    if (left !== right) {
+      firstBad = { a, b, c };
+      break;
+    }
   }
   if (firstBad) {
-    status(identityStatus, "Не тождество. Контрпример: A=" + (firstBad.a ? 1 : 0) + ", B=" + (firstBad.b ? 1 : 0) + ", C=" + (firstBad.c ? 1 : 0) + ".", "bad");
+    status(
+      identityStatus,
+      "Не тождество. Контрпример: A=" +
+        (firstBad.a ? 1 : 0) +
+        ", B=" +
+        (firstBad.b ? 1 : 0) +
+        ", C=" +
+        (firstBad.c ? 1 : 0) +
+        ".",
+      "bad",
+    );
   } else {
     status(identityStatus, "Тождество: обе стороны совпадают на всех восьми вариантах принадлежности.", "ok");
   }
@@ -235,11 +344,21 @@ function renderIdentity(): void {
 
 function renderPower(): void {
   const which = powerControl.value();
-  const set = which === "A" ? A : (which === "B" ? B : C);
+  const set = which === "A" ? A : which === "B" ? B : C;
   const subsets = Sets.powerSet(set);
   powerMetrics.innerHTML = "";
-  powerMetrics.appendChild(el("div", { class: "metric" }, [el("span", { class: "k", text: "|" + which + "|" }), el("span", { class: "v", text: String(set.size) })]));
-  powerMetrics.appendChild(el("div", { class: "metric" }, [el("span", { class: "k", text: "|2^" + which + "|" }), el("span", { class: "v", text: String(subsets.length) })]));
+  powerMetrics.appendChild(
+    el("div", { class: "metric" }, [
+      el("span", { class: "k", text: "|" + which + "|" }),
+      el("span", { class: "v", text: String(set.size) }),
+    ]),
+  );
+  powerMetrics.appendChild(
+    el("div", { class: "metric" }, [
+      el("span", { class: "k", text: "|2^" + which + "|" }),
+      el("span", { class: "v", text: String(subsets.length) }),
+    ]),
+  );
   powerList.textContent = subsets.map((subset) => "{" + subset.join(", ") + "}").join("  ");
 }
 
@@ -257,9 +376,24 @@ function paint(): void {
   const result = operationResult();
   resultNode.replaceChildren(math(operationTex() + " = \\{" + Sets.list(result).join(", ") + "\\}", false));
   metricsNode.innerHTML = "";
-  metricsNode.appendChild(el("div", { class: "metric" }, [el("span", { class: "k", text: "результат" }), el("span", { class: "v", text: String(result.size) })]));
-  metricsNode.appendChild(el("div", { class: "metric" }, [el("span", { class: "k", text: "универсум" }), el("span", { class: "v", text: String(n) })]));
-  metricsNode.appendChild(el("div", { class: "metric" }, [el("span", { class: "k", text: "A ∪ B ∪ C" }), el("span", { class: "v", text: String(Sets.union(Sets.union(A, B), C).size) })]));
+  metricsNode.appendChild(
+    el("div", { class: "metric" }, [
+      el("span", { class: "k", text: "результат" }),
+      el("span", { class: "v", text: String(result.size) }),
+    ]),
+  );
+  metricsNode.appendChild(
+    el("div", { class: "metric" }, [
+      el("span", { class: "k", text: "универсум" }),
+      el("span", { class: "v", text: String(n) }),
+    ]),
+  );
+  metricsNode.appendChild(
+    el("div", { class: "metric" }, [
+      el("span", { class: "k", text: "A ∪ B ∪ C" }),
+      el("span", { class: "v", text: String(Sets.union(Sets.union(A, B), C).size) }),
+    ]),
+  );
   renderMembership();
   renderIdentity();
   renderPower();

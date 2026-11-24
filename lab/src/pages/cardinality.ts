@@ -20,9 +20,15 @@ function rowColor(row: string): string {
   return row === "old" ? COLORS.old : row === "new" ? COLORS.new : COLORS.bus;
 }
 
-interface Room { guest: string; kind: Kind }
+interface Room {
+  guest: string;
+  kind: Kind;
+}
 
-interface Source { row: string; label: string }
+interface Source {
+  row: string;
+  label: string;
+}
 
 interface Transfer {
   row: string;
@@ -33,7 +39,11 @@ interface Transfer {
   fromIndex?: number;
 }
 
-interface Move { label: string; room: number; kind: Kind }
+interface Move {
+  label: string;
+  room: number;
+  kind: Kind;
+}
 
 interface HotelState {
   rooms: Room[];
@@ -66,17 +76,22 @@ const formula = must<HTMLElement>("#hotel-formula");
 const equation = must<HTMLElement>("#hotel-equation");
 const callout = must<HTMLElement>("#hotel-callout");
 const groupWrap = must<HTMLElement>("#group-wrap");
-ribbon(must<HTMLElement>("#group-size"), [
-  { value: "2", label: "2" },
-  { value: "3", label: "3" },
-  { value: "4", label: "4" },
-  { value: "5", label: "5" },
-], String(groupSize), (value) => {
-  groupSize = Number(value);
-  step = 0;
-  renderHotel();
-  startAuto();
-});
+ribbon(
+  must<HTMLElement>("#group-size"),
+  [
+    { value: "2", label: "2" },
+    { value: "3", label: "3" },
+    { value: "4", label: "4" },
+    { value: "5", label: "5" },
+  ],
+  String(groupSize),
+  (value) => {
+    groupSize = Number(value);
+    step = 0;
+    renderHotel();
+    startAuto();
+  },
+);
 const stepsNode = must<HTMLElement>("#hotel-steps");
 const movesNode = must<HTMLElement>("#hotel-moves");
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -87,8 +102,14 @@ function showTab(name: string): void {
     button.classList.toggle("active", active);
     button.setAttribute("aria-pressed", String(active));
   }
-  for (const panel of document.querySelectorAll<HTMLElement>(".tab-panel")) panel.classList.toggle("hidden", panel.id !== "tab-" + name);
-  if (name === "hotel") { renderHotel(); startAuto(); } else { stopAuto(); }
+  for (const panel of document.querySelectorAll<HTMLElement>(".tab-panel"))
+    panel.classList.toggle("hidden", panel.id !== "tab-" + name);
+  if (name === "hotel") {
+    renderHotel();
+    startAuto();
+  } else {
+    stopAuto();
+  }
   if (name === "integers") renderIntegers();
   if (name === "diagonal") renderDiagonal();
 }
@@ -96,7 +117,8 @@ function showTab(name: string): void {
 tabs.addEventListener("click", (event) => {
   if (!(event.target instanceof Element)) return;
   const button = event.target.closest<HTMLButtonElement>("button[data-tab]");
-  if (button && button.dataset.tab) showTab(button.dataset.tab);
+  const name = button?.dataset.tab;
+  if (name) showTab(name);
 });
 
 function stopAuto(): void {
@@ -146,7 +168,8 @@ function stateFor(s: string, currentStep: number): HotelState {
     } else {
       rooms[0] = { guest: "", kind: currentStep === 1 ? "free" : "new" };
       for (let i = 1; i < ROOM_COUNT; i++) rooms[i] = { guest: "G" + i, kind: "old" };
-      for (let i = 1; i < ROOM_COUNT; i++) arrows.push({ row: "old", label: "G" + i, fromRoom: i, room: i + 1, kind: "old" });
+      for (let i = 1; i < ROOM_COUNT; i++)
+        arrows.push({ row: "old", label: "G" + i, fromRoom: i, room: i + 1, kind: "old" });
       if (currentStep === 1) {
         note = "Каждый жилец переезжает на одну комнату вправо. Комната 1 пуста, новый гость ждёт снаружи.";
         equationTex = "\\left|\\mathbb{N}\\right| + 1 = \\left|\\mathbb{N}\\right|";
@@ -160,7 +183,8 @@ function stateFor(s: string, currentStep: number): HotelState {
         formulaTex = "G_n \\mapsto n + 1, \\quad \\text{новый} \\mapsto 1";
       }
     }
-    calloutText = "В конечном отеле сдвиг не помогает: четыре гостя не помещаются в три комнаты. В бесконечном отеле гостей и комнат одинаково много, поэтому сдвиг освобождает место.";
+    calloutText =
+      "В конечном отеле сдвиг не помогает: четыре гостя не помещаются в три комнаты. В бесконечном отеле гостей и комнат одинаково много, поэтому сдвиг освобождает место.";
   } else if (s === "group") {
     maxStep = 2;
     const k = groupSize;
@@ -173,7 +197,8 @@ function stateFor(s: string, currentStep: number): HotelState {
     } else if (currentStep === 1) {
       for (let i = 0; i < k; i++) rooms[i] = { guest: "", kind: "free" };
       for (let i = k; i < ROOM_COUNT; i++) rooms[i] = { guest: "G" + (i - k + 1), kind: "old" };
-      for (let i = 1; i <= ROOM_COUNT - k; i++) arrows.push({ row: "old", label: "G" + i, fromRoom: i, room: i + k, kind: "old" });
+      for (let i = 1; i <= ROOM_COUNT - k; i++)
+        arrows.push({ row: "old", label: "G" + i, fromRoom: i, room: i + k, kind: "old" });
       note = "Жильцы сдвигаются вправо. Первые " + k + " комнат свободны, новые гости ждут снаружи.";
       equationTex = "\\left|\\mathbb{N}\\right| + " + k + " = \\left|\\mathbb{N}\\right|";
       formulaTex = "g(n) = n + " + k;
@@ -188,7 +213,8 @@ function stateFor(s: string, currentStep: number): HotelState {
       equationTex = "\\left|\\mathbb{N}\\right| + " + k + " = \\left|\\mathbb{N}\\right|";
       formulaTex = "G_n \\mapsto n + " + k + ", \\quad N_j \\mapsto j";
     }
-    calloutText = "Сдвиг на конечное k ничего не меняет: натуральный ряд сдвигом на k снова покрывает всё, кроме первых k мест, а эти места заняли новые гости.";
+    calloutText =
+      "Сдвиг на конечное k ничего не меняет: натуральный ряд сдвигом на k снова покрывает всё, кроме первых k мест, а эти места заняли новые гости.";
   } else if (s === "bus") {
     maxStep = 2;
     const shown = 5;
@@ -217,7 +243,8 @@ function stateFor(s: string, currentStep: number): HotelState {
       equationTex = "\\left|\\mathbb{N}\\right| + \\left|\\mathbb{N}\\right| = \\left|\\mathbb{N}\\right|";
       formulaTex = "G_n \\mapsto 2n, \\quad B_n \\mapsto 2n - 1";
     }
-    calloutText = "Два счётных множества вместе снова счётны. Новая бесконечность не появилась: чётные и нечётные номера задают две копии N внутри одного N.";
+    calloutText =
+      "Два счётных множества вместе снова счётны. Новая бесконечность не появилась: чётные и нечётные номера задают две копии N внутри одного N.";
   } else {
     maxStep = BUS_ROWS + BUS_SEATS - 1;
     localHint = "Автобусов счётно много. Каждая пара (автобус, место) получает свой номер комнаты.";
@@ -236,7 +263,8 @@ function stateFor(s: string, currentStep: number): HotelState {
     }
     equationTex = "\\left|\\mathbb{N}\\right| \\times \\left|\\mathbb{N}\\right| = \\left|\\mathbb{N}\\right|";
     formulaTex = "\\operatorname{room}(b,n) = \\frac{s(s+1)}{2} + b + 1, \\quad s = b+n-1";
-    calloutText = "Старых жильцов можно отправить в чётные комнаты, а пары (автобус, место) в нечётные. Счётное объединение счётных множеств счётно: диагональная нумерация превращает двумерную таблицу в один список.";
+    calloutText =
+      "Старых жильцов можно отправить в чётные комнаты, а пары (автобус, место) в нечётные. Счётное объединение счётных множеств счётно: диагональная нумерация превращает двумерную таблицу в один список.";
   }
 
   return { rooms, sources, arrows, note, localHint, equationTex, formulaTex, calloutText, maxStep, currentStep };
@@ -257,25 +285,63 @@ function roomX(index: number): number {
 function hotelSvg(state: HotelState): string {
   const parts: string[] = [];
   parts.push('<svg class="hotel-svg" viewBox="0 0 920 380" role="img" aria-label="Схема переезда гостей в отеле">');
-  parts.push('<defs>');
+  parts.push("<defs>");
   for (const kind of ["old", "new", "bus"] as const) {
-    parts.push('<marker id="hotel-arrow-' + kind + '" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="' + COLORS[kind] + '"></path></marker>');
+    parts.push(
+      '<marker id="hotel-arrow-' +
+        kind +
+        '" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="' +
+        COLORS[kind] +
+        '"></path></marker>',
+    );
   }
-  parts.push('</defs>');
-  parts.push('<rect x="16" y="12" width="888" height="100" rx="14" fill="#fcfbf8" stroke="#d9d3c6" stroke-width="1.2"></rect>');
+  parts.push("</defs>");
+  parts.push(
+    '<rect x="16" y="12" width="888" height="100" rx="14" fill="#fcfbf8" stroke="#d9d3c6" stroke-width="1.2"></rect>',
+  );
   parts.push('<text x="30" y="31" font-size="10" font-weight="700" letter-spacing=".12em" fill="#5e6a75">ОТЕЛЬ</text>');
 
   for (let i = 0; i < state.rooms.length; i++) {
     const room = state.rooms[i];
     const x = roomX(i);
     const isFree = room.kind === "free";
-    const fill = isFree ? "#fff5f3" : (room.kind === "new" ? "#e3f2eb" : (room.kind === "bus" ? "#faeed9" : "#ffffff"));
-    const stroke = isFree ? COLORS.free : (room.kind === "new" ? COLORS.new : (room.kind === "bus" ? COLORS.bus : "#cfc7b8"));
+    const fill = isFree ? "#fff5f3" : room.kind === "new" ? "#e3f2eb" : room.kind === "bus" ? "#faeed9" : "#ffffff";
+    const stroke = isFree
+      ? COLORS.free
+      : room.kind === "new"
+        ? COLORS.new
+        : room.kind === "bus"
+          ? COLORS.bus
+          : "#cfc7b8";
     parts.push('<g class="h-room">');
-    parts.push('<rect x="' + x + '" y="40" width="74" height="58" rx="9" fill="' + fill + '" stroke="' + stroke + '" stroke-width="1.4"' + (isFree ? ' stroke-dasharray="5 4"' : '') + '></rect>');
-    parts.push('<text x="' + (x + 37) + '" y="57" text-anchor="middle" font-size="9" fill="#5e6a75">комната ' + (i + 1) + '</text>');
-    parts.push('<text x="' + (x + 37) + '" y="80" text-anchor="middle" font-size="12" font-weight="700" fill="' + (isFree ? COLORS.free : '#18222d') + '">' + (isFree ? "пусто" : room.guest) + '</text>');
-    parts.push('</g>');
+    parts.push(
+      '<rect x="' +
+        x +
+        '" y="40" width="74" height="58" rx="9" fill="' +
+        fill +
+        '" stroke="' +
+        stroke +
+        '" stroke-width="1.4"' +
+        (isFree ? ' stroke-dasharray="5 4"' : "") +
+        "></rect>",
+    );
+    parts.push(
+      '<text x="' +
+        (x + 37) +
+        '" y="57" text-anchor="middle" font-size="9" fill="#5e6a75">комната ' +
+        (i + 1) +
+        "</text>",
+    );
+    parts.push(
+      '<text x="' +
+        (x + 37) +
+        '" y="80" text-anchor="middle" font-size="12" font-weight="700" fill="' +
+        (isFree ? COLORS.free : "#18222d") +
+        '">' +
+        (isFree ? "пусто" : room.guest) +
+        "</text>",
+    );
+    parts.push("</g>");
   }
 
   const exitKind = new Map<number, string>();
@@ -312,20 +378,52 @@ function hotelSvg(state: HotelState): string {
   for (const rowName of externalRows) {
     const y = sourceY(rowName);
     const label = rowName === "bus" ? "автобус" : "снаружи";
-    sourceParts.push('<text x="14" y="' + (y + 21) + '" font-size="10" fill="#5e6a75">' + label + '</text>');
+    sourceParts.push('<text x="14" y="' + (y + 21) + '" font-size="10" fill="#5e6a75">' + label + "</text>");
     (rows[rowName] || []).forEach((source, index) => {
       const x = sourceX(index);
       const fill = rowName === "bus" ? "#faeed9" : "#e3f2eb";
       const stroke = rowColor(rowName);
-      sourceParts.push('<rect x="' + x + '" y="' + y + '" width="72" height="34" rx="7" fill="' + fill + '" stroke="' + stroke + '" stroke-width="1.1"></rect>');
-      sourceParts.push('<text x="' + (x + 36) + '" y="' + (y + 21) + '" text-anchor="middle" font-size="11" font-weight="700" fill="#18222d">' + source.label + '</text>');
+      sourceParts.push(
+        '<rect x="' +
+          x +
+          '" y="' +
+          y +
+          '" width="72" height="34" rx="7" fill="' +
+          fill +
+          '" stroke="' +
+          stroke +
+          '" stroke-width="1.1"></rect>',
+      );
+      sourceParts.push(
+        '<text x="' +
+          (x + 36) +
+          '" y="' +
+          (y + 21) +
+          '" text-anchor="middle" font-size="11" font-weight="700" fill="#18222d">' +
+          source.label +
+          "</text>",
+      );
     });
     for (const key of entryKeys) {
       if (!key.startsWith(rowName + ":")) continue;
       const index = Number(key.split(":")[1]);
       const x = sourceX(index);
-      sourceParts.push('<rect x="' + x + '" y="' + y + '" width="72" height="34" rx="7" fill="#fff" stroke="' + rowColor(rowName) + '" stroke-width="1" stroke-dasharray="4 4" opacity=".55"></rect>');
-      sourceParts.push('<text x="' + (x + 36) + '" y="' + (y + 21) + '" text-anchor="middle" font-size="10" fill="#5e6a75">вход</text>');
+      sourceParts.push(
+        '<rect x="' +
+          x +
+          '" y="' +
+          y +
+          '" width="72" height="34" rx="7" fill="#fff" stroke="' +
+          rowColor(rowName) +
+          '" stroke-width="1" stroke-dasharray="4 4" opacity=".55"></rect>',
+      );
+      sourceParts.push(
+        '<text x="' +
+          (x + 36) +
+          '" y="' +
+          (y + 21) +
+          '" text-anchor="middle" font-size="10" fill="#5e6a75">вход</text>',
+      );
     }
   }
 
@@ -337,7 +435,7 @@ function hotelSvg(state: HotelState): string {
       const x1 = roomX(arrow.fromRoom - 1) + 14;
       const x2 = roomX(to - 1) + 60;
       const lane = 106 + Math.min(5, Math.max(1, to - arrow.fromRoom)) * 9 + (arrow.fromRoom % 3) * 7;
-      path = 'M ' + x1 + ' 98 C ' + x1 + ' ' + lane + ', ' + x2 + ' ' + lane + ', ' + x2 + ' 98';
+      path = "M " + x1 + " 98 C " + x1 + " " + lane + ", " + x2 + " " + lane + ", " + x2 + " 98";
     } else {
       const rowSources = rows[arrow.row] || [];
       let fromIndex = arrow.fromIndex;
@@ -347,19 +445,35 @@ function hotelSvg(state: HotelState): string {
       const y1 = sourceY(arrow.row);
       const x2 = roomX(arrow.room - 1) + 60;
       const lift = arrow.row === "bus" ? 64 : 44;
-      path = 'M ' + x1 + ' ' + y1 + ' C ' + x1 + ' ' + (y1 - lift) + ', ' + x2 + ' 170, ' + x2 + ' 98';
+      path = "M " + x1 + " " + y1 + " C " + x1 + " " + (y1 - lift) + ", " + x2 + " 170, " + x2 + " 98";
     }
-    arrowParts.push('<path class="hotel-arrow" d="' + path + '" stroke="' + COLORS[arrow.kind] + '" marker-end="url(#hotel-arrow-' + arrow.kind + ')"></path>');
+    arrowParts.push(
+      '<path class="hotel-arrow" d="' +
+        path +
+        '" stroke="' +
+        COLORS[arrow.kind] +
+        '" marker-end="url(#hotel-arrow-' +
+        arrow.kind +
+        ')"></path>',
+    );
     if (!reduceMotion) {
       const tokenText = arrow.label === "новый" ? "N" : arrow.label;
-      arrowParts.push('<g class="hotel-token" aria-hidden="true"><circle r="8" fill="' + COLORS[arrow.kind] + '"></circle><text x="0" y="3" text-anchor="middle" font-size="8" font-weight="700" fill="#fff">' + tokenText + '</text><animateMotion dur="0.95s" begin="0s" fill="freeze" path="' + path + '"></animateMotion><animate attributeName="opacity" values="1;1;0" keyTimes="0;0.9;1" dur="1.05s" fill="freeze"></animate></g>');
+      arrowParts.push(
+        '<g class="hotel-token" aria-hidden="true"><circle r="8" fill="' +
+          COLORS[arrow.kind] +
+          '"></circle><text x="0" y="3" text-anchor="middle" font-size="8" font-weight="700" fill="#fff">' +
+          tokenText +
+          '</text><animateMotion dur="0.95s" begin="0s" fill="freeze" path="' +
+          path +
+          '"></animateMotion><animate attributeName="opacity" values="1;1;0" keyTimes="0;0.9;1" dur="1.05s" fill="freeze"></animate></g>',
+      );
     }
   }
 
   parts.push('<text x="900" y="80" text-anchor="middle" font-size="20" fill="#5e6a75">…</text>');
   parts.push(arrowParts.join(""));
   parts.push(sourceParts.join(""));
-  parts.push('</svg>');
+  parts.push("</svg>");
   return parts.join("");
 }
 
@@ -383,12 +497,13 @@ function renderBusGrid(): void {
       const diagonal = step - 1;
       const shown = step > 0 && sum <= diagonal;
       const current = step > 0 && sum === diagonal;
-      const cell = el("div", {
-        class: "bus-cell" + (shown ? " assigned" : "") + (current ? " current" : ""),
-      }, [
-        el("span", { class: "bus-room", text: "№" + room }),
-        el("small", { text: (shown ? "занята" : "ждёт") }),
-      ]);
+      const cell = el(
+        "div",
+        {
+          class: "bus-cell" + (shown ? " assigned" : "") + (current ? " current" : ""),
+        },
+        [el("span", { class: "bus-room", text: "№" + room }), el("small", { text: shown ? "занята" : "ждёт" })],
+      );
       grid.appendChild(cell);
     }
   }
@@ -406,12 +521,19 @@ function renderBusGrid(): void {
     const info = assignment.get(room);
     const assigned = step > 0 && info !== undefined && info.sum <= diagonal;
     const isNew = assigned && info !== undefined && info.sum === diagonal;
-    roomLane.appendChild(el("div", { class: "bus-room-card" + (assigned ? " assigned" : "") + (isNew ? " current" : "") }, [
-      el("small", { text: "комната " + room }),
-      el("b", { text: assigned && info ? info.label : "…" }),
-    ]));
+    roomLane.appendChild(
+      el("div", { class: "bus-room-card" + (assigned ? " assigned" : "") + (isNew ? " current" : "") }, [
+        el("small", { text: "комната " + room }),
+        el("b", { text: assigned && info ? info.label : "…" }),
+      ]),
+    );
   }
-  stage.appendChild(el("p", { class: "hint", text: "Нижняя лента показывает окно комнат. В сетке отмечено, какая пара займёт комнату." }));
+  stage.appendChild(
+    el("p", {
+      class: "hint",
+      text: "Нижняя лента показывает окно комнат. В сетке отмечено, какая пара займёт комнату.",
+    }),
+  );
   stage.appendChild(roomLane);
 }
 
@@ -436,16 +558,20 @@ function renderMoves(state: HotelState): void {
     return;
   }
   for (const move of moves) {
-    movesNode.appendChild(el("div", { class: "move-row " + move.kind }, [
-      el("span", { class: "move-from", text: move.label }),
-      el("span", { class: "move-arrow", text: "→" }),
-      el("span", { class: "move-to", text: "комната " + move.room }),
-    ]));
+    movesNode.appendChild(
+      el("div", { class: "move-row " + move.kind }, [
+        el("span", { class: "move-from", text: move.label }),
+        el("span", { class: "move-arrow", text: "→" }),
+        el("span", { class: "move-to", text: "комната " + move.room }),
+      ]),
+    );
   }
   if (scenario === "one" && step === 1) {
     movesNode.appendChild(el("p", { class: "hint", text: "G10 уезжает в комнату 11 и дальше, за пределы окна." }));
   } else if (scenario === "group" && step === 1) {
-    movesNode.appendChild(el("p", { class: "hint", text: "Последние " + groupSize + " жильцов уезжают за пределы окна." }));
+    movesNode.appendChild(
+      el("p", { class: "hint", text: "Последние " + groupSize + " жильцов уезжают за пределы окна." }),
+    );
   } else if (scenario === "bus" && step === 1) {
     movesNode.appendChild(el("p", { class: "hint", text: "G6 и дальше уезжают в комнаты 12, 14, …" }));
   }
@@ -462,7 +588,10 @@ function stepDetail(index: number): string {
     return ["свободных комнат нет", "жилец n переезжает в n+1", "новый гость в комнате 1"][index] ?? "";
   }
   if (scenario === "group") {
-    return ["снаружи " + groupSize + " гостей", "сдвиг на " + groupSize, "первые " + groupSize + " комнат заняты"][index] ?? "";
+    return (
+      ["снаружи " + groupSize + " гостей", "сдвиг на " + groupSize, "первые " + groupSize + " комнат заняты"][index] ??
+      ""
+    );
   }
   if (scenario === "bus") {
     return ["автобус ждёт", "жильцы в чётные: G_n → 2n", "пассажиры в нечётные: B_n → 2n − 1"][index] ?? "";
@@ -473,20 +602,28 @@ function stepDetail(index: number): string {
 function paintHotel(): void {
   const state = stateFor(scenario, step);
   groupWrap.classList.toggle("hidden", scenario !== "group");
-  title.textContent = scenario === "one" ? "Один гость" : (scenario === "group" ? "Конечная группа" : (scenario === "bus" ? "Бесконечный автобус" : "Бесконечно много автобусов"));
+  title.textContent =
+    scenario === "one"
+      ? "Один гость"
+      : scenario === "group"
+        ? "Конечная группа"
+        : scenario === "bus"
+          ? "Бесконечный автобус"
+          : "Бесконечно много автобусов";
   hint.textContent = state.localHint;
   clear(stepsNode);
   for (let i = 0; i <= state.maxStep; i++) {
-    const item = el("li", {
-      class: "hotel-step" + (i === step ? " active" : "") + (i < step ? " done" : ""),
-      "aria-current": i === step ? "step" : undefined,
-    }, [
-      el("b", { text: scenario === "buses" ? (i === 0 ? "S" : String(i - 1)) : String(i) }),
-      el("span", {}, [
-        el("strong", { text: stepTitle(i) }),
-        el("small", { text: stepDetail(i) }),
-      ]),
-    ]);
+    const item = el(
+      "li",
+      {
+        class: "hotel-step" + (i === step ? " active" : "") + (i < step ? " done" : ""),
+        "aria-current": i === step ? "step" : undefined,
+      },
+      [
+        el("b", { text: scenario === "buses" ? (i === 0 ? "S" : String(i - 1)) : String(i) }),
+        el("span", {}, [el("strong", { text: stepTitle(i) }), el("small", { text: stepDetail(i) })]),
+      ],
+    );
     stepsNode.appendChild(item);
   }
 
@@ -526,29 +663,40 @@ function setScenario(name: string): void {
 must<HTMLElement>("#hotel-scenarios").addEventListener("click", (event) => {
   if (!(event.target instanceof Element)) return;
   const button = event.target.closest<HTMLButtonElement>("button[data-scenario]");
-  if (button && button.dataset.scenario) setScenario(button.dataset.scenario);
+  const name = button?.dataset.scenario;
+  if (name) setScenario(name);
 });
 
 function renderFinite(): void {
   const rooms = must<HTMLElement>("#finite-rooms");
   clear(rooms);
   for (let i = 1; i <= 3; i++) {
-    rooms.appendChild(el("div", { class: "finite-room" }, [
-      el("small", { text: "комната " + i }),
-      el("b", { text: "G" + i }),
-    ]));
+    rooms.appendChild(
+      el("div", { class: "finite-room" }, [el("small", { text: "комната " + i }), el("b", { text: "G" + i })]),
+    );
   }
   if (finiteTried) {
-    rooms.appendChild(el("div", { class: "finite-room waiting" }, [
-      el("small", { text: "снаружи" }),
-      el("b", { text: "новый" }),
-    ]));
+    rooms.appendChild(
+      el("div", { class: "finite-room waiting" }, [el("small", { text: "снаружи" }), el("b", { text: "новый" })]),
+    );
   }
-  setStatus(must<HTMLElement>("#finite-status"), finiteTried ? "Гостей четыре, комнат три. Свободной комнаты нет, сдвиг не помогает." : "Три комнаты заняты тремя гостями.", finiteTried ? "bad" : "warn");
+  setStatus(
+    must<HTMLElement>("#finite-status"),
+    finiteTried
+      ? "Гостей четыре, комнат три. Свободной комнаты нет, сдвиг не помогает."
+      : "Три комнаты заняты тремя гостями.",
+    finiteTried ? "bad" : "warn",
+  );
 }
 
-must<HTMLButtonElement>("#finite-try").addEventListener("click", () => { finiteTried = true; renderFinite(); });
-must<HTMLButtonElement>("#finite-reset").addEventListener("click", () => { finiteTried = false; renderFinite(); });
+must<HTMLButtonElement>("#finite-try").addEventListener("click", () => {
+  finiteTried = true;
+  renderFinite();
+});
+must<HTMLButtonElement>("#finite-reset").addEventListener("click", () => {
+  finiteTried = false;
+  renderFinite();
+});
 
 function renderArithmetic(): void {
   const wrap = must<HTMLElement>("#arithmetic");
@@ -556,8 +704,16 @@ function renderArithmetic(): void {
   const rows: [string, string, string][] = [
     ["\\left|\\mathbb{N}\\right| + 1 = \\left|\\mathbb{N}\\right|", "один гость", "one"],
     ["\\left|\\mathbb{N}\\right| + k = \\left|\\mathbb{N}\\right|", "конечная группа", "group"],
-    ["\\left|\\mathbb{N}\\right| + \\left|\\mathbb{N}\\right| = \\left|\\mathbb{N}\\right|", "бесконечный автобус", "bus"],
-    ["\\left|\\mathbb{N}\\right| \\times \\left|\\mathbb{N}\\right| = \\left|\\mathbb{N}\\right|", "бесконечно много автобусов", "buses"],
+    [
+      "\\left|\\mathbb{N}\\right| + \\left|\\mathbb{N}\\right| = \\left|\\mathbb{N}\\right|",
+      "бесконечный автобус",
+      "bus",
+    ],
+    [
+      "\\left|\\mathbb{N}\\right| \\times \\left|\\mathbb{N}\\right| = \\left|\\mathbb{N}\\right|",
+      "бесконечно много автобусов",
+      "buses",
+    ],
     ["2^{\\left|\\mathbb{N}\\right|} > \\left|\\mathbb{N}\\right|", "диагональ Кантора", "diagonal"],
   ];
   const table = el("table", { class: "data arithmetic-table" });
@@ -607,18 +763,31 @@ function renderIntegers(): void {
   clear(list);
   for (let n = 0; n <= integerSteps; n++) {
     const value = integerOf(n);
-    list.appendChild(el("div", { class: "map-column" }, [
-      el("small", { text: "n=" + n }),
-      el("span", { class: "map-arrow", text: "↓" }),
-      el("b", { text: String(value) }),
-    ]));
+    list.appendChild(
+      el("div", { class: "map-column" }, [
+        el("small", { text: "n=" + n }),
+        el("span", { class: "map-arrow", text: "↓" }),
+        el("b", { text: String(value) }),
+      ]),
+    );
   }
-  must<HTMLElement>("#integers-formula").replaceChildren(math("f(n) = \\begin{cases} 0, & n = 0 \\\\ (n+1)/2, & n \\text{ нечётно} \\\\ -n/2, & n \\text{ чётно} \\end{cases}", true));
+  must<HTMLElement>("#integers-formula").replaceChildren(
+    math(
+      "f(n) = \\begin{cases} 0, & n = 0 \\\\ (n+1)/2, & n \\text{ нечётно} \\\\ -n/2, & n \\text{ чётно} \\end{cases}",
+      true,
+    ),
+  );
   setStatus(must<HTMLElement>("#integers-status"), "Каждое целое появляется ровно один раз: 0, 1, −1, 2, −2, …", "ok");
 }
 
-must<HTMLButtonElement>("#integers-add").addEventListener("click", () => { integerSteps += 4; renderIntegers(); });
-must<HTMLButtonElement>("#integers-reset").addEventListener("click", () => { integerSteps = 8; renderIntegers(); });
+must<HTMLButtonElement>("#integers-add").addEventListener("click", () => {
+  integerSteps += 4;
+  renderIntegers();
+});
+must<HTMLButtonElement>("#integers-reset").addEventListener("click", () => {
+  integerSteps = 8;
+  renderIntegers();
+});
 
 function makeDiagonal(): void {
   diagonalTable = [];
@@ -653,7 +822,8 @@ function renderDiagonal(): void {
   if (diagonalStep >= 2) {
     const dRow = el("tr", { class: "hl" });
     dRow.appendChild(el("th", { text: "d" }));
-    for (let j = 0; j < 5; j++) dRow.appendChild(el("td", { class: "mono diag", text: String(1 - diagonalTable[j][j]) }));
+    for (let j = 0; j < 5; j++)
+      dRow.appendChild(el("td", { class: "mono diag", text: String(1 - diagonalTable[j][j]) }));
     dRow.appendChild(el("td", { class: "muted", text: "…" }));
     body.appendChild(dRow);
   }
@@ -669,7 +839,11 @@ function renderDiagonal(): void {
     setStatus(diagonalStatus, "Диагональ задают клетки b_ii. Они берут по одному биту из каждой строки.", "warn");
     diagonalHint.textContent = "На следующем шаге каждый диагональный бит перевернётся.";
   } else {
-    setStatus(diagonalStatus, "Строка d отличается от каждой строки s_i в позиции i. Значит списка всех последовательностей нет.", "ok");
+    setStatus(
+      diagonalStatus,
+      "Строка d отличается от каждой строки s_i в позиции i. Значит списка всех последовательностей нет.",
+      "ok",
+    );
     diagonalHint.textContent = "Для любой строки i выполнено d_i ≠ b_ii, поэтому d не равна ни одной строке списка.";
   }
   const stepButton = must<HTMLButtonElement>("#diagonal-step");
@@ -683,7 +857,10 @@ must<HTMLButtonElement>("#diagonal-step").addEventListener("click", () => {
     renderDiagonal();
   }
 });
-must<HTMLButtonElement>("#diagonal-random").addEventListener("click", () => { makeDiagonal(); renderDiagonal(); });
+must<HTMLButtonElement>("#diagonal-random").addEventListener("click", () => {
+  makeDiagonal();
+  renderDiagonal();
+});
 
 makeDiagonal();
 renderHotel();

@@ -11,26 +11,36 @@ let f: Sets.Mapping = {};
 let domainSubset = new Set([1, 2]);
 let codomainSubset = new Set([1, 2]);
 
-ribbon(must<HTMLElement>("#domain-size"), [
-  { value: "3", label: "3" },
-  { value: "4", label: "4" },
-  { value: "5", label: "5" },
-], "4", (value) => {
-  m = Number(value);
-  domainSubset = new Set(Sets.range(m).slice(0, 2));
-  resetMapping();
-  renderAll();
-});
-ribbon(must<HTMLElement>("#codomain-size"), [
-  { value: "3", label: "3" },
-  { value: "4", label: "4" },
-  { value: "5", label: "5" },
-], "4", (value) => {
-  k = Number(value);
-  codomainSubset = new Set(Sets.range(k).slice(0, 2));
-  resetMapping();
-  renderAll();
-});
+ribbon(
+  must<HTMLElement>("#domain-size"),
+  [
+    { value: "3", label: "3" },
+    { value: "4", label: "4" },
+    { value: "5", label: "5" },
+  ],
+  "4",
+  (value) => {
+    m = Number(value);
+    domainSubset = new Set(Sets.range(m).slice(0, 2));
+    resetMapping();
+    renderAll();
+  },
+);
+ribbon(
+  must<HTMLElement>("#codomain-size"),
+  [
+    { value: "3", label: "3" },
+    { value: "4", label: "4" },
+    { value: "5", label: "5" },
+  ],
+  "4",
+  (value) => {
+    k = Number(value);
+    codomainSubset = new Set(Sets.range(k).slice(0, 2));
+    resetMapping();
+    renderAll();
+  },
+);
 const mappingNode = must<HTMLElement>("#mapping");
 const propertiesNode = must<HTMLElement>("#properties");
 const kindNode = must<HTMLElement>("#kind");
@@ -43,8 +53,12 @@ const gPreset = must<HTMLSelectElement>("#g-preset");
 const compositionNode = must<HTMLElement>("#composition");
 const inverseNode = must<HTMLElement>("#inverse");
 
-function domain(): number[] { return Sets.range(m); }
-function codomain(): number[] { return Sets.range(k); }
+function domain(): number[] {
+  return Sets.range(m);
+}
+function codomain(): number[] {
+  return Sets.range(k);
+}
 
 function resetMapping(): void {
   f = {};
@@ -53,14 +67,20 @@ function resetMapping(): void {
 
 function setMapping(preset: string): void {
   if (preset === "bijection") {
-    if (m !== k) { status(kindNode, "Биекция возможна только при равных размерах домена и кодомена.", "warn"); return; }
+    if (m !== k) {
+      status(kindNode, "Биекция возможна только при равных размерах домена и кодомена.", "warn");
+      return;
+    }
     f = {};
     for (let i = 1; i <= m; i++) f[i] = i;
   } else if (preset === "surjection") {
     f = {};
     for (let i = 1; i <= m; i++) f[i] = ((i - 1) % k) + 1;
   } else if (preset === "injection") {
-    if (m > k) { status(kindNode, "Инъекция невозможна: домен больше кодомена.", "warn"); return; }
+    if (m > k) {
+      status(kindNode, "Инъекция невозможна: домен больше кодомена.", "warn");
+      return;
+    }
     f = {};
     for (let i = 1; i <= m; i++) f[i] = i;
   }
@@ -106,28 +126,72 @@ function renderDiagram(): void {
   const rightY = (j: number): number => 50 + j * ((height - 100) / Math.max(1, k - 1));
   const root = svg("svg", { viewBox: "0 0 " + width + " " + height, role: "img", "aria-label": "Стрелки отображения" });
   const defs = svg("defs");
-  const marker = svg("marker", { id: "fun-arrow", viewBox: "0 0 10 10", refX: "9", refY: "5", markerWidth: "6", markerHeight: "6", orient: "auto-start-reverse" });
+  const marker = svg("marker", {
+    id: "fun-arrow",
+    viewBox: "0 0 10 10",
+    refX: "9",
+    refY: "5",
+    markerWidth: "6",
+    markerHeight: "6",
+    orient: "auto-start-reverse",
+  });
   marker.appendChild(svg("path", { d: "M 0 0 L 10 5 L 0 10 z", fill: "#2d5fa8" }));
   defs.appendChild(marker);
   root.appendChild(defs);
   for (const x of domain()) {
     const y = f[x];
     if (y === undefined) continue;
-    root.appendChild(svg("line", {
-      x1: leftX + 25, y1: leftY(x - 1),
-      x2: rightX - 25, y2: rightY(y - 1),
-      stroke: "#2d5fa8", "stroke-width": 1.5, "marker-end": "url(#fun-arrow)",
-    }));
+    root.appendChild(
+      svg("line", {
+        x1: leftX + 25,
+        y1: leftY(x - 1),
+        x2: rightX - 25,
+        y2: rightY(y - 1),
+        stroke: "#2d5fa8",
+        "stroke-width": 1.5,
+        "marker-end": "url(#fun-arrow)",
+      }),
+    );
   }
   for (const x of domain()) {
     const py = leftY(x - 1);
-    root.appendChild(svg("circle", { cx: leftX, cy: py, r: 23, fill: "#e8f0fb", stroke: "#2d5fa8", "stroke-width": 1.5 }));
-    root.appendChild(svg("text", { x: leftX, y: py + 5, "text-anchor": "middle", "font-family": "var(--mono)", "font-size": 13, "font-weight": 700 }, String(x)));
+    root.appendChild(
+      svg("circle", { cx: leftX, cy: py, r: 23, fill: "#e8f0fb", stroke: "#2d5fa8", "stroke-width": 1.5 }),
+    );
+    root.appendChild(
+      svg(
+        "text",
+        {
+          x: leftX,
+          y: py + 5,
+          "text-anchor": "middle",
+          "font-family": "var(--mono)",
+          "font-size": 13,
+          "font-weight": 700,
+        },
+        String(x),
+      ),
+    );
   }
   for (const y of codomain()) {
     const py = rightY(y - 1);
-    root.appendChild(svg("circle", { cx: rightX, cy: py, r: 23, fill: "#efe9f7", stroke: "#6a4c93", "stroke-width": 1.5 }));
-    root.appendChild(svg("text", { x: rightX, y: py + 5, "text-anchor": "middle", "font-family": "var(--mono)", "font-size": 13, "font-weight": 700 }, String(y)));
+    root.appendChild(
+      svg("circle", { cx: rightX, cy: py, r: 23, fill: "#efe9f7", stroke: "#6a4c93", "stroke-width": 1.5 }),
+    );
+    root.appendChild(
+      svg(
+        "text",
+        {
+          x: rightX,
+          y: py + 5,
+          "text-anchor": "middle",
+          "font-family": "var(--mono)",
+          "font-size": 13,
+          "font-weight": 700,
+        },
+        String(y),
+      ),
+    );
   }
   diagramNode.appendChild(root);
 }
@@ -135,12 +199,26 @@ function renderDiagram(): void {
 function renderProperties(): Sets.FunctionProps {
   const props = Sets.functionProps(f, domain(), codomain());
   clear(propertiesNode);
-  propertiesNode.appendChild(el("span", { class: "pill " + (props.injective ? "ok" : "no"), text: "инъекция" + (props.injective ? " ✓" : " ✗") }));
-  propertiesNode.appendChild(el("span", { class: "pill " + (props.surjective ? "ok" : "no"), text: "сюръекция" + (props.surjective ? " ✓" : " ✗") }));
-  propertiesNode.appendChild(el("span", { class: "pill " + (props.bijective ? "ok" : "no"), text: "биекция" + (props.bijective ? " ✓" : " ✗") }));
+  propertiesNode.appendChild(
+    el("span", {
+      class: "pill " + (props.injective ? "ok" : "no"),
+      text: "инъекция" + (props.injective ? " ✓" : " ✗"),
+    }),
+  );
+  propertiesNode.appendChild(
+    el("span", {
+      class: "pill " + (props.surjective ? "ok" : "no"),
+      text: "сюръекция" + (props.surjective ? " ✓" : " ✗"),
+    }),
+  );
+  propertiesNode.appendChild(
+    el("span", { class: "pill " + (props.bijective ? "ok" : "no"), text: "биекция" + (props.bijective ? " ✓" : " ✗") }),
+  );
   if (props.bijective) status(kindNode, "Биекция: у отображения есть обратное.", "ok");
-  else if (props.injective) status(kindNode, "Инъекция, но не сюръекция. Осталось попасть в пропущенные элементы кодомена.", "warn");
-  else if (props.surjective) status(kindNode, "Сюръекция, но не инъекция. Есть склейки: разные x дают один образ.", "warn");
+  else if (props.injective)
+    status(kindNode, "Инъекция, но не сюръекция. Осталось попасть в пропущенные элементы кодомена.", "warn");
+  else if (props.surjective)
+    status(kindNode, "Сюръекция, но не инъекция. Есть склейки: разные x дают один образ.", "warn");
   else status(kindNode, "Ни инъекция, ни сюръекция. Есть и склейки, и пропуски.", "bad");
   return props;
 }
@@ -157,7 +235,8 @@ function renderSubsets(): void {
     });
     setPressed(button, domainSubset.has(x));
     button.addEventListener("click", () => {
-      if (domainSubset.has(x)) domainSubset.delete(x); else domainSubset.add(x);
+      if (domainSubset.has(x)) domainSubset.delete(x);
+      else domainSubset.add(x);
       renderAll();
     });
     domainSubsetNode.appendChild(button);
@@ -173,7 +252,8 @@ function renderSubsets(): void {
     });
     setPressed(button, codomainSubset.has(y));
     button.addEventListener("click", () => {
-      if (codomainSubset.has(y)) codomainSubset.delete(y); else codomainSubset.add(y);
+      if (codomainSubset.has(y)) codomainSubset.delete(y);
+      else codomainSubset.add(y);
       renderAll();
     });
     codomainSubsetNode.appendChild(button);
@@ -190,10 +270,15 @@ function renderComposition(): void {
   if (gPreset.value === "identity") {
     for (const y of values) g[y] = y;
   } else if (gPreset.value === "cycle") {
-    values.forEach((y, index) => { g[y] = values[(index + 1) % values.length]; });
+    values.forEach((y, index) => {
+      g[y] = values[(index + 1) % values.length];
+    });
   } else if (gPreset.value === "swap") {
     for (const y of values) g[y] = y;
-    if (values.length >= 2) { g[values[0]] = values[1]; g[values[1]] = values[0]; }
+    if (values.length >= 2) {
+      g[values[0]] = values[1];
+      g[values[1]] = values[0];
+    }
   } else {
     for (const y of values) g[y] = 1;
   }
@@ -203,7 +288,10 @@ function renderComposition(): void {
   const props = Sets.functionProps(f, domain(), codomain());
   if (props.bijective) {
     const inv = Sets.invert(f, domain());
-    const entries = Object.keys(inv).map(Number).sort((a, b) => a - b).map((y) => y + " \\mapsto " + String(inv[y]));
+    const entries = Object.keys(inv)
+      .map(Number)
+      .sort((a, b) => a - b)
+      .map((y) => y + " \\mapsto " + String(inv[y]));
     inverseNode.replaceChildren(math("f^{-1}: " + entries.join(",\\ "), false));
   } else {
     inverseNode.textContent = "Обратной функции нет: отображение не биективно.";
@@ -225,7 +313,10 @@ function renderAll(): void {
 must<HTMLButtonElement>("#bijection").addEventListener("click", () => setMapping("bijection"));
 must<HTMLButtonElement>("#surjection").addEventListener("click", () => setMapping("surjection"));
 must<HTMLButtonElement>("#injection").addEventListener("click", () => setMapping("injection"));
-must<HTMLButtonElement>("#reset").addEventListener("click", () => { resetMapping(); renderAll(); });
+must<HTMLButtonElement>("#reset").addEventListener("click", () => {
+  resetMapping();
+  renderAll();
+});
 gPreset.addEventListener("change", renderComposition);
 
 resetMapping();

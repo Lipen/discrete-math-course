@@ -37,7 +37,10 @@ const dataResult = must<HTMLElement>("#data-result");
 const hmatrixNode = must<HTMLElement>("#hmatrix");
 
 function codeword(): number[] {
-  const d1 = data[0], d2 = data[1], d3 = data[2], d4 = data[3];
+  const d1 = data[0],
+    d2 = data[1],
+    d3 = data[2],
+    d4 = data[3];
   const p1 = d1 ^ d2 ^ d4;
   const p2 = d1 ^ d3 ^ d4;
   const p4 = d2 ^ d3 ^ d4;
@@ -115,7 +118,14 @@ function renderFormulas(): void {
   const p1 = d[0] ^ d[1] ^ d[3];
   const p2 = d[0] ^ d[2] ^ d[3];
   const p4 = d[1] ^ d[2] ^ d[3];
-  const tex = "\\begin{aligned} p_1 &= d_1 \\oplus d_2 \\oplus d_4 = " + p1 + " \\\\ p_2 &= d_1 \\oplus d_3 \\oplus d_4 = " + p2 + " \\\\ p_4 &= d_2 \\oplus d_3 \\oplus d_4 = " + p4 + " \\end{aligned}";
+  const tex =
+    "\\begin{aligned} p_1 &= d_1 \\oplus d_2 \\oplus d_4 = " +
+    p1 +
+    " \\\\ p_2 &= d_1 \\oplus d_3 \\oplus d_4 = " +
+    p2 +
+    " \\\\ p_4 &= d_2 \\oplus d_3 \\oplus d_4 = " +
+    p4 +
+    " \\end{aligned}";
   clear(formulasNode);
   formulasNode.appendChild(math(tex, true));
 }
@@ -136,19 +146,32 @@ function renderWords(c: number[], r: number[], fix: number[], s: number, actualE
       title: "Принято, нажатие переворачивает",
     });
     cell.setAttribute("data-focus-key", "r-" + pos);
-    activate(cell, () => {
-      errorMask ^= 1 << (pos - 1);
-      renderAll();
-    }, "Позиция " + pos + ", " + roleOf(pos).label + ", принятый бит " + r[pos - 1] + (hasError ? ", ошибка" : ", без ошибки") + ", переключить");
+    activate(
+      cell,
+      () => {
+        errorMask ^= 1 << (pos - 1);
+        renderAll();
+      },
+      "Позиция " +
+        pos +
+        ", " +
+        roleOf(pos).label +
+        ", принятый бит " +
+        r[pos - 1] +
+        (hasError ? ", ошибка" : ", без ошибки") +
+        ", переключить",
+    );
     setPressed(cell, hasError);
     rRow.appendChild(cell);
   }
   for (let pos = 1; pos <= 7; pos++) {
     const isCorrected = actualErrors === 1 && s === pos;
-    fixRow.appendChild(positionCell(pos, fix[pos - 1], {
-      corrected: isCorrected,
-      title: "После декодера",
-    }));
+    fixRow.appendChild(
+      positionCell(pos, fix[pos - 1], {
+        corrected: isCorrected,
+        title: "После декодера",
+      }),
+    );
   }
 }
 
@@ -174,14 +197,18 @@ function renderHMatrix(s: number): void {
   thead.appendChild(head);
   table.appendChild(thead);
   const tbody = el("tbody");
-  const rows: [string, number][] = [["s_4", 4], ["s_2", 2], ["s_1", 1]];
+  const rows: [string, number][] = [
+    ["s_4", 4],
+    ["s_2", 2],
+    ["s_1", 1],
+  ];
   for (const [name, mask] of rows) {
     const row = el("tr");
     const first = el("td", { class: "left" });
     first.appendChild(math(name));
     row.appendChild(first);
     for (let pos = 1; pos <= 7; pos++) {
-      const bit = (pos & mask) ? 1 : 0;
+      const bit = pos & mask ? 1 : 0;
       row.appendChild(el("td", { class: "mono" + (s === pos ? " sel" : ""), text: String(bit) }));
     }
     tbody.appendChild(row);
@@ -205,11 +232,16 @@ function paint(): void {
   if (actualErrors === 0 && s.value === 0) {
     status(syndromeStatus, "Ошибки нет: синдром 0.", "ok");
   } else if (actualErrors === 1) {
-    status(syndromeStatus, "Одна ошибка. Синдром указывает на позицию " + s.value + ". Декодер переворачивает этот бит.", "ok");
+    status(
+      syndromeStatus,
+      "Одна ошибка. Синдром указывает на позицию " + s.value + ". Декодер переворачивает этот бит.",
+      "ok",
+    );
   } else if (actualErrors >= 2) {
-    const action = s.value === 0
-      ? "Синдром 0: декодер ошибку не видит и ничего не исправляет."
-      : "Декодер переворачивает позицию " + s.value + ", это может быть неверно.";
+    const action =
+      s.value === 0
+        ? "Синдром 0: декодер ошибку не видит и ничего не исправляет."
+        : "Декодер переворачивает позицию " + s.value + ", это может быть неверно.";
     status(syndromeStatus, "Перевёрнутых битов: " + actualErrors + ". " + action, "warn");
   } else {
     status(syndromeStatus, "Синдром " + s.value + ", ошибок не внесено. Проверьте слово.", "warn");

@@ -41,20 +41,23 @@ const presets: Record<string, Preset> = {
     n: 4,
     names: ["x1", "x2", "x3", "x4"],
     formula: "x_1 \\oplus x_2 \\oplus x_3 \\oplus x_4",
-    values: (m) => (popcount(m) % 2) === 1,
+    values: (m) => popcount(m) % 2 === 1,
   },
   mux: {
     n: 3,
     names: ["a", "b", "s"],
     formula: "(s \\land b) \\lor (\\neg s \\land a)",
-    values: (m) => ((m >> 2) & 1 ? ((m >> 1) & 1 ? 1 : 0) : (m & 1 ? 1 : 0)) === 1,
+    values: (m) => ((m >> 2) & 1 ? ((m >> 1) & 1 ? 1 : 0) : m & 1 ? 1 : 0) === 1,
   },
   eq4: {
     n: 4,
     names: ["a1", "a2", "b1", "b2"],
     formula: "(a_1 = b_1) \\land (a_2 = b_2)",
     values: (m) => {
-      const a1 = m & 1, a2 = (m >> 1) & 1, b1 = (m >> 2) & 1, b2 = (m >> 3) & 1;
+      const a1 = m & 1,
+        a2 = (m >> 1) & 1,
+        b1 = (m >> 2) & 1,
+        b2 = (m >> 3) & 1;
       return a1 === b1 && a2 === b2;
     },
   },
@@ -80,7 +83,7 @@ function loadPreset(name: string): void {
   n = p.n;
   names = p.names.slice();
   values = [];
-  for (let m = 0; m < (1 << n); m++) values.push(p.values(m) ? 1 : 0);
+  for (let m = 0; m < 1 << n; m++) values.push(p.values(m) ? 1 : 0);
   order = [];
   for (let i = 0; i < n; i++) order.push(i);
   formulaNode.replaceChildren(math(p.formula));
@@ -97,7 +100,10 @@ function buildBDD(): BddModel {
     let same = true;
     const first = values[list[0]];
     for (const m of list) {
-      if (values[m] !== first) { same = false; break; }
+      if (values[m] !== first) {
+        same = false;
+        break;
+      }
     }
     if (same) return first ? 1 : 0;
 
@@ -109,7 +115,8 @@ function buildBDD(): BddModel {
     const zero: number[] = [];
     const one: number[] = [];
     for (const m of list) {
-      if ((m >> v) & 1) one.push(m); else zero.push(m);
+      if ((m >> v) & 1) one.push(m);
+      else zero.push(m);
     }
     const lo = build(level + 1, zero);
     const hi = build(level + 1, one);
@@ -131,7 +138,7 @@ function buildBDD(): BddModel {
   }
 
   const all: number[] = [];
-  for (let m = 0; m < (1 << n); m++) all.push(m);
+  for (let m = 0; m < 1 << n; m++) all.push(m);
   const root = build(0, all);
   return { nodes, root };
 }
@@ -166,7 +173,10 @@ function renderDiagram(model: BddModel, byId: Map<number, BddNode>): void {
   }
 
   const terminalY = height - 54;
-  const terminalCoords: Record<number, { x: number; y: number }> = { 0: { x: width * 0.28, y: terminalY }, 1: { x: width * 0.72, y: terminalY } };
+  const terminalCoords: Record<number, { x: number; y: number }> = {
+    0: { x: width * 0.28, y: terminalY },
+    1: { x: width * 0.72, y: terminalY },
+  };
 
   function targetCoords(id: number): { x: number; y: number } | undefined {
     if (id === 0 || id === 1) return terminalCoords[id];
@@ -183,26 +193,49 @@ function renderDiagram(model: BddModel, byId: Map<number, BddNode>): void {
   for (const node of nodes) {
     const from = coords.get(node.id);
     if (!from) continue;
-    const edges: Array<[string, number]> = [["lo", node.lo], ["hi", node.hi]];
+    const edges: Array<[string, number]> = [
+      ["lo", node.lo],
+      ["hi", node.hi],
+    ];
     for (const [which, target] of edges) {
       const to = targetCoords(target);
       if (!to) continue;
       const midY = (from.y + to.y) / 2;
       const path = svg("path", {
-        d: "M " + from.x + " " + from.y + " C " + from.x + " " + midY + ", " + to.x + " " + midY + ", " + to.x + " " + to.y,
+        d:
+          "M " +
+          from.x +
+          " " +
+          from.y +
+          " C " +
+          from.x +
+          " " +
+          midY +
+          ", " +
+          to.x +
+          " " +
+          midY +
+          ", " +
+          to.x +
+          " " +
+          to.y,
         class: "bdd-edge " + which,
         fill: "none",
         "data-from": String(node.id),
         "data-to": String(target),
       });
       root.appendChild(path);
-      const label = svg("text", {
-        x: (from.x + to.x) / 2 + (which === "lo" ? -8 : 8),
-        y: midY,
-        "text-anchor": "middle",
-        "font-size": 10,
-        fill: "#6b6558",
-      }, which === "lo" ? "0" : "1");
+      const label = svg(
+        "text",
+        {
+          x: (from.x + to.x) / 2 + (which === "lo" ? -8 : 8),
+          y: midY,
+          "text-anchor": "middle",
+          "font-size": 10,
+          fill: "#6b6558",
+        },
+        which === "lo" ? "0" : "1",
+      );
       root.appendChild(label);
     }
   }
@@ -221,16 +254,22 @@ function renderDiagram(model: BddModel, byId: Map<number, BddNode>): void {
       "data-id": String(node.id),
       tabindex: "0",
       role: "img",
-      "aria-label": "Узел " + names[node.v] + ", ноль ведёт к " + targetText(node.lo) + ", единица ведёт к " + targetText(node.hi),
+      "aria-label":
+        "Узел " + names[node.v] + ", ноль ведёт к " + targetText(node.lo) + ", единица ведёт к " + targetText(node.hi),
     });
-    group.appendChild(svg("circle", {
-      cx: p.x, cy: p.y, r: 22,
-      fill: "#ffffff",
-      stroke: "#7b7366",
-      "stroke-width": 1.5,
-    }));
+    group.appendChild(
+      svg("circle", {
+        cx: p.x,
+        cy: p.y,
+        r: 22,
+        fill: "#ffffff",
+        stroke: "#7b7366",
+        "stroke-width": 1.5,
+      }),
+    );
     const label = svg("text", {
-      x: p.x, y: p.y + 5,
+      x: p.x,
+      y: p.y + 5,
       "text-anchor": "middle",
       "font-family": "var(--mono)",
       "font-size": 12,
@@ -248,23 +287,39 @@ function renderDiagram(model: BddModel, byId: Map<number, BddNode>): void {
     root.appendChild(group);
   }
 
-  const terminals: Array<[string, { x: number; y: number }]> = [["0", terminalCoords[0]], ["1", terminalCoords[1]]];
+  const terminals: Array<[string, { x: number; y: number }]> = [
+    ["0", terminalCoords[0]],
+    ["1", terminalCoords[1]],
+  ];
   for (const [value, p] of terminals) {
     const group = svg("g", { class: "bdd-terminal", "data-id": value });
-    group.appendChild(svg("rect", {
-      x: p.x - 22, y: p.y - 18, width: 44, height: 36, rx: 8,
-      fill: value === "1" ? "#e6f2ec" : "#f1eee7",
-      stroke: value === "1" ? "#2f7d5c" : "#8c8374",
-      "stroke-width": 1.5,
-    }));
-    group.appendChild(svg("text", {
-      x: p.x, y: p.y + 6,
-      "text-anchor": "middle",
-      "font-family": "var(--mono)",
-      "font-size": 16,
-      "font-weight": 700,
-      fill: value === "1" ? "#2f7d5c" : "#5f6d7c",
-    }, value));
+    group.appendChild(
+      svg("rect", {
+        x: p.x - 22,
+        y: p.y - 18,
+        width: 44,
+        height: 36,
+        rx: 8,
+        fill: value === "1" ? "#e6f2ec" : "#f1eee7",
+        stroke: value === "1" ? "#2f7d5c" : "#8c8374",
+        "stroke-width": 1.5,
+      }),
+    );
+    group.appendChild(
+      svg(
+        "text",
+        {
+          x: p.x,
+          y: p.y + 6,
+          "text-anchor": "middle",
+          "font-family": "var(--mono)",
+          "font-size": 16,
+          "font-weight": 700,
+          fill: value === "1" ? "#2f7d5c" : "#5f6d7c",
+        },
+        value,
+      ),
+    );
     root.appendChild(group);
   }
 
@@ -305,15 +360,24 @@ function renderDiagram(model: BddModel, byId: Map<number, BddNode>): void {
 function renderMetrics(model: BddModel): void {
   const maxLevel = model.nodes.length ? Math.max(...model.nodes.map((node) => node.level)) : 0;
   metricsNode.innerHTML = "";
-  metricsNode.appendChild(el("div", { class: "metric" }, [
-    el("span", { class: "k", text: "узлов" }), el("span", { class: "v", text: String(model.nodes.length) }),
-  ]));
-  metricsNode.appendChild(el("div", { class: "metric" }, [
-    el("span", { class: "k", text: "уровней" }), el("span", { class: "v", text: String(maxLevel + 1) }),
-  ]));
-  metricsNode.appendChild(el("div", { class: "metric" }, [
-    el("span", { class: "k", text: "переменных" }), el("span", { class: "v", text: String(n) }),
-  ]));
+  metricsNode.appendChild(
+    el("div", { class: "metric" }, [
+      el("span", { class: "k", text: "узлов" }),
+      el("span", { class: "v", text: String(model.nodes.length) }),
+    ]),
+  );
+  metricsNode.appendChild(
+    el("div", { class: "metric" }, [
+      el("span", { class: "k", text: "уровней" }),
+      el("span", { class: "v", text: String(maxLevel + 1) }),
+    ]),
+  );
+  metricsNode.appendChild(
+    el("div", { class: "metric" }, [
+      el("span", { class: "k", text: "переменных" }),
+      el("span", { class: "v", text: String(n) }),
+    ]),
+  );
 }
 
 function nameTex(name: string): string {
@@ -325,8 +389,22 @@ function renderOrder(): void {
   clear(orderNode);
   order.forEach((v, index) => {
     const chip = el("span", { class: "chip" }, math(nameTex(names[v])));
-    const up = el("button", { class: "up", text: "↑", title: "Выше", "aria-label": names[v] + " выше", "data-focus-key": "order-up-" + v, disabled: index === 0 ? "" : undefined });
-    const down = el("button", { class: "down", text: "↓", title: "Ниже", "aria-label": names[v] + " ниже", "data-focus-key": "order-down-" + v, disabled: index === order.length - 1 ? "" : undefined });
+    const up = el("button", {
+      class: "up",
+      text: "↑",
+      title: "Выше",
+      "aria-label": names[v] + " выше",
+      "data-focus-key": "order-up-" + v,
+      disabled: index === 0 ? "" : undefined,
+    });
+    const down = el("button", {
+      class: "down",
+      text: "↓",
+      title: "Ниже",
+      "aria-label": names[v] + " ниже",
+      "data-focus-key": "order-down-" + v,
+      disabled: index === order.length - 1 ? "" : undefined,
+    });
     up.addEventListener("click", () => {
       if (index === 0) return;
       [order[index - 1], order[index]] = [order[index], order[index - 1]];
@@ -379,10 +457,7 @@ function renderCompare(): void {
   const seen = new Set<string>();
   const table = el("table", { class: "data compare" });
   const thead = el("thead");
-  thead.appendChild(el("tr", {}, [
-    el("th", { class: "left", text: "порядок" }),
-    el("th", { text: "узлов" }),
-  ]));
+  thead.appendChild(el("tr", {}, [el("th", { class: "left", text: "порядок" }), el("th", { text: "узлов" })]));
   table.appendChild(thead);
   const tbody = el("tbody");
   for (const candidate of candidates) {
@@ -398,7 +473,12 @@ function renderCompare(): void {
     tbody.appendChild(row);
   }
   table.appendChild(tbody);
-  compareNode.appendChild(el("p", { class: "hint", text: "Текущий порядок выделен. Число узлов считается той же функцией и тем же построением." }));
+  compareNode.appendChild(
+    el("p", {
+      class: "hint",
+      text: "Текущий порядок выделен. Число узлов считается той же функцией и тем же построением.",
+    }),
+  );
   compareNode.appendChild(table);
 }
 

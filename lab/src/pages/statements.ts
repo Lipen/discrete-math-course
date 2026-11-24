@@ -115,34 +115,54 @@ function layoutTree(ast: Logic.PropAst): { root: PlacedNode; width: number; heig
 function renderTree(ast: Logic.PropAst): void {
   clear(treeNode);
   const layout = layoutTree(ast);
-  const root = svg("svg", { viewBox: "0 0 " + layout.width + " " + layout.height, role: "img", "aria-label": "Дерево разбора" });
+  const root = svg("svg", {
+    viewBox: "0 0 " + layout.width + " " + layout.height,
+    role: "img",
+    "aria-label": "Дерево разбора",
+  });
   function edges(node: PlacedNode): void {
     for (const child of node.children) {
-      root.appendChild(svg("line", {
-        x1: node.x, y1: node.y + 18,
-        x2: child.x, y2: child.y - 18,
-        stroke: "#b7ae9e", "stroke-width": 1.5,
-      }));
+      root.appendChild(
+        svg("line", {
+          x1: node.x,
+          y1: node.y + 18,
+          x2: child.x,
+          y2: child.y - 18,
+          stroke: "#b7ae9e",
+          "stroke-width": 1.5,
+        }),
+      );
       edges(child);
     }
   }
   edges(layout.root);
   function nodes(node: PlacedNode): void {
     const isLeaf = !node.children.length;
-    root.appendChild(svg("circle", {
-      cx: node.x, cy: node.y, r: 18,
-      fill: isLeaf ? "#e8f0fb" : "#ffffff",
-      stroke: isLeaf ? "#2d5fa8" : "#7b7366",
-      "stroke-width": 1.5,
-    }));
-    root.appendChild(svg("text", {
-      x: node.x, y: node.y + 5,
-      "text-anchor": "middle",
-      "font-family": "var(--mono)",
-      "font-size": isLeaf ? 13 : 16,
-      "font-weight": 650,
-      fill: "#1d2733",
-    }, node.label));
+    root.appendChild(
+      svg("circle", {
+        cx: node.x,
+        cy: node.y,
+        r: 18,
+        fill: isLeaf ? "#e8f0fb" : "#ffffff",
+        stroke: isLeaf ? "#2d5fa8" : "#7b7366",
+        "stroke-width": 1.5,
+      }),
+    );
+    root.appendChild(
+      svg(
+        "text",
+        {
+          x: node.x,
+          y: node.y + 5,
+          "text-anchor": "middle",
+          "font-family": "var(--mono)",
+          "font-size": isLeaf ? 13 : 16,
+          "font-weight": 650,
+          fill: "#1d2733",
+        },
+        node.label,
+      ),
+    );
     for (const child of node.children) nodes(child);
   }
   nodes(layout.root);
@@ -171,16 +191,36 @@ function update(): void {
     renderTable(info.table);
     renderTree(ast);
     const total = info.table.rows.length;
-    const summary = info.kind === "tautology"
-      ? "Тавтология: истинна на всех наборах, всего " + total + "."
-      : (info.kind === "contradiction"
-        ? "Противоречие: ложно на всех наборах, всего " + total + "."
-        : "Выполнима, но не тавтология: истинна на " + info.trueCount + " из " + total + " наборов.");
-    status(classificationNode, summary, info.kind === "tautology" ? "ok" : (info.kind === "contradiction" ? "bad" : "warn"));
+    const summary =
+      info.kind === "tautology"
+        ? "Тавтология: истинна на всех наборах, всего " + total + "."
+        : info.kind === "contradiction"
+          ? "Противоречие: ложно на всех наборах, всего " + total + "."
+          : "Выполнима, но не тавтология: истинна на " + info.trueCount + " из " + total + " наборов.";
+    status(
+      classificationNode,
+      summary,
+      info.kind === "tautology" ? "ok" : info.kind === "contradiction" ? "bad" : "warn",
+    );
     metricsNode.innerHTML = "";
-    metricsNode.appendChild(el("div", { class: "metric" }, [el("span", { class: "k", text: "переменных" }), el("span", { class: "v", text: String(vars.length) })]));
-    metricsNode.appendChild(el("div", { class: "metric" }, [el("span", { class: "k", text: "строк" }), el("span", { class: "v", text: String(info.table.rows.length) })]));
-    metricsNode.appendChild(el("div", { class: "metric" }, [el("span", { class: "k", text: "истин" }), el("span", { class: "v", text: String(info.trueCount) })]));
+    metricsNode.appendChild(
+      el("div", { class: "metric" }, [
+        el("span", { class: "k", text: "переменных" }),
+        el("span", { class: "v", text: String(vars.length) }),
+      ]),
+    );
+    metricsNode.appendChild(
+      el("div", { class: "metric" }, [
+        el("span", { class: "k", text: "строк" }),
+        el("span", { class: "v", text: String(info.table.rows.length) }),
+      ]),
+    );
+    metricsNode.appendChild(
+      el("div", { class: "metric" }, [
+        el("span", { class: "k", text: "истин" }),
+        el("span", { class: "v", text: String(info.trueCount) }),
+      ]),
+    );
   } catch (error) {
     showError(messageOf(error));
   }
@@ -212,11 +252,24 @@ function checkLaw(): void {
   for (let i = 0; i < table.rows.length; i++) {
     const left = table.rows[i].value;
     const right = rightTable.rows[i].value;
-    if (left !== right) { firstBad = { row: table.rows[i], left, right }; break; }
+    if (left !== right) {
+      firstBad = { row: table.rows[i], left, right };
+      break;
+    }
   }
   if (firstBad) {
     const bad = firstBad;
-    status(lawStatus, "Не эквивалентны. Контрпример: " + vars.map((name, i) => name + "=" + bad.row.bits[i]).join(", ") + ". Слева " + (bad.left ? 1 : 0) + ", справа " + (bad.right ? 1 : 0) + ".", "bad");
+    status(
+      lawStatus,
+      "Не эквивалентны. Контрпример: " +
+        vars.map((name, i) => name + "=" + bad.row.bits[i]).join(", ") +
+        ". Слева " +
+        (bad.left ? 1 : 0) +
+        ", справа " +
+        (bad.right ? 1 : 0) +
+        ".",
+      "bad",
+    );
   } else {
     status(lawStatus, "Эквивалентны на всех " + table.rows.length + " наборах.", "ok");
   }
@@ -265,7 +318,9 @@ function makePresetButtons(): void {
 }
 
 formulaInput.addEventListener("input", update);
-formulaInput.addEventListener("keydown", (event) => { if (event.key === "Enter") update(); });
+formulaInput.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") update();
+});
 must<HTMLButtonElement>("#build").addEventListener("click", update);
 lawLeft.addEventListener("input", checkLaw);
 lawRight.addEventListener("input", checkLaw);

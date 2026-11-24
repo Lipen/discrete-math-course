@@ -9,11 +9,15 @@
     "build": "bun run build.ts",
     "dev": "bun run dev.ts",
     "check": "tsc --noEmit",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "format": "biome format --write .",
     "test": "bun test",
     "smoke": "bun run tests/smoke.ts",
-    "verify": "bun run check && bun test && bun run build.ts --strict && bun run smoke"
+    "verify": "bun run check && bun run lint && bun test && bun run build.ts --strict && bun run smoke"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.6.9",
     "@types/bun": "^1.4.5",
     "playwright": "^1.65.1",
     "typescript": "^5.7.0"

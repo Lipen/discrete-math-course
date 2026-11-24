@@ -34,16 +34,21 @@ let values = presets.maj3.vals.slice();
 const vars = ["A", "B", "C", "D"];
 
 const preset = must<HTMLSelectElement>("#preset");
-const arity = ribbon(must<HTMLElement>("#arity"), [
-  { value: "2", label: "2" },
-  { value: "3", label: "3" },
-  { value: "4", label: "4" },
-], "3", (value) => {
-  n = Number(value);
-  values = Array.from({ length: 1 << n }, () => 0);
-  markCustom();
-  renderAll();
-});
+const arity = ribbon(
+  must<HTMLElement>("#arity"),
+  [
+    { value: "2", label: "2" },
+    { value: "3", label: "3" },
+    { value: "4", label: "4" },
+  ],
+  "3",
+  (value) => {
+    n = Number(value);
+    values = Array.from({ length: 1 << n }, () => 0);
+    markCustom();
+    renderAll();
+  },
+);
 const tableNode = must<HTMLElement>("#table");
 const vectorNode = must<HTMLElement>("#vector");
 const metricsNode = must<HTMLElement>("#metrics");
@@ -95,7 +100,7 @@ function renderTable(): void {
   thead.appendChild(head);
   table.appendChild(thead);
   const tbody = el("tbody");
-  for (let m = 0; m < (1 << n); m++) {
+  for (let m = 0; m < 1 << n; m++) {
     const row = el("tr");
     row.appendChild(el("td", { class: "muted small", text: String(m) }));
     for (const bit of bitsOf(m, n)) row.appendChild(el("td", { class: "mono", text: String(bit) }));
@@ -121,15 +126,24 @@ function renderVector(): void {
   vectorNode.textContent = "(" + values.join(", ") + ")";
   const ones = values.reduce((s, v) => s + v, 0);
   metricsNode.innerHTML = "";
-  metricsNode.appendChild(el("div", { class: "metric" }, [
-    el("span", { class: "k", text: "единиц" }), el("span", { class: "v", text: String(ones) }),
-  ]));
-  metricsNode.appendChild(el("div", { class: "metric" }, [
-    el("span", { class: "k", text: "длина" }), el("span", { class: "v", text: String(values.length) }),
-  ]));
-  metricsNode.appendChild(el("div", { class: "metric" }, [
-    el("span", { class: "k", text: "плотность" }), el("span", { class: "v", text: fmt(ones / values.length, 2) }),
-  ]));
+  metricsNode.appendChild(
+    el("div", { class: "metric" }, [
+      el("span", { class: "k", text: "единиц" }),
+      el("span", { class: "v", text: String(ones) }),
+    ]),
+  );
+  metricsNode.appendChild(
+    el("div", { class: "metric" }, [
+      el("span", { class: "k", text: "длина" }),
+      el("span", { class: "v", text: String(values.length) }),
+    ]),
+  );
+  metricsNode.appendChild(
+    el("div", { class: "metric" }, [
+      el("span", { class: "k", text: "плотность" }),
+      el("span", { class: "v", text: fmt(ones / values.length, 2) }),
+    ]),
+  );
 }
 
 function checkPost(): PostClasses {
@@ -138,18 +152,27 @@ function checkPost(): PostClasses {
   const t1 = values[full] === 1;
   let selfDual = true;
   for (let m = 0; m <= full; m++) {
-    if (values[m] === values[full ^ m]) { selfDual = false; break; }
+    if (values[m] === values[full ^ m]) {
+      selfDual = false;
+      break;
+    }
   }
   let monotone = true;
   for (let x = 0; x <= full && monotone; x++) {
     for (let y = 0; y <= full; y++) {
-      if ((x & y) === x && values[x] > values[y]) { monotone = false; break; }
+      if ((x & y) === x && values[x] > values[y]) {
+        monotone = false;
+        break;
+      }
     }
   }
   const coeff = anfCoefficients();
   let linear = true;
   for (let mask = 0; mask <= full; mask++) {
-    if (popcount(mask) > 1 && coeff[mask] === 1) { linear = false; break; }
+    if (popcount(mask) > 1 && coeff[mask] === 1) {
+      linear = false;
+      break;
+    }
   }
   return { t0, t1, selfDual, monotone, linear };
 }
@@ -178,7 +201,15 @@ function renderPost(): void {
     status(verdictNode, "Функция вне всех пяти классов. Одна эта функция образует полный базис.", "ok");
   } else {
     const belongs = 5 - outside.length;
-    status(verdictNode, "Функция лежит в " + belongs + " из 5 классов. Вне классов: " + (outside.join(", ") || "ничего") + ". Полного базиса из одной функции нет.", "warn");
+    status(
+      verdictNode,
+      "Функция лежит в " +
+        belongs +
+        " из 5 классов. Вне классов: " +
+        (outside.join(", ") || "ничего") +
+        ". Полного базиса из одной функции нет.",
+      "warn",
+    );
   }
 }
 
@@ -191,12 +222,18 @@ function renderAnf(): void {
   clear(anfNode);
   anfNode.appendChild(math(tex));
   const minterms = values.reduce((s, v) => s + v, 0);
-  metricsNode.appendChild(el("div", { class: "metric" }, [
-    el("span", { class: "k", text: "термов СДНФ" }), el("span", { class: "v", text: String(minterms) }),
-  ]));
-  metricsNode.appendChild(el("div", { class: "metric" }, [
-    el("span", { class: "k", text: "мономов АНФ" }), el("span", { class: "v", text: String(terms.length) }),
-  ]));
+  metricsNode.appendChild(
+    el("div", { class: "metric" }, [
+      el("span", { class: "k", text: "термов СДНФ" }),
+      el("span", { class: "v", text: String(minterms) }),
+    ]),
+  );
+  metricsNode.appendChild(
+    el("div", { class: "metric" }, [
+      el("span", { class: "k", text: "мономов АНФ" }),
+      el("span", { class: "v", text: String(terms.length) }),
+    ]),
+  );
 }
 
 function vertexCoords(m: number): { x: number; y: number } {
@@ -211,45 +248,83 @@ function vertexCoords(m: number): { x: number; y: number } {
 function renderCube(): void {
   clear(cubeNode);
   if (n === 4) {
-    cubeHint.textContent = "Куб размерности 4 не помещается на лист. Карта справа показывает его раскладку, соседние края склеены.";
-    cubeNode.appendChild(el("p", { class: "muted small", text: "При n = 4 карта показывает раскладку четырёхмерного куба." }));
+    cubeHint.textContent =
+      "Куб размерности 4 не помещается на лист. Карта справа показывает его раскладку, соседние края склеены.";
+    cubeNode.appendChild(
+      el("p", { class: "muted small", text: "При n = 4 карта показывает раскладку четырёхмерного куба." }),
+    );
     return;
   }
-  cubeHint.textContent = "Вершина задаёт минтерм, нажатие переключает значение. Ребро соединяет наборы, различающиеся одним битом.";
+  cubeHint.textContent =
+    "Вершина задаёт минтерм, нажатие переключает значение. Ребро соединяет наборы, различающиеся одним битом.";
   const width = 520;
   const height = 360;
   const root = svg("svg", { viewBox: "0 0 " + width + " " + height, role: "group", "aria-label": "Гиперкуб" });
   const coords: Record<number, { x: number; y: number }> = {};
-  for (let m = 0; m < (1 << n); m++) coords[m] = vertexCoords(m);
-  for (let m = 0; m < (1 << n); m++) {
+  for (let m = 0; m < 1 << n; m++) coords[m] = vertexCoords(m);
+  for (let m = 0; m < 1 << n; m++) {
     for (let bit = 0; bit < n; bit++) {
       const other = m ^ (1 << bit);
       if (other > m) {
-        root.appendChild(svg("line", {
-          x1: coords[m].x, y1: coords[m].y, x2: coords[other].x, y2: coords[other].y,
-          stroke: "#c8c0b1", "stroke-width": 1.4,
-        }));
+        root.appendChild(
+          svg("line", {
+            x1: coords[m].x,
+            y1: coords[m].y,
+            x2: coords[other].x,
+            y2: coords[other].y,
+            stroke: "#c8c0b1",
+            "stroke-width": 1.4,
+          }),
+        );
       }
     }
   }
-  for (let m = 0; m < (1 << n); m++) {
+  for (let m = 0; m < 1 << n; m++) {
     const p = coords[m];
     const group = svg("g", { class: "hc-node", tabindex: "0", style: "cursor:pointer", "data-focus-key": "cube-" + m });
-    group.appendChild(svg("circle", {
-      cx: p.x, cy: p.y, r: 22,
-      fill: values[m] ? "#dbe8fa" : "#ffffff",
-      stroke: values[m] ? "#2d5fa8" : "#8c8374",
-      "stroke-width": 1.5,
-    }));
-    group.appendChild(svg("text", {
-      x: p.x, y: p.y - 2, "text-anchor": "middle", "font-family": "var(--mono)",
-      "font-size": 11, fill: "#1d2733",
-    }, bitsOf(m, n).join("")));
-    group.appendChild(svg("text", {
-      x: p.x, y: p.y + 13, "text-anchor": "middle", "font-size": 11,
-      "font-weight": 700, fill: values[m] ? "#2d5fa8" : "#8c8374",
-    }, String(values[m])));
-    activate(group, () => toggleMinterm(m), "минтерм " + bitsOf(m, n).join("") + ", значение " + values[m] + ", переключить");
+    group.appendChild(
+      svg("circle", {
+        cx: p.x,
+        cy: p.y,
+        r: 22,
+        fill: values[m] ? "#dbe8fa" : "#ffffff",
+        stroke: values[m] ? "#2d5fa8" : "#8c8374",
+        "stroke-width": 1.5,
+      }),
+    );
+    group.appendChild(
+      svg(
+        "text",
+        {
+          x: p.x,
+          y: p.y - 2,
+          "text-anchor": "middle",
+          "font-family": "var(--mono)",
+          "font-size": 11,
+          fill: "#1d2733",
+        },
+        bitsOf(m, n).join(""),
+      ),
+    );
+    group.appendChild(
+      svg(
+        "text",
+        {
+          x: p.x,
+          y: p.y + 13,
+          "text-anchor": "middle",
+          "font-size": 11,
+          "font-weight": 700,
+          fill: values[m] ? "#2d5fa8" : "#8c8374",
+        },
+        String(values[m]),
+      ),
+    );
+    activate(
+      group,
+      () => toggleMinterm(m),
+      "минтерм " + bitsOf(m, n).join("") + ", значение " + values[m] + ", переключить",
+    );
     setPressed(group, values[m] === 1);
     root.appendChild(group);
   }
@@ -281,9 +356,10 @@ function renderMap(): void {
       mapNode.appendChild(cell);
     }
   }
-  mapNote.textContent = n === 4
-    ? "Карта замкнута в тор: верхний край соседний с нижним, левый с правым."
-    : "Соседние клетки, включая противоположные края, отличаются одной переменной.";
+  mapNote.textContent =
+    n === 4
+      ? "Карта замкнута в тор: верхний край соседний с нижним, левый с правым."
+      : "Соседние клетки, включая противоположные края, отличаются одной переменной.";
 }
 
 function paint(): void {

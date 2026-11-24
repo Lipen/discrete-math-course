@@ -44,7 +44,13 @@ export interface Entailment {
 }
 
 const PREC: Record<PropAst["type"], number> = {
-  iff: 1, impl: 2, or: 3, and: 4, not: 5, const: 7, var: 7,
+  iff: 1,
+  impl: 2,
+  or: 3,
+  and: 4,
+  not: 5,
+  const: 7,
+  var: 7,
 };
 
 type Token =
@@ -72,14 +78,45 @@ function tokenize(input: string): Token[] {
   let i = 0;
   while (i < source.length) {
     const ch = source[i];
-    if (/\s/.test(ch)) { i++; continue; }
-    if (ch === "(" || ch === ")") { tokens.push({ type: ch }); i++; continue; }
-    if (ch === "!") { tokens.push({ type: "not" }); i++; continue; }
-    if (ch === "&") { tokens.push({ type: "and" }); i++; continue; }
-    if (ch === "|") { tokens.push({ type: "or" }); i++; continue; }
-    if (source.startsWith("<->", i)) { tokens.push({ type: "iff" }); i += 3; continue; }
-    if (source.startsWith("->", i)) { tokens.push({ type: "impl" }); i += 2; continue; }
-    if (ch === "=" && source[i + 1] === ">") { tokens.push({ type: "impl" }); i += 2; continue; }
+    if (/\s/.test(ch)) {
+      i++;
+      continue;
+    }
+    if (ch === "(" || ch === ")") {
+      tokens.push({ type: ch });
+      i++;
+      continue;
+    }
+    if (ch === "!") {
+      tokens.push({ type: "not" });
+      i++;
+      continue;
+    }
+    if (ch === "&") {
+      tokens.push({ type: "and" });
+      i++;
+      continue;
+    }
+    if (ch === "|") {
+      tokens.push({ type: "or" });
+      i++;
+      continue;
+    }
+    if (source.startsWith("<->", i)) {
+      tokens.push({ type: "iff" });
+      i += 3;
+      continue;
+    }
+    if (source.startsWith("->", i)) {
+      tokens.push({ type: "impl" });
+      i += 2;
+      continue;
+    }
+    if (ch === "=" && source[i + 1] === ">") {
+      tokens.push({ type: "impl" });
+      i += 2;
+      continue;
+    }
     if (/[A-Za-z_]/.test(ch)) {
       let j = i + 1;
       while (j < source.length && /[A-Za-z0-9_]/.test(source[j])) j++;
@@ -91,7 +128,11 @@ function tokenize(input: string): Token[] {
       i = j;
       continue;
     }
-    if (ch === "0" || ch === "1") { tokens.push({ type: "const", value: ch === "1" }); i++; continue; }
+    if (ch === "0" || ch === "1") {
+      tokens.push({ type: "const", value: ch === "1" });
+      i++;
+      continue;
+    }
     throw new Error("Неизвестный символ: " + ch);
   }
   return tokens;
@@ -192,13 +233,20 @@ export function varsOf(ast: PropAst, out?: Set<string>): Set<string> {
 
 export function evaluate(ast: PropAst, env: PropEnv): boolean {
   switch (ast.type) {
-    case "const": return ast.value;
-    case "var": return Boolean(env[ast.name]);
-    case "not": return !evaluate(ast.a, env);
-    case "and": return evaluate(ast.a, env) && evaluate(ast.b, env);
-    case "or": return evaluate(ast.a, env) || evaluate(ast.b, env);
-    case "impl": return !evaluate(ast.a, env) || evaluate(ast.b, env);
-    case "iff": return evaluate(ast.a, env) === evaluate(ast.b, env);
+    case "const":
+      return ast.value;
+    case "var":
+      return Boolean(env[ast.name]);
+    case "not":
+      return !evaluate(ast.a, env);
+    case "and":
+      return evaluate(ast.a, env) && evaluate(ast.b, env);
+    case "or":
+      return evaluate(ast.a, env) || evaluate(ast.b, env);
+    case "impl":
+      return !evaluate(ast.a, env) || evaluate(ast.b, env);
+    case "iff":
+      return evaluate(ast.a, env) === evaluate(ast.b, env);
   }
 }
 
@@ -208,7 +256,7 @@ export function allVars(ast: PropAst): string[] {
 
 function assignments(names: string[]): Array<{ bits: number[]; env: PropEnv }> {
   const out: Array<{ bits: number[]; env: PropEnv }> = [];
-  for (let mask = 0; mask < (1 << names.length); mask++) {
+  for (let mask = 0; mask < 1 << names.length; mask++) {
     const env: PropEnv = {};
     const bits: number[] = [];
     for (let i = 0; i < names.length; i++) {
@@ -234,14 +282,12 @@ export function classify(ast: PropAst, vars?: string[]): Classified {
     table,
     trueCount,
     falseCount: table.rows.length - trueCount,
-    kind: trueCount === table.rows.length ? "tautology" : (trueCount === 0 ? "contradiction" : "contingent"),
+    kind: trueCount === table.rows.length ? "tautology" : trueCount === 0 ? "contradiction" : "contingent",
   };
 }
 
 export function entails(premiseAsts: PropAst[], conclusionAst: PropAst, vars?: string[]): Entailment {
-  const names = vars || Array.from(new Set(
-    premiseAsts.concat([conclusionAst]).flatMap((ast) => allVars(ast)),
-  )).sort();
+  const names = vars || Array.from(new Set(premiseAsts.concat([conclusionAst]).flatMap((ast) => allVars(ast)))).sort();
   const rows: EntailmentRow[] = [];
   let counterexample: EntailmentRow | null = null;
   for (const { bits, env } of assignments(names)) {
@@ -258,13 +304,27 @@ export function toTex(ast: PropAst, parentPrec?: number): string {
   const prec = PREC[ast.type] || 0;
   let body: string;
   switch (ast.type) {
-    case "const": body = ast.value ? "\\top" : "\\bot"; break;
-    case "var": body = /^[A-Za-z]$/.test(ast.name) ? ast.name : "\\mathrm{" + ast.name.replace(/_/g, "\\_") + "}"; break;
-    case "not": body = "\\neg " + toTex(ast.a, PREC.not); break;
-    case "and": body = toTex(ast.a, PREC.and) + " \\land " + toTex(ast.b, PREC.and); break;
-    case "or": body = toTex(ast.a, PREC.or) + " \\lor " + toTex(ast.b, PREC.or); break;
-    case "impl": body = toTex(ast.a, PREC.impl + 1) + " \\to " + toTex(ast.b, PREC.impl); break;
-    case "iff": body = toTex(ast.a, PREC.iff + 1) + " \\leftrightarrow " + toTex(ast.b, PREC.iff); break;
+    case "const":
+      body = ast.value ? "\\top" : "\\bot";
+      break;
+    case "var":
+      body = /^[A-Za-z]$/.test(ast.name) ? ast.name : "\\mathrm{" + ast.name.replace(/_/g, "\\_") + "}";
+      break;
+    case "not":
+      body = "\\neg " + toTex(ast.a, PREC.not);
+      break;
+    case "and":
+      body = toTex(ast.a, PREC.and) + " \\land " + toTex(ast.b, PREC.and);
+      break;
+    case "or":
+      body = toTex(ast.a, PREC.or) + " \\lor " + toTex(ast.b, PREC.or);
+      break;
+    case "impl":
+      body = toTex(ast.a, PREC.impl + 1) + " \\to " + toTex(ast.b, PREC.impl);
+      break;
+    case "iff":
+      body = toTex(ast.a, PREC.iff + 1) + " \\leftrightarrow " + toTex(ast.b, PREC.iff);
+      break;
   }
   const needParens = parentPrec !== undefined && prec < parentPrec;
   return needParens ? "\\left(" + body + "\\right)" : body;

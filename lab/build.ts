@@ -29,8 +29,8 @@ export async function build(): Promise<void> {
   await mkdir(distDir, { recursive: true });
 
   const entrypoints = [
-    ...await moduleEntries(join(srcDir, "pages")),
-    ...await moduleEntries(join(srcDir, "entries")),
+    ...(await moduleEntries(join(srcDir, "pages"))),
+    ...(await moduleEntries(join(srcDir, "entries"))),
   ];
   const result = await Bun.build({
     entrypoints,
@@ -79,9 +79,12 @@ export async function build(): Promise<void> {
     .filter((output) => output.path.endsWith(".map"))
     .reduce((sum, output) => sum + output.size, 0);
 
-  console.log(`страниц: ${pages.length - pending.length}/${pages.length}, бандлов: ${bundles.length}, JS: ${(total / 1024).toFixed(1)} KiB, карты: ${(maps / 1024).toFixed(0)} KiB`);
+  console.log(
+    `страниц: ${pages.length - pending.length}/${pages.length}, бандлов: ${bundles.length}, JS: ${(total / 1024).toFixed(1)} KiB, карты: ${(maps / 1024).toFixed(0)} KiB`,
+  );
   if (pending.length) console.warn(`не переведены (нет <!-- @head -->): ${pending.join(", ")}`);
-  for (const bundle of bundles.slice(0, 5)) console.log(`  ${bundle.name.padEnd(24)} ${(bundle.size / 1024).toFixed(1)} KiB`);
+  for (const bundle of bundles.slice(0, 5))
+    console.log(`  ${bundle.name.padEnd(24)} ${(bundle.size / 1024).toFixed(1)} KiB`);
   console.log(`сборка: ${(performance.now() - started).toFixed(0)} ms`);
 }
 

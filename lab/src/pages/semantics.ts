@@ -4,7 +4,11 @@ import { clear, el, must, status } from "../core/dom";
 import { math } from "../core/math";
 import * as Logic from "../domain/logic";
 
-interface Preset { name: string; premises: string[]; conclusion: string }
+interface Preset {
+  name: string;
+  premises: string[];
+  conclusion: string;
+}
 
 const presets: Preset[] = [
   { name: "modus ponens", premises: ["A → B", "A"], conclusion: "B" },
@@ -26,7 +30,10 @@ const tableNode = must<HTMLElement>("#table");
 const modelsNode = must<HTMLElement>("#models");
 
 function parseInputs(): { premises: Logic.PropAst[]; conclusion: Logic.PropAst } {
-  const lines = premisesInput.value.split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
+  const lines = premisesInput.value
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean);
   if (!lines.length) throw new Error("Нужна хотя бы одна посылка.");
   return {
     premises: lines.map((line) => Logic.parse(line)),
@@ -63,7 +70,9 @@ function render(): void {
   const table = el("table", { class: "data" });
   const head = el("tr");
   for (const name of result.vars) head.appendChild(el("th", { text: name }));
-  parsed.premises.forEach((_, index) => head.appendChild(el("th", { text: "P" + (index + 1) })));
+  parsed.premises.forEach((_, index) => {
+    head.appendChild(el("th", { text: "P" + (index + 1) }));
+  });
   head.appendChild(el("th", { text: "φ" }));
   const thead = el("thead");
   thead.appendChild(head);
@@ -72,7 +81,7 @@ function render(): void {
   for (const row of result.rows) {
     const allTrue = row.premises.every(Boolean);
     const bad = allTrue && !row.conclusion;
-    const tr = el("tr", { class: bad ? "bad-row" : (allTrue ? "hl" : "") });
+    const tr = el("tr", { class: bad ? "bad-row" : allTrue ? "hl" : "" });
     for (const bit of row.bits) tr.appendChild(el("td", { class: "mono", text: String(bit) }));
     for (const value of row.premises) tr.appendChild(el("td", { class: "mono" }, math(value ? "1" : "0")));
     tr.appendChild(el("td", { class: "mono" }, math(row.conclusion ? "1" : "0")));
@@ -84,12 +93,26 @@ function render(): void {
   clear(modelsNode);
   const models = result.rows.filter((row) => row.premises.every(Boolean));
   const trueModels = models.filter((row) => row.conclusion);
-  modelsNode.appendChild(el("div", { class: "metric-row" }, [
-    el("div", { class: "metric" }, [el("span", { class: "k", text: "моделей посылок" }), el("span", { class: "v", text: String(models.length) })]),
-    el("div", { class: "metric" }, [el("span", { class: "k", text: "с заключением" }), el("span", { class: "v", text: String(trueModels.length) })]),
-    el("div", { class: "metric" }, [el("span", { class: "k", text: "всего строк" }), el("span", { class: "v", text: String(result.rows.length) })]),
-  ]));
-  if (!models.length) modelsNode.appendChild(el("p", { class: "hint", text: "Посылки несовместны: моделей нет, поэтому следствие выполняется." }));
+  modelsNode.appendChild(
+    el("div", { class: "metric-row" }, [
+      el("div", { class: "metric" }, [
+        el("span", { class: "k", text: "моделей посылок" }),
+        el("span", { class: "v", text: String(models.length) }),
+      ]),
+      el("div", { class: "metric" }, [
+        el("span", { class: "k", text: "с заключением" }),
+        el("span", { class: "v", text: String(trueModels.length) }),
+      ]),
+      el("div", { class: "metric" }, [
+        el("span", { class: "k", text: "всего строк" }),
+        el("span", { class: "v", text: String(result.rows.length) }),
+      ]),
+    ]),
+  );
+  if (!models.length)
+    modelsNode.appendChild(
+      el("p", { class: "hint", text: "Посылки несовместны: моделей нет, поэтому следствие выполняется." }),
+    );
 }
 
 function applyPreset(preset: Preset): void {
