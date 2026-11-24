@@ -39,6 +39,21 @@ describe("presets", () => {
       expect(p.n).toBeGreaterThanOrEqual(2);
       expect(p.n).toBeLessThanOrEqual(VARIABLES.length);
       expect(p.formula.length).toBeGreaterThan(0);
+      switch (p.spec.kind) {
+        case "expr":
+          expect(p.formula).not.toContain("\\Sigma");
+          expect(p.formula.length).toBeGreaterThan(0);
+          break;
+        case "popcount":
+          if (p.spec.test === "odd") expect(p.formula).toContain("\\oplus");
+          if (p.spec.test === "even") expect(p.formula).toContain("\\overline{");
+          if (p.spec.test === "at-least") expect(p.formula).toContain("\\ge " + (p.spec.k ?? 0));
+          break;
+        case "minterms":
+          expect(p.formula).toContain("\\Sigma m(");
+          if (p.x.length > 0) expect(p.formula).toContain("\\Sigma X(");
+          break;
+      }
 
       const size = 1 << p.n;
       const ones = new Set(p.ones);
