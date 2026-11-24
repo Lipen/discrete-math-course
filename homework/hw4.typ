@@ -162,6 +162,131 @@
   })
 }
 
+// 64-битное слово данных для задачи ECC: ровно 8 ASCII-символов.
+#let ecc-phrase = "NICE TRY"
+
+#let ecc-bytes = {
+  let bytes = ()
+  for c in ecc-phrase {
+    bytes.push(str.to-unicode(c))
+  }
+  bytes
+}
+
+#let ecc-hex = {
+  let digits = (
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+  )
+  let bytes = ecc-bytes
+  let parts = ()
+  for g in range(0, 4) {
+    let b0 = bytes.at(2 * g)
+    let b1 = bytes.at(2 * g + 1)
+    let group = (
+      digits.at(calc.quo(b0, 16))
+        + digits.at(calc.rem(b0, 16))
+        + digits.at(calc.quo(b1, 16))
+        + digits.at(calc.rem(b1, 16))
+    )
+    parts.push(group)
+  }
+  "0x" + parts.join("_")
+}
+
+#let ecc-encode = {
+  let bytes = ecc-bytes.rev()
+  let check-positions = (1, 2, 4, 8, 16, 32, 64)
+  let data-positions = ()
+  for i in range(1, 72) {
+    if not check-positions.contains(i) {
+      data-positions.push(i)
+    }
+  }
+  let bits = (:)
+  for i in range(1, 73) {
+    bits.insert(str(i), 0)
+  }
+  for k in range(0, 64) {
+    let pos = data-positions.at(k)
+    let byte-index = calc.quo(k, 8)
+    let bit-index = calc.rem(k, 8)
+    let byte = bytes.at(byte-index)
+    let bit = calc.rem(calc.quo(byte, calc.pow(2, bit-index)), 2)
+    bits.insert(str(pos), bit)
+  }
+  for p in check-positions {
+    let parity = 0
+    for i in range(1, 72) {
+      if i != p and calc.rem(calc.quo(i, p), 2) == 1 {
+        parity = calc.rem(parity + bits.at(str(i)), 2)
+      }
+    }
+    bits.insert(str(p), parity)
+  }
+  let overall = 0
+  for i in range(1, 72) {
+    overall = calc.rem(overall + bits.at(str(i)), 2)
+  }
+  bits.insert("72", overall)
+  bits
+}
+
+#let ecc-copy(bits) = {
+  let out = (:)
+  for k in bits.keys() {
+    out.insert(k, bits.at(k))
+  }
+  out
+}
+
+#let ecc-flip(bits, positions) = {
+  let out = ecc-copy(bits)
+  for p in positions {
+    out.insert(str(p), 1 - out.at(str(p)))
+  }
+  out
+}
+
+#let ecc-rows(bits) = {
+  let byte-strings = ()
+  for b in range(0, 9) {
+    let s = ""
+    for j in range(0, 8) {
+      s = s + str(bits.at(str(b * 8 + j + 1)))
+    }
+    byte-strings.push(s)
+  }
+  (
+    byte-strings.slice(0, 3).join(" "),
+    byte-strings.slice(3, 6).join(" "),
+    byte-strings.slice(6, 9).join(" "),
+  )
+}
+
+#let ecc-clean = ecc-encode
+#let ecc-one-error = 20
+#let ecc-two-error = 30
+#let ecc-one-rows = ecc-rows(ecc-flip(ecc-clean, (ecc-one-error,)))
+#let ecc-two-rows = ecc-rows(ecc-flip(ecc-clean, (
+  ecc-one-error,
+  ecc-two-error,
+)))
+
 #show table: set block(breakable: false)
 
 #Box[
@@ -430,7 +555,7 @@
   Три строки по три байта --- только для вёрстки.
 
   Исходное 64-битное слово:
-  #raw("0x5041_4C49_4D50_5321")
+  #raw(ecc-hex)
 
   Принятые слова:
   #align(center)[
@@ -443,14 +568,11 @@
         [#align(center)[*С одной ошибкой*]],
         [#align(center)[*С двумя ошибками*]],
       ),
-      [#raw("00110001 01001100 01000000")],
-      [#raw("00110001 01001100 01000000")],
+      [#raw(ecc-one-rows.at(0))], [#raw(ecc-two-rows.at(0))],
 
-      [#raw("01010101 11001010 01001000")],
-      [#raw("01010001 11001010 01001000")],
+      [#raw(ecc-one-rows.at(1))], [#raw(ecc-two-rows.at(1))],
 
-      [#raw("11001010 00001000 00010101")],
-      [#raw("11001010 00001000 00010101")],
+      [#raw(ecc-one-rows.at(2))], [#raw(ecc-two-rows.at(2))],
     )
   ]
 ]
