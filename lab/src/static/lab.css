@@ -3580,3 +3580,23 @@ html[data-theme="dark"] .btn-primary:hover {
   background: var(--ink);
   color: var(--paper);
 }
+
+/* Small type stays readable on the dark paper. */
+html[data-theme="dark"] table.data th {
+  color: var(--ink);
+  border-bottom-color: color-mix(in srgb, var(--ink) 38%, var(--line));
+}
+
+html[data-theme="dark"] .lab-header .eyebrow {
+  color: color-mix(in srgb, var(--accent) 45%, #ffffff);
+}
+
+html[data-theme="dark"] .lab-card .topic,
+html[data-theme="dark"] .lab-card .go {
+  color: color-mix(in srgb, var(--m, var(--accent)) 45%, #ffffff);
+}
+
+html[data-theme="dark"] table.data th,
+html[data-theme="dark"] .tt-wrap table.data th {
+  background: var(--card);
+}
