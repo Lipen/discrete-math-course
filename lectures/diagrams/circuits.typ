@@ -110,6 +110,10 @@
   gate((2.4, 0.4), "AND", w: 1.2, h: 0.7)
   gate((4.4, 0.4), "OR", w: 1.2, h: 0.7)
 
+  mark((0.95, 1.78), $u$, tone: cool)
+  mark((0.78, 0.56), $v$, tone: warm)
+  mark((3.15, 0.56), $w$, tone: warm)
+
   lab((-2.75, 2.6), $A$)
   lab((-2.75, 1.2), $B$)
   lab((1.75, -1.0), $C_"in"$, anchor: "west")
