@@ -198,18 +198,37 @@
   }
 })
 
-// ── Треугольник XOR: строки значений, первые элементы --- коэффициенты ──
+// ── Треугольник XOR: значения в кружках, первые элементы строк --- коэффициенты ──
 #let xor-triangle(rows: ()) = canvas({
-  let h = 0.82
-  for (r, row) in rows.enumerate() {
-    let offset = r * 0.5
+  let dx = 1.8
+  let dy = 1.35
+  let radius = 0.55
+  let tones = (cool, green, warm, violet)
+  let first-len = if rows.len() > 0 { rows.at(0).len() } else { 1 }
+  let center = (first-len - 1) * dx / 2
+
+  for (row-index, row) in rows.enumerate() {
+    let tone = tones.at(calc.rem(row-index, tones.len()))
+    let offset = row-index * dx / 2 - center
     for (i, val) in row.enumerate() {
+      let pos = (offset + i * dx, -row-index * dy)
+      let first = i == 0
+      draw.circle(
+        pos,
+        radius: radius,
+        fill: if first { tone.lighten(78%) } else { tone.lighten(92%) },
+        stroke: if first {
+          (paint: tone, thickness: 1.8pt)
+        } else {
+          (paint: tone.lighten(30%), thickness: 0.8pt)
+        },
+      )
       draw.content(
-        (offset + i, -r * h),
+        pos,
         text(
-          0.9em,
-          weight: if i == 0 { "bold" } else { "regular" },
-          fill: if i == 0 { ink } else { ink-soft },
+          1em,
+          weight: if first { "bold" } else { "regular" },
+          fill: ink,
         )[#val],
       )
     }
