@@ -2951,7 +2951,6 @@ html[data-theme="dark"] .composer-cancel:hover { background: var(--surface-raise
 html[data-theme="dark"] .fitch-level-btn:hover:not(:disabled) { border-color: var(--line); background: var(--accent-soft); color: var(--accent); }
 
 html[data-theme="dark"] .hotel-callout { border-color: color-mix(in srgb, var(--amber) 35%, var(--line)); color: var(--amber); }
-html[data-theme="dark"] .hotel-area,
 html[data-theme="dark"] .hotel-svg text { fill: var(--ink); }
 html[data-theme="dark"] .hotel-svg text[fill="#5e6a75"] { fill: var(--muted); }
 html[data-theme="dark"] .hotel-svg text[fill="#18222d"] { fill: var(--ink); }
