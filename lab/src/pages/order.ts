@@ -134,28 +134,46 @@ function renderHasse(isPoset: boolean): void {
     });
   }
   const root = svg("svg", { viewBox: "0 0 " + width + " " + height, role: "group", "aria-label": "Диаграмма Хассе" });
+  const edges: Array<{ from: number; to: number; node: SVGElement }> = [];
   for (let i = 0; i < n; i++) {
     for (let j = 0; j < n; j++) {
       if (!cover[i][j]) continue;
       const a = coords.get(i);
       const b = coords.get(j);
       if (!a || !b) continue;
-      root.appendChild(svg("line", {
+      const line = svg("line", {
         x1: a.x, y1: a.y - 20, x2: b.x, y2: b.y + 20,
         stroke: "#b7ae9e", "stroke-width": 1.6,
-      }));
+      });
+      root.appendChild(line);
+      edges.push({ from: i, to: j, node: line });
     }
   }
   const circles: SVGElement[] = [];
   const texts: SVGElement[] = [];
   function paintFocus(): void {
+    const idleStroke = "color-mix(in srgb, var(--ink) 30%, var(--card))";
+    const relatedFill = "color-mix(in srgb, var(--accent) 28%, var(--card))";
+    const active = focus !== null;
     for (let i = 0; i < n; i++) {
       const comparable = focus === null ? false : (R[focus][i] || R[i][focus]);
       const isFocus = focus === i;
-      circles[i].setAttribute("fill", isFocus ? "#2e5288" : (comparable ? "#e8eef8" : "#fff"));
-      circles[i].setAttribute("stroke", isFocus ? "#2e5288" : "#7b7366");
-      circles[i].setAttribute("stroke-width", isFocus ? "2.4" : "1.5");
-      texts[i].setAttribute("fill", isFocus ? "#fff" : "#1d2733");
+      const faded = active && !isFocus && !comparable;
+      const circle = circles[i];
+      const text = texts[i];
+      circle.style.fill = isFocus ? "var(--ink)" : comparable ? relatedFill : "var(--card)";
+      circle.style.stroke = isFocus ? "var(--ink)" : comparable ? "var(--accent)" : idleStroke;
+      circle.style.strokeWidth = isFocus ? "3" : comparable ? "2.4" : "1.5";
+      circle.style.opacity = faded ? "0.4" : "1";
+      text.style.fill = isFocus ? "var(--card)" : "var(--ink)";
+      text.style.opacity = faded ? "0.4" : "1";
+      text.style.fontWeight = isFocus || comparable ? "800" : "700";
+    }
+    for (const edge of edges) {
+      const touches = focus !== null && (edge.from === focus || edge.to === focus);
+      edge.node.style.stroke = touches ? "var(--accent)" : idleStroke;
+      edge.node.style.strokeWidth = touches ? "2.6" : "1.6";
+      edge.node.style.opacity = focus !== null && !touches ? "0.32" : "1";
     }
   }
   for (let i = 0; i < n; i++) {
