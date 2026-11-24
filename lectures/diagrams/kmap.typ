@@ -121,7 +121,10 @@
   for (k, entry) in legend.enumerate() {
     let x = nc * s + 0.55
     let y = -0.55 - k * 0.62
-    draw.line((x, y), (x + 0.24, y), stroke: (paint: entry.at(1), thickness: 2.2pt))
+    draw.line((x, y), (x + 0.24, y), stroke: (
+      paint: entry.at(1),
+      thickness: 2.2pt,
+    ))
     draw.content(
       (x + 0.32, y),
       anchor: "west",

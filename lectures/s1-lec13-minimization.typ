@@ -1,16 +1,11 @@
 // s1, лекция 13 --- Минимизация и диаграммы решений (1--2 декабря).
 #import "theme.typ": *
-#import "diagrams/ghosts.typ": circuit-ghost, bdd-ghost
+#import "diagrams/ghosts.typ": bdd-ghost, circuit-ghost
 #import "diagrams/kmap.typ": (
-  kmap-3var-empty,
-  kmap-4var-empty,
-  kmap-4var-wrap,
-  kmap-3var-x,
-  kmap-3var-majority,
-  kmap-3var-dontcare,
-  kmap-3var-consensus,
+  kmap-3var-consensus, kmap-3var-dontcare, kmap-3var-empty, kmap-3var-majority,
+  kmap-3var-x, kmap-4var-empty, kmap-4var-wrap,
 )
-#import "diagrams/bdd.typ": bdd-and, bdd-xor-tree, bdd-xor, robdd-majority
+#import "diagrams/bdd.typ": bdd-and, bdd-xor, bdd-xor-tree, robdd-majority
 #show: slides.with(
   title: [Минимизация и диаграммы решений],
   date: "Осень 2026",
@@ -111,8 +106,7 @@ $
 Минтерм --- конъюнкция всех переменных, истинная на одном наборе.
 Две конъюнкции, различающиеся одним литералом, склеиваются.
 $
-  x y z or x y overline(z)
-  &= x y (z or overline(z)) = x y .
+  x y z or x y overline(z) & = x y (z or overline(z)) = x y .
 $
 
 #important[
@@ -499,8 +493,7 @@ BDD читается сверху вниз.
 #grid(
   columns: (1fr, 1fr),
   gutter: 1em,
-  align(center)[#bdd-xor-tree],
-  align(center)[#bdd-xor],
+  align(center)[#bdd-xor-tree], align(center)[#bdd-xor],
 )
 
 Слева полное дерево, семь узлов.
@@ -594,8 +587,15 @@ ROBDD произведения экспоненциален при любом п
   table.header([*Форма*], [*Канонична*], [*Сильна*], [*Слаба*]),
   [СДНФ], [да], [явно перечисляет модели], [экспоненциальна],
   [минимальная ДНФ], [нет], [короткие покрытия], [выбор покрытия NP-труден],
-  [АНФ], [да], [паритет и линейные функции], [у случайной функции много мономов],
-  [ROBDD], [да при порядке], [эквивалентность и символьные операции], [зависит от порядка],
+  [АНФ],
+  [да],
+  [паритет и линейные функции],
+  [у случайной функции много мономов],
+
+  [ROBDD],
+  [да при порядке],
+  [эквивалентность и символьные операции],
+  [зависит от порядка],
 )
 
 #important[
@@ -646,5 +646,6 @@ ROBDD произведения экспоненциален при любом п
   [Увидеть форму Блейка], [m10, раздел "Каноническая форма Блейка"],
   [Разобраться с BDD],
   [m10, разделы "Диаграммы решений (BDD)" и "Проблема порядка переменных"],
+
   [Сравнить формы], [m10, раздел "Полином Жегалкина"],
 )
