@@ -141,6 +141,45 @@ export function transitiveClosure(matrix: Matrix): Matrix {
   return out;
 }
 
+export interface ClosureWitness {
+  pair: [number, number];
+  via: number;
+}
+
+export interface TransitiveStep {
+  added: Array<[number, number]>;
+  witnesses: ClosureWitness[];
+  matrix: Matrix;
+}
+
+/** Round-by-round transitive closure: each round adds every path of length two. */
+export function transitiveClosureSteps(matrix: Matrix): { steps: TransitiveStep[]; closure: Matrix } {
+  const steps: TransitiveStep[] = [];
+  let current = copyMatrix(matrix);
+  const n = current.length;
+  for (;;) {
+    const added: Array<[number, number]> = [];
+    const witnesses: ClosureWitness[] = [];
+    for (let i = 0; i < n; i++) {
+      for (let j = 0; j < n; j++) {
+        if (current[i][j]) continue;
+        for (let k = 0; k < n; k++) {
+          if (current[i][k] && current[k][j]) {
+            added.push([i + 1, j + 1]);
+            witnesses.push({ pair: [i + 1, j + 1], via: k + 1 });
+            break;
+          }
+        }
+      }
+    }
+    if (!added.length) return { steps, closure: current };
+    const next = copyMatrix(current);
+    for (const [a, b] of added) next[a - 1][b - 1] = true;
+    steps.push({ added, witnesses, matrix: next });
+    current = next;
+  }
+}
+
 export function equivalenceClasses(matrix: Matrix): number[][] {
   const n = matrix.length;
   const seen = new Set<number>();

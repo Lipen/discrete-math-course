@@ -7,6 +7,15 @@ import * as Sets from "../domain/sets";
 
 let n = 4;
 let R: Sets.Matrix = [];
+let recent = new Set<string>();
+
+interface StepperState {
+  base: Sets.Matrix;
+  steps: Sets.TransitiveStep[];
+  index: number;
+}
+
+let stepper: StepperState | null = null;
 
 ribbon(
   must<HTMLElement>("#size"),
@@ -20,6 +29,8 @@ ribbon(
   (value) => {
     n = Number(value);
     R = defaultMatrix(n);
+    stopStepper();
+    resetDelta();
     status(closureStatus, "", "");
     renderAll();
   },
@@ -34,6 +45,13 @@ const squareNode = must<HTMLElement>("#square");
 const inverseNode = must<HTMLElement>("#inverse");
 const pairsNode = must<HTMLElement>("#relation-pairs");
 const deltaNode = must<HTMLElement>("#closure-delta");
+const stepperNode = must<HTMLElement>("#closure-stepper");
+const stepCount = must<HTMLElement>("#step-count");
+const stepProgress = must<HTMLElement>("#step-progress");
+const stepBody = must<HTMLElement>("#step-body");
+const stepPrev = must<HTMLButtonElement>("#step-prev");
+const stepNext = must<HTMLButtonElement>("#step-next");
+const stepEnd = must<HTMLButtonElement>("#step-end");
 
 function defaultMatrix(size: number): Sets.Matrix {
   const matrix: Sets.Matrix = Array.from({ length: size }, () => new Array<boolean>(size).fill(false));
@@ -69,13 +87,16 @@ function renderMatrix(): void {
       const td = el("td", { class: i === j ? "diag" : "" });
       const button = el("button", {
         type: "button",
-        class: R[i][j] ? "on" : "",
+        class: [R[i][j] ? "on" : "", recent.has(pairKey(i + 1, j + 1)) ? "added" : ""].filter(Boolean).join(" "),
         text: R[i][j] ? "1" : "0",
         "aria-label": "пара (" + (i + 1) + "," + (j + 1) + ")",
         "data-focus-key": "rel-" + i + "-" + j,
       });
       setPressed(button, R[i][j]);
       button.addEventListener("click", () => {
+        stopStepper();
+        resetDelta();
+        status(closureStatus, "", "");
         R[i][j] = !R[i][j];
         renderAll();
       });
@@ -101,6 +122,7 @@ function renderGraph(): void {
     coords.push({ x: cx + radius * Math.cos(angle), y: cy + radius * Math.sin(angle) });
   }
   const root = svg("svg", { viewBox: "0 0 " + width + " " + height, role: "img", "aria-label": "Граф отношения" });
+  const edgeClass = (from: number, to: number) => "rel-edge" + (recent.has(pairKey(from + 1, to + 1)) ? " added" : "");
   const defs = svg("defs");
   const marker = svg("marker", {
     id: "rel-arrow",
@@ -141,7 +163,7 @@ function renderGraph(): void {
               " " +
               (a.y - 20),
             fill: "none",
-            class: "rel-edge rel-loop",
+            class: edgeClass(i, i) + " rel-loop",
             "marker-end": "url(#rel-arrow)",
           }),
         );
@@ -160,7 +182,7 @@ function renderGraph(): void {
           svg("path", {
             d: "M " + a.x + " " + a.y + " Q " + (mx + ox) + " " + (my + oy) + " " + b.x + " " + b.y,
             fill: "none",
-            class: "rel-edge",
+            class: edgeClass(i, j),
             "marker-end": "url(#rel-arrow)",
           }),
         );
@@ -168,7 +190,7 @@ function renderGraph(): void {
           svg("path", {
             d: "M " + b.x + " " + b.y + " Q " + (mx - ox) + " " + (my - oy) + " " + a.x + " " + a.y,
             fill: "none",
-            class: "rel-edge",
+            class: edgeClass(j, i),
             "marker-end": "url(#rel-arrow)",
           }),
         );
@@ -179,7 +201,7 @@ function renderGraph(): void {
             y1: a.y,
             x2: b.x,
             y2: b.y,
-            class: "rel-edge",
+            class: edgeClass(i, j),
             "marker-end": "url(#rel-arrow)",
           }),
         );
@@ -267,6 +289,179 @@ function renderComposition(): { square: Sets.Matrix; inverse: Sets.Matrix } {
   return { square, inverse };
 }
 
+function pairKey(a: number, b: number): string {
+  return a + "," + b;
+}
+
+function keysOf(pairs: Array<[number, number]>): Set<string> {
+  return new Set(pairs.map(([a, b]) => pairKey(a, b)));
+}
+
+function roundsLabel(value: number): string {
+  if (value === 1) return "1 раунд";
+  if (value < 5) return value + " раунда";
+  return value + " раундов";
+}
+
+function addedSince(base: Sets.Matrix): Array<[number, number]> {
+  const before = keysOf(Sets.relationPairs(base));
+  return Sets.relationPairs(R).filter(([a, b]) => !before.has(pairKey(a, b)));
+}
+
+function showDelta(pairs: Array<[number, number]>, emptyLabel: string, emptyHint: string): void {
+  clear(deltaNode);
+  if (!pairs.length) {
+    deltaNode.appendChild(el("span", { class: "rel-delta-label", text: emptyLabel }));
+    deltaNode.appendChild(el("span", { class: "hint", text: emptyHint }));
+    return;
+  }
+  deltaNode.appendChild(el("span", { class: "rel-delta-label", text: "добавлено" }));
+  deltaNode.appendChild(
+    el(
+      "div",
+      { class: "formula-box" },
+      math("\\{" + pairs.map(([a, b]) => "(" + a + "," + b + ")").join(",\\ ") + "\\}", false),
+    ),
+  );
+}
+
+function resetDelta(): void {
+  recent.clear();
+  showDelta([], "добавка", "примените замыкание");
+}
+
+function stopStepper(): void {
+  stepper = null;
+  recent.clear();
+  stepperNode.hidden = true;
+  stepCount.textContent = "";
+  clear(stepProgress);
+  clear(stepBody);
+}
+
+function syncStepper(): void {
+  if (!stepper) {
+    stopStepper();
+    return;
+  }
+  stepperNode.hidden = false;
+  stepCount.textContent =
+    stepper.index === 0 ? "исходное отношение" : "шаг " + stepper.index + " из " + stepper.steps.length;
+  stepPrev.disabled = stepper.index === 0;
+  stepNext.disabled = stepper.index >= stepper.steps.length;
+  stepEnd.disabled = stepper.index >= stepper.steps.length;
+  clear(stepProgress);
+  const applied = stepper.index;
+  stepper.steps.forEach((_step, index) => {
+    const mark = el("i", { class: index < applied ? "done" : "" });
+    stepProgress.appendChild(mark);
+  });
+  clear(stepBody);
+  if (stepper.index === 0) {
+    stepBody.appendChild(
+      el("p", {
+        class: "hint",
+        text: "Исходное отношение. Каждый раунд добавляет все пары, замыкающие пути длины два.",
+      }),
+    );
+  } else {
+    const step = stepper.steps[stepper.index - 1];
+    stepBody.appendChild(
+      el("div", { class: "rel-step-added" }, [
+        el("span", { class: "rel-step-label", text: "добавлено" }),
+        el(
+          "div",
+          { class: "formula-box" },
+          math("\\{" + step.added.map(([a, b]) => "(" + a + "," + b + ")").join(",\\ ") + "\\}", false),
+        ),
+      ]),
+    );
+    const witnesses = el("div", { class: "rel-step-witnesses" });
+    for (const witness of step.witnesses.slice(0, 8)) {
+      witnesses.appendChild(
+        el("div", { class: "rel-step-witness" }, [
+          el("span", { class: "rel-step-pair", text: "(" + witness.pair[0] + "," + witness.pair[1] + ")" }),
+          el("span", {
+            class: "rel-step-why",
+            text: witness.pair[0] + " → " + witness.via + " → " + witness.pair[1],
+          }),
+        ]),
+      );
+    }
+    if (step.witnesses.length > 8) {
+      witnesses.appendChild(
+        el("p", { class: "hint", text: "Ещё " + (step.witnesses.length - 8) + " пар на этом шаге." }),
+      );
+    }
+    stepBody.appendChild(witnesses);
+    if (stepper.index === stepper.steps.length) {
+      stepBody.appendChild(el("p", { class: "hint", text: "Замыкание достигнуто." }));
+    }
+  }
+  showDelta(addedSince(stepper.base), "накоплено", stepper.index === 0 ? "шаг ещё не сделан" : "новых пар нет");
+}
+
+function startStepper(): void {
+  const result = Sets.transitiveClosureSteps(R);
+  stopStepper();
+  if (!result.steps.length) {
+    status(closureStatus, "Транзитивное замыкание уже достигнуто.", "ok");
+    showDelta([], "уже замкнуто", "Новых пар не появилось.");
+    renderAll();
+    return;
+  }
+  stepper = { base: Sets.copyMatrix(R), steps: result.steps, index: 0 };
+  syncStepper();
+  status(closureStatus, "Пошаговый режим: " + roundsLabel(result.steps.length) + ".", "info");
+  renderAll();
+}
+
+function stepForward(): void {
+  if (!stepper || stepper.index >= stepper.steps.length) return;
+  const step = stepper.steps[stepper.index];
+  R = Sets.copyMatrix(step.matrix);
+  stepper.index++;
+  recent = keysOf(step.added);
+  syncStepper();
+  status(closureStatus, "Шаг " + stepper.index + " из " + stepper.steps.length + ".", "info");
+  renderAll();
+}
+
+function stepBack(): void {
+  if (!stepper || stepper.index === 0) return;
+  stepper.index--;
+  R = stepper.index === 0 ? Sets.copyMatrix(stepper.base) : Sets.copyMatrix(stepper.steps[stepper.index - 1].matrix);
+  recent = stepper.index === 0 ? new Set<string>() : keysOf(stepper.steps[stepper.index - 1].added);
+  syncStepper();
+  status(
+    closureStatus,
+    stepper.index === 0
+      ? "Вернулись к исходному отношению."
+      : "Шаг " + stepper.index + " из " + stepper.steps.length + ".",
+    "info",
+  );
+  renderAll();
+}
+
+function finishStepper(): void {
+  if (!stepper) return;
+  const steps = stepper.steps;
+  const base = stepper.base;
+  R = Sets.copyMatrix(steps[steps.length - 1].matrix);
+  stepper.index = steps.length;
+  recent = keysOf(addedSince(base));
+  syncStepper();
+  status(closureStatus, "Замыкание достигнуто за " + roundsLabel(steps.length) + ".", "ok");
+  renderAll();
+}
+
+function exitStepper(): void {
+  if (!stepper) return;
+  stopStepper();
+  status(closureStatus, "Пошаговый режим закрыт. Текущее R сохранено.", "info");
+  renderAll();
+}
+
 function paint(): void {
   renderMatrix();
   renderGraph();
@@ -281,7 +476,8 @@ function renderAll(): void {
 }
 
 function applyClosure(kind: string): void {
-  const before = new Set(Sets.relationPairs(R).map(([a, b]) => a + "," + b));
+  stopStepper();
+  const before = keysOf(Sets.relationPairs(R));
   const messages: Record<string, string> = {
     reflexive: "Применено рефлексивное замыкание.",
     symmetric: "Применено симметричное замыкание.",
@@ -294,22 +490,10 @@ function applyClosure(kind: string): void {
   else if (kind === "equivalence") {
     R = Sets.transitiveClosure(Sets.symmetricClosure(Sets.reflexiveClosure(R)));
   }
-  const added = Sets.relationPairs(R).filter(([a, b]) => !before.has(a + "," + b));
+  const added = Sets.relationPairs(R).filter(([a, b]) => !before.has(pairKey(a, b)));
+  recent = keysOf(added);
   status(closureStatus, messages[kind] ?? "Замыкание применено.", "ok");
-  clear(deltaNode);
-  if (added.length) {
-    deltaNode.appendChild(el("span", { class: "rel-delta-label", text: "добавлено" }));
-    deltaNode.appendChild(
-      el(
-        "div",
-        { class: "formula-box" },
-        math("\\{" + added.map(([a, b]) => "(" + a + "," + b + ")").join(",\\ ") + "\\}", false),
-      ),
-    );
-  } else {
-    deltaNode.appendChild(el("span", { class: "rel-delta-label", text: "уже замкнуто" }));
-    deltaNode.appendChild(el("span", { class: "hint", text: "Новых пар не появилось." }));
-  }
+  showDelta(added, "уже замкнуто", "Новых пар не появилось.");
   renderAll();
 }
 
@@ -317,25 +501,39 @@ for (const button of $$<HTMLButtonElement>("[data-closure]")) {
   button.addEventListener("click", () => applyClosure(button.dataset.closure ?? ""));
 }
 
+must<HTMLButtonElement>("#transitive-steps").addEventListener("click", startStepper);
+stepPrev.addEventListener("click", stepBack);
+stepNext.addEventListener("click", stepForward);
+stepEnd.addEventListener("click", finishStepper);
+must<HTMLButtonElement>("#step-exit").addEventListener("click", exitStepper);
+
 must<HTMLButtonElement>("#blocks").addEventListener("click", () => {
+  stopStepper();
+  resetDelta();
   R = defaultMatrix(n);
   status(closureStatus, "Поставлены блоки эквивалентности.", "ok");
   renderAll();
 });
 
 must<HTMLButtonElement>("#clear").addEventListener("click", () => {
+  stopStepper();
+  resetDelta();
   R = Array.from({ length: n }, () => new Array<boolean>(n).fill(false));
   status(closureStatus, "Матрица очищена.", "warn");
   renderAll();
 });
 
 must<HTMLButtonElement>("#random").addEventListener("click", () => {
+  stopStepper();
+  resetDelta();
   R = Array.from({ length: n }, () => Array.from({ length: n }, () => Math.random() < 0.35));
   status(closureStatus, "Случайное отношение.", "ok");
   renderAll();
 });
 
 must<HTMLButtonElement>("#apply-square").addEventListener("click", () => {
+  stopStepper();
+  resetDelta();
   const { square } = renderComposition();
   R = square;
   status(closureStatus, "R заменено на R².", "ok");
@@ -343,6 +541,8 @@ must<HTMLButtonElement>("#apply-square").addEventListener("click", () => {
 });
 
 must<HTMLButtonElement>("#apply-inverse").addEventListener("click", () => {
+  stopStepper();
+  resetDelta();
   const { inverse } = renderComposition();
   R = inverse;
   status(closureStatus, "R заменено на R⁻¹.", "ok");

@@ -3,6 +3,7 @@
 import { clear, el, keepFocus, must, setPressed, status, svg } from "../core/dom";
 import { math } from "../core/math";
 import { ribbon } from "../core/segmented";
+import { type LayoutPoint, layoutHasse, rankOf } from "../domain/order-layout";
 import * as Sets from "../domain/sets";
 
 let n = 4;
@@ -104,16 +105,27 @@ function coverMatrix(): Sets.Matrix {
   return Sets.transitiveReduction(R);
 }
 
-function rankOf(cover: Sets.Matrix): number[] {
-  const rank = new Array<number>(n).fill(0);
-  for (let step = 0; step < n; step++) {
-    for (let i = 0; i < n; i++) {
-      for (let j = 0; j < n; j++) {
-        if (cover[i][j]) rank[j] = Math.max(rank[j], rank[i] + 1);
-      }
-    }
-  }
-  return rank;
+function trimEdge(points: LayoutPoint[], radius: number): LayoutPoint[] {
+  if (points.length < 2) return points;
+  const first = points[0];
+  const next = points[1];
+  const firstLength = Math.hypot(next.x - first.x, next.y - first.y) || 1;
+  const start = {
+    x: first.x + ((next.x - first.x) / firstLength) * radius,
+    y: first.y + ((next.y - first.y) / firstLength) * radius,
+  };
+  const last = points[points.length - 1];
+  const previous = points[points.length - 2];
+  const lastLength = Math.hypot(last.x - previous.x, last.y - previous.y) || 1;
+  const end = {
+    x: last.x - ((last.x - previous.x) / lastLength) * radius,
+    y: last.y - ((last.y - previous.y) / lastLength) * radius,
+  };
+  return [start, ...points.slice(1, -1), end];
+}
+
+function edgePath(points: LayoutPoint[]): string {
+  return points.map((point, index) => (index ? "L " : "M ") + point.x.toFixed(2) + " " + point.y.toFixed(2)).join(" ");
 }
 
 function renderHasse(isPoset: boolean): void {
@@ -127,45 +139,23 @@ function renderHasse(isPoset: boolean): void {
     );
     return;
   }
-  const cover = coverMatrix();
-  const rank = rankOf(cover);
-  const layers = new Map<number, number[]>();
-  for (let i = 0; i < n; i++) {
-    const layer = layers.get(rank[i]);
-    if (layer) layer.push(i);
-    else layers.set(rank[i], [i]);
-  }
-  const maxRank = Math.max(0, ...rank);
-  const width = 520;
-  const height = Math.max(260, (maxRank + 1) * 86 + 60);
-  const coords = new Map<number, { x: number; y: number }>();
-  for (const [r, list] of layers) {
-    list.forEach((item, index) => {
-      coords.set(item, {
-        x: (width * (index + 1)) / (list.length + 1),
-        y: height - 50 - r * 82,
-      });
-    });
-  }
-  const root = svg("svg", { viewBox: "0 0 " + width + " " + height, role: "group", "aria-label": "Диаграмма Хассе" });
+  const layout = layoutHasse(coverMatrix());
+  const root = svg("svg", {
+    viewBox: "0 0 " + layout.width + " " + layout.height,
+    role: "group",
+    "aria-label": "Диаграмма Хассе",
+  });
   const edges: Array<{ from: number; to: number; node: SVGElement }> = [];
-  for (let i = 0; i < n; i++) {
-    for (let j = 0; j < n; j++) {
-      if (!cover[i][j]) continue;
-      const a = coords.get(i);
-      const b = coords.get(j);
-      if (!a || !b) continue;
-      const line = svg("line", {
-        x1: a.x,
-        y1: a.y - 20,
-        x2: b.x,
-        y2: b.y + 20,
-        stroke: "#b7ae9e",
-        "stroke-width": 1.6,
-      });
-      root.appendChild(line);
-      edges.push({ from: i, to: j, node: line });
-    }
+  for (const edge of layout.edges) {
+    const path = svg("path", {
+      d: edgePath(trimEdge(edge.points, 23)),
+      class: "ord-edge",
+      "data-from": edge.from + 1,
+      "data-to": edge.to + 1,
+      "data-route": edge.points.length,
+    });
+    root.appendChild(path);
+    edges.push({ from: edge.from, to: edge.to, node: path });
   }
   const circles: SVGElement[] = [];
   const texts: SVGElement[] = [];
@@ -203,16 +193,16 @@ function renderHasse(isPoset: boolean): void {
     }
   }
   for (let i = 0; i < n; i++) {
-    const p = coords.get(i);
-    if (!p) continue;
-    const circle = svg("circle", { cx: p.x, cy: p.y, r: 21, style: "cursor:pointer" });
+    const point = layout.nodes[i];
+    if (!point) continue;
+    const circle = svg("circle", { cx: point.x, cy: point.y, r: 21, style: "cursor:pointer" });
     circles.push(circle);
     root.appendChild(circle);
     const text = svg(
       "text",
       {
-        x: p.x,
-        y: p.y + 5,
+        x: point.x,
+        y: point.y + 5,
         "text-anchor": "middle",
         "font-family": "var(--mono)",
         "font-size": 13,
@@ -227,8 +217,8 @@ function renderHasse(isPoset: boolean): void {
       if (j !== i && (R[i][j] || R[j][i])) comparableList.push(j + 1);
     }
     const hit = svg("circle", {
-      cx: p.x,
-      cy: p.y,
+      cx: point.x,
+      cy: point.y,
       r: 23,
       fill: "transparent",
       tabindex: "0",

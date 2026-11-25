@@ -103,9 +103,45 @@ for (const page of pages) {
       await tab.click("[data-closure=reflexive]");
       const delta = await tab.locator("#closure-delta").textContent();
       if (!delta?.includes("добавлено")) failures.push(`${page}: замыкание не показало добавку`);
+
+      await tab.click("#clear");
+      for (const pair of ["1,2", "2,3", "3,4"]) {
+        const [a, b] = pair.split(",");
+        await tab.click(`#matrix button[aria-label="пара (${a},${b})"]`);
+      }
+      await tab.click("#transitive-steps");
+      if (await tab.locator("#closure-stepper").isHidden()) failures.push(`${page}: шаги замыкания не открылись`);
+      await tab.click("#step-next");
+      const added = await tab.locator("#matrix button.added").count();
+      if (added < 1) failures.push(`${page}: шаг замыкания не подсветил пары`);
+      await tab.click("#step-end");
+      if (!(await tab.locator("#step-next").isDisabled())) failures.push(`${page}: шаги не дошли до конца`);
+      await tab.click("#step-exit");
     }
 
     if (page === "order.html") {
+      await tab.click("#identity");
+      for (const pair of ["1,4", "2,3"]) {
+        const [a, b] = pair.split(",");
+        await tab.click(`#matrix button[aria-label="(${a},${b})"]`);
+      }
+      const crossed = await tab.evaluate(() => {
+        const paths = Array.from(document.querySelectorAll<SVGPathElement>(".ord-edge"));
+        const point = (path: SVGPathElement, end: boolean) => {
+          const length = path.getTotalLength();
+          const at = path.getPointAtLength(end ? length : 0);
+          return { x: at.x, y: at.y };
+        };
+        const a = paths.find((path) => path.dataset.from === "1");
+        const b = paths.find((path) => path.dataset.from === "2");
+        if (!a || !b) return true;
+        const a1 = point(a, false);
+        const a2 = point(a, true);
+        const b1 = point(b, false);
+        const b2 = point(b, true);
+        return (a1.x - b1.x) * (a2.x - b2.x) < 0;
+      });
+      if (crossed) failures.push(`${page}: рёбра Хассе пересеклись`);
       await tab.click("#subset button");
       const selected = await tab.locator("#hasse .selected").count();
       if (selected < 1) failures.push(`${page}: подмножество не подсветилось на диаграмме`);

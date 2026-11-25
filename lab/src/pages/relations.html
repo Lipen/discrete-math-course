@@ -64,9 +64,23 @@
             <button data-closure="symmetric">симметричное</button>
             <button data-closure="transitive">транзитивное</button>
             <button data-closure="equivalence">до эквивалентности</button>
+            <button class="rel-wide" id="transitive-steps">транзитивное по шагам</button>
           </div>
           <div class="status" id="closure-status"></div>
           <div class="rel-delta" id="closure-delta"><span class="rel-delta-label">добавка</span><span class="hint">примените замыкание</span></div>
+          <div class="rel-stepper" id="closure-stepper" hidden>
+            <div class="rel-stepper-head">
+              <span class="rel-step-count" id="step-count"></span>
+              <div class="rel-step-actions">
+                <button id="step-prev" type="button" aria-label="Предыдущий шаг">←</button>
+                <button id="step-next" type="button" aria-label="Следующий шаг">→</button>
+                <button id="step-end" type="button">в конец</button>
+                <button id="step-exit" type="button">выйти</button>
+              </div>
+            </div>
+            <div class="rel-step-progress" id="step-progress" aria-hidden="true"></div>
+            <div class="rel-step-body" id="step-body" aria-live="polite"></div>
+          </div>
         </div>
       </article>
 
@@ -144,7 +158,7 @@
       </article>
       <article>
         <h3>Замыкание</h3>
-        <p>Замыкание добавляет минимум: диагональ, обратные пары или транзитивные следствия. Плашка показывает, что именно добавилось.</p>
+        <p>Замыкание добавляет минимум: диагональ, обратные пары или транзитивные следствия. Пошаговый режим показывает, какие пары добавляет каждый раунд и через какой элемент.</p>
       </article>
       <article>
         <h3>Эквивалентность</h3>

@@ -18,6 +18,7 @@ import {
   symmetricClosure as symmetric,
   symmetricClosure,
   transitiveClosure,
+  transitiveClosureSteps,
   transitiveReduction,
   union,
 } from "../src/domain/sets";
@@ -56,6 +57,40 @@ describe("relations", () => {
     const closure = transitiveClosure(matrix);
     expect(closure[0][2]).toBe(true);
     expect(relationProperties(transitiveClosure(closure)).transitive).toBe(true);
+  });
+
+  test("transitive closure exposes rounds with witnesses", () => {
+    const chain = relationMatrix(4, [
+      [1, 2],
+      [2, 3],
+      [3, 4],
+    ]);
+    const { steps, closure } = transitiveClosureSteps(chain);
+    expect(steps.map((step) => step.added)).toEqual([
+      [
+        [1, 3],
+        [2, 4],
+      ],
+      [[1, 4]],
+    ]);
+    expect(steps[0].witnesses[0]).toEqual({ pair: [1, 3], via: 2 });
+    expect(closure).toEqual(transitiveClosure(chain));
+  });
+
+  test("a closed relation has no closure steps", () => {
+    const closed = transitiveClosure(matrix);
+    expect(transitiveClosureSteps(closed).steps).toEqual([]);
+  });
+
+  test("closure rounds handle a cycle", () => {
+    const cycle = relationMatrix(3, [
+      [1, 2],
+      [2, 3],
+      [3, 1],
+    ]);
+    const { steps, closure } = transitiveClosureSteps(cycle);
+    expect(steps.length).toBeGreaterThan(0);
+    expect(closure).toEqual(transitiveClosure(cycle));
   });
 
   test("reflexive and symmetric closures", () => {
