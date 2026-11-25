@@ -99,12 +99,14 @@
   let cell(i, r, body, highlight: false, bold: false) = {
     let x = i * cw
     let y = (nr - 1 - r) * ch
-    draw.rect(
-      (x, y),
-      (x + cw, y + ch),
-      fill: if highlight { green.lighten(84%) } else { none },
-      stroke: if highlight { (paint: green, thickness: 1.2pt) } else { edge-thin },
-    )
+    if highlight {
+      draw.rect(
+        (x, y),
+        (x + cw, y + ch),
+        fill: green.lighten(86%),
+        stroke: none,
+      )
+    }
     if body != none {
       draw.content(
         (x + cw / 2, y + ch / 2),
@@ -141,12 +143,6 @@
   draw.line(
     (3 * cw, 0),
     (3 * cw, nr * ch),
-    stroke: 0.8pt + ink,
-  )
-  draw.rect(
-    (0, 0),
-    (nc * cw, nr * ch),
-    fill: none,
     stroke: 0.8pt + ink,
   )
 })
