@@ -4756,8 +4756,8 @@ li {
 }
 
 .fol-r-cell.on {
-  border-color: var(--accent);
-  background: var(--accent);
+  border-color: var(--green);
+  background: var(--green);
   color: #fff;
 }
 
@@ -5117,8 +5117,8 @@ li {
 }
 
 .fol-order-cell.on {
-  border-color: var(--accent);
-  background: var(--accent);
+  border-color: var(--green);
+  background: var(--green);
 }
 
 .fol-order-cell.is-universal {
