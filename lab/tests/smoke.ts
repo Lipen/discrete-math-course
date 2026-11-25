@@ -115,6 +115,24 @@ for (const page of pages) {
       if (!left?.includes("Истина") || !right?.includes("Ложь"))
         failures.push(`${page}: сценарий порядка не развёл кванторы`);
       if ((await tab.locator("#r-graph svg").count()) !== 1) failures.push(`${page}: граф R не построен`);
+      const arrowGaps = await tab.evaluate(() => {
+        const nodes = Array.from(document.querySelectorAll("#r-graph .fol-gnode")).map((node) => ({
+          x: Number(node.getAttribute("cx")),
+          y: Number(node.getAttribute("cy")),
+        }));
+        return Array.from(document.querySelectorAll("#r-graph .fol-edge")).map((edge) => {
+          let endX = Number(edge.getAttribute("x2"));
+          let endY = Number(edge.getAttribute("y2"));
+          if (edge.tagName !== "line") {
+            const numbers = (edge.getAttribute("d") || "").match(/-?\d+(?:\.\d+)?/g)?.map(Number) ?? [];
+            endX = numbers.at(-2) ?? NaN;
+            endY = numbers.at(-1) ?? NaN;
+          }
+          return Math.min(...nodes.map((node) => Math.hypot(endX - node.x, endY - node.y)));
+        });
+      });
+      if (!arrowGaps.length || arrowGaps.some((gap) => !(gap >= 25)))
+        failures.push(`${page}: наконечники рёбер спрятаны под узлами`);
       await tab.fill("#formula-input", "P(y)");
       await tab.press("#formula-input", "Enter");
       const errorKind = await tab.locator("#formula-kind").textContent();

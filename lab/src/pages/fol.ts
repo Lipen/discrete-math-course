@@ -187,6 +187,13 @@ function renderRGraph(): void {
     "aria-label": "Граф отношения R",
     class: "fol-r-graph-svg",
   });
+  const edgeGap = 30;
+  function toward(from: { x: number; y: number }, to: { x: number; y: number }, distance: number) {
+    const dx = to.x - from.x;
+    const dy = to.y - from.y;
+    const length = Math.hypot(dx, dy) || 1;
+    return { x: from.x + (dx / length) * distance, y: from.y + (dy / length) * distance };
+  }
   const defs = svg("defs");
   const marker = svg("marker", {
     id: "fol-arrow",
@@ -211,9 +218,9 @@ function renderRGraph(): void {
           svg("path", {
             d:
               "M " +
-              (a.x - 12) +
+              (a.x - 15) +
               " " +
-              (a.y - 20) +
+              (a.y - 26) +
               " C " +
               (a.x - 45) +
               " " +
@@ -223,9 +230,9 @@ function renderRGraph(): void {
               " " +
               (a.y - 70) +
               ", " +
-              (a.x + 12) +
+              (a.x + 15) +
               " " +
-              (a.y - 20),
+              (a.y - 26),
             fill: "none",
             class: "fol-edge fol-loop",
             "marker-end": "url(#fol-arrow)",
@@ -242,9 +249,27 @@ function renderRGraph(): void {
         const len = Math.hypot(dx, dy) || 1;
         const ox = (-dy / len) * 20;
         const oy = (dx / len) * 20;
+        const firstControl = { x: mx + ox, y: my + oy };
+        const secondControl = { x: mx - ox, y: my - oy };
+        const firstStart = toward(a, firstControl, edgeGap);
+        const firstEnd = toward(b, firstControl, edgeGap);
+        const secondStart = toward(b, secondControl, edgeGap);
+        const secondEnd = toward(a, secondControl, edgeGap);
         root.appendChild(
           svg("path", {
-            d: "M " + a.x + " " + a.y + " Q " + (mx + ox) + " " + (my + oy) + " " + b.x + " " + b.y,
+            d:
+              "M " +
+              firstStart.x +
+              " " +
+              firstStart.y +
+              " Q " +
+              firstControl.x +
+              " " +
+              firstControl.y +
+              " " +
+              firstEnd.x +
+              " " +
+              firstEnd.y,
             fill: "none",
             class: "fol-edge",
             "marker-end": "url(#fol-arrow)",
@@ -252,19 +277,33 @@ function renderRGraph(): void {
         );
         root.appendChild(
           svg("path", {
-            d: "M " + b.x + " " + b.y + " Q " + (mx - ox) + " " + (my - oy) + " " + a.x + " " + a.y,
+            d:
+              "M " +
+              secondStart.x +
+              " " +
+              secondStart.y +
+              " Q " +
+              secondControl.x +
+              " " +
+              secondControl.y +
+              " " +
+              secondEnd.x +
+              " " +
+              secondEnd.y,
             fill: "none",
             class: "fol-edge",
             "marker-end": "url(#fol-arrow)",
           }),
         );
       } else {
+        const start = toward(a, b, edgeGap);
+        const end = toward(b, a, edgeGap);
         root.appendChild(
           svg("line", {
-            x1: a.x,
-            y1: a.y,
-            x2: b.x,
-            y2: b.y,
+            x1: start.x,
+            y1: start.y,
+            x2: end.x,
+            y2: end.y,
             class: "fol-edge",
             "marker-end": "url(#fol-arrow)",
           }),
