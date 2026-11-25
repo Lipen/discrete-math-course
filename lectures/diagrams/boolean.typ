@@ -90,9 +90,9 @@
     ("1", "0", "0", "0", "1", "", ""),
     ("1", "1", "1", "1", "", "", ""),
   ),
+  cw: 0.96,
+  ch: 0.72,
 ) = canvas({
-  let cw = 0.96
-  let ch = 0.72
   let nr = rows.len() + 1
   let nc = head.len()
 
@@ -145,6 +145,35 @@
     (3 * cw, nr * ch),
     stroke: 0.8pt + ink,
   )
+})
+
+// ── Один шаг треугольника: пары соседей и их xor ──
+#let xor-step() = canvas({
+  let prev = ("1", "1", "0", "1")
+  let next = ("0", "1", "1")
+  let dx = 2.2
+  let dy = 0.72
+
+  for (i, val) in prev.enumerate() {
+    draw.content((0, (3 - i) * dy), text(1em, fill: ink)[#val])
+  }
+  for (i, val) in next.enumerate() {
+    draw.content((dx, (2.5 - i) * dy), text(1em, fill: ink)[#val])
+  }
+  for i in range(3) {
+    let top = (3 - i) * dy
+    let bottom = (2 - i) * dy
+    let mid = (top + bottom) / 2
+    draw.line((0.45, top), (0.45, bottom), stroke: edge-thin)
+    draw.line((0.3, top), (0.45, top), stroke: edge-thin)
+    draw.line((0.3, bottom), (0.45, bottom), stroke: edge-thin)
+    draw.line(
+      (0.5, mid),
+      (dx - 0.2, mid),
+      stroke: edge-plain,
+      mark: (end: "stealth"),
+    )
+  }
 })
 
 // ── Суперпозиция: входы, функции g_i, внешняя f ──
