@@ -5033,7 +5033,7 @@ li {
 }
 
 .fol-key-witness {
-  border: 2px solid var(--acid);
+  border: 2px solid var(--ink);
   background: var(--green-soft);
 }
 
@@ -5111,13 +5111,14 @@ li {
   color: var(--muted);
 }
 
+.fol-order-cell.on,
+.fol-order-cell.is-universal {
+  color: #fff;
+}
+
 .fol-order-cell.on {
   border-color: var(--accent);
   background: var(--accent);
-}
-
-.fol-order-cell.on span {
-  color: #fff;
 }
 
 .fol-order-cell.is-universal {
@@ -5125,12 +5126,13 @@ li {
   background: var(--amber);
 }
 
+.fol-order-cell.on span,
 .fol-order-cell.is-universal span {
-  color: #fff;
+  color: inherit;
 }
 
 .fol-order-cell.is-witness {
-  box-shadow: inset 0 0 0 2px var(--acid);
+  box-shadow: inset 0 0 0 2px currentColor;
 }
 
 .fol-order-cell.is-witness span {
@@ -5267,5 +5269,5 @@ html[data-theme="dark"] .fol-witness-chip.is-picked {
 
 html[data-theme="dark"] .fol-order-cell.on span,
 html[data-theme="dark"] .fol-order-cell.is-universal span {
-  color: var(--on-accent);
+  color: inherit;
 }
