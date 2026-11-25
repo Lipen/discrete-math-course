@@ -89,6 +89,11 @@ for (const page of pages) {
       await tab.click('#arity button[data-n="4"]');
       const pressed = await tab.getAttribute('#arity button[data-n="4"]', "aria-pressed");
       if (pressed !== "true") failures.push(`${page}: лента переменных не переключилась`);
+      await tab.click("#zero");
+      await tab.click('.map-cell[data-m="0"]');
+      const customFormula = await tab.locator("#function-view").textContent();
+      if (!customFormula?.includes("Σm(")) failures.push(`${page}: функция по таблице не показана суммой минтермов`);
+      if (/[A-E]/.test(customFormula ?? "")) failures.push(`${page}: сумма минтермов содержит имена переменных`);
     }
 
     if (page === "cardinality.html") {

@@ -234,9 +234,6 @@ function customFormula(): string {
   const parts: string[] = [];
   if (ones.length === 0) {
     parts.push("0");
-  } else if (ones.length <= 4) {
-    const allBits = (1 << n) - 1;
-    parts.push(ones.map((m) => termText({ fixedMask: allBits, value: m })).join(" \\lor "));
   } else {
     parts.push("\\Sigma m(" + ones.join(",") + ")");
   }
