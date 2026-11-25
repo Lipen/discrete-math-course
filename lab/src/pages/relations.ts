@@ -1,6 +1,7 @@
 /* Relations lab: matrix, graph, closures, equivalence classes and composition. */
 
 import { $$, clear, el, keepFocus, must, setPressed, status, svg } from "../core/dom";
+import { pointToward } from "../core/graph";
 import { math } from "../core/math";
 import { ribbon } from "../core/segmented";
 import * as Sets from "../domain/sets";
@@ -122,6 +123,7 @@ function renderGraph(): void {
     coords.push({ x: cx + radius * Math.cos(angle), y: cy + radius * Math.sin(angle) });
   }
   const root = svg("svg", { viewBox: "0 0 " + width + " " + height, role: "img", "aria-label": "Граф отношения" });
+  const edgeGap = 30;
   const edgeClass = (from: number, to: number) => "rel-edge" + (recent.has(pairKey(from + 1, to + 1)) ? " added" : "");
   const defs = svg("defs");
   const marker = svg("marker", {
@@ -129,8 +131,8 @@ function renderGraph(): void {
     viewBox: "0 0 10 10",
     refX: "9",
     refY: "5",
-    markerWidth: "6",
-    markerHeight: "6",
+    markerWidth: "7",
+    markerHeight: "7",
     orient: "auto-start-reverse",
   });
   marker.appendChild(svg("path", { d: "M 0 0 L 10 5 L 0 10 z", class: "rel-arrow-head" }));
@@ -143,25 +145,26 @@ function renderGraph(): void {
       const a = coords[i];
       const b = coords[j];
       if (i === j) {
+        const loopY = Math.max(18, a.y - 70);
         root.appendChild(
           svg("path", {
             d:
               "M " +
-              (a.x - 12) +
+              (a.x - 15) +
               " " +
-              (a.y - 20) +
+              (a.y - 26) +
               " C " +
               (a.x - 45) +
               " " +
-              (a.y - 70) +
+              loopY +
               ", " +
               (a.x + 45) +
               " " +
-              (a.y - 70) +
+              loopY +
               ", " +
-              (a.x + 12) +
+              (a.x + 15) +
               " " +
-              (a.y - 20),
+              (a.y - 26),
             fill: "none",
             class: edgeClass(i, i) + " rel-loop",
             "marker-end": "url(#rel-arrow)",
@@ -178,9 +181,27 @@ function renderGraph(): void {
         const len = Math.hypot(dx, dy) || 1;
         const ox = (-dy / len) * 20;
         const oy = (dx / len) * 20;
+        const firstControl = { x: mx + ox, y: my + oy };
+        const secondControl = { x: mx - ox, y: my - oy };
+        const firstStart = pointToward(a, firstControl, edgeGap);
+        const firstEnd = pointToward(b, firstControl, edgeGap);
+        const secondStart = pointToward(b, secondControl, edgeGap);
+        const secondEnd = pointToward(a, secondControl, edgeGap);
         root.appendChild(
           svg("path", {
-            d: "M " + a.x + " " + a.y + " Q " + (mx + ox) + " " + (my + oy) + " " + b.x + " " + b.y,
+            d:
+              "M " +
+              firstStart.x +
+              " " +
+              firstStart.y +
+              " Q " +
+              firstControl.x +
+              " " +
+              firstControl.y +
+              " " +
+              firstEnd.x +
+              " " +
+              firstEnd.y,
             fill: "none",
             class: edgeClass(i, j),
             "marker-end": "url(#rel-arrow)",
@@ -188,19 +209,33 @@ function renderGraph(): void {
         );
         root.appendChild(
           svg("path", {
-            d: "M " + b.x + " " + b.y + " Q " + (mx - ox) + " " + (my - oy) + " " + a.x + " " + a.y,
+            d:
+              "M " +
+              secondStart.x +
+              " " +
+              secondStart.y +
+              " Q " +
+              secondControl.x +
+              " " +
+              secondControl.y +
+              " " +
+              secondEnd.x +
+              " " +
+              secondEnd.y,
             fill: "none",
             class: edgeClass(j, i),
             "marker-end": "url(#rel-arrow)",
           }),
         );
       } else {
+        const start = pointToward(a, b, edgeGap);
+        const end = pointToward(b, a, edgeGap);
         root.appendChild(
           svg("line", {
-            x1: a.x,
-            y1: a.y,
-            x2: b.x,
-            y2: b.y,
+            x1: start.x,
+            y1: start.y,
+            x2: end.x,
+            y2: end.y,
             class: edgeClass(i, j),
             "marker-end": "url(#rel-arrow)",
           }),

@@ -1,4 +1,5 @@
 import { clear, el, keepFocus, must, status, svg } from "../core/dom";
+import { pointToward } from "../core/graph";
 import { math } from "../core/math";
 import { ribbon } from "../core/segmented";
 import * as FOL from "../domain/fol";
@@ -188,20 +189,14 @@ function renderRGraph(): void {
     class: "fol-r-graph-svg",
   });
   const edgeGap = 30;
-  function toward(from: { x: number; y: number }, to: { x: number; y: number }, distance: number) {
-    const dx = to.x - from.x;
-    const dy = to.y - from.y;
-    const length = Math.hypot(dx, dy) || 1;
-    return { x: from.x + (dx / length) * distance, y: from.y + (dy / length) * distance };
-  }
   const defs = svg("defs");
   const marker = svg("marker", {
     id: "fol-arrow",
     viewBox: "0 0 10 10",
     refX: "9",
     refY: "5",
-    markerWidth: "6",
-    markerHeight: "6",
+    markerWidth: "7",
+    markerHeight: "7",
     orient: "auto-start-reverse",
   });
   marker.appendChild(svg("path", { d: "M 0 0 L 10 5 L 0 10 z", class: "fol-arrow-head" }));
@@ -251,10 +246,10 @@ function renderRGraph(): void {
         const oy = (dx / len) * 20;
         const firstControl = { x: mx + ox, y: my + oy };
         const secondControl = { x: mx - ox, y: my - oy };
-        const firstStart = toward(a, firstControl, edgeGap);
-        const firstEnd = toward(b, firstControl, edgeGap);
-        const secondStart = toward(b, secondControl, edgeGap);
-        const secondEnd = toward(a, secondControl, edgeGap);
+        const firstStart = pointToward(a, firstControl, edgeGap);
+        const firstEnd = pointToward(b, firstControl, edgeGap);
+        const secondStart = pointToward(b, secondControl, edgeGap);
+        const secondEnd = pointToward(a, secondControl, edgeGap);
         root.appendChild(
           svg("path", {
             d:
@@ -296,8 +291,8 @@ function renderRGraph(): void {
           }),
         );
       } else {
-        const start = toward(a, b, edgeGap);
-        const end = toward(b, a, edgeGap);
+        const start = pointToward(a, b, edgeGap);
+        const end = pointToward(b, a, edgeGap);
         root.appendChild(
           svg("line", {
             x1: start.x,

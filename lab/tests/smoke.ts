@@ -3,7 +3,7 @@
 import { readdir } from "node:fs/promises";
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
-import { chromium } from "playwright";
+import { chromium, type Page } from "playwright";
 import { catalog } from "../src/catalog";
 
 const dist = join(import.meta.dir, "..", "dist");
@@ -11,6 +11,28 @@ const failures: string[] = [];
 const rows: string[] = [];
 const expectedLabs = catalog.labs.length;
 const expectedLogic = catalog.labsOf("logic").length;
+
+async function arrowGaps(tab: Page, root: string, node: string, edge: string): Promise<number[]> {
+  return tab.evaluate(
+    ({ root, node, edge }) => {
+      const nodes = Array.from(document.querySelectorAll(`${root} ${node}`)).map((element) => ({
+        x: Number(element.getAttribute("cx")),
+        y: Number(element.getAttribute("cy")),
+      }));
+      return Array.from(document.querySelectorAll(`${root} ${edge}`)).map((element) => {
+        let endX = Number(element.getAttribute("x2"));
+        let endY = Number(element.getAttribute("y2"));
+        if (element.tagName !== "line") {
+          const numbers = (element.getAttribute("d") || "").match(/-?\d+(?:\.\d+)?/g)?.map(Number) ?? [];
+          endX = numbers.at(-2) ?? NaN;
+          endY = numbers.at(-1) ?? NaN;
+        }
+        return Math.min(...nodes.map((item) => Math.hypot(endX - item.x, endY - item.y)));
+      });
+    },
+    { root, node, edge },
+  );
+}
 
 const browser = await chromium.launch();
 const pages = (await readdir(dist)).filter((name) => name.endsWith(".html")).sort();
@@ -115,23 +137,8 @@ for (const page of pages) {
       if (!left?.includes("Истина") || !right?.includes("Ложь"))
         failures.push(`${page}: сценарий порядка не развёл кванторы`);
       if ((await tab.locator("#r-graph svg").count()) !== 1) failures.push(`${page}: граф R не построен`);
-      const arrowGaps = await tab.evaluate(() => {
-        const nodes = Array.from(document.querySelectorAll("#r-graph .fol-gnode")).map((node) => ({
-          x: Number(node.getAttribute("cx")),
-          y: Number(node.getAttribute("cy")),
-        }));
-        return Array.from(document.querySelectorAll("#r-graph .fol-edge")).map((edge) => {
-          let endX = Number(edge.getAttribute("x2"));
-          let endY = Number(edge.getAttribute("y2"));
-          if (edge.tagName !== "line") {
-            const numbers = (edge.getAttribute("d") || "").match(/-?\d+(?:\.\d+)?/g)?.map(Number) ?? [];
-            endX = numbers.at(-2) ?? NaN;
-            endY = numbers.at(-1) ?? NaN;
-          }
-          return Math.min(...nodes.map((node) => Math.hypot(endX - node.x, endY - node.y)));
-        });
-      });
-      if (!arrowGaps.length || arrowGaps.some((gap) => !(gap >= 25)))
+      const folGaps = await arrowGaps(tab, "#r-graph", ".fol-gnode", ".fol-edge");
+      if (!folGaps.length || folGaps.some((gap) => !(gap >= 25)))
         failures.push(`${page}: наконечники рёбер спрятаны под узлами`);
       await tab.fill("#formula-input", "P(y)");
       await tab.press("#formula-input", "Enter");
@@ -177,6 +184,10 @@ for (const page of pages) {
       await tab.click("#step-end");
       if (!(await tab.locator("#step-next").isDisabled())) failures.push(`${page}: шаги не дошли до конца`);
       await tab.click("#step-exit");
+
+      const relationGaps = await arrowGaps(tab, "#graph", ".rel-node", ".rel-edge");
+      if (!relationGaps.length || relationGaps.some((gap) => !(gap >= 25)))
+        failures.push(`${page}: наконечники рёбер графа спрятаны под узлами`);
     }
 
     if (page === "order.html") {

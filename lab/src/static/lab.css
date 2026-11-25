@@ -4783,12 +4783,12 @@ li {
 
 .fol-edge {
   fill: none;
-  stroke: color-mix(in srgb, var(--ink) 55%, transparent);
-  stroke-width: 1.4;
+  stroke: var(--green);
+  stroke-width: 1.5;
 }
 
 .fol-arrow-head {
-  fill: color-mix(in srgb, var(--ink) 55%, transparent);
+  fill: var(--green);
 }
 
 .fol-gnode {
