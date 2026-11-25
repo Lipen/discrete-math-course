@@ -81,39 +81,74 @@
   }
 })
 
-// ── Треугольник XOR: значения в кружках, первые элементы строк --- коэффициенты ──
-#let xor-triangle(rows: ()) = canvas({
-  let dx = 1.5
-  let dy = 1.15
-  let radius = 0.48
-  let tones = (cool, green, warm, violet)
+// ── Треугольник XOR: таблица истинности, продолженная мономами и разностями ──
+#let xor-triangle(
+  head: ($x$, $y$, $f$, $1$, $y$, $x$, $x y$),
+  rows: (
+    ("0", "0", "1", "1", "0", "1", "1"),
+    ("0", "1", "1", "1", "1", "0", ""),
+    ("1", "0", "0", "0", "1", "", ""),
+    ("1", "1", "1", "1", "", "", ""),
+  ),
+) = canvas({
+  let cw = 0.96
+  let ch = 0.72
+  let nr = rows.len() + 1
+  let nc = head.len()
 
-  for (row-index, row) in rows.enumerate() {
-    let tone = tones.at(calc.rem(row-index, tones.len()))
-    let offset = row-index * dx
-    for (i, val) in row.enumerate() {
-      let pos = (offset + i * dx, -row-index * dy)
-      let first = i == 0
-      draw.circle(
-        pos,
-        radius: radius,
-        fill: if first { tone.lighten(78%) } else { tone.lighten(92%) },
-        stroke: if first {
-          (paint: tone, thickness: 1.8pt)
-        } else {
-          (paint: tone.lighten(30%), thickness: 0.8pt)
-        },
-      )
+  let cell(i, r, body, highlight: false, bold: false) = {
+    let x = i * cw
+    let y = (nr - 1 - r) * ch
+    draw.rect(
+      (x, y),
+      (x + cw, y + ch),
+      fill: if highlight { green.lighten(84%) } else { none },
+      stroke: if highlight { (paint: green, thickness: 1.2pt) } else { edge-thin },
+    )
+    if body != none {
       draw.content(
-        pos,
+        (x + cw / 2, y + ch / 2),
         text(
-          1em,
-          weight: if first { "bold" } else { "regular" },
+          0.8em,
+          weight: if bold { "bold" } else { "regular" },
           fill: ink,
-        )[#val],
+        )[#body],
       )
     }
   }
+
+  for (i, h) in head.enumerate() {
+    cell(i, 0, h, bold: true)
+  }
+  for (r, row) in rows.enumerate() {
+    for (i, val) in row.enumerate() {
+      let coeff = r == 0 and i >= 3 and val == "1"
+      cell(
+        i,
+        r + 1,
+        if val == "" { none } else { [#val] },
+        highlight: coeff,
+        bold: coeff,
+      )
+    }
+  }
+
+  draw.line(
+    (0, (nr - 1) * ch),
+    (nc * cw, (nr - 1) * ch),
+    stroke: 0.8pt + ink,
+  )
+  draw.line(
+    (3 * cw, 0),
+    (3 * cw, nr * ch),
+    stroke: 0.8pt + ink,
+  )
+  draw.rect(
+    (0, 0),
+    (nc * cw, nr * ch),
+    fill: none,
+    stroke: 0.8pt + ink,
+  )
 })
 
 // ── Суперпозиция: входы, функции g_i, внешняя f ──
