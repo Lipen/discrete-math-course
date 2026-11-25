@@ -97,10 +97,26 @@ for (const page of pages) {
     }
 
     if (page === "sets.html") {
-      const before = await tab.locator("#metrics").textContent();
-      await tab.click("#a-grid button");
-      const after = await tab.locator("#metrics").textContent();
-      if (before === after) failures.push(`${page}: переключение элемента не изменило метрики`);
+      const status = await tab.locator("#identity-status").textContent();
+      if (!status?.includes("Не тождество")) failures.push(`${page}: стартовое ложное тождество не найдено`);
+      if ((await tab.locator("#pattern-table tr.is-mismatch").count()) !== 2)
+        failures.push(`${page}: ожидалось два различающихся типа элементов`);
+      if ((await tab.locator("#cube g[data-pattern]").count()) !== 8)
+        failures.push(`${page}: куб не содержит восемь типов элементов`);
+      await tab.click('#cube g[data-pattern="001"]');
+      const witness = await tab.locator("#witness").textContent();
+      if (!witness?.includes("Контрпример") || !witness.includes("001"))
+        failures.push(`${page}: выбранный контрпример не показан`);
+      await tab.click('.sets-case[data-case="distributive"]');
+      const trueStatus = await tab.locator("#identity-status").textContent();
+      if (!trueStatus?.includes("Тождество: совпало 8 из 8"))
+        failures.push(`${page}: истинное тождество не доказано перебором`);
+      if ((await tab.locator("#pattern-table tr.is-mismatch").count()) !== 0)
+        failures.push(`${page}: у тождества остались различия`);
+      await tab.fill("#right-input", "A ∩");
+      await tab.press("#right-input", "Enter");
+      const error = await tab.locator("#identity-status").textContent();
+      if (!error?.includes("Ошибка")) failures.push(`${page}: битое выражение не объяснено`);
     }
 
     if (page === "minimization.html") {

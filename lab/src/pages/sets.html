@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Множества · лаборатория</title>
+<title>Тождества множеств · лаборатория</title>
 <!-- @head -->
 </head>
 <body>
@@ -11,121 +11,82 @@
   <nav class="lab-nav">
     <a href="index.html">← Все лаборатории</a>
     <span class="sep">/</span>
-    <span class="here">Множества и диаграммы</span>
+    <span class="here">Множества и тождества</span>
   </nav>
-  <h1>Множества, операции и диаграммы Венна</h1>
+  <h1>Тождества множеств и контрпримеры</h1>
   <p class="lead">
-    Задайте три множества на общем универсуме.
-    Видны результат операции, таблица принадлежности, диаграмма Венна, булеан и проверка тождества на всех вариантах принадлежности.
+    Два выражения над A, B и C.
+    Лаборатория перебирает все восемь типов элементов.
+    Если выражения расходятся, находится контрпример, а если совпадают везде, тождество доказано перебором.
   </p>
   <div class="lab-meta">
-    <span class="pill info">операции</span>
-    <span class="pill">Венн</span>
-    <span class="pill">тождества</span>
+    <span class="pill info">8 типов</span>
+    <span class="pill">контрпример</span>
+    <span class="pill">полный перебор</span>
   </div>
 </header>
 
-<main class="lab-main">
-  <section class="card">
-    <div class="toolbar">
-      <div class="field">
-        <span class="field-label">Универсум</span>
-        <div class="segmented" id="universe-size" role="group" aria-label="Размер универсума"></div>
+<main class="lab-main sets-page">
+  <section class="card sets-workbench" aria-labelledby="identity-title">
+    <div class="sets-head">
+      <div>
+        <h2 id="identity-title">Два выражения</h2>
+        <p>Соберите тождество или загрузите готовую пару. Пробел и регистр не важны.</p>
       </div>
-      <div class="field grow">
-        <span class="field-label">Операция</span>
-        <div class="segmented" id="operation" role="group" aria-label="Операция над множествами"></div>
-      </div>
-      <div class="btn-row">
-        <button id="random">Случайно</button>
-        <button id="reset">Сброс</button>
-      </div>
+      <div class="status" id="identity-status" role="status" aria-live="polite"></div>
     </div>
 
-    <div class="split-wide-left">
-      <div>
-        <h3>Элементы</h3>
-        <p class="hint">Нажатие на число переключает принадлежность. Цвет показывает множество.</p>
-        <div class="panel" style="margin-bottom:8px">
-          <div class="panel-head"><h3 style="font-size:15px">A</h3><span class="pill info" id="a-size"></span></div>
-          <div class="toggle-grid" id="a-grid"></div>
-        </div>
-        <div class="panel" style="margin-bottom:8px">
-          <div class="panel-head"><h3 style="font-size:15px">B</h3><span class="pill info" id="b-size"></span></div>
-          <div class="toggle-grid" id="b-grid"></div>
-        </div>
-        <div class="panel">
-          <div class="panel-head"><h3 style="font-size:15px">C</h3><span class="pill info" id="c-size"></span></div>
-          <div class="toggle-grid" id="c-grid"></div>
-        </div>
-      </div>
-      <div>
-        <h3>Диаграмма Венна</h3>
-        <div class="venn-wrap" id="venn"></div>
-        <h3 style="margin-top:14px">Результат</h3>
-        <div class="formula-box" id="result-set" style="min-height:40px"></div>
-        <div class="metric-row" id="metrics"></div>
-      </div>
+    <form class="sets-form" id="identity-form">
+      <label class="sets-expr">
+        <span>Левая часть</span>
+        <input id="left-input" type="text" value="A \ (B \ C)" spellcheck="false" autocomplete="off">
+      </label>
+      <span class="sets-equal" aria-hidden="true">=</span>
+      <label class="sets-expr">
+        <span>Правая часть</span>
+        <input id="right-input" type="text" value="(A \ B) ∪ C" spellcheck="false" autocomplete="off">
+      </label>
+      <button class="sets-check" id="check" type="submit">Проверить</button>
+    </form>
+    <p class="sets-syntax">Синтаксис: A, B, C, ∪, ∩, \, △, ᶜ и скобки. Вместо ∪ и ∩ можно писать | и &amp;.</p>
+
+    <div class="sets-cases" id="cases" aria-label="Готовые пары выражений"></div>
+
+    <div class="sets-preview" id="preview" aria-live="polite">
+      <span id="left-preview"></span>
+      <span class="sets-preview-eq">=</span>
+      <span id="right-preview"></span>
     </div>
-  </section>
 
-  <section class="card">
-    <h2>Таблица принадлежности</h2>
-    <div class="tt-wrap" id="membership"></div>
-  </section>
-
-  <section class="card">
-    <h2>Тождества и булеан</h2>
-    <div class="split">
-      <div>
-        <h3>Проверка тождества</h3>
-        <div class="toolbar">
-          <label class="field grow">Закон
-            <select id="identity"></select>
-          </label>
-        </div>
-        <div class="formula-box" id="identity-formula"></div>
-        <div class="status" id="identity-status" style="margin-top:8px"></div>
-      </div>
-      <div>
-        <h3>Булеан</h3>
-        <div class="toolbar">
-          <div class="field">
-            <span class="field-label">Множество</span>
-            <div class="segmented" id="power-set" role="group" aria-label="Множество для булеана"></div>
+    <div class="sets-stage">
+      <section class="sets-cube-panel" aria-labelledby="cube-title">
+        <div class="sets-panel-head">
+          <div>
+            <h3 id="cube-title">Типы элементов</h3>
+            <p>Клик по вершине выбирает тип элемента. Красные вершины ломают тождество.</p>
           </div>
+          <span class="pill" id="pattern-count"></span>
         </div>
-        <div class="metric-row" id="power-metrics"></div>
-        <div class="formula-box" id="power-list" style="max-height:180px;overflow:auto"></div>
-      </div>
+        <div class="sets-cube" id="cube"></div>
+      </section>
+
+      <section class="sets-readout-panel" aria-labelledby="witness-title">
+        <div class="sets-panel-head">
+          <h3 id="witness-title">Контрпример</h3>
+        </div>
+        <div id="witness" aria-live="polite"></div>
+      </section>
     </div>
-    <h3 style="margin-top:18px">Декартово произведение A × B</h3>
-    <div class="formula-box" id="product" style="max-height:150px;overflow:auto"></div>
   </section>
 
-  <section class="card">
-    <h2>Что здесь показано</h2>
-    <div class="theory-grid">
+  <section class="card sets-checks" aria-labelledby="checks-title">
+    <div class="sets-checks-head">
       <div>
-        <h3>Операции</h3>
-        <p>Объединение собирает элементы из обоих множеств, пересечение оставляет общие, разность убирает B, симметрическая разность оставляет элементы, попавшие ровно в одно множество.</p>
-      </div>
-      <div>
-        <h3>Венн</h3>
-        <p>Круги задают множества, точки задают элементы универсума.
-        Положение точки задаёт её принадлежность A, B и C.</p>
-      </div>
-      <div>
-        <h3>Тождество</h3>
-        <p>Тождество множеств проверяется на всех вариантах принадлежности элемента.
-        Если хотя бы один вариант различает стороны, это контрпример.</p>
-      </div>
-      <div>
-        <h3>Булеан</h3>
-        <p>Булеан выбранного множества <span data-tex="S"></span> имеет размер <span data-tex="2^{|S|}"></span>.
-        Список показывает подмножества, а не только число.</p>
+        <h2 id="checks-title">Все восемь проверок</h2>
+        <p>Один тип элемента это одна строка. Если строки совпали во всех восьми, других вариантов для A, B и C нет.</p>
       </div>
     </div>
+    <div class="tt-wrap" id="pattern-table"></div>
   </section>
 </main>
 
