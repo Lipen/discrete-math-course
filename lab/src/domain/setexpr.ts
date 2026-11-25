@@ -115,7 +115,11 @@ export function parse(input: string): SetExpression {
   }
 
   function take(type: TokenType): Token {
-    if (!peek(type)) throw new Error("Ожидалось " + type);
+    if (!peek(type)) {
+      if (type === "var") throw new Error("Ожидалось множество A, B или C.");
+      if (type === ")") throw new Error("Ожидалась закрывающая скобка.");
+      throw new Error("Ожидалось " + type);
+    }
     return tokens[pos++];
   }
 

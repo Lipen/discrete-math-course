@@ -35,4 +35,9 @@ describe("set expressions", () => {
   test("pattern descriptions name every membership", () => {
     expect(patternDescription(PATTERNS[5])).toBe("x ∈ A, x ∉ B, x ∈ C");
   });
+
+  test("missing operands and unclosed parentheses are explained", () => {
+    expect(() => parse("A &")).toThrow("Ожидалось множество A, B или C.");
+    expect(() => parse("(A ∪ B")).toThrow("Ожидалась закрывающая скобка.");
+  });
 });
