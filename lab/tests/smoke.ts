@@ -96,6 +96,14 @@ for (const page of pages) {
       const active = await tab.locator("#hotel-steps .hotel-step.active").count();
       if (steps < 2) failures.push(`${page}: шагов ${steps}, ожидалось не меньше двух`);
       if (active !== 1) failures.push(`${page}: активных шагов ${active}`);
+      const tabStyle = await tab.evaluate(() => {
+        const node = document.querySelector<HTMLElement>("#tabs button.active");
+        if (!node) return null;
+        const style = getComputedStyle(node);
+        return { color: style.color, background: style.backgroundColor };
+      });
+      if (!tabStyle || tabStyle.color === tabStyle.background)
+        failures.push(`${page}: активная вкладка сливается с фоном`);
     }
 
     if (page === "relations.html") {
@@ -173,11 +181,42 @@ for (const page of pages) {
       return root.scrollWidth - root.clientWidth;
     });
     if (overflow > 1) failures.push(`${page}: горизонтальное переполнение на 390px (${overflow}px)`);
+    const tinyTargets = await tab.evaluate(() =>
+      Array.from(document.querySelectorAll<HTMLElement>("button, a, select, input, [role='button']"))
+        .filter((node) => {
+          const style = getComputedStyle(node);
+          const rect = node.getBoundingClientRect();
+          return style.display !== "none" && style.visibility !== "hidden" && rect.width > 0 && rect.height > 0;
+        })
+        .filter((node) => {
+          const rect = node.getBoundingClientRect();
+          return rect.width < 24 || rect.height < 24;
+        })
+        .map((node) => `${node.tagName}:${(node.textContent || "").trim().slice(0, 20)}`),
+    );
+    if (tinyTargets.length) failures.push(`${page}: цели меньше 24px: ${tinyTargets.slice(0, 5).join(", ")}`);
   } catch (error) {
     failures.push(`${page} (390px): ${String(error)}`);
   } finally {
     await tab.close();
   }
+}
+
+const wide = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+try {
+  await wide.goto(pathToFileURL(join(dist, "index.html")).href);
+  await wide.waitForTimeout(150);
+  const collision = await wide.evaluate(() => {
+    const heading = document.querySelector("h1");
+    const poster = document.querySelector(".hero-poster");
+    if (!heading || !poster) return true;
+    const range = document.createRange();
+    range.selectNodeContents(heading);
+    return range.getBoundingClientRect().right > poster.getBoundingClientRect().left;
+  });
+  if (collision) failures.push("index.html: заголовок заходит на постер на 1440px");
+} finally {
+  await wide.close();
 }
 
 await browser.close();

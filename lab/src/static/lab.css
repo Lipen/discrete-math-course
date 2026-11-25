@@ -124,15 +124,6 @@ a:hover { color: #1d3b66; }
 .lab-nav .here { color: var(--ink); font-weight: 600; }
 .lab-nav .sep { color: var(--line); }
 
-.eyebrow {
-  font-size: 12px;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  color: var(--accent);
-  font-weight: 700;
-  margin: 0 0 8px;
-}
-
 h1, h2, h3 { font-family: var(--serif); font-weight: 650; letter-spacing: -.01em; }
 h1 { font-size: clamp(30px, 4vw, 46px); line-height: 1.08; margin: 0 0 12px; }
 .lab-header h1 { max-width: 820px; }
@@ -1098,19 +1089,11 @@ h1 { font-size: clamp(38px, 5.2vw, 64px); line-height: 1.01; }
 h2 { font-size: clamp(24px, 3vw, 32px); line-height: 1.1; }
 h3 { font-family: var(--sans); font-weight: 700; letter-spacing: -.015em; }
 
-.eyebrow {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: .18em;
-  font-weight: 600;
-}
-
 .lead { font-size: 18px; line-height: 1.58; max-width: 760px; }
 
 .lab-header, .hub-hero, .lab-main, .footer, .lab-pager { max-width: 1200px; }
 .lab-header { padding-top: 46px; position: relative; overflow: hidden; border-top: 3px solid var(--accent); }
 .lab-header h1 { max-width: 900px; }
-.lab-header .eyebrow { margin-bottom: 10px; }
 
 .lab-nav { font-size: 13px; margin-bottom: 22px; }
 .lab-nav .here { font-weight: 700; }
@@ -3184,13 +3167,6 @@ html[data-theme="dark"] body {
 
 .lab-nav .here { font-weight: 600; }
 
-.lab-header .eyebrow {
-  margin-bottom: 12px;
-  font-family: var(--mono);
-  font-size: 9.5px;
-  letter-spacing: 0.12em;
-}
-
 .lab-header h1 {
   max-width: 1040px;
   margin-bottom: 18px;
@@ -3585,10 +3561,6 @@ html[data-theme="dark"] .btn-primary:hover {
 html[data-theme="dark"] table.data th {
   color: var(--ink);
   border-bottom-color: color-mix(in srgb, var(--ink) 38%, var(--line));
-}
-
-html[data-theme="dark"] .lab-header .eyebrow {
-  color: color-mix(in srgb, var(--accent) 45%, #ffffff);
 }
 
 html[data-theme="dark"] .lab-card .topic,
@@ -4325,4 +4297,215 @@ html[data-theme="dark"] .tt-wrap table.data th {
   fill: none;
   stroke-linecap: round;
   stroke-linejoin: round;
+}
+
+/* Accessibility, density and wide-screen corrections. */
+
+:root {
+  --muted: #686357;
+  --green: #19624a;
+  --amber: #7a4a08;
+  --red: #b3261e;
+}
+
+.term-2 { --term-color: #9a620f; }
+.term-10 { --term-color: #66741b; }
+
+.lab-nav {
+  font-size: 11px;
+}
+
+.lab-nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+}
+
+.lab-nav .sep {
+  color: var(--muted);
+}
+
+.sitebar-gh,
+.sitebar-theme {
+  width: 36px;
+  height: 36px;
+}
+
+.chip button {
+  width: 28px;
+  height: 28px;
+}
+
+.tabs button {
+  font-size: 11px;
+}
+
+.tabs button.active {
+  background: transparent;
+}
+
+html[data-theme="dark"] .tabs button.active {
+  background: transparent;
+}
+
+html[data-theme="dark"] button.bit.on {
+  color: var(--on-accent);
+}
+
+html[data-theme="dark"] .hotel-step.active strong {
+  color: var(--on-accent);
+}
+
+.poster-top {
+  color: #c9c2b5;
+  font-size: 11px;
+}
+
+.poster-module {
+  font-size: 11px;
+}
+
+.hub-hero h1 {
+  font-size: clamp(44px, 5.9vw, 82px);
+}
+
+.map-axis {
+  font-size: 12px;
+}
+
+.function-source {
+  font-size: 12px;
+}
+
+.vector {
+  letter-spacing: 0.04em;
+}
+
+@media (max-width: 980px) {
+  .hub-hero h1 {
+    font-size: clamp(44px, 7vw, 64px);
+  }
+}
+
+@media (max-width: 620px) {
+  .hub-hero h1 {
+    font-size: clamp(35px, 10vw, 52px);
+  }
+
+  .sitebar-gh,
+  .sitebar-theme {
+    width: 34px;
+    height: 34px;
+  }
+}
+
+/* Functional micro-labels stay readable without changing the dense chrome. */
+
+.footer,
+.pager-kicker,
+.pager-all,
+.lab-card .go,
+.lab-card .tag,
+.lab-card .topic,
+.filter,
+.sitebar-nav,
+table.data th,
+.pill,
+.lab-meta .pill,
+.panel-kicker,
+.rel-hint,
+.ord-hint,
+.rel-delta-label,
+.ord-chain-label,
+.ord-metrics,
+.rel-legend,
+.ord-legend,
+.sitebar-title small,
+.sitebar-mark {
+  font-size: 11px;
+}
+
+button,
+.btn,
+.metric .k,
+.rel-matrix .bit-matrix th,
+.rel-theory-head p,
+.ord-theory-head p,
+.rel-step-count,
+.rel-step-added .formula-box,
+.rel-step-actions button,
+.rel-step-pair,
+.rel-step-why,
+.chain-chip,
+.idx,
+.controls label,
+.field > span,
+.field-label,
+.field label {
+  font-size: 11px;
+}
+
+.prole,
+.finite-room small,
+.map-column small,
+.bus-cell small {
+  font-size: 10px;
+}
+
+/* Flatten toolbar and explainer tiles inside cards. */
+
+.controls {
+  padding: 0 0 14px;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+  margin-bottom: 18px;
+}
+
+.theory-grid > div {
+  padding: 12px 0 0;
+  border: 0;
+  border-top: 1px solid var(--line-soft);
+  border-radius: 0;
+  background: transparent;
+}
+
+html[data-theme="dark"] .controls,
+html[data-theme="dark"] .theory-grid > div {
+  background: transparent;
+}
+
+.sitebar-nav a,
+.controls .field-label,
+span.field-label,
+.field > span,
+.word-row.head .pos .prole,
+#view-tabs button,
+#form-switch button,
+#operation button {
+  font-size: 11px;
+}
+
+.kmap-left-head h3 {
+  margin-top: 10px;
+}
+
+.kmap-right > h3 {
+  margin-top: 12px;
+}
+
+.hotel-step small {
+  font-size: 12px;
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+p,
+li {
+  text-wrap: pretty;
 }

@@ -25,7 +25,7 @@ catalog.modules.forEach((moduleInfo, moduleIndex) => {
   block.style.cssText = moduleVars(moduleInfo);
   block.innerHTML = `
     <div class="module-head">
-      <span class="module-index">${String(moduleIndex + 1).padStart(2, "0")}</span>
+      <span class="module-index" aria-hidden="true">${String(moduleIndex + 1).padStart(2, "0")}</span>
       <div>
         <h3>${moduleInfo.name}</h3>
         <p>${moduleInfo.blurb}</p>

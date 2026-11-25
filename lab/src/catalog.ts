@@ -50,7 +50,7 @@ const modules: ModuleEntry[] = [
     id: "logic",
     name: "Логика и вывод",
     short: "Логика",
-    accent: "#2f7d5c",
+    accent: "#2b7355",
     soft: "#e6f2ec",
     blurb: "Логика высказываний и предикатов: таблицы истинности, вывод, модели и контрпримеры.",
   },

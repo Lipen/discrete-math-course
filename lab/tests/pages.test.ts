@@ -116,9 +116,9 @@ describe("page wiring", () => {
     const problems: string[] = [];
     for (const lab of catalog.labs) {
       const html = await readFile(join(pagesDir, lab.file), "utf8");
-      const eyebrow = html.match(/<p class="eyebrow">([^<]+)<\/p>/)?.[1]?.trim();
+      const here = html.match(/<span class="here">([^<]+)<\/span>/)?.[1]?.trim();
       const footer = html.match(/<footer class="footer">([^<]+)<\/footer>/)?.[1]?.trim();
-      if (!eyebrow) problems.push(`${lab.file}: пустой eyebrow`);
+      if (!here) problems.push(`${lab.file}: нет метки раздела`);
       if (!footer) problems.push(`${lab.file}: пустой footer`);
     }
     expect(problems).toEqual([]);
