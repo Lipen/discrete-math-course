@@ -246,7 +246,7 @@ function renderFunction(): void {
   const matched = chosen !== undefined && matchesPreset(chosen);
   const line = el("div", { class: "formula-line" });
   line.appendChild(el("span", { class: "formula-prefix" }, math("f =", false)));
-  line.appendChild(math(matched ? chosen.formula : customFormula(), false));
+  line.appendChild(math(customFormula(), false));
   functionView.replaceChildren(line);
   functionSource.textContent = matched ? "готовая функция: " + presetLabel() : "функция по таблице истинности";
 }

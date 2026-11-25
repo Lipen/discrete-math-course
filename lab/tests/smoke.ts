@@ -83,6 +83,8 @@ for (const page of pages) {
 
     if (page === "minimization.html") {
       const before = await tab.locator("#function-view").textContent();
+      if (!before?.includes("Σm(")) failures.push(`${page}: готовая функция не показана суммой минтермов`);
+      if (/[A-E]/.test(before ?? "")) failures.push(`${page}: готовая функция содержит имена переменных`);
       await tab.selectOption("#preset", "consensus");
       const after = await tab.locator("#function-view").textContent();
       if (before === after) failures.push(`${page}: выбор функции не изменил блок «Функция»`);
