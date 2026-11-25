@@ -252,8 +252,8 @@
   arrow(-2.8, -1.2)
   arrow(9.9, 11.3)
 
-  draw.content((-2.0, 0.55), text(0.62em, fill: ink-soft)[вход])
-  draw.content((10.6, 0.55), text(0.62em, fill: ink-soft)[выход])
+  draw.content((-2.0, 0.55), text(0.72em, fill: ink-soft)[вход])
+  draw.content((10.6, 0.55), text(0.72em, fill: ink-soft)[выход])
 
   draw.line((10.4, 0), (10.4, -1.7), stroke: edge-plain)
   draw.line((10.4, -1.7), (-2.0, -1.7), stroke: edge-plain)
