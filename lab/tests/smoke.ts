@@ -98,6 +98,33 @@ for (const page of pages) {
       if (/[A-E]/.test(customFormula ?? "")) failures.push(`${page}: сумма минтермов содержит имена переменных`);
     }
 
+    if (page === "fol.html") {
+      await tab.click('button[data-scenario="witness"]');
+      const witnessVerdict = await tab.locator("#verdict").textContent();
+      const witnessWhy = await tab.locator(".fol-why").last().textContent();
+      if (!witnessVerdict?.includes("Истина")) failures.push(`${page}: сценарий свидетеля не дал истину`);
+      if (!witnessWhy?.includes("Свидетель: x = 2")) failures.push(`${page}: свидетель не показан`);
+      await tab.click('button[data-scenario="counter"]');
+      const counterVerdict = await tab.locator("#verdict").textContent();
+      const counterWhy = await tab.locator(".fol-why").last().textContent();
+      if (!counterVerdict?.includes("Ложь")) failures.push(`${page}: сценарий контрпримера не дал ложь`);
+      if (!counterWhy?.includes("Контрпример: x = 3")) failures.push(`${page}: контрпример не показан`);
+      await tab.click('button[data-scenario="order"]');
+      const left = await tab.locator("#order-left-status").textContent();
+      const right = await tab.locator("#order-right-status").textContent();
+      if (!left?.includes("Истина") || !right?.includes("Ложь"))
+        failures.push(`${page}: сценарий порядка не развёл кванторы`);
+      if ((await tab.locator("#r-graph svg").count()) !== 1) failures.push(`${page}: граф R не построен`);
+      await tab.fill("#formula-input", "P(y)");
+      await tab.press("#formula-input", "Enter");
+      const errorKind = await tab.locator("#formula-kind").textContent();
+      if (!errorKind?.includes("ошибка")) failures.push(`${page}: свободная переменная не отмечена ошибкой`);
+      await tab.fill("#formula-input", "forall x P(x)");
+      await tab.press("#formula-input", "Enter");
+      const customKind = await tab.locator("#formula-kind").textContent();
+      if (!customKind?.includes("замкнутая")) failures.push(`${page}: формула из поля не принята`);
+    }
+
     if (page === "cardinality.html") {
       const steps = await tab.locator("#hotel-steps .hotel-step").count();
       const active = await tab.locator("#hotel-steps .hotel-step.active").count();
