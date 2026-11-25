@@ -158,7 +158,7 @@
     draw.content((0, (3 - i) * dy), text(1em, fill: ink)[#val])
   }
   for (i, val) in next.enumerate() {
-    draw.content((dx, (2.5 - i) * dy), text(1em, fill: ink)[#val])
+    draw.content((dx, (3 - i) * dy), text(1em, fill: ink)[#val])
   }
   for i in range(3) {
     let top = (3 - i) * dy
@@ -169,7 +169,7 @@
     draw.line((0.3, bottom), (0.45, bottom), stroke: edge-thin)
     draw.line(
       (0.5, mid),
-      (dx - 0.2, mid),
+      (dx - 0.2, top),
       stroke: edge-plain,
       mark: (end: "stealth"),
     )
