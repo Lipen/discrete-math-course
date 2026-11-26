@@ -1,5 +1,98 @@
 #import "theme.typ": *
 #import "@preview/cetz:0.5.2": canvas, draw
+
+#let riscv-formats = {
+  let fields = (
+    (
+      "R",
+      ("funct7", 7, "f7"),
+      ("rs2", 5, "rs"),
+      ("rs1", 5, "rs"),
+      ("f3", 3, "f3"),
+      ("rd", 5, "rd"),
+      ("opcode", 7, "op"),
+    ),
+    (
+      "I",
+      ("imm", 12, "imm"),
+      ("rs1", 5, "rs"),
+      ("f3", 3, "f3"),
+      ("rd", 5, "rd"),
+      ("opcode", 7, "op"),
+    ),
+    (
+      "S",
+      ("imm", 7, "imm"),
+      ("rs2", 5, "rs"),
+      ("rs1", 5, "rs"),
+      ("f3", 3, "f3"),
+      ("imm", 5, "imm"),
+      ("opcode", 7, "op"),
+    ),
+    (
+      "B",
+      ("imm", 7, "imm"),
+      ("rs2", 5, "rs"),
+      ("rs1", 5, "rs"),
+      ("f3", 3, "f3"),
+      ("imm", 5, "imm"),
+      ("opcode", 7, "op"),
+    ),
+  )
+  let colors = (
+    "op": luma(90%),
+    "rs": luma(84%),
+    "rd": luma(88%),
+    "f3": luma(80%),
+    "f7": luma(76%),
+    "imm": luma(94%),
+  )
+  let unit = 0.42
+  let row-h = 0.5
+  let gap = 0.28
+  canvas({
+    let x0 = 0.6
+    let top = 0.9
+    for (idx, (fmt, ..parts)) in fields.enumerate() {
+      let y = top - 0.4 - idx * (row-h + gap)
+      draw.content(
+        (x0 - 0.15, y - row-h / 2),
+        text(size: 0.8em, weight: "bold")[#fmt],
+        anchor: "east",
+      )
+      let x = x0
+      for (label, width, kind) in parts {
+        let w = width * unit
+        draw.rect(
+          (x, y),
+          (x + w, y - row-h),
+          fill: colors.at(kind),
+          stroke: 0.5pt + luma(40%),
+        )
+        draw.content((x + w / 2, y - row-h / 2), text(size: 0.72em)[#label])
+        x += w
+      }
+      if idx == 0 {
+        let bits = (31, 24, 19, 14, 11, 6, 0)
+        let bx = x0
+        for i in range(bits.len()) {
+          let anch = if i == 0 { "south-east" } else if i == bits.len() - 1 {
+            "south-west"
+          } else { "south" }
+          draw.content(
+            (bx, y + row-h + gap / 2),
+            text(size: 0.72em)[#bits.at(i)],
+            anchor: anch,
+          )
+          if i < bits.len() - 1 {
+            bx += parts.at(i).at(1) * unit
+          }
+        }
+      }
+    }
+  })
+}
+
 #show: template
 
 #set page(
@@ -746,9 +839,12 @@
 На отдельной плате продолжает работать процессор RISC-V, и его декодер разбирает 32-битные команды за один такт.
 Поля команды лежат на фиксированных позициях, поэтому декодер оказывается обычной булевой схемой, которую инженер уже умеет проверять.
 #Given[
-  - В RISC-V команда занимает 32 бита.
-  - Поле opcode занимает биты $6:0$, funct3 --- $14:12$, funct7 в R-формате --- $31:25$.
-  - В I-, S- и B-форматах поля funct7 нет: биты $31:25$ заняты старшими разрядами непосредственного операнда, поэтому в таблице стоит прочерк.
+  - Команда занимает 32 бита, границы полей подписаны сверху.
+
+  #align(center)[#riscv-formats]
+
+  - Регистровые поля $"rs1"$, $"rs2"$ и $"rd"$ стоят на одних и тех же позициях во всех форматах, opcode --- всегда биты $6:0$.
+  - В I-, S- и B-форматах поля funct7 нет, биты $31:25$ заняты старшими разрядами непосредственного операнда, поэтому в таблице стоит прочерк.
 
   #table(
     columns: 5,
