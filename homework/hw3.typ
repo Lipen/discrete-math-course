@@ -454,15 +454,13 @@
 
 #tasklist("t10")[
   + Вычислите истинность формул в заданной модели.
-    #grid(
-      columns: 2,
-      column-gutter: 2em,
-      row-gutter: 0.4em,
-      [(а) $forall x . thin (P(x) -> Q(x))$], [(б) $exists x . thin (P(x) and not Q(x))$],
-      [(в) $forall x exists y . thin R(x, y)$], [(г) $exists y forall x . thin R(x, y)$],
-    )
     Для (а) перечислите все правки, дающие истину, и объясните, почему других нет.
     Для остальных приведите одну правку, меняющую значение формулы.
+
+    + $forall x . thin (P(x) -> Q(x))$
+    + $exists x . thin (P(x) and not Q(x))$
+    + $forall x exists y . thin R(x, y)$
+    + $exists y forall x . thin R(x, y)$
 
   + Найдите конечную модель или докажите, что её нет:
     $
