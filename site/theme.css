@@ -300,33 +300,7 @@ body.scrolled .up { opacity: 1; visibility: visible; pointer-events: auto; }
   color: var(--fg-faint);
   transition: color 0.15s ease, border-color 0.15s ease;
 }
-.mini:hover .pill-fmt, .sheet:hover .pill-fmt { color: var(--accent); border-color: currentColor; }
-
-/* ── Шпаргалки: список строк ── */
-.sheets {
-  list-style: none;
-  margin: 0.4rem 0 0;
-  padding: 0;
-  border-top: 1px solid var(--line);
-}
-.sheets li { border-bottom: 1px solid var(--line); }
-.sheet {
-  display: flex;
-  align-items: baseline;
-  gap: 0.55rem;
-  padding: 0.72rem 0.2rem;
-  transition: color 0.15s ease;
-}
-.sheet:hover { color: var(--accent); }
-.sheet-n {
-  flex: none;
-  width: 1.9rem;
-  font: 600 0.78rem/1.4 var(--mono);
-  font-variant-numeric: tabular-nums;
-  color: var(--fg-faint);
-}
-.sheet-t { font-size: 1rem; }
-.sheet:hover .sheet-t { text-decoration: underline; text-underline-offset: 0.18em; }
+.mini:hover .pill-fmt { color: var(--accent); border-color: currentColor; }
 
 /* ── Семестр ── */
 .sem { padding-top: 2rem; scroll-margin-top: 7.6rem; }
@@ -439,7 +413,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); }
 
 @media print {
   .top, .tabs, .up, .foot { display: none; }
-  .topic, .cube, .mini, .sheet { break-inside: avoid; }
+  .topic, .cube, .mini { break-inside: avoid; }
   .sem { break-before: page; }
   body { background: #fff; color: #000; }
   .topic.now { background: none; box-shadow: none; }
