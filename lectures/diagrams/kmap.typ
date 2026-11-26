@@ -183,6 +183,27 @@
   value-size: 1.1em,
 )
 
+// f = \bar w \bar x or y z: столбец и строка, обе группы существенны.
+#let kmap-4var-example = kmap(
+  rows: ("00", "01", "11", "10"),
+  cols: ("00", "01", "11", "10"),
+  values: (
+    ("1", "0", "0", "0"),
+    ("1", "0", "0", "0"),
+    ("1", "1", "1", "1"),
+    ("1", "0", "0", "0"),
+  ),
+  groups: (
+    (rects: ((0, 0, 3, 0),), tone: cool),
+    (rects: ((2, 0, 2, 3),), tone: green),
+  ),
+  legend: (($overline(w) overline(x)$, cool), ($y z$, green)),
+  row-name: $y z$,
+  col-name: $w x$,
+  s: 0.82,
+  value-size: 1.1em,
+)
+
 // f = x: вся правая колонка.
 #let kmap-3var-x = kmap(
   rows: ("00", "01", "11", "10"),
