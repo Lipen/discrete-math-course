@@ -228,13 +228,13 @@
 }
 
 #let ecc-encode = {
+  let data = range(1, ecc-total).filter(pos => not ecc-check.contains(pos))
   // Порядок бит данных: от младшего к старшему, байты от последнего символа к первому.
   let bytes = ecc-bytes.rev()
-  let payload = range(64).map(k => {
+  let payload = range(data.len()).map(k => {
     let byte = bytes.at(calc.quo(k, 8))
     calc.rem(calc.quo(byte, calc.pow(2, calc.rem(k, 8))), 2)
   })
-  let data = range(1, ecc-total).filter(pos => not ecc-check.contains(pos))
   let data-bit(pos) = {
     let index = pos - 1 - ecc-check.filter(p => p < pos).len()
     payload.at(index)
