@@ -212,7 +212,7 @@
 // 64-битное слово данных: ровно 8 ASCII-символов.
 #let ecc-phrase = "NICE TRY"
 #let ecc-check = (1, 2, 4, 8, 16, 32, 64)
-#let ecc-total = 72
+#let ecc-length = 72
 
 #let ecc-bytes = ecc-phrase.codepoints().map(str.to-unicode)
 
@@ -228,7 +228,7 @@
 }
 
 #let ecc-encode = {
-  let data = range(1, ecc-total).filter(pos => not ecc-check.contains(pos))
+  let data = range(1, ecc-length).filter(pos => not ecc-check.contains(pos))
   // Порядок бит данных: от младшего к старшему, байты от последнего символа к первому.
   let bytes = ecc-bytes.rev()
   let payload = range(data.len()).map(k => {
@@ -244,7 +244,7 @@
   let parity(p) = data
     .filter(i => calc.rem(calc.quo(i, p), 2) == 1)
     .fold(0, (acc, i) => calc.rem(acc + data-bit(i), 2))
-  let bits = range(1, ecc-total).map(pos => {
+  let bits = range(1, ecc-length).map(pos => {
     if ecc-check.contains(pos) { parity(pos) } else { data-bit(pos) }
   })
   bits.push(bits.fold(0, (acc, bit) => calc.rem(acc + bit, 2)))
@@ -267,7 +267,7 @@
     .join(" ")
 })
 
-#let ecc-single-flip = 20
-#let ecc-double-flip = (20, 30)
-#let ecc-one-rows = ecc-rows(ecc-flip(ecc-encode, (ecc-single-flip,)))
-#let ecc-two-rows = ecc-rows(ecc-flip(ecc-encode, ecc-double-flip))
+#let ecc-single-error = 20
+#let ecc-double-error = (20, 30)
+#let ecc-one-rows = ecc-rows(ecc-flip(ecc-encode, (ecc-single-error,)))
+#let ecc-two-rows = ecc-rows(ecc-flip(ecc-encode, ecc-double-error))
