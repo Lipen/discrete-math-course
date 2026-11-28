@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Семантика и следствие · лаборатория</title>
+<script src="theme.js"></script>
+<link rel="stylesheet" href="lab.css">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+</head>
+<body>
+<header class="lab-header">
+  <nav class="lab-nav">
+    <a href="index.html">← Все лаборатории</a>
+    <span class="sep">/</span>
+    <span class="here">Семантика и следствие</span>
+  </nav>
+  <h1>Все модели посылок, одно заключение</h1>
+  <p class="lead">
+    Посылки задают множество моделей.
+    Логическое следствие означает, что в каждой такой модели заключение истинно.
+    Таблица перебирает наборы и показывает либо все модели, либо конкретный контрпример.
+  </p>
+  <div class="lab-meta">
+    <span class="pill info">модели</span>
+    <span class="pill">⊨</span>
+    <span class="pill">контрпример</span>
+  </div>
+</header>
+
+<main class="lab-main">
+  <section class="card">
+    <div class="controls" style="display:block">
+      <label class="field" style="margin-bottom:8px">Посылки, одна формула на строку
+        <textarea id="premises" rows="3" spellcheck="false">A → B
+A</textarea>
+      </label>
+      <label class="field">Заключение
+        <input id="conclusion" class="formula-input" value="B" spellcheck="false" autocomplete="off">
+      </label>
+      <div class="btn-row" style="margin-top:10px">
+        <button id="check" class="active">Проверить</button>
+      </div>
+    </div>
+    <div class="btn-row" id="presets"></div>
+    <div class="formula-box" id="sequent" style="margin-top:12px"></div>
+    <div class="status" id="status" style="margin-top:10px"></div>
+  </section>
+
+  <section class="card">
+    <h2>Таблица моделей</h2>
+    <div class="split-wide-left">
+      <div class="tt-wrap" id="table"></div>
+      <div>
+        <h3>Что проверяем</h3>
+        <div id="models"></div>
+        <p class="hint">Строки с истинными посылками выделены. Если в такой строке заключение ложно, это контрпример.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Что здесь показано</h2>
+    <div class="theory-grid">
+      <div>
+        <h3>Модель</h3>
+        <p>Модель задаёт набор значений переменных.
+        Формула истинна в модели или ложна в ней, третьего нет.</p>
+      </div>
+      <div>
+        <h3>Следствие</h3>
+        <p><span data-tex="\Gamma \models \varphi"></span> означает, что каждая модель всех посылок является моделью заключения.</p>
+      </div>
+      <div>
+        <h3>Контрпример</h3>
+        <p>Одной модели, в которой все посылки истинны, а заключение ложно, достаточно, чтобы следствия не было.</p>
+      </div>
+      <div>
+        <h3>Перебор</h3>
+        <p>Для конечного числа переменных таблица истинности проверяет все модели.
+        Это семантическое доказательство, а не вывод по правилам.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">Лаборатория · Семантика</footer>
+
+<script src="vendor/katex/katex.min.js"></script>
+<script src="site.js"></script>
+<script src="semantics.js"></script>
+</body>
+</html>

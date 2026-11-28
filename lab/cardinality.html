@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Счётность и бесконечность · лаборатория</title>
+<script src="theme.js"></script>
+<link rel="stylesheet" href="lab.css">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+</head>
+<body>
+<header class="lab-header">
+  <nav class="lab-nav">
+    <a href="index.html">← Все лаборатории</a>
+    <span class="sep">/</span>
+    <span class="here">Счётность и бесконечность</span>
+  </nav>
+  <h1>Отель, автобусы и диагональ</h1>
+  <p class="lead">
+    В заполненный отель приходит один гость, затем конечная группа, бесконечный автобус и бесконечно много автобусов.
+    На каждом шаге видно, кто куда переезжает и почему мощность не меняется.
+  </p>
+  <div class="lab-meta">
+    <span class="pill info">биекция</span>
+    <span class="pill">N + N = N</span>
+    <span class="pill">N × N = N</span>
+    <span class="pill">диагональ</span>
+  </div>
+</header>
+
+<main class="lab-main">
+  <section class="card">
+    <div class="tabs" id="tabs">
+      <button data-tab="hotel" class="active" aria-pressed="true">Отель</button>
+      <button data-tab="integers" aria-pressed="false">Целые</button>
+      <button data-tab="diagonal" aria-pressed="false">Диагональ</button>
+    </div>
+
+    <div class="tab-panel" id="tab-hotel">
+      <div class="scenario-switch" id="hotel-scenarios">
+        <button data-scenario="one" class="active" aria-pressed="true">Один гость</button>
+        <button data-scenario="group" aria-pressed="false">Группа</button>
+        <button data-scenario="bus" aria-pressed="false">Бесконечный автобус</button>
+        <button data-scenario="buses" aria-pressed="false">Бесконечно много автобусов</button>
+      </div>
+      <div class="field hotel-group" id="group-wrap">
+        <span class="field-label">Группа</span>
+        <div class="segmented" id="group-size" role="group" aria-label="Размер группы"></div>
+      </div>
+
+      <div class="hotel-board">
+        <div>
+          <h3 id="hotel-title">Один гость</h3>
+          <p class="hint" id="hotel-hint"></p>
+          <div class="hotel-stage" id="hotel-stage"></div>
+          <p class="hint hotel-legend">
+            Гости стоят внутри комнат.
+            Стрелка выходит из левой нижней точки комнаты и входит в правую нижнюю точку следующей.
+            «Вход» означает место снаружи, откуда гость попадает в отель.
+          </p>
+          <div class="status" id="hotel-status" style="margin-top:10px"></div>
+          <div class="formula-box" id="hotel-formula" style="margin-top:10px"></div>
+        </div>
+
+        <aside class="hotel-aside">
+          <h3>Шаги</h3>
+          <ol class="hotel-steps" id="hotel-steps" aria-label="Шаги сценария"></ol>
+          <h3 class="hotel-subhead">Кто куда</h3>
+          <div class="hotel-moves" id="hotel-moves"></div>
+          <div class="hotel-equation" id="hotel-equation"></div>
+          <div class="hotel-callout" id="hotel-callout"></div>
+        </aside>
+      </div>
+
+      <section class="finite-panel">
+        <div>
+          <h3>Конечный отель</h3>
+          <p class="hint">Три комнаты и три гостя. Четвёртому гостю места нет.</p>
+        </div>
+        <div class="finite-rooms" id="finite-rooms"></div>
+        <div class="btn-row">
+          <button id="finite-try">Заселить нового</button>
+          <button id="finite-reset">Сброс</button>
+        </div>
+        <div class="status" id="finite-status"></div>
+      </section>
+
+      <div class="card-slim">
+        <h2>Кардинальная арифметика</h2>
+        <p class="hint">Нажмите на строку, чтобы вернуться к сценарию, который её показывает. Обозначение: <span class="math-inline" data-tex="\aleph_0 = \left|\mathbb{N}\right|"></span>.</p>
+        <div id="arithmetic"></div>
+      </div>
+    </div>
+
+    <div class="tab-panel hidden" id="tab-integers">
+      <div class="split-wide-left">
+        <div>
+          <h3>Целые числа</h3>
+          <p class="hint">Нумерация выдаёт каждому целому свой натуральный номер. Ни один номер не пропущен и не повторён.</p>
+          <div class="btn-row">
+            <button id="integers-add" class="active">Добавить пару</button>
+            <button id="integers-reset">Сброс</button>
+          </div>
+          <div class="mapping-grid" id="integers-list" style="margin-top:14px"></div>
+        </div>
+        <div>
+          <h3>Формула</h3>
+          <div class="formula-box" id="integers-formula"></div>
+          <div class="status" id="integers-status" style="margin-top:8px"></div>
+          <p class="hint">Ноль стоит в начале. Дальше идут пары: положительное число получает нечётный номер, отрицательное чётный.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-panel hidden" id="tab-diagonal">
+      <div class="split-wide-left">
+        <div>
+          <h3>Диагональ Кантора</h3>
+          <p class="hint">Строки задают гипотетический список двоичных последовательностей. Диагональ строит последовательность, которой в списке нет.</p>
+          <div class="btn-row">
+            <button id="diagonal-step" class="active">Следующий шаг</button>
+            <button id="diagonal-random">Новая таблица</button>
+          </div>
+          <div class="tt-wrap" id="diagonal-table" style="margin-top:12px"></div>
+        </div>
+        <div>
+          <h3>Почему новой строки нет в списке</h3>
+          <div class="formula-box" id="diagonal-formula"></div>
+          <div class="status" id="diagonal-status" style="margin-top:8px"></div>
+          <p class="hint" id="diagonal-hint"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">Лаборатория · Счётность</footer>
+
+<script src="vendor/katex/katex.min.js"></script>
+<script src="site.js"></script>
+<script src="cardinality.js"></script>
+</body>
+</html>

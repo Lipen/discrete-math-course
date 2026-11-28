@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Отношения и эквивалентность · лаборатория</title>
+<script src="theme.js"></script>
+<link rel="stylesheet" href="lab.css">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+</head>
+<body>
+<header class="lab-header">
+  <nav class="lab-nav">
+    <a href="index.html">← Все лаборатории</a>
+    <span class="sep">/</span>
+    <span class="here">Отношения и эквивалентность</span>
+  </nav>
+  <h1>Матрица, граф и классы</h1>
+  <p class="lead">
+    Отношение задаётся клетками матрицы.
+    Меняйте пары и смотрите, как вместе с матрицей перестраиваются граф, свойства, классы и фактор-множество.
+    Замыкания показывают минимальную добавку, которая делает отношение замкнутым.
+  </p>
+  <div class="lab-meta">
+    <span class="pill info">свойства</span>
+    <span class="pill">замыкания</span>
+    <span class="pill">фактор-множество</span>
+  </div>
+</header>
+
+<main class="lab-main relations-page">
+  <section class="rel-stage">
+    <div class="rel-toolbar">
+      <div class="field">
+        <span class="field-label">Элементов</span>
+        <div class="segmented" id="size" role="group" aria-label="Число элементов"></div>
+      </div>
+      <div class="rel-actions">
+        <button id="blocks">Блоки эквивалентности</button>
+        <button id="random">Случайно</button>
+        <button id="clear">Очистить</button>
+      </div>
+      <div class="rel-pairs" id="relation-pairs" aria-live="polite"></div>
+    </div>
+
+    <div class="rel-workbench">
+      <article class="rel-panel rel-editor">
+        <header class="rel-panel-head">
+          <div>
+            <span class="panel-kicker">01 / Матрица</span>
+            <h2>Отношение R</h2>
+          </div>
+          <span class="rel-hint">строка → столбец</span>
+        </header>
+        <p class="hint">Клетка (i, j) означает пару (i, j). Нажатие переключает пару.</p>
+        <div class="rel-matrix" id="matrix"></div>
+
+        <div class="rel-closure">
+          <div class="rel-closure-head">
+            <span class="panel-kicker">02 / Замыкания</span>
+            <span class="rel-hint">минимальная добавка</span>
+          </div>
+          <div class="rel-closure-actions">
+            <button data-closure="reflexive">рефлексивное</button>
+            <button data-closure="symmetric">симметричное</button>
+            <button data-closure="transitive">транзитивное</button>
+            <button data-closure="equivalence">до эквивалентности</button>
+            <button class="rel-wide" id="transitive-steps">транзитивное по шагам</button>
+          </div>
+          <div class="status" id="closure-status"></div>
+          <div class="rel-delta" id="closure-delta"><span class="rel-delta-label">добавка</span><span class="hint">примените замыкание</span></div>
+          <div class="rel-stepper" id="closure-stepper" hidden>
+            <div class="rel-stepper-head">
+              <span class="rel-step-count" id="step-count"></span>
+              <div class="rel-step-actions">
+                <button id="step-prev" type="button" aria-label="Предыдущий шаг">←</button>
+                <button id="step-next" type="button" aria-label="Следующий шаг">→</button>
+                <button id="step-end" type="button">в конец</button>
+                <button id="step-exit" type="button">выйти</button>
+              </div>
+            </div>
+            <div class="rel-step-progress" id="step-progress" aria-hidden="true"></div>
+            <div class="rel-step-body" id="step-body" aria-live="polite"></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="rel-panel rel-graph-panel">
+        <header class="rel-panel-head">
+          <div>
+            <span class="panel-kicker">03 / Граф</span>
+            <h2>Ориентированный граф</h2>
+          </div>
+          <span class="rel-hint">петли и парные дуги</span>
+        </header>
+        <div class="graph-wrap rel-graph" id="graph"></div>
+        <div class="rel-legend">
+          <span><i class="lg-node"></i>элемент</span>
+          <span><i class="lg-edge"></i>пара</span>
+          <span><i class="lg-loop"></i>петля</span>
+        </div>
+        <p class="hint">Две встречные дуги означают пару в обе стороны. Петля — рефлексивную пару.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="rel-readout">
+    <article class="rel-read rel-kind">
+      <header class="rel-panel-head">
+        <div>
+          <span class="panel-kicker">04 / Диагноз</span>
+          <h2>Какое это отношение</h2>
+        </div>
+      </header>
+      <div class="rel-badges" id="properties"></div>
+      <div class="status" id="kind"></div>
+    </article>
+
+    <article class="rel-read rel-classes">
+      <header class="rel-panel-head">
+        <div>
+          <span class="panel-kicker">05 / Классы</span>
+          <h2>Эквивалентность</h2>
+        </div>
+      </header>
+      <div class="rel-classes-body" id="classes"></div>
+    </article>
+
+    <article class="rel-read rel-compose">
+      <header class="rel-panel-head">
+        <div>
+          <span class="panel-kicker">06 / Операции</span>
+          <h2>Композиция и обратное</h2>
+        </div>
+      </header>
+      <div class="rel-operation">
+        <span class="rel-op-label">R²</span>
+        <div class="formula-box" id="square"></div>
+        <button id="apply-square">R ← R²</button>
+      </div>
+      <div class="rel-operation">
+        <span class="rel-op-label">R⁻¹</span>
+        <div class="formula-box" id="inverse"></div>
+        <button id="apply-inverse">R ← R⁻¹</button>
+      </div>
+      <p class="hint">R² это один шаг композиции R∘R. Обратное отношение получается транспонированием.</p>
+    </article>
+  </section>
+
+  <section class="rel-theory">
+    <div class="rel-theory-head">
+      <span class="panel-kicker">07 / Справочник</span>
+      <p>Что именно проверяет лаборатория.</p>
+    </div>
+    <div class="rel-theory-grid">
+      <article>
+        <h3>Свойства</h3>
+        <p>Рефлексивность требует диагонали, симметричность — обратных пар, транзитивность — замыкания пути длины два.</p>
+      </article>
+      <article>
+        <h3>Замыкание</h3>
+        <p>Замыкание добавляет минимум: диагональ, обратные пары или транзитивные следствия. Пошаговый режим показывает, какие пары добавляет каждый раунд и через какой элемент.</p>
+      </article>
+      <article>
+        <h3>Эквивалентность</h3>
+        <p>Эквивалентность разбивает множество на непересекающиеся классы, которые покрывают всё множество.</p>
+      </article>
+      <article>
+        <h3>Фактор</h3>
+        <p>Фактор-множество состоит из классов. Внутри класса элементы неразличимы для отношения.</p>
+      </article>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">Лаборатория · Отношения</footer>
+
+<script src="vendor/katex/katex.min.js"></script>
+<script src="site.js"></script>
+<script src="relations.js"></script>
+</body>
+</html>

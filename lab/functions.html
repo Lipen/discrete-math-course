@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Функции · лаборатория</title>
+<script src="theme.js"></script>
+<link rel="stylesheet" href="lab.css">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+</head>
+<body>
+<header class="lab-header">
+  <nav class="lab-nav">
+    <a href="index.html">← Все лаборатории</a>
+    <span class="sep">/</span>
+    <span class="here">Функции и отображения</span>
+  </nav>
+  <h1>Куда ведёт каждый элемент</h1>
+  <p class="lead">
+    Постройте отображение из домена в кодомен.
+    Проверяются инъективность, сюръективность и биективность.
+    Рядом видны образ, прообраз и обратная функция.
+  </p>
+  <div class="lab-meta">
+    <span class="pill info">инъекция</span>
+    <span class="pill">сюръекция</span>
+    <span class="pill">композиция</span>
+  </div>
+</header>
+
+<main class="lab-main">
+  <section class="card">
+    <div class="toolbar">
+      <div class="field">
+        <span class="field-label">Домен</span>
+        <div class="segmented" id="domain-size" role="group" aria-label="Размер домена"></div>
+      </div>
+      <div class="field">
+        <span class="field-label">Кодомен</span>
+        <div class="segmented" id="codomain-size" role="group" aria-label="Размер кодомена"></div>
+      </div>
+      <div class="btn-row">
+        <button id="bijection">Биекция</button>
+        <button id="surjection">Сюръекция</button>
+        <button id="injection">Инъекция</button>
+        <button id="reset">Сброс</button>
+      </div>
+    </div>
+
+    <div class="split-wide-left">
+      <div>
+        <h3>Отображение</h3>
+        <div id="mapping"></div>
+        <div class="post-grid" id="properties" style="margin-top:12px"></div>
+        <div class="status" id="kind" style="margin-top:8px"></div>
+      </div>
+      <div>
+        <h3>Стрелки</h3>
+        <div class="graph-wrap" id="diagram"></div>
+        <p class="hint">Слева домен, справа кодомен. Две стрелки в одну вершину означают склейку, вершина без входящих стрелок означает пропуск.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Образ и прообраз</h2>
+    <div class="split">
+      <div>
+        <h3>Образ подмножества домена</h3>
+        <div class="toggle-grid" id="domain-subset"></div>
+        <div class="formula-box" id="image" style="margin-top:8px"></div>
+      </div>
+      <div>
+        <h3>Прообраз подмножества кодомена</h3>
+        <div class="toggle-grid" id="codomain-subset"></div>
+        <div class="formula-box" id="preimage" style="margin-top:8px"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Композиция и обратная</h2>
+    <div class="split">
+      <div>
+        <h3>g ∘ f</h3>
+        <div class="toolbar">
+          <label class="field grow">Функция g на кодомене
+            <select id="g-preset">
+              <option value="identity">тождественная</option>
+              <option value="cycle" selected>циклический сдвиг</option>
+              <option value="swap">обмен 1 и 2</option>
+              <option value="constant">постоянная 1</option>
+            </select>
+          </label>
+        </div>
+        <div class="formula-box" id="composition"></div>
+      </div>
+      <div>
+        <h3>f⁻¹</h3>
+        <div class="formula-box" id="inverse"></div>
+        <p class="hint">Обратная функция существует только у биекции.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Что здесь показано</h2>
+    <div class="theory-grid">
+      <div>
+        <h3>Инъекция</h3>
+        <p>Разные элементы домена имеют разные образы.
+        В диаграмме нет двух стрелок в одну вершину.</p>
+      </div>
+      <div>
+        <h3>Сюръекция</h3>
+        <p>У каждого элемента кодомена есть прообраз.
+        Пропущенных вершин справа нет.</p>
+      </div>
+      <div>
+        <h3>Биекция</h3>
+        <p>Инъекция и сюръекция одновременно.
+        У такой функции есть обратная: каждый элемент кодомена возвращается к своему прообразу.</p>
+      </div>
+      <div>
+        <h3>Образ и прообраз</h3>
+        <p>Образ множества состоит из значений на его элементах.
+        Прообраз состоит из элементов домена, попавших в заданное множество.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">Лаборатория · Функции</footer>
+
+<script src="vendor/katex/katex.min.js"></script>
+<script src="site.js"></script>
+<script src="functions.js"></script>
+</body>
+</html>

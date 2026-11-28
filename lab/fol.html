@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Кванторы и модели · лаборатория</title>
+<script src="theme.js"></script>
+<link rel="stylesheet" href="lab.css">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+</head>
+<body>
+<header class="lab-header">
+  <nav class="lab-nav">
+    <a href="index.html">← Все лаборатории</a>
+    <span class="sep">/</span>
+    <span class="here">Логика первого порядка</span>
+  </nav>
+  <h1>Кванторы, свидетели и контрпримеры</h1>
+  <p class="lead">
+    Соберите конечную модель из чисел, свойств P и Q и отношения R.
+    Напишите формулу и проверьте её сразу.
+    Лаборатория покажет значение, свидетеля или контрпример, а карта R объяснит, почему ∀x∃y и ∃y∀x дают разный ответ.
+  </p>
+  <div class="lab-meta">
+    <span class="pill info">свидетели</span>
+    <span class="pill">контрпримеры</span>
+    <span class="pill">порядок кванторов</span>
+  </div>
+</header>
+
+<main class="lab-main fol-page">
+  <section class="fol-scenarios" id="scenarios" aria-labelledby="scenarios-title">
+    <div class="fol-scenarios-head">
+      <h2 id="scenarios-title">Сценарии</h2>
+      <p>Готовые модели, с которых можно начать. Дальше меняйте всё руками.</p>
+    </div>
+    <div class="fol-scenario-grid">
+      <button class="fol-scenario" type="button" data-scenario="witness">
+        <span class="fol-scenario-name">Свидетель</span>
+        <span class="fol-scenario-formula">∃x P(x)</span>
+        <span class="fol-scenario-note">P = {2}, домен 3</span>
+      </button>
+      <button class="fol-scenario" type="button" data-scenario="counter">
+        <span class="fol-scenario-name">Контрпример</span>
+        <span class="fol-scenario-formula">∀x P(x)</span>
+        <span class="fol-scenario-note">P = {1,2}, домен 3</span>
+      </button>
+      <button class="fol-scenario" type="button" data-scenario="order">
+        <span class="fol-scenario-name">Порядок</span>
+        <span class="fol-scenario-formula">∀x ∃y R(x,y)</span>
+        <span class="fol-scenario-note">слева истина, справа ложь</span>
+      </button>
+    </div>
+  </section>
+
+  <section class="card fol-workbench" aria-labelledby="model-title">
+    <div class="fol-toolbar">
+      <div class="field">
+        <span class="field-label">Домен</span>
+        <div class="segmented" id="domain-size" role="group" aria-label="Размер домена"></div>
+      </div>
+      <div class="fol-toolbar-actions">
+        <button id="random" type="button">Случайная модель</button>
+        <button id="reset" type="button">Сброс</button>
+      </div>
+    </div>
+
+    <div class="fol-work-grid">
+      <section class="fol-model" aria-labelledby="model-title">
+        <div class="fol-panel-head">
+          <div>
+            <h2 id="model-title">Модель</h2>
+            <p class="fol-panel-note">Числа это элементы домена. P и Q включаются на каждом элементе отдельно.</p>
+          </div>
+          <div class="fol-counts" id="counts" aria-live="polite"></div>
+        </div>
+
+        <div class="fol-domain" id="domain" aria-label="Элементы домена"></div>
+
+        <div class="fol-r-head">
+          <div>
+            <h3>R(x,y)</h3>
+            <p class="fol-panel-note">Направленное отношение: строка это x, столбец это y. Граф строится по матрице.</p>
+          </div>
+        </div>
+        <div class="fol-r-body">
+          <div class="fol-r-view" id="r-matrix"></div>
+          <div class="fol-r-graph" id="r-graph"></div>
+        </div>
+        <div class="fol-r-caption" id="r-caption"></div>
+      </section>
+
+      <section class="fol-formula" aria-labelledby="formula-title">
+        <div class="fol-panel-head">
+          <div>
+            <h2 id="formula-title">Формула</h2>
+            <p class="fol-panel-note">P и Q унарные, R бинарное. Формула должна быть замкнутой.</p>
+          </div>
+          <span class="pill info" id="formula-kind">замкнутая</span>
+        </div>
+
+        <form class="fol-formula-form" id="formula-form">
+          <label class="fol-input-label" for="formula-input">Введите формулу</label>
+          <div class="fol-input-row">
+            <input id="formula-input" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-describedby="formula-kind">
+            <button class="fol-check" id="formula-submit" type="submit">Проверить</button>
+          </div>
+        </form>
+
+        <div class="fol-presets" id="presets" aria-label="Примеры формул"></div>
+        <div class="formula-box fol-formula-view" id="formula-tex" aria-live="polite"></div>
+        <div class="status" id="verdict"></div>
+        <div class="fol-trace" id="rows" aria-live="polite"></div>
+      </section>
+    </div>
+  </section>
+
+  <section class="card fol-order-card" aria-labelledby="order-title">
+    <div class="fol-order-head">
+      <div>
+        <h2 id="order-title">Порядок кванторов</h2>
+        <p>Одна и та же модель R. Слева у каждого x может быть свой y. Справа нужен один y, общий для всех x.</p>
+      </div>
+      <div class="fol-order-legend">
+        <span><i class="fol-key-witness"></i>свидетель строки</span>
+        <span><i class="fol-key-universal"></i>общий столбец</span>
+      </div>
+    </div>
+
+    <div class="fol-order-layout">
+      <article class="fol-order-side">
+        <div class="formula-box" id="order-left"></div>
+        <div class="status" id="order-left-status"></div>
+        <p class="fol-order-why" id="order-left-why"></p>
+      </article>
+
+      <div class="fol-order-map-wrap">
+        <div class="fol-order-map" id="order-map"></div>
+        <p class="fol-order-map-note" id="order-map-note"></p>
+      </div>
+
+      <article class="fol-order-side">
+        <div class="formula-box" id="order-right"></div>
+        <div class="status" id="order-right-status"></div>
+        <p class="fol-order-why" id="order-right-why"></p>
+      </article>
+    </div>
+
+    <div class="status" id="order-verdict"></div>
+  </section>
+</main>
+
+<footer class="footer">Лаборатория · Логика первого порядка</footer>
+
+<script src="vendor/katex/katex.min.js"></script>
+<script src="site.js"></script>
+<script src="fol.js"></script>
+</body>
+</html>

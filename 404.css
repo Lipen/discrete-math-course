@@ -1,0 +1,192 @@
+/* 404: Diogenes cave. Loaded only by 404.html. */
+
+:root { --serif: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", "URW Palladio L", Georgia, serif; }
+
+main.di { max-width: none; margin: 0; padding: 0; }
+.torch {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+  --mx: 30%;
+  --my: 50%;
+  --cx: 72%;
+  --cy: 45%;
+  --lx: 19%;
+  --ly: 45%;
+}
+.torch::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.48);
+  -webkit-mask-image:
+    radial-gradient(circle 240px at var(--mx) var(--my), transparent 0 50%, rgba(0, 0, 0, 0.6) 80%, #000 100%),
+    radial-gradient(ellipse 320px 240px at var(--cx) var(--cy), rgba(0, 0, 0, 0.7) 0 35%, rgba(0, 0, 0, 0.85) 70%, #000 100%),
+    radial-gradient(circle 80px at var(--lx) var(--ly), rgba(0, 0, 0, 0.62) 0 25%, rgba(0, 0, 0, 0.82) 65%, #000 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    radial-gradient(circle 240px at var(--mx) var(--my), transparent 0 50%, rgba(0, 0, 0, 0.6) 80%, #000 100%),
+    radial-gradient(ellipse 320px 240px at var(--cx) var(--cy), rgba(0, 0, 0, 0.7) 0 35%, rgba(0, 0, 0, 0.85) 70%, #000 100%),
+    radial-gradient(circle 80px at var(--lx) var(--ly), rgba(0, 0, 0, 0.62) 0 25%, rgba(0, 0, 0, 0.82) 65%, #000 100%);
+  mask-composite: intersect;
+}
+.torch::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle 190px at var(--mx) var(--my), rgba(255, 210, 140, 0.14), rgba(255, 210, 140, 0.05) 45%, transparent 75%);
+  mix-blend-mode: screen;
+}
+.torch-lamp {
+  position: absolute;
+  left: calc(var(--lx) - 160px);
+  top: calc(var(--ly) - 160px);
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle 106px at 50% 50%, rgba(255, 200, 120, 0.45), rgba(255, 190, 100, 0.18) 45%, transparent 75%);
+  mix-blend-mode: screen;
+  transform-origin: center;
+  animation: lamp-breathe 2.6s linear infinite;
+}
+@keyframes lamp-breathe {
+  0%, 100% { transform: scale(1); opacity: 0.85; }
+  22% { transform: scale(1.04); opacity: 1; }
+  47% { transform: scale(0.98); opacity: 0.78; }
+  68% { transform: scale(1.02); opacity: 0.92; }
+}
+@supports not ((mask-image: radial-gradient(#000, transparent)) or (-webkit-mask-image: radial-gradient(#000, transparent))) {
+  .torch { display: none; }
+}
+@media (hover: none) {
+  .torch { display: none; }
+}
+.di .inner { width: min(100% - 2.5rem, 60rem); margin: 0 auto; }
+.di h1 {
+  margin: 0 0 0.9rem;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(2.5rem, 4.6vw, 3.6rem);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  max-width: 19ch;
+}
+.di h1 em {
+  display: block;
+  margin-left: 1.2ch;
+  font-style: italic;
+  font-weight: 400;
+  color: #a86f24;
+}
+:root[data-theme="dark"] .di h1 em { color: #e0b36a; }
+.di .sub { margin: 1.05rem 0 0; font-size: 1.1rem; line-height: 1.6; color: var(--fg-soft); max-width: 32rem; text-wrap: pretty; }
+
+.actions { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.8rem; }
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.72rem 1.15rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--fg);
+  font: 600 0.92rem/1 var(--sans);
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+}
+.btn svg { width: 1rem; height: 1rem; flex: none; }
+.btn:not(.primary):hover { border-color: var(--accent); color: var(--accent); background: color-mix(in oklab, var(--accent) 7%, transparent); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-fg); box-shadow: 0 10px 24px -14px color-mix(in oklab, var(--accent) 70%, transparent); }
+.btn.primary:hover { background: color-mix(in oklab, var(--accent) 87%, var(--fg)); border-color: var(--accent); color: var(--accent-fg); }
+.btn:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+
+.d1 .scene { padding: clamp(2rem, 5vw, 4rem) 0; }
+.d1 .grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: center;
+}
+.d1 .cave {
+  position: relative;
+  width: 100%;
+  max-width: 30rem;
+  aspect-ratio: 1;
+  border: 1px solid color-mix(in oklab, #f0b45a 22%, var(--line));
+  border-radius: 16px;
+  overflow: hidden;
+  background: #0e1116;
+  box-shadow: 0 30px 60px -34px rgb(20 15 5 / 55%), inset 0 1px 0 rgb(255 255 255 / 6%);
+}
+.d1 .cave svg { display: block; width: 100%; height: 100%; position: relative; z-index: 0; }
+.d1 .lamp-glow { transform-box: view-box; transform-origin: 150px 360px; animation: lamp-breathe 2.6s linear infinite; }
+.d1 .lamp-beam, .d1 .lamp-core { animation: beam-breathe 2.6s linear infinite; }
+.d1 .lamp-flame {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  filter: drop-shadow(0 0 11px rgba(255, 170, 80, 0.6));
+  animation: flame-flicker 2.6s linear infinite;
+}
+.d1 .lamp-flame-core {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: flame-core 1.7s linear infinite;
+}
+@keyframes beam-breathe {
+  0%, 100% { opacity: 0.86; }
+  22% { opacity: 1; }
+  47% { opacity: 0.82; }
+  68% { opacity: 0.92; }
+}
+@keyframes flame-flicker {
+  0%, 100% { transform: scale(1) translate(0, 0); opacity: 0.9; }
+  22% { transform: scale(1.03, 1.04) translate(0.6px, -1px); opacity: 0.95; }
+  47% { transform: scale(0.98, 0.99) translate(-0.5px, 0); opacity: 0.87; }
+  68% { transform: scale(1.02, 1.03) translate(0.3px, -0.5px); opacity: 0.92; }
+}
+@keyframes flame-core {
+  0%, 100% { transform: scale(1) translate(0, 0); opacity: 0.85; }
+  35% { transform: scale(0.95, 1.03) translate(-0.3px, -0.5px); opacity: 0.92; }
+  63% { transform: scale(1.03, 0.98) translate(0.4px, 0); opacity: 0.82; }
+}
+.d1 .mote {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: mote-drift 9s linear infinite alternate;
+}
+.d1 .mote:nth-child(1) { animation-duration: 9s; animation-delay: -1s; }
+.d1 .mote:nth-child(2) { animation-duration: 12s; animation-delay: -4s; }
+.d1 .mote:nth-child(3) { animation-duration: 10s; animation-delay: -2s; }
+.d1 .mote:nth-child(4) { animation-duration: 14s; animation-delay: -6s; }
+.d1 .mote:nth-child(5) { animation-duration: 11s; animation-delay: -3s; }
+.d1 .mote:nth-child(6) { animation-duration: 8s; animation-delay: -5s; }
+.d1 .mote:nth-child(7) { animation-duration: 13s; animation-delay: -1s; }
+@keyframes mote-drift {
+  0% { transform: translate(0, 0); opacity: 0.2; }
+  50% { transform: translate(24px, -15px); opacity: 0.9; }
+  100% { transform: translate(-9px, -26px); opacity: 0.6; }
+}
+.d1 .relic {
+  animation: relic-breathe 6.8s ease-in-out infinite;
+}
+@keyframes relic-breathe {
+  0%, 100% { filter: drop-shadow(0 0 0 rgba(240, 180, 90, 0)); }
+  38% { filter: drop-shadow(0 0 18px rgba(240, 180, 90, 0.32)); }
+  64% { filter: drop-shadow(0 0 10px rgba(240, 180, 90, 0.2)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .torch-lamp, .d1 .lamp-glow, .d1 .lamp-beam, .d1 .lamp-core, .d1 .lamp-flame, .d1 .lamp-flame-core, .d1 .mote, .d1 .relic { animation: none; }
+}
+.d1 .copy { min-width: 0; }
+
+@media (max-width: 54rem) {
+  .d1 .grid { grid-template-columns: 1fr; gap: 2rem; }
+  .d1 .copy { order: -1; }
+  .d1 .cave { max-width: 26rem; margin: 0 auto; }
+}
+
+@media (max-width: 40rem) {
+  .actions { flex-direction: column; align-items: flex-start; }
+}

@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "sources": ["../src/entries/theme.ts"],
+  "sourcesContent": [
+    "/* Theme preference shared with the course site: system default, then a light/dark switch. */\n\nconst KEY = \"dm-theme\";\nconst media = window.matchMedia(\"(prefers-color-scheme: dark)\");\n\nlet pref: \"auto\" | \"light\" | \"dark\" = \"auto\";\ntry {\n  const stored = localStorage.getItem(KEY);\n  if (stored === \"light\" || stored === \"dark\") pref = stored;\n} catch {\n  pref = \"auto\";\n}\n\nfunction resolved(): \"light\" | \"dark\" {\n  return pref === \"auto\" ? (media.matches ? \"dark\" : \"light\") : pref;\n}\n\nfunction apply(): void {\n  const theme = resolved();\n  document.documentElement.dataset.theme = theme;\n  document.documentElement.dataset.pref = theme;\n}\n\napply();\nmedia.addEventListener(\"change\", () => {\n  if (pref === \"auto\") apply();\n});\n\nwindow.__theme = {\n  get: resolved,\n  set(next) {\n    pref = next === \"light\" ? \"light\" : \"dark\";\n    try {\n      localStorage.setItem(KEY, pref);\n    } catch {\n      // The preference still applies for this page when storage is unavailable.\n    }\n    apply();\n  },\n};\n"
+  ],
+  "mappings": "MAGA,IAAM,EAAQ,OAAO,WAAW,8BAA8B,EAE1D,EAAkC,OACtC,GAAI,CACF,IAAM,EAAS,aAAa,QALlB,UAK6B,EACvC,GAAI,IAAW,SAAW,IAAW,OAAQ,EAAO,EACpD,KAAM,CACN,EAAO,OAGT,SAAS,CAAQ,EAAqB,CACpC,OAAO,IAAS,OAAU,EAAM,QAAU,OAAS,QAAW,EAGhE,SAAS,CAAK,EAAS,CACrB,IAAM,EAAQ,EAAS,EACvB,SAAS,gBAAgB,QAAQ,MAAQ,EACzC,SAAS,gBAAgB,QAAQ,KAAO,EAG1C,EAAM,EACN,EAAM,iBAAiB,SAAU,IAAM,CACrC,GAAI,IAAS,OAAQ,EAAM,EAC5B,EAED,OAAO,QAAU,CACf,IAAK,EACL,GAAG,CAAC,EAAM,CACR,EAAO,IAAS,QAAU,QAAU,OACpC,GAAI,CACF,aAAa,QA/BP,WA+BoB,CAAI,EAC9B,KAAM,EAGR,EAAM,EAEV",
+  "debugId": "13A9D709FB9B395364756E2164756E21",
+  "names": []
+}

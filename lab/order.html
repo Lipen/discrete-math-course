@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Порядок и диаграмма Хассе · лаборатория</title>
+<script src="theme.js"></script>
+<link rel="stylesheet" href="lab.css">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+</head>
+<body>
+<header class="lab-header">
+  <nav class="lab-nav">
+    <a href="index.html">← Все лаборатории</a>
+    <span class="sep">/</span>
+    <span class="here">Порядок и диаграмма Хассе</span>
+  </nav>
+  <h1>Покрытия, границы и цепи</h1>
+  <p class="lead">
+    Матрица задаёт отношение i ≤ j.
+    Диаграмма Хассе оставляет только покрытия, подмножество S подсвечивает границы, а цепь показывает максимальную башню.
+    Линейное продолжение упорядочивает все элементы, не нарушая порядок.
+  </p>
+  <div class="lab-meta">
+    <span class="pill info">Хассе</span>
+    <span class="pill">границы</span>
+    <span class="pill">цепи</span>
+  </div>
+</header>
+
+<main class="lab-main order-page">
+  <section class="ord-stage">
+    <div class="ord-toolbar">
+      <div class="field">
+        <span class="field-label">Элементов</span>
+        <div class="segmented" id="size" role="group" aria-label="Число элементов"></div>
+      </div>
+      <div class="ord-actions">
+        <button id="divisors">Порядок делителей</button>
+        <button id="identity">Только диагональ</button>
+        <button id="random-order">Случайный порядок</button>
+      </div>
+      <div class="ord-metrics" aria-label="Метрики порядка">
+        <span><b id="order-elements">4</b> элементов</span>
+        <span><b id="order-covers">0</b> покрытий</span>
+        <span><b id="order-height">0</b> высота</span>
+      </div>
+    </div>
+
+    <div class="ord-workbench">
+      <article class="ord-panel ord-map">
+        <header class="ord-panel-head">
+          <div>
+            <span class="panel-kicker">01 / Диаграмма</span>
+            <h2>Хассе</h2>
+          </div>
+          <div class="ord-legend">
+            <span><i class="lg-selected"></i>выбрано</span>
+            <span><i class="lg-cover"></i>покрытие</span>
+          </div>
+        </header>
+        <div class="graph-wrap ord-hasse" id="hasse"></div>
+        <p class="hint">Ребро соединяет только покрытие. Слои раскладываются по соседям, чтобы убрать лишние пересечения. Наведение на вершину подсвечивает сравнимые элементы, выбранные в S остаются закрашенными.</p>
+      </article>
+
+      <article class="ord-panel ord-editor">
+        <header class="ord-panel-head">
+          <div>
+            <span class="panel-kicker">02 / Матрица</span>
+            <h2>i ≤ j</h2>
+          </div>
+          <span class="ord-hint">рефлексивность, антисимметрия, транзитивность</span>
+        </header>
+        <div id="matrix"></div>
+        <div class="ord-props" id="properties"></div>
+        <div class="status" id="kind"></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="ord-inspector">
+    <article class="ord-panel ord-subset-panel">
+      <header class="ord-panel-head">
+        <div>
+          <span class="panel-kicker">03 / Подмножество</span>
+          <h2>S и границы</h2>
+        </div>
+        <span class="ord-hint">нажмите, чтобы включить или исключить</span>
+      </header>
+      <div class="toggle-grid" id="subset"></div>
+      <div class="metric-row" id="bound-metrics"></div>
+      <div id="bounds"></div>
+    </article>
+
+    <article class="ord-panel ord-extrema-panel">
+      <header class="ord-panel-head">
+        <div>
+          <span class="panel-kicker">04 / Крайние</span>
+          <h2>Минимумы и максимумы</h2>
+        </div>
+      </header>
+      <div id="extrema"></div>
+      <div class="ord-chain">
+        <span class="ord-chain-label">длинная цепь</span>
+        <div class="chain-rail" id="longest-chain"></div>
+      </div>
+      <div class="ord-chain">
+        <span class="ord-chain-label">линейное продолжение</span>
+        <div class="chain-rail" id="linear-extension"></div>
+      </div>
+      <p class="hint">Линейное продолжение это топологическая сортировка. Длинная цепь задаёт максимальную вложенную башню.</p>
+    </article>
+  </section>
+
+  <section class="ord-theory">
+    <div class="ord-theory-head">
+      <span class="panel-kicker">05 / Справочник</span>
+      <p>Что проверяется на этой странице.</p>
+    </div>
+    <div class="ord-theory-grid">
+      <article>
+        <h3>Частичный порядок</h3>
+        <p>Рефлексивность, антисимметричность и транзитивность. Если хотя бы одно свойство сломано, диаграмма не строится.</p>
+      </article>
+      <article>
+        <h3>Покрытия</h3>
+        <p>Диаграмма оставляет только покрытия. Слои упорядочиваются по соседям, чтобы убрать лишние пересечения; в непланарном порядке часть пересечений неизбежна.</p>
+      </article>
+      <article>
+        <h3>Границы</h3>
+        <p>Нижняя граница лежит под каждым элементом S, верхняя — над каждым. Наибольшая нижняя и наименьшая верхняя единственны, если существуют.</p>
+      </article>
+      <article>
+        <h3>Цепи</h3>
+        <p>Цепь это множество попарно сравнимых элементов. Линейное продолжение упорядочивает все элементы без нарушения порядка.</p>
+      </article>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">Лаборатория · Порядок</footer>
+
+<script src="vendor/katex/katex.min.js"></script>
+<script src="site.js"></script>
+<script src="order.js"></script>
+</body>
+</html>

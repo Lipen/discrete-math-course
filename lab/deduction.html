@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Натуральная дедукция · лаборатория</title>
+<script src="theme.js"></script>
+<link rel="stylesheet" href="lab.css">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+</head>
+<body class="fitch-page">
+<header class="lab-header">
+  <nav class="lab-nav">
+    <a href="index.html">← Все лаборатории</a>
+    <span class="sep">/</span>
+    <span class="here">Натуральная дедукция</span>
+  </nav>
+  <h1>Вывод в стиле Фитча</h1>
+  <p class="lead">
+    Посылки и цель фиксированы, а действия над строкой открываются наведением.
+    Проверка идёт по мере ввода: неполный шаг можно сохранить, жёлтая строка означает предупреждение, красная ошибку.
+  </p>
+</header>
+
+<main class="lab-main">
+  <section class="card proof-card">
+    <div class="proof-top">
+      <label class="field proof-exercise">Упражнение
+        <select id="exercise"></select>
+      </label>
+      <div class="proof-count" id="proof-count" aria-live="polite"></div>
+    </div>
+    <div class="goal-strip" id="goal"></div>
+    <p class="proof-help">
+      Наведите на строку или нажмите на неё: действия появятся под строкой.
+      Стрелки слева меняют уровень, «Открыть подвывод» задаёт вложенность.
+      Проверка поддерживает <b>∧I/E</b>, <b>∨I</b>, <b>→I/E</b>, <b>¬I/E</b>, <b>⊥E</b>, <b>↔E</b> и <b>RAA</b>.
+      Для <b>∨E</b> и <b>↔I</b> оставьте письменный шаг.
+    </p>
+    <div class="fitch-board" id="proof" role="region" aria-label="Вывод в стиле Фитча"></div>
+    <div class="status" id="status" role="status" aria-live="polite" style="margin-top:10px"></div>
+    <div class="proof-footer">
+      <button id="add-row" class="active">Добавить строку</button>
+      <button id="add-subproof">Открыть подвывод</button>
+      <span class="proof-footer-spacer"></span>
+      <button id="undo" disabled>Отменить</button>
+      <button id="reset">Сброс</button>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Как устроен вывод</h2>
+    <div class="theory-grid">
+      <div>
+        <h3>Введение и устранение</h3>
+        <p>Каждая связка имеет правила введения и устранения.
+        <span data-tex="\land I"></span> собирает конъюнкцию, <span data-tex="\land E"></span> достаёт из неё часть.</p>
+      </div>
+      <div>
+        <h3>Подвывод</h3>
+        <p>Допущение открывает подвывод.
+        Строки внутри остаются на его глубине, закрывающая строка возвращается на уровень выше.
+        Стрелки уровня меняют вложенность прямо у строки.</p>
+      </div>
+      <div>
+        <h3>Ссылки</h3>
+        <p>Правило ссылается на номера строк. Ссылка на закрытый подвывод или на строку без формулы отклоняется.</p>
+      </div>
+      <div>
+        <h3>Проверка</h3>
+        <p>Каждая строка проверяется по схеме правила автоматически.
+        Цель достигнута, когда её формула выведена на глубине 0 без ошибок.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">Лаборатория · Натуральная дедукция</footer>
+
+<script src="vendor/katex/katex.min.js"></script>
+<script src="site.js"></script>
+<script src="deduction.js"></script>
+</body>
+</html>

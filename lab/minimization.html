@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Минимизация · лаборатория</title>
+<script src="theme.js"></script>
+<link rel="stylesheet" href="lab.css">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+</head>
+<body>
+<header class="lab-header">
+  <nav class="lab-nav">
+    <a href="index.html">← Все лаборатории</a>
+    <span class="sep">/</span>
+    <span class="here">Минимизация</span>
+  </nav>
+  <h1>Карта Карно и точный минимум</h1>
+  <p class="lead">
+    Расставьте единицы и безразличные наборы.
+    Переключайтесь между картой и таблицей истинности, между ДНФ и КНФ.
+    Простые импликанты перечисляются, обязательные отмечаются, минимум ищется точным перебором.
+  </p>
+</header>
+
+<main class="lab-main">
+  <section class="card">
+    <div class="controls">
+      <div class="field">
+        <span class="field-label">Переменных</span>
+        <div class="segmented arity-ribbon" id="arity" role="group" aria-label="Число переменных">
+          <button type="button" data-n="2" aria-pressed="false">2</button>
+          <button type="button" data-n="3" class="active" aria-pressed="true">3</button>
+          <button type="button" data-n="4" aria-pressed="false">4</button>
+          <button type="button" data-n="5" aria-pressed="false">5</button>
+        </div>
+      </div>
+      <label>Готовая функция
+        <select id="preset">
+          <option value="custom">своя</option>
+          <optgroup label="2 переменные">
+            <option value="and2">A ∧ B</option>
+            <option value="impl2">A → B</option>
+          </optgroup>
+          <optgroup label="3 переменные">
+            <option value="maj3" selected>медиана трёх</option>
+            <option value="sum3">Σm(0,1,2,5,6,7)</option>
+            <option value="xor3">A ⊕ B ⊕ C</option>
+            <option value="consensus">¬A·B ∨ A·C ∨ B·C</option>
+          </optgroup>
+          <optgroup label="4 переменные">
+            <option value="odd4">нечётность четырёх</option>
+            <option value="even4">чётность четырёх</option>
+            <option value="segA">сегмент a, с X</option>
+          </optgroup>
+          <optgroup label="5 переменных">
+            <option value="maj5">медиана пяти</option>
+            <option value="xor5">A ⊕ B ⊕ C ⊕ D ⊕ E</option>
+          </optgroup>
+        </select>
+      </label>
+      <div class="btn-row">
+        <button id="zero">Все нули</button>
+        <button id="fill">Все единицы</button>
+        <button id="reset" type="button">Сброс</button>
+      </div>
+    </div>
+
+    <p class="hint">
+      Клик переключает 0 и 1.
+      Shift+клик ставит X, повторный Shift+клик возвращает прежнее значение.
+      X можно покрывать, но не обязательно.
+      Карта сохраняется до закрытия вкладки, «Сброс» возвращает медиану трёх.
+    </p>
+
+    <div class="kmap-layout">
+      <div class="kmap-left">
+        <div class="kmap-left-head">
+          <h3>Функция</h3>
+          <div class="segmented view-switch" id="view-tabs">
+            <button type="button" data-view="map" class="active" aria-pressed="true">Карта</button>
+            <button type="button" data-view="truth" aria-pressed="false">Таблица истинности</button>
+          </div>
+        </div>
+        <div id="map-view">
+          <div class="map-axis" id="map-axis"></div>
+          <div class="map-wrap">
+            <div class="map" id="map"></div>
+            <div class="map-note" id="map-note"></div>
+          </div>
+        </div>
+        <div id="truth-view" class="hidden">
+          <div class="truth-wrap">
+            <table class="data truth-table" id="truth-table"></table>
+          </div>
+          <p class="hint">Нажатие переключает 0 и 1. Shift+клик ставит X и возвращает прежнее значение.</p>
+        </div>
+        <div class="legend" style="margin-top:8px">
+          <span><span class="sw" style="background:var(--blue-soft);border-color:color-mix(in srgb, var(--blue) 40%, var(--line))"></span>1</span>
+          <span><span class="sw" style="background:var(--amber-soft);border-color:color-mix(in srgb, var(--amber) 40%, var(--line))"></span>X</span>
+          <span><span class="sw" style="background:var(--card);border-color:var(--line)"></span>0</span>
+          <span><span class="sw is-term term-0"></span>в минимуме</span>
+          <span><span class="sw is-active term-2"></span>активная</span>
+          <span><span class="sw is-ghost term-1"></span>свободная</span>
+        </div>
+      </div>
+      <div class="kmap-right">
+        <h3>Функция</h3>
+        <div class="formula-box function-box" id="function-view"></div>
+        <p class="function-source" id="function-source"></p>
+        <div class="kmap-right-head" style="margin-top:18px">
+          <h3 id="result-title">Минимальная ДНФ</h3>
+          <div class="segmented form-switch" id="form-switch">
+            <button type="button" data-form="dnf" class="active" aria-pressed="true">ДНФ</button>
+            <button type="button" data-form="cnf" aria-pressed="false">КНФ</button>
+          </div>
+        </div>
+        <div class="status" id="result"></div>
+        <div class="solution-nav hidden" id="solutions"></div>
+        <div class="metric-row" id="metrics"></div>
+        <p class="hint">Минимум точный: перебираются все подмножества простых импликант.</p>
+        <h3 id="primes-title" style="margin-top:18px">Простые импликанты</h3>
+        <div id="primes"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Что здесь показано</h2>
+    <div class="theory-grid">
+      <div>
+        <h3>Клетки и склейки</h3>
+        <p>Клетка задаёт минтерм, соседние клетки отличаются одной переменной.
+        Линии у края показывают, где переменная равна 1.
+        При разрыве каждая часть линии подписана отдельно.
+        Выбранные группы обведены цветом и пронумерованы.
+        Наведение или фокус заполняет одну группу, остальные приглушаются.
+        Свободная импликанта показывается штриховой рамкой.
+        Переключатель ДНФ и КНФ решает, что группировать: единицы или нули.
+        X можно включить в группу, но не обязательно покрывать.</p>
+      </div>
+      <div>
+        <h3>Простые импликанты</h3>
+        <p>Список показывает простые импликанты и покрытые единицы.
+        Обязательная импликанта покрывает единицу, которую не покрывает больше никто.
+        Свободная импликанта в текущий минимум не входит.</p>
+      </div>
+      <div>
+        <h3>Минимум</h3>
+        <p>Выбирается покрытие с наименьшим числом термов, затем литералов.
+        Для <span data-tex="n \le 5"></span> алгоритм перебирает покрытия с отсечением по числу термов и литералов, поэтому минимум точный.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">Лаборатория · Минимизация</footer>
+<script src="vendor/katex/katex.min.js"></script>
+<script src="site.js"></script>
+<script src="minimization.js"></script>
+</body>
+</html>

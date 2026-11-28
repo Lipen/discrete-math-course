@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Хэмминг (7,4) · лаборатория</title>
+<script src="theme.js"></script>
+<link rel="stylesheet" href="lab.css">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+</head>
+<body>
+<header class="lab-header">
+  <nav class="lab-nav">
+    <a href="index.html">← Все лаборатории</a>
+    <span class="sep">/</span>
+    <span class="here">Коды Хэмминга</span>
+  </nav>
+  <h1>Синдром указывает позицию</h1>
+  <p class="lead">
+    Соберите кодовое слово из четырёх информационных битов.
+    Переверните бит принятого слова и проследите, как три проверки дают номер ошибки.
+    Две ошибки обнаруживаются, но не исправляются.
+  </p>
+</header>
+
+<main class="lab-main">
+  <section class="card">
+    <div class="controls">
+      <label>Данные
+        <span id="data-bits" class="bit-row"></span>
+      </label>
+      <div class="btn-row">
+        <button id="random-error">Случайная ошибка</button>
+        <button id="clear-errors">Сбросить ошибки</button>
+        <button id="preset-1011">Данные 1011</button>
+        <button id="preset-zero">Данные 0000</button>
+      </div>
+    </div>
+
+    <div class="split-wide-left">
+      <div>
+        <h3>Кодовое слово</h3>
+        <div class="anf" id="formulas"></div>
+
+        <div class="word-table">
+          <div class="word-row head">
+            <span class="word-label"></span>
+            <div class="word-cells" id="word-head"></div>
+          </div>
+          <div class="word-row">
+            <span class="word-label"><span class="lname" data-tex="c"></span><small>передано</small></span>
+            <div class="word-cells" id="c-row"></div>
+          </div>
+          <div class="word-row received">
+            <span class="word-label"><span class="lname" data-tex="r"></span><small>принято · нажмите</small></span>
+            <div class="word-cells" id="r-row"></div>
+          </div>
+          <div class="word-row">
+            <span class="word-label"><span class="lname" data-tex="\hat c"></span><small>после декодера</small></span>
+            <div class="word-cells" id="fix-row"></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h3>Синдром</h3>
+        <div class="syndrome-bits" id="syndrome-bits"></div>
+        <div class="status" id="syndrome-status"></div>
+        <div class="anf" id="data-result" style="margin-top:10px"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Проверочная матрица</h2>
+    <div class="split-wide-left">
+      <div>
+        <div class="tt-wrap" id="hmatrix"></div>
+      </div>
+      <div>
+        <p class="hint">
+          Столбец j задаёт двоичную запись номера j.
+          Синдром одной ошибки совпадает со столбцом её позиции, поэтому декодер определяет, какой бит переворачивать.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Что здесь показано</h2>
+    <div class="theory-grid">
+      <div>
+        <h3>Кодовое слово</h3>
+        <p>Синие позиции проверочные, янтарные информационные.
+        Проверочные биты <span data-tex="p_1"></span>, <span data-tex="p_2"></span>, <span data-tex="p_4"></span> считаются по формулам выше, затем собирается слово <span data-tex="c"></span>.</p>
+      </div>
+      <div>
+        <h3>Синдром</h3>
+        <p>Принятое слово <span data-tex="r"></span> даёт три проверки <span data-tex="s_1"></span>, <span data-tex="s_2"></span>, <span data-tex="s_4"></span>.
+        Синдром <span data-tex="(s_4 s_2 s_1)_2"></span> равен номеру позиции ошибки.</p>
+      </div>
+      <div>
+        <h3>Матрица</h3>
+        <p>Столбец <span data-tex="j"></span> матрицы <span data-tex="H"></span> задаёт двоичную запись <span data-tex="j"></span>.
+        Поэтому синдром одной ошибки совпадает со столбцом её позиции.</p>
+      </div>
+      <div>
+        <h3>Исправление</h3>
+        <p>Декодер переворачивает бит с номером <span data-tex="s"></span>.
+        При <span data-tex="s = 0"></span> ошибки нет, и информационные биты остаются как были.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">Лаборатория · Коды Хэмминга</footer>
+<script src="vendor/katex/katex.min.js"></script>
+<script src="site.js"></script>
+<script src="hamming.js"></script>
+</body>
+</html>

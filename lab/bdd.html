@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ROBDD · лаборатория</title>
+<script src="theme.js"></script>
+<link rel="stylesheet" href="lab.css">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+</head>
+<body>
+<header class="lab-header">
+  <nav class="lab-nav">
+    <a href="index.html">← Все лаборатории</a>
+    <span class="sep">/</span>
+    <span class="here">Диаграммы решений</span>
+  </nav>
+  <h1>Одна функция, разные порядки</h1>
+  <p class="lead">
+    ROBDD строится по фиксированному порядку переменных.
+    Перестановка меняет число узлов, но не функцию.
+    Одинаковые поддиаграммы склеиваются, поэтому представление канонично.
+  </p>
+</header>
+
+<main class="lab-main">
+  <section class="card">
+    <div class="controls">
+      <label>Функция
+        <select id="preset">
+          <option value="pairs3" selected>три пары, n = 6</option>
+          <option value="maj3">медиана трёх</option>
+          <option value="xor4">чётность четырёх</option>
+          <option value="mux">мультиплексор 2:1</option>
+          <option value="eq4">равенство двух битовых пар</option>
+        </select>
+      </label>
+      <div class="metric" style="min-width:160px">
+        <span class="k">функция</span>
+        <span class="v" id="formula" style="font-size:13px;font-weight:600;line-height:1.35"></span>
+      </div>
+    </div>
+
+    <div class="split-wide-left">
+      <div>
+        <div class="bdd-wrap" id="diagram"></div>
+        <div class="metric-row" id="metrics"></div>
+      </div>
+      <div>
+        <h3>Порядок переменных</h3>
+        <p class="hint">Кнопки со стрелками меняют порядок, диаграмма перестраивается сразу.</p>
+        <div class="chips" id="order"></div>
+
+        <h3 style="margin-top:20px">Сравнение порядков</h3>
+        <div id="compare"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Что здесь показано</h2>
+    <div class="theory-grid">
+      <div>
+        <h3>Узлы и ветки</h3>
+        <p>Узел проверяет переменную: пунктир идёт по 0, сплошная линия по 1.
+        Путь от корня до терминала задаёт набор и значение функции.</p>
+      </div>
+      <div>
+        <h3>Склейка</h3>
+        <p>Одинаковые поддиаграммы склеены, поэтому рёбра сходятся в один узел.
+        При наведении подсвечиваются вершина, её рёбра и соседи.</p>
+      </div>
+      <div>
+        <h3>Порядок</h3>
+        <p>Список сверху задаёт, какую переменную диаграмма проверяет первой.
+        Таблица сравнения показывает число узлов для каждого порядка.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">Лаборатория · Диаграммы решений</footer>
+<script src="vendor/katex/katex.min.js"></script>
+<script src="site.js"></script>
+<script src="bdd.js"></script>
+</body>
+</html>

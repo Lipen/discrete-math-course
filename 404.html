@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<base href="/discrete-math-course/">
+<meta name="color-scheme" content="light dark">
+<title>Страница не найдена</title>
+<script>
+(function () {
+  var key = "dm-theme";
+  var pref = "auto";
+  try {
+    var stored = localStorage.getItem(key);
+    if (stored === "light" || stored === "dark") pref = stored;
+  } catch (error) {
+    pref = "auto";
+  }
+  var media = window.matchMedia("(prefers-color-scheme: dark)");
+  function resolved() {
+    return pref === "auto" ? (media.matches ? "dark" : "light") : pref;
+  }
+  function apply() {
+    var theme = resolved();
+    document.documentElement.dataset.theme = theme;
+    document.documentElement.dataset.pref = theme;
+  }
+  apply();
+  media.addEventListener("change", function () { if (pref === "auto") apply(); });
+  window.__theme = {
+    get: function () { return resolved(); },
+    set: function (next) {
+      pref = next === "light" ? "light" : "dark";
+      try { localStorage.setItem(key, pref); } catch (error) {}
+      apply();
+    }
+  };
+})();
+</script>
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="404.css"><script src="404.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">К содержанию</a>
+<header class="top">
+  <a class="brand" href="index.html">
+    <svg class="brand-mark" viewBox="0 0 100 100" aria-hidden="true" fill="none"><path d="M50 7 L93 29.5 V70.5 L68 87 H32 L7 70.5 V29.5 Z" stroke="currentColor" stroke-width="6" stroke-linejoin="round"/><path d="M23 71 L36.5 31 L50 71 Z M31.9 62 L36.5 50.6 L41.1 62 Z" fill="currentColor" fill-rule="evenodd"/><path d="M52 71 V31 L63.5 49 L75 31 V71 H68.5 V53 L63.5 60.5 L58.5 53 V71 Z" fill="currentColor"/></svg>
+    Дискретная математика
+  </a>
+  <div class="top-actions">
+    <a class="gh" href="https://github.com/Lipen/discrete-math-course" target="_blank" rel="noopener"
+       aria-label="Исходники на GitHub" title="Исходники на GitHub">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .5C5.73.5.99 5.24.99 11.5c0 4.85 3.15 8.96 7.5 10.42.55.1.75-.24.75-.53v-1.9c-3.05.66-3.7-1.3-3.7-1.3-.5-1.27-1.22-1.6-1.22-1.6-1-.68.07-.67.07-.67 1.1.08 1.68 1.13 1.68 1.13.98 1.68 2.57 1.2 3.2.92.1-.71.38-1.2.7-1.48-2.44-.28-5-1.22-5-5.42 0-1.2.43-2.18 1.13-2.95-.11-.28-.49-1.4.11-2.9 0 0 .92-.3 3.01 1.12.87-.24 1.8-.36 2.73-.36.93 0 1.86.12 2.73.36 2.09-1.42 3.01-1.12 3.01-1.12.6 1.5.22 2.62.11 2.9.7.77 1.13 1.75 1.13 2.95 0 4.21-2.57 5.13-5.02 5.41.39.34.74 1.01.74 2.04v3.02c0 .3.2.64.76.53 4.35-1.46 7.49-5.57 7.49-10.42C23.01 5.24 18.27.5 12 .5z"/></svg>
+    </a>
+    <button class="theme" id="theme" type="button" aria-label="Тема оформления" title="Тема оформления">
+
+<svg class="i-light" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/><g stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 2.6v2.2M12 19.2v2.2M2.6 12h2.2M19.2 12h2.2M5.4 5.4l1.6 1.6M17 17l1.6 1.6M18.6 5.4L17 7M7 17l-1.6 1.6"/></g></svg>
+<svg class="i-dark" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.6 8.6 0 0 1 9.5 4a8.6 8.6 0 1 0 10.5 10.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+
+    </button>
+  </div>
+</header>
+<div class="torch" aria-hidden="true"><span class="torch-lamp"></span></div>
+<main id="main" class="di d1">
+  <section class="scene">
+    <div class="inner grid">
+      <div class="art">
+        <div class="cave" aria-hidden="true"><svg class="cave-scene" viewBox="0 0 600 600" aria-hidden="true">
+  <defs>
+    <linearGradient id="beam" x1="150" y1="360" x2="600" y2="360" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffce8a" stop-opacity=".8"/>
+      <stop offset=".45" stop-color="#f0b45a" stop-opacity=".32"/>
+      <stop offset="1" stop-color="#f0b45a" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="core" x1="150" y1="360" x2="600" y2="360" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff0c0" stop-opacity=".9"/>
+      <stop offset=".5" stop-color="#ffd28a" stop-opacity=".28"/>
+      <stop offset="1" stop-color="#ffd28a" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="150" cy="360" r="90" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffd28a" stop-opacity=".75"/>
+      <stop offset="1" stop-color="#ffd28a" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="vig" cx="300" cy="300" r="380" gradientUnits="userSpaceOnUse">
+      <stop offset=".45" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000" stop-opacity=".55"/>
+    </radialGradient>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="9"/></filter>
+    <filter id="softcore" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="3"/></filter>
+  </defs>
+  <rect width="600" height="600" fill="#0e1116"/>
+  <polygon points="150,360 600,60 600,580" fill="url(#beam)" filter="url(#soft)" class="lamp-beam"/>
+  <polygon points="150,360 600,270 600,450" fill="url(#core)" filter="url(#softcore)" class="lamp-core"/>
+  <g fill="#ffd28a">
+    <circle class="mote" cx="250" cy="340" r="2" opacity=".35"/>
+    <circle class="mote" cx="292" cy="382" r="1.5" opacity=".3"/>
+    <circle class="mote" cx="332" cy="320" r="2" opacity=".4"/>
+    <circle class="mote" cx="382" cy="362" r="1.6" opacity=".32"/>
+    <circle class="mote" cx="432" cy="330" r="2.2" opacity=".38"/>
+    <circle class="mote" cx="482" cy="390" r="1.4" opacity=".3"/>
+    <circle class="mote" cx="522" cy="342" r="1.8" opacity=".35"/>
+  </g>
+  <text x="450" y="365" class="relic" text-anchor="middle" font-family="Iowan Old Style, Palatino Linotype, Book Antiqua, Georgia, serif" font-size="96" font-weight="400" letter-spacing="-1" fill="#f0b45a">404</text>
+  <line x1="402" y1="386" x2="498" y2="386" stroke="#f0b45a" stroke-opacity=".35" stroke-width="1.2"/>
+  <text x="450" y="410" text-anchor="middle" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif" font-size="12" font-weight="600" letter-spacing="2.6" fill="#f0b45a" opacity=".68">СТРАНИЦА НЕ НАЙДЕНА</text>
+  <circle cx="150" cy="360" r="90" fill="url(#glow)" class="lamp-glow"/>
+  <path d="M80 230 C80 170 220 170 220 230" fill="none" stroke="#f0b45a" stroke-opacity=".55" stroke-width="4" stroke-linecap="round"/>
+  <path d="M60 230 H240 L225 260 H75 Z" fill="#1a1e26" stroke="#f0b45a" stroke-opacity=".8" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M95 260 H205 L225 470 H75 Z" fill="#ffce8a" fill-opacity=".05" stroke="#f0b45a" stroke-opacity=".8" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M120 260 L105 470 M180 260 L195 470" stroke="#f0b45a" stroke-opacity=".35" stroke-width="1.5"/>
+  <path d="M108 270 L95 455" stroke="#fff0c0" stroke-opacity=".18" stroke-width="3"/>
+  <path d="M55 470 H245 L260 510 H40 Z" fill="#1a1e26" stroke="#f0b45a" stroke-opacity=".8" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M150 310 C168 336 168 366 150 382 C132 366 132 336 150 310 Z" fill="#ffd28a" class="lamp-flame"/>
+  <path d="M150 330 C158 344 158 362 150 372 C142 362 142 344 150 330 Z" fill="#fff0c0" class="lamp-flame-core"/>
+  <path d="M0 520 H600" stroke="#eef1f6" stroke-opacity=".05" stroke-width="1"/>
+  <rect width="600" height="600" fill="url(#vig)"/>
+</svg></div>
+      </div>
+      <div class="copy">
+        <h1>Диоген искал <em>человека</em></h1>
+        <p class="sub">Мы искали страницу. Ни человека, ни страницы.</p>
+        <div class="actions">
+          <a class="btn primary" href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7"/><path d="M6 10v9h12v-9"/></svg> На главную</a>
+          <a class="btn" href="book.pdf"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6.6C10.4 5 8.3 4.2 5.8 4.2H3.5v13.4h2.3c2.5 0 4.6.8 6.2 2.4 1.6-1.6 3.7-2.4 6.2-2.4h2.3V4.2h-2.3c-2.5 0-4.6.8-6.2 2.4z"/><path d="M12 6.6V20"/></svg> Открыть книгу</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<footer class="foot">
+  <p>Университет ИТМО · 2026/27</p>
+  <p><a href="https://github.com/Lipen/discrete-math-course">Исходники курса</a></p>
+</footer>
+<script src="ui.js"></script>
+</body>
+</html>
